@@ -1,4 +1,44 @@
 {
-  "entries": [],
-  "days": []
+  "entries": [
+    {
+      "date": "2026-07-26",
+      "company": "Albertsons Companies",
+      "sector": "Grocery / Retail",
+      "country": "US",
+      "shape": "S2",
+      "scope": "main",
+      "claim": "On its Q1 FY2026 call (23 Jul 2026) Albertsons reaffirmed AI as \"foundational\" and guided FY26 capex of $1.9-2.0bn toward store modernization and AI capabilities, but disclosed no AI-attributed revenue metric. The 10% Ask AI basket-size lift CEO Susan Morris put on the record on the 7 Jan 2026 call was not repeated. Digital sales grew 13%, not attributed to AI.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q1 FY2026 earnings call, complete transcript (prior claim: Q3 FY2025 call, 7 Jan 2026, via PYMNTS / CX Today)",
+      "source_date": "2026-07-23",
+      "source_url": "https://www.benzinga.com/news/26/07/60638025/albertsons-companies-q1-2026-earnings-call-complete-transcript",
+      "mechanism": "Ask AI conversational search in the Albertsons/Safeway/Vons/Jewel-Osco mobile apps surfaces complementary items mid-search, expanding the basket; household-level personalized offers on top of ~tens of millions of loyalty households. The mechanism is real and the January number was specific; what is missing is any repeat measurement.",
+      "shape_justification": "S2, and counter-evidence to it. Basket expansion inside an existing customer base buying existing groceries in existing stores - absent the AI, these shoppers buy groceries from somebody. Zero-sum at industry level, GDP-neutral. Logged as counter-evidence because the only quantified revenue-side AI metric this company had ever disclosed vanished from the next disclosure while AI capex was reaffirmed and expanded. Four named enterprise AI priorities were given (digital CX, merchandising intelligence, labor optimization, supply chain optimization); three of the four are cost-side, and the revenue-side one carried no number.",
+      "falsifier": "Reverse-falsifier: if Albertsons re-discloses the Ask AI basket-size lift, or any successor revenue-attributed AI metric at or above 10%, on the Q2 FY2026 call (expected Oct 2026), this entry is a reporting artifact and should be downgraded. If two more quarters pass with AI capex reaffirmed and still no AI-attributed revenue number, treat the January figure as a one-off marketing disclosure rather than a managed KPI.",
+      "confidence": "medium",
+      "confidence_why": "Absence-of-evidence is weaker than a stated walk-back; the July transcript was read via a summarizing fetch, so a passing mention could have been missed. The January 10% figure is Tier C reporting (two independent outlets) of a Tier A call, not the transcript itself.",
+      "counter_evidence": true
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-07-26",
+      "searched": [
+        "Q2/H1 2026 earnings transcripts: Chubb, Travelers, Bank of America, Verizon, Delta, SLB, Halliburton, Albertsons, RELX, Thomson Reuters",
+        "Insurance S3: risk classes previously declined as uninsurable, parametric AI products, Munich Re aiSure, Beazley/AIUC AI liability paper",
+        "Pharma/biotech S3: previously unscreenable target space, AI-designed molecules, Novartis/AstraZeneca collaborations",
+        "Industrials S3: AI autonomy sold as a new subscription line (Deere, Caterpillar, Siemens, ABB, Schneider, SLB Lumi, Halliburton Zeus iQ/LOGIX)",
+        "Healthcare S3: AI diagnostics at newly reimbursed price points (CMS G0680 AI coronary calcium scoring), previously unscreened populations",
+        "Professional services S3: work never billable because delivery cost exceeded willingness to pay (law, accounting)",
+        "Retail/grocery S2: personalization conversion lift, basket size, retail media, agentic shopping assistants",
+        "Telecom S2: churn reduction, next-best-action, ARPU",
+        "Airlines S2: AI revenue management and dynamic pricing (Delta/Fetcherr)",
+        "Banking S1/S2: loan origination, deposit growth, AI-attributed revenue at the July bank prints",
+        "Counter-evidence sweep: dropped AI revenue targets, walk-backs, guidance misses attributed to AI, null results"
+      ],
+      "assessment": "One finding, and it is a negative one. Off-week for the thesis: no S3, no S3-CANDIDATE, and nothing that clears the bar on the positive side.\n\nThe week's non-tech Q2 prints are strikingly consistent. Chubb's Q2 call contains no AI mention at all. Travelers describes AI qualitatively - straight-through claims processing, submission data extraction - with zero quantified linkage to premium, retention or hit rate, and volunteers that it is watching token costs. Bank of America's Moynihan gave 400,000 daily prompts, 300+ approved use cases and >20% developer productivity, all input and cost metrics, with consumer revenue growth reported alongside but never attributed. Verizon separates AI-for-operations (cost) from AI Connect (revenue) and puts the revenue in 2027; its $1bn Google dark-fiber deal is demand from the AI buildout, not ROI on Verizon's own AI spend - out of frame for this log. SLB's Digital division did $697m, +18% y/y, ARR $1.04bn, +15%, but management bundles AI inside Delfi/Lumi/Agora/Tela and isolates no AI-specific figure; the growth number cannot be attributed. Halliburton names Zeus iQ, LOGIX and the Sekal acquisition as automation differentiators with no dollar attached. Delta mentions \"AI-powered personalization\" once, unquantified, while its Fetcherr pricing work is under political scrutiny and the company's own on-record statement declines to give any percentage of fares or revenue effect.\n\nRejected on method rather than on substance: RELX (H1 2026, 23 Jul) disclosed that ~90% of new sales value and ~three-quarters of renewal value in Legal now runs through the AI-enabled Lexis+/Protege platform, against 10% underlying Legal growth. That is the denominator game METHOD names explicitly - AI-touched share of bookings is not incremental revenue - and RELX's subject status is borderline anyway. Also rejected: PwC's 2026 AI performance study and FMI's grocery technology survey (consultant/trade sentiment, no named company), AWS's 3.5x shopping-assistant conversion claim (Tier D vendor, tech subject), and Munich Re aiSure / Beazley-AIUC AI liability paper - genuinely new insurance classes, but they are demand created by other people's AI risk, not revenue from the insurer's own AI deployment, and no premium figure is disclosed.\n\nThe Albertsons entry is the day's signal. In January the CEO put a specific, checkable revenue-side number on the record: Ask AI delivering a 10% basket-size lift. Six months later, on 23 July, the same CEO reaffirmed AI as foundational, laid out four enterprise AI priorities of which three are cost-side, guided $1.9-2.0bn of capex toward stores and AI - and gave no AI-attributed revenue metric at all. Digital sales grew 13%, unattributed. Companies repeat numbers that are working. The disclosure asymmetry - specific quantified cost and productivity metrics from BofA, specific quantified capex from Albertsons, and qualitative adjectives everywhere the revenue line should be - is the actual pattern across every non-tech Q2 print read today, and it is what this log exists to measure.",
+      "entry_count": 1
+    }
+  ]
 }
