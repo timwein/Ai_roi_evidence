@@ -4,7 +4,7 @@ A running log of verified evidence that **non-software** corporations are gettin
 **top-line revenue** impact from AI spend, sorted into three shapes. Updated
 daily at 07:00 PT by a scheduled agent run.
 
-Live site: `https://<user>.github.io/ai_roi_evidence/`
+Live site: `https://timwein.github.io/Ai_roi_evidence/`
 
 See **[METHOD.md](METHOD.md)** for scope, the three shapes, the inclusion bar,
 source tiers, and the standing skepticism rules. That file is authoritative.
