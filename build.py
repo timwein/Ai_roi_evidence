@@ -553,6 +553,12 @@ def build():
         f.write(page("AI ROI Evidence — Non-Tech Corporates", body))
 
     os.makedirs(DAYS_DIR, exist_ok=True)
+    # Prune day pages whose date is no longer in the log, so the rendered site
+    # can never assert a day the data does not contain.
+    keep = {f"{d.get('date')}.html" for d in days}
+    for stale in os.listdir(DAYS_DIR):
+        if stale.endswith(".html") and stale not in keep:
+            os.remove(os.path.join(DAYS_DIR, stale))
     for d in days:
         date = d.get("date")
         if not date or not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
