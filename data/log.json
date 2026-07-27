@@ -39,9 +39,70 @@
       "confidence": "medium",
       "confidence_why": "Primary abstract retrieved and quoted directly; paper body not read this run. Preprint, not yet peer reviewed. Secondary coverage (theaiinsider.tech, 14 Jul) additionally claims the study found 'little evidence that AI adoption was associated with higher revenue per employee' - that line is NOT in the abstract and is unverified against the paper body, so it is excluded from the claim above. Source is 17 days old, outside the trailing-48h window, logged as a strong prior-fortnight item.",
       "counter_evidence": true
+    },
+    {
+      "date": "2026-07-27",
+      "company": "Honeywell International",
+      "sector": "Industrials / Industrial automation",
+      "country": "US",
+      "shape": "S2",
+      "scope": "main",
+      "claim": "On the Q2 2026 call (23 Jul 2026) CEO Vimal Kapur guided software ARR growth of ~15% for 2026 and said the business will \"inch from about $900 million to a little over $1 billion of ARR in that segment this year.\" He described Forge as \"the primary mechanism for delivering 'physical AI' to customers\" and named software ARR as \"the best way to measure our progress\" toward autonomy. No revenue was attributed to AI itself.",
+      "status": "PROJECTED",
+      "source_tier": "A",
+      "source_name": "Honeywell Q2 2026 earnings call transcript (Motley Fool); 15% ARR figure corroborated in Investing.com transcript",
+      "source_date": "2026-07-23",
+      "source_url": "https://www.fool.com/earnings/call-transcripts/2026/07/23/honeywell-hon-q2-2026-earnings-call-transcript/",
+      "mechanism": "Honeywell Forge is the connected-plant software layer sold on top of Honeywell's installed automation base (Kapur: \"we have been selling automation since 1975\"). It is sold as subscription ARR, and the AI/autonomy content is being positioned as the reason customers move up the subscription tiers. The revenue mechanism is software attach onto existing hardware relationships, not a new product with no predecessor.",
+      "shape_justification": "S2. Test: absent this AI capability, would the buyer have bought something similar from somebody? Yes - industrial asset-performance and process-optimization software is a contested category (AVEVA, Siemens, GE Vernova, ABB, Rockwell). Growth here is share taken inside an existing budget line, zero-sum at industry level and GDP-neutral. Explicitly NOT S3: Forge has a predecessor in Honeywell's own catalog going back years, and no capability gate at the 24-month frontier is established. The attribution weakness is the point of logging it: this is the largest AI-linked top-line number a non-tech industrial put on the record this quarter, and management still did not attribute a single dollar of it to AI - only to \"Forge offerings\" and \"the launch of new software products.\" 'Physical AI' is the framing wrapped around a pre-existing software line.",
+      "falsifier": "Forge/segment software ARR failing to print above $1.0bn on the Q4 2026 / FY26 results, or the ~15% ARR growth rate not being restated on the Q3 2026 call. Second and sharper falsifier: if Honeywell never breaks out an AI-attributed revenue figure across FY26-FY27 while continuing to describe Forge as its physical-AI delivery mechanism, treat the AI framing as a repositioning of existing software revenue rather than an AI result.",
+      "confidence": "medium",
+      "confidence_why": "The 15% ARR growth guide is corroborated across two independent transcripts. The $900m-to-$1bn absolute figure was verified verbatim by direct retrieval but appears in only one transcript source, and Kapur's phrase \"that segment\" is not unambiguously tied to a named reporting segment in the retrieved text - do not treat the $900m base as an audited segment disclosure. Status is PROJECTED because it is a within-year guide, not a realized print.",
+      "counter_evidence": false
+    },
+    {
+      "date": "2026-07-27",
+      "company": "Grant Thornton 2026 AI Impact Survey - manufacturing cut (n=100 of 950)",
+      "sector": "Manufacturing / Cross-sector",
+      "country": "US",
+      "shape": "S2",
+      "scope": "main",
+      "claim": "Survey of 950 business leaders across 10 industries, fielded 23 Feb - 18 Mar 2026: \"Among manufacturing respondents, zero reported significant revenue uplift from AI initiatives, compared to 12% of executives across all industries. Zero reported significant cost savings, again compared to 12% overall.\" 47% of manufacturers reported only minimal revenue uplift; 64% reported increased efficiency. Manufacturers led all sectors in operational AI deployment (62%) while reporting the weakest financial return.",
+      "status": "DISCLOSED",
+      "source_tier": "D",
+      "source_name": "Grant Thornton, \"Manufacturing insights: 2026 AI Impact Survey Report\" (survey fielded 23 Feb - 18 Mar 2026; press coverage 9 Jul 2026)",
+      "source_date": "2026-07-09",
+      "source_url": "https://www.grantthornton.com/insights/survey-reports/manufacturing/2026/manufacturing-insights-2026-ai-impact-survey-report",
+      "mechanism": "Not a deployment finding - a base-rate measurement of the population this log samples from, and the cleanest available quantification of the efficiency-without-revenue gap: 64% report efficiency gains, 0% report significant revenue uplift, in the sector with the HIGHEST operational deployment rate. If efficiency mechanically converted to top line, the sector leading deployment should not be the sector reporting zero.",
+      "shape_justification": "Counter-evidence, tagged to S2 because S2 (attributed incremental revenue on existing products) is the shape most non-tech corporates claim and the shape this null result most directly contradicts. It also constrains S3 by implication: a sector reporting zero significant revenue uplift is not opening new markets. The 58%-vs-15% headline elsewhere in the same survey (fully-integrated vs piloting firms reporting AI-driven revenue growth) is a selection-effect artifact, not causal evidence - firms that integrate deeply are firms that already saw something work - and should not be cited as offsetting the manufacturing zero.",
+      "falsifier": "The 2027 wave of the same survey showing manufacturing significant-revenue-uplift materially above zero, or a Q3/Q4 2026 cluster of named manufacturers disclosing AI-attributed revenue. Either would mean this reading was a timing artifact of a sector mid-J-curve rather than a structural absence.",
+      "confidence": "medium",
+      "confidence_why": "Tier D, and METHOD says Tier D is never the sole basis for an entry. Logged anyway with that conflict stated, on one specific ground: the systematic-inflation bias that justifies distrusting Tier D runs the OTHER WAY here - Grant Thornton sells AI advisory and is publishing a zero against its own commercial interest. Remaining limits are real: self-reported, non-random sample, \"significant\" undefined by the respondent, n=100 subgroup, and the field window (Feb-Mar 2026) is ~5 months stale relative to today. Age also exceeds the 14-day window; included because it is unlogged and directly load-bearing on the thesis.",
+      "counter_evidence": true
     }
   ],
   "days": [
+    {
+      "date": "2026-07-27",
+      "searched": [
+        "Fresh Q2 2026 non-tech prints not covered 26 Jul: American Express (24 Jul), Baker Hughes (26 Jul), Honeywell (23 Jul), Neptune Insurance (22 Jul), Synchrony (21 Jul), T-Mobile/Verizon/AT&T (22-23 Jul), Wabtec (22 Jul)",
+        "S3 insurance: risk classes previously declined as uninsurable now priced; AI-liability MGAs (Armilla, AIUC); life underwriting of previously declined applicants; wildfire/earthquake line extensions",
+        "S3 insurance adjacency: Swiss Re sigma data-centre premium pool ($10.6bn -> $24.2bn by 2030), Zurich data-centre construction premium",
+        "S3 pharma/biotech: previously unscreenable target space, AI-designed molecule deal values (Insilico/Bora $2.5bn), undruggable targets",
+        "S3 healthcare: CMS 2027 OPPS proposed rule 'Software as a Medical Service' (SaMS) category, 36 HCPCS codes; HeartFlow / Cleerly AI plaque analysis revenue; new AI CPT codes",
+        "S3 industrials: incumbent selling autonomy as a NEW subscription line with disclosed dollars (Deere Precision Essentials, Caterpillar, Komatsu, AGCO, CNH, Trimble, Siemens, ABB, Schneider)",
+        "S3 professional services: work never billable because delivery cost exceeded willingness to pay (law, accounting, alternative fee arrangements)",
+        "S3 long-tail/SMB: segments served at quality that previously required enterprise pricing",
+        "S1/S2 energy: SLB digital revenue $697m and digital ARR +15%, Halliburton ZEUS IQ/LOGIX, Baker Hughes Cordant/Leucipa",
+        "S1/S2 consumer: Coca-Cola, PepsiCo, Unilever, P&G, Nestle Q2 2026 calls - AI personalization conversion lift, retail media",
+        "S1/S2 telecom: churn, next-best-action, ARPU at T-Mobile/Verizon/AT&T Q2 prints",
+        "S1/S2 financials: AmEx, Synchrony, Capital One - AI underwriting approval rate, previously-declined applicants, billed business attribution",
+        "Mechanism terms: dynamic pricing, yield management, RevPAR/RASM lift in hotels/airlines/cruise; retail media; agentic shopping assistants; conversion lift",
+        "Counter-evidence sweep: dropped or walked-back AI revenue targets, null studies, disappointing AI-attributed results at non-tech firms; Grant Thornton 2026 AI Impact Survey; BCG July 2026 CEO survey"
+      ],
+      "assessment": "Two findings, and the day's real signal is an absence with an unusually clean shape. No S3. No S3-CANDIDATE. Second consecutive day with zero new-TAM evidence from a non-tech incumbent. The week of 20-24 July 2026 was a heavy non-tech Q2 print week and I checked the transcripts directly: American Express discusses AI exclusively in cost and risk terms (Squeri: coding cycle time down '30 to 40%', fraud/credit AI 'for 15, 16 years') and attributes zero revenue to it; Baker Hughes names Cordant and Leucipa deployments with SINOPEC, Petrobras and KNPC and puts no revenue figure on either - the press release contains no instance of the word AI at all; Neptune Insurance grew revenue 33% to $55.9m and premium in force 32% to $419m with a lifetime written loss ratio of 19.5% credited to its Triton engine, but the AI attribution is loss-ratio (cost side) and headcount avoidance, not premium, and the new commercial and condominium earthquake lines - directionally the S3 pattern - carry no premium number. Honeywell is the exception that proves it: the largest AI-linked top-line number of the quarter from a non-tech industrial, ~$900m to just over $1bn of software ARR at ~15% growth, with the CEO calling Forge 'the primary mechanism for delivering physical AI' - and not one dollar of that guided ARR attributed to AI. Pattern now visible across two consecutive runs: non-tech incumbents reaffirm AI framing and AI capex while the revenue-attributed number is either absent (Honeywell, AmEx, Baker Hughes) or has quietly disappeared from the prior disclosure (Albertsons, logged 26 Jul). The Grant Thornton manufacturing cut quantifies that gap from the other direction - 64% efficiency, 0% significant revenue uplift, in the sector with the highest deployment rate. Three near-misses deliberately NOT logged: (1) Swiss Re's data-centre premium pool ($10.6bn to a projected $24.2bn by 2030) is genuinely new demand, but it is demand created by AI CAPEX, not revenue produced by an AI capability - it fails the capability gate, since underwriting a data centre needs no frontier model. That distinction matters and will recur; insuring the buildout is a shovel, not a result. (2) The CMS 2027 OPPS proposed rule creating a 'Software as a Medical Service' payment category with 36 HCPCS codes is the reimbursement gate opening for genuine healthcare S3, but names no company and carries no dollar figure - it is a precondition, not a finding. Watch it. (3) Deere's Precision Essentials (~70% renewal, >90% second-year cohort, 4,000+ new customer organizations) is the best evidence anywhere of a new-SKU AI subscription retaining customers, but it dates to the 21 May 2026 call and discloses adoption metrics with zero revenue dollars. Nearest dated catalysts: GE HealthCare Q2 on 29 Jul, Caterpillar Q2 on 4 Aug, HeartFlow Q2 on 13 Aug.",
+      "entry_count": 2
+    },
     {
       "date": "2026-07-26",
       "searched": [

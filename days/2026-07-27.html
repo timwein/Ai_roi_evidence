@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-07-27 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 6px; }
+.assessment p { margin: 0 0 8px; color: var(--text-secondary); font-size: 15px; }
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-07-27</h1>
+  <p class="standfirst">2
+  finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><p>Two findings, and the day&#x27;s real signal is an absence with an unusually clean shape. No S3. No S3-CANDIDATE. Second consecutive day with zero new-TAM evidence from a non-tech incumbent. The week of 20-24 July 2026 was a heavy non-tech Q2 print week and I checked the transcripts directly: American Express discusses AI exclusively in cost and risk terms (Squeri: coding cycle time down &#x27;30 to 40%&#x27;, fraud/credit AI &#x27;for 15, 16 years&#x27;) and attributes zero revenue to it; Baker Hughes names Cordant and Leucipa deployments with SINOPEC, Petrobras and KNPC and puts no revenue figure on either - the press release contains no instance of the word AI at all; Neptune Insurance grew revenue 33% to $55.9m and premium in force 32% to $419m with a lifetime written loss ratio of 19.5% credited to its Triton engine, but the AI attribution is loss-ratio (cost side) and headcount avoidance, not premium, and the new commercial and condominium earthquake lines - directionally the S3 pattern - carry no premium number. Honeywell is the exception that proves it: the largest AI-linked top-line number of the quarter from a non-tech industrial, ~$900m to just over $1bn of software ARR at ~15% growth, with the CEO calling Forge &#x27;the primary mechanism for delivering physical AI&#x27; - and not one dollar of that guided ARR attributed to AI. Pattern now visible across two consecutive runs: non-tech incumbents reaffirm AI framing and AI capex while the revenue-attributed number is either absent (Honeywell, AmEx, Baker Hughes) or has quietly disappeared from the prior disclosure (Albertsons, logged 26 Jul). The Grant Thornton manufacturing cut quantifies that gap from the other direction - 64% efficiency, 0% significant revenue uplift, in the sector with the highest deployment rate. Three near-misses deliberately NOT logged: (1) Swiss Re&#x27;s data-centre premium pool ($10.6bn to a projected $24.2bn by 2030) is genuinely new demand, but it is demand created by AI CAPEX, not revenue produced by an AI capability - it fails the capability gate, since underwriting a data centre needs no frontier model. That distinction matters and will recur; insuring the buildout is a shovel, not a result. (2) The CMS 2027 OPPS proposed rule creating a &#x27;Software as a Medical Service&#x27; payment category with 36 HCPCS codes is the reimbursement gate opening for genuine healthcare S3, but names no company and carries no dollar figure - it is a precondition, not a finding. Watch it. (3) Deere&#x27;s Precision Essentials (~70% renewal, &gt;90% second-year cohort, 4,000+ new customer organizations) is the best evidence anywhere of a new-SKU AI subscription retaining customers, but it dates to the 21 May 2026 call and discloses adoption metrics with zero revenue dollars. Nearest dated catalysts: GE HealthCare Q2 on 29 Jul, Caterpillar Q2 on 4 Aug, HeartFlow Q2 on 13 Aug.</p></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Honeywell International</span>
+    <span class="sector">Industrials / Industrial automation · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (23 Jul 2026) CEO Vimal Kapur guided software ARR growth of ~15% for 2026 and said the business will &quot;inch from about $900 million to a little over $1 billion of ARR in that segment this year.&quot; He described Forge as &quot;the primary mechanism for delivering &#x27;physical AI&#x27; to customers&quot; and named software ARR as &quot;the best way to measure our progress&quot; toward autonomy. No revenue was attributed to AI itself.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Honeywell Forge is the connected-plant software layer sold on top of Honeywell&#x27;s installed automation base (Kapur: &quot;we have been selling automation since 1975&quot;). It is sold as subscription ARR, and the AI/autonomy content is being positioned as the reason customers move up the subscription tiers. The revenue mechanism is software attach onto existing hardware relationships, not a new product with no predecessor.</dd><dt>Why this shape</dt><dd>S2. Test: absent this AI capability, would the buyer have bought something similar from somebody? Yes - industrial asset-performance and process-optimization software is a contested category (AVEVA, Siemens, GE Vernova, ABB, Rockwell). Growth here is share taken inside an existing budget line, zero-sum at industry level and GDP-neutral. Explicitly NOT S3: Forge has a predecessor in Honeywell&#x27;s own catalog going back years, and no capability gate at the 24-month frontier is established. The attribution weakness is the point of logging it: this is the largest AI-linked top-line number a non-tech industrial put on the record this quarter, and management still did not attribute a single dollar of it to AI - only to &quot;Forge offerings&quot; and &quot;the launch of new software products.&quot; &#x27;Physical AI&#x27; is the framing wrapped around a pre-existing software line.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/07/23/honeywell-hon-q2-2026-earnings-call-transcript/" rel="noopener">Honeywell Q2 2026 earnings call transcript (Motley Fool); 15% ARR figure corroborated in Investing.com transcript, 2026-07-23</a></dd><dt>Falsifier</dt><dd>Forge/segment software ARR failing to print above $1.0bn on the Q4 2026 / FY26 results, or the ~15% ARR growth rate not being restated on the Q3 2026 call. Second and sharper falsifier: if Honeywell never breaks out an AI-attributed revenue figure across FY26-FY27 while continuing to describe Forge as its physical-AI delivery mechanism, treat the AI framing as a repositioning of existing software revenue rather than an AI result.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The 15% ARR growth guide is corroborated across two independent transcripts. The $900m-to-$1bn absolute figure was verified verbatim by direct retrieval but appears in only one transcript source, and Kapur&#x27;s phrase &quot;that segment&quot; is not unambiguously tied to a named reporting segment in the retrieved text - do not treat the $900m base as an audited segment disclosure. Status is PROJECTED because it is a within-year guide, not a realized print.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Grant Thornton 2026 AI Impact Survey - manufacturing cut (n=100 of 950)</span>
+    <span class="sector">Manufacturing / Cross-sector · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Survey of 950 business leaders across 10 industries, fielded 23 Feb - 18 Mar 2026: &quot;Among manufacturing respondents, zero reported significant revenue uplift from AI initiatives, compared to 12% of executives across all industries. Zero reported significant cost savings, again compared to 12% overall.&quot; 47% of manufacturers reported only minimal revenue uplift; 64% reported increased efficiency. Manufacturers led all sectors in operational AI deployment (62%) while reporting the weakest financial return.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment finding - a base-rate measurement of the population this log samples from, and the cleanest available quantification of the efficiency-without-revenue gap: 64% report efficiency gains, 0% report significant revenue uplift, in the sector with the HIGHEST operational deployment rate. If efficiency mechanically converted to top line, the sector leading deployment should not be the sector reporting zero.</dd><dt>Why this shape</dt><dd>Counter-evidence, tagged to S2 because S2 (attributed incremental revenue on existing products) is the shape most non-tech corporates claim and the shape this null result most directly contradicts. It also constrains S3 by implication: a sector reporting zero significant revenue uplift is not opening new markets. The 58%-vs-15% headline elsewhere in the same survey (fully-integrated vs piloting firms reporting AI-driven revenue growth) is a selection-effect artifact, not causal evidence - firms that integrate deeply are firms that already saw something work - and should not be cited as offsetting the manufacturing zero.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://www.grantthornton.com/insights/survey-reports/manufacturing/2026/manufacturing-insights-2026-ai-impact-survey-report" rel="noopener">Grant Thornton, &quot;Manufacturing insights: 2026 AI Impact Survey Report&quot; (survey fielded 23 Feb - 18 Mar 2026; press coverage 9 Jul 2026), 2026-07-09</a></dd><dt>Falsifier</dt><dd>The 2027 wave of the same survey showing manufacturing significant-revenue-uplift materially above zero, or a Q3/Q4 2026 cluster of named manufacturers disclosing AI-attributed revenue. Either would mean this reading was a timing artifact of a sector mid-J-curve rather than a structural absence.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier D, and METHOD says Tier D is never the sole basis for an entry. Logged anyway with that conflict stated, on one specific ground: the systematic-inflation bias that justifies distrusting Tier D runs the OTHER WAY here - Grant Thornton sells AI advisory and is publishing a zero against its own commercial interest. Remaining limits are real: self-reported, non-random sample, &quot;significant&quot; undefined by the respondent, n=100 subgroup, and the field window (Feb-Mar 2026) is ~5 months stale relative to today. Age also exceeds the 14-day window; included because it is unlogged and directly load-bearing on the thesis.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
