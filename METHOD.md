@@ -114,11 +114,23 @@ suppresses S3: incumbents mostly defend existing revenue, while genuinely new
 demand is disproportionately created by entrants. Applied naively, this log would
 conclude "S3 is rare" when S3 is partly just out of frame.
 
-**Resolution:** the main log stays non-tech-only. A strong, well-evidenced S3
-whose subject is out of scope gets `"scope": "appendix"` — rendered separately,
-never counted in the totals. This keeps the S3 picture from being artificially
-empty and keeps the incumbent-vs-entrant split visible, which is itself one of
-the more interesting things this log can measure.
+**Resolution:** the main log stays non-tech-only. A strong, well-evidenced
+finding whose subject is out of scope gets `"scope": "appendix"` — rendered
+separately, never counted in the totals. This keeps the S3 picture from being
+artificially empty and keeps the incumbent-vs-entrant split visible, which is
+itself one of the more interesting things this log can measure.
+
+**The appendix accepts any shape — S3, S3-CANDIDATE, S2 or S1.** It was
+originally S3-only, which threw away real signal: on 2026-07-28 an AI-native
+insurance MGA disclosed a quantified S1 on a Tier A earnings call and there was
+nowhere to put it, so it was discarded. That is the wrong failure. An entrant's
+S1 or S2 is a legitimate comparator for the incumbent disclosures in the main
+log — often the sharpest one available, because entrants quantify what
+incumbents will not. Route it to the appendix rather than dropping it.
+
+The appendix bar is the same inclusion bar as the main log. Out-of-scope is not
+a lower standard, only a separate ledger. Say in `shape_justification` why the
+subject is out of scope, in the subject's own words where possible.
 
 ## Inclusion bar
 

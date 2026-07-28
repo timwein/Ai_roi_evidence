@@ -250,6 +250,15 @@ footer a { color: var(--text-secondary); }
         || el.dataset.shape === f;
       el.style.display = ok ? '' : 'none';
     });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches('article.card[data-scope="appendix"]')) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
     document.querySelectorAll('.daygroup').forEach(function (g) {
       var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
         .some(function (el) { return el.style.display !== 'none'; });

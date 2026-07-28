@@ -59,7 +59,7 @@ No dependencies beyond the Python standard library.
 | Field | Values |
 |---|---|
 | `shape` | `S3` · `S3-CANDIDATE` · `S2` · `S1` |
-| `scope` | `main` · `appendix` (out-of-scope S3 subject; never counted in totals) |
+| `scope` | `main` · `appendix` (out-of-scope subject — software / AI-native — at **any** shape; never counted in totals) |
 | `status` | `DISCLOSED` · `ESTIMATED` · `PROJECTED` |
 | `source_tier` | `A` · `B` · `C` · `D` |
 | `confidence` | `high` · `medium` · `low` · `speculative` |

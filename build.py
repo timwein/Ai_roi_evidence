@@ -406,18 +406,24 @@ def render_day(day, entries):
             f'<div class="assessment"><h3>Assessment</h3>'
             f'{richtext(day["assessment"])}</div>'
         )
-    if not entries:
+    if not main:
         searched = day.get("searched") or []
-        note = "No findings cleared the bar."
+        note = "No findings cleared the bar for the main log."
+        if appx:
+            n = len(appx)
+            note += (
+                f" {n} out-of-scope finding{'' if n == 1 else 's'} "
+                "recorded in the appendix below."
+            )
         if searched:
             note += " Angles run: " + ", ".join(searched) + "."
         out.append(f'<p class="empty-note">{esc(note)}</p>')
     out += [render_entry(e) for e in main]
     if appx:
         out.append(
-            '<div class="appendix-rule">Appendix — S3 with out-of-scope subjects '
-            "(software / AI-native). Kept visible so the S3 picture is not artificially "
-            "empty and the incumbent-vs-entrant split stays measurable. "
+            '<div class="appendix-rule">Appendix — findings of <em>any</em> shape whose '
+            "subject is out of scope (software / AI-native). Kept visible so the S3 picture "
+            "is not artificially empty and the incumbent-vs-entrant split stays measurable. "
             "<strong>Not counted in the totals above.</strong></div>"
         )
         out += [render_entry(e) for e in appx]
@@ -505,6 +511,15 @@ SCRIPT = """
         || (f === 'counter' && el.dataset.counter === '1')
         || el.dataset.shape === f;
       el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches('article.card[data-scope="appendix"]')) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
     });
     document.querySelectorAll('.daygroup').forEach(function (g) {
       var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
@@ -651,7 +666,11 @@ def build():
   <div class="eyebrow"><a href="../index.html">← All days</a></div>
   <h1>{esc(date)}</h1>
   <p class="standfirst">{len([e for e in ents if e.get('scope','main')!='appendix'])}
-  finding(s) in the main log.</p>
+  finding(s) in the main log{
+    ", " + str(len([e for e in ents if e.get('scope','main')=='appendix']))
+    + " in the appendix"
+    if any(e.get('scope','main')=='appendix' for e in ents) else ""
+  }.</p>
 </header>
 {render_day(d, ents)}
 """
