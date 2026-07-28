@@ -224,9 +224,39 @@ dl.fields dd {{ margin: 0; color: var(--text-secondary); }}
 dl.fields dd strong {{ color: var(--text-primary); font-weight: 600; }}
 @media (max-width: 620px) {{ dl.fields {{ grid-template-columns: 1fr; gap: 1px 0; }} dl.fields dt {{ padding-top: 9px; }} }}
 
-.assessment {{ background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }}
-.assessment h3 {{ font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 6px; }}
-.assessment p {{ margin: 0 0 8px; color: var(--text-secondary); font-size: 15px; }}
+.assessment {{ background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }}
+.assessment h3 {{ font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }}
+.assessment p {{ margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }}
+.assessment > *:last-child {{ margin-bottom: 0; }}
+.assessment h4 {{
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}}
+.assessment h4:first-of-type {{ margin-top: 14px; }}
+.assessment ul {{ margin: 0 0 11px; padding-left: 0; list-style: none; }}
+.assessment li {{
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}}
+.assessment li:last-child {{ margin-bottom: 0; }}
+.assessment li::before {{
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}}
+.assessment strong {{ color: var(--text-primary); font-weight: 650; }}
+.assessment code {{
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}}
+.assessment .callout {{
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}}
 .empty-note {{ color: var(--text-muted); font-style: italic; font-size: 15px; }}
 .appendix-rule {{ margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }}
 
@@ -241,6 +271,57 @@ footer a {{ color: var(--text-secondary); }}
 .dayindex a {{ font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }}
 .dayindex a:hover {{ border-color: var(--text-muted); color: var(--text-primary); }}
 """
+
+
+def _inline(t):
+    """Escape, then apply a tiny inline subset: **bold**, *italic*, `code`."""
+    t = esc(t)
+    t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+    t = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", t)
+    t = re.sub(r"`([^`]+?)`", r"<code>\1</code>", t)
+    return t
+
+
+def richtext(md):
+    """Render the small markdown subset used by day assessments.
+
+    Blocks are separated by blank lines:
+      '## Heading'      -> section sub-heading
+      '- item'          -> bullet list (continuation lines indent under the item)
+      '> text'          -> callout box, for the one line that matters most
+      anything else     -> paragraph
+    Everything is escaped before any markup is introduced, so the JSON stays
+    plain text and cannot inject HTML.
+    """
+    out = []
+    for block in re.split(r"\n\s*\n", (md or "").strip()):
+        lines = [l for l in block.strip().split("\n") if l.strip()]
+        if not lines:
+            continue
+        if lines[0].lstrip().startswith("## "):
+            out.append(f"<h4>{_inline(lines[0].lstrip()[3:].strip())}</h4>")
+            rest = "\n".join(lines[1:]).strip()
+            if rest:
+                out.append(richtext(rest))
+            continue
+        if all(l.lstrip().startswith("> ") for l in lines):
+            body = " ".join(l.lstrip()[2:].strip() for l in lines)
+            out.append(f'<div class="callout">{_inline(body)}</div>')
+            continue
+        if lines[0].lstrip().startswith("- "):
+            items = []
+            for l in lines:
+                s = l.strip()
+                if s.startswith("- "):
+                    items.append(s[2:].strip())
+                elif items:
+                    items[-1] += " " + s
+            out.append(
+                "<ul>" + "".join(f"<li>{_inline(i)}</li>" for i in items) + "</ul>"
+            )
+            continue
+        out.append(f"<p>{_inline(' '.join(l.strip() for l in lines))}</p>")
+    return "\n".join(out)
 
 
 def shape_tag(shape):
@@ -322,7 +403,8 @@ def render_day(day, entries):
     out = []
     if day.get("assessment"):
         out.append(
-            f'<div class="assessment"><h3>Assessment</h3><p>{esc(day["assessment"])}</p></div>'
+            f'<div class="assessment"><h3>Assessment</h3>'
+            f'{richtext(day["assessment"])}</div>'
         )
     if not entries:
         searched = day.get("searched") or []

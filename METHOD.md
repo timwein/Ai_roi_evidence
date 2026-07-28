@@ -177,6 +177,16 @@ claim that disappears from later disclosure is itself a finding.** Falsification
 is as valuable as confirmation and much rarer in this literature — which is why
 every entry carries a `falsifier` field written at the time of logging.
 
+## Writing the day assessment
+
+The assessment is the most-read text on the site. Write it as structured
+markup, never as one paragraph: a one-line verdict callout, a bulleted pass
+over the sources actually read, the pattern if one is visible across runs, the
+near-misses and which specific test each failed, and the next dated catalysts.
+The supported markup subset and the expected shape are documented in
+[README.md](README.md#assessment-formatting). A wall of text buries the
+reasoning that makes the log worth keeping.
+
 ## Empty days
 
 If nothing clears the bar, log the day with no entries and record which search

@@ -125,9 +125,39 @@ dl.fields dd { margin: 0; color: var(--text-secondary); }
 dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
 @media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
 
-.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
-.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 6px; }
-.assessment p { margin: 0 0 8px; color: var(--text-secondary); font-size: 15px; }
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
 .empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
 .appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
 
@@ -152,7 +182,16 @@ footer a { color: var(--text-secondary); }
   <p class="standfirst">2
   finding(s) in the main log.</p>
 </header>
-<div class="assessment"><h3>Assessment</h3><p>Two findings, and the day&#x27;s real signal is an absence with an unusually clean shape. No S3. No S3-CANDIDATE. Second consecutive day with zero new-TAM evidence from a non-tech incumbent. The week of 20-24 July 2026 was a heavy non-tech Q2 print week and I checked the transcripts directly: American Express discusses AI exclusively in cost and risk terms (Squeri: coding cycle time down &#x27;30 to 40%&#x27;, fraud/credit AI &#x27;for 15, 16 years&#x27;) and attributes zero revenue to it; Baker Hughes names Cordant and Leucipa deployments with SINOPEC, Petrobras and KNPC and puts no revenue figure on either - the press release contains no instance of the word AI at all; Neptune Insurance grew revenue 33% to $55.9m and premium in force 32% to $419m with a lifetime written loss ratio of 19.5% credited to its Triton engine, but the AI attribution is loss-ratio (cost side) and headcount avoidance, not premium, and the new commercial and condominium earthquake lines - directionally the S3 pattern - carry no premium number. Honeywell is the exception that proves it: the largest AI-linked top-line number of the quarter from a non-tech industrial, ~$900m to just over $1bn of software ARR at ~15% growth, with the CEO calling Forge &#x27;the primary mechanism for delivering physical AI&#x27; - and not one dollar of that guided ARR attributed to AI. Pattern now visible across two consecutive runs: non-tech incumbents reaffirm AI framing and AI capex while the revenue-attributed number is either absent (Honeywell, AmEx, Baker Hughes) or has quietly disappeared from the prior disclosure (Albertsons, logged 26 Jul). The Grant Thornton manufacturing cut quantifies that gap from the other direction - 64% efficiency, 0% significant revenue uplift, in the sector with the highest deployment rate. Three near-misses deliberately NOT logged: (1) Swiss Re&#x27;s data-centre premium pool ($10.6bn to a projected $24.2bn by 2030) is genuinely new demand, but it is demand created by AI CAPEX, not revenue produced by an AI capability - it fails the capability gate, since underwriting a data centre needs no frontier model. That distinction matters and will recur; insuring the buildout is a shovel, not a result. (2) The CMS 2027 OPPS proposed rule creating a &#x27;Software as a Medical Service&#x27; payment category with 36 HCPCS codes is the reimbursement gate opening for genuine healthcare S3, but names no company and carries no dollar figure - it is a precondition, not a finding. Watch it. (3) Deere&#x27;s Precision Essentials (~70% renewal, &gt;90% second-year cohort, 4,000+ new customer organizations) is the best evidence anywhere of a new-SKU AI subscription retaining customers, but it dates to the 21 May 2026 call and discloses adoption metrics with zero revenue dollars. Nearest dated catalysts: GE HealthCare Q2 on 29 Jul, Caterpillar Q2 on 4 Aug, HeartFlow Q2 on 13 Aug.</p></div>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>Two findings, and the day&#x27;s real signal is an absence with an unusually clean shape.</strong> No S3. No S3-CANDIDATE. Second consecutive day with zero new-TAM evidence from a non-tech incumbent.</div>
+<h4>Transcripts read directly</h4>
+<p>The week of 20–24 July 2026 was a heavy non-tech Q2 print week.</p>
+<ul><li><strong>American Express</strong> — AI discussed <em>exclusively</em> in cost and risk terms (Squeri: coding cycle time down <code>30–40%</code>; fraud/credit AI &quot;for 15, 16 years&quot;). <strong>Zero revenue attributed</strong> to it.</li><li><strong>Baker Hughes</strong> — names Cordant and Leucipa deployments with SINOPEC, Petrobras and KNPC, and puts <strong>no revenue figure on either</strong>. The press release contains no instance of the word <em>AI</em> at all.</li><li><strong>Neptune Insurance</strong> — revenue <strong>+33% to <code>$55.9m</code></strong>, premium in force <strong>+32% to <code>$419m</code></strong>, lifetime written loss ratio <code>19.5%</code> credited to its Triton engine. But the AI attribution is <strong>loss-ratio (cost side) and headcount avoidance, not premium</strong> — and the new commercial and condominium earthquake lines, directionally the S3 pattern, carry no premium number.</li><li><strong>Honeywell</strong> — the exception that proves it. The largest AI-linked top-line number of the quarter from a non-tech industrial: <strong><code>~$900m</code> → just over <code>$1bn</code> of software ARR at ~15% growth</strong>, with the CEO calling Forge &quot;the primary mechanism for delivering physical AI&quot; — and <strong>not one dollar of that guided ARR attributed to AI</strong>.</li></ul>
+<div class="callout"><strong>The pattern is now visible across two consecutive runs.</strong> Non-tech incumbents reaffirm AI framing and AI capex while the revenue-attributed number is either <em>absent</em> (Honeywell, AmEx, Baker Hughes) or has <em>quietly disappeared</em> from the prior disclosure (Albertsons, logged 26 Jul).</div>
+<p>The Grant Thornton manufacturing cut quantifies that gap from the other direction: <strong>64% report efficiency gains, 0% report significant revenue uplift</strong> — in the sector with the highest deployment rate.</p>
+<h4>Three near-misses deliberately NOT logged</h4>
+<ul><li><strong>Swiss Re data-centre premium pool</strong> (<code>$10.6bn</code> → a projected <code>$24.2bn</code> by 2030). Genuinely new demand, but it is demand created by <strong>AI capex</strong>, not revenue produced by an AI capability — it fails the capability gate, since underwriting a data centre needs no frontier model. That distinction matters and will recur: <strong>insuring the buildout is a shovel, not a result.</strong></li><li><strong>CMS 2027 OPPS proposed rule</strong> creating a &quot;Software as a Medical Service&quot; payment category with 36 HCPCS codes. This is the reimbursement gate opening for genuine healthcare S3, but it names no company and carries no dollar figure — a <strong>precondition, not a finding</strong>. Watch it.</li><li><strong>Deere Precision Essentials</strong> (~70% renewal, &gt;90% second-year cohort, 4,000+ new customer organizations). The best evidence anywhere of a new-SKU AI subscription <em>retaining</em> customers — but it dates to the 21 May 2026 call and discloses adoption metrics with <strong>zero revenue dollars</strong>.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>GE HealthCare</strong> — Q2, 29 Jul</li><li><strong>Caterpillar</strong> — Q2, 4 Aug</li><li><strong>HeartFlow</strong> — Q2, 13 Aug</li></ul></div>
 <article class="card" data-shape="S2"
   data-counter="0"
   data-scope="main"

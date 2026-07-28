@@ -70,6 +70,32 @@ Days with no qualifying findings still get a record:
 { "date": "2026-07-28", "searched": ["angle", "angle"], "assessment": "Why nothing cleared the bar." }
 ```
 
+## Assessment formatting
+
+`assessment` is the one long field on the page, so it is rendered through a
+small markdown subset instead of as a single paragraph. **Write it structured —
+a wall of text is not acceptable output.** Blocks are separated by blank lines:
+
+| Markup | Renders as |
+|---|---|
+| `## Heading` | Section sub-heading with a rule above it |
+| `- item` | Bullet list (wrapped continuation lines indent under the item) |
+| `> text` | Callout box — use for the single line that matters most |
+| plain text | Paragraph |
+| `**bold**` · `*italic*` · `` `code` `` | Inline emphasis; `code` for figures (`$419m`, `19.5%`) |
+
+Everything is HTML-escaped before markup is applied, so the JSON stays plain
+text and cannot inject markup. Shape of a good assessment:
+
+1. A `>` callout stating the day's verdict in one sentence — including whether
+   any S3 appeared.
+2. `## Sources read` — one bullet per company, **name bolded**, the number in
+   backticks, and what was or was not attributed.
+3. A `>` callout naming the pattern, if one is visible across runs.
+4. `## Near-misses deliberately not logged` — one bullet each with the reason
+   it failed a specific test. This is where the method does its visible work.
+5. `## Nearest dated catalysts` — bullets, so the next run knows what to check.
+
 ## Design notes
 
 Shape colors are the first three slots of a categorical palette validated for
