@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-07-31 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-07-31</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 1 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>No in-scope revenue evidence today. Zero S3, zero S3-CANDIDATE, zero S2, zero S1 in the main log - fourth consecutive day without new-TAM evidence from a non-tech incumbent.</strong> The day&#x27;s real finding is an AI-native company volunteering that its AI does not produce revenue.</div>
+<h4>The finding that matters</h4>
+<p><strong>Tempus AI</strong> disclosed the cleanest separation of AI capability from AI monetisation this log has recorded. Attach rate on its algorithms rose to <code>45%</code> from <code>40%</code> in Q1 - and the CFO immediately closed the door on the revenue reading: <em>&quot;Many of those algorithms remain not being paid, and so there&#x27;s no impact on revenue from the number of algorithms.&quot;</em> Meanwhile the <code>$85m</code> (2027) and <code>~$400m</code> (2028) uplifts the company does guide to are attributed to FDA approval of tumor-only xT CDx and unified ADLT pricing - a <strong>reimbursement event, not an algorithm</strong>. Frontier capability, commercial scale, clinician pull, zero incremental revenue. Appendix scope; counter-evidence against S3.</p>
+<h4>Sources read</h4>
+<ul><li><strong>GE HealthCare</strong> (Q2 2026 call, 29 Jul) - CEO Peter Arduini: <em>&quot;we lead the industry in bringing AI to customers&quot;</em>, naming Photonova Spectra, True Definition DL and Air Recon DL as AI-enabled. CFO James Saccaro cites <em>&quot;higher-margin AI-enabled NPIs&quot;</em>. <strong>No AI revenue, no orders, no attach rate, no separately tracked AI metric.</strong> The single most AI-forward non-tech medtech incumbent, and AI is a margin adjective.</li><li><strong>The Hartford</strong> (Q2 2026 call, 24 Jul) - CEO Chris Swift on <em>&quot;AI-enabled capabilities that enhance underwriting effectiveness&quot;</em> and underwriting completed <em>&quot;in a fraction of the time&quot;</em>. Then President Morris Tooker, on the record and unprompted: <em>&quot;We haven&#x27;t disclosed any KPIs on either the claims or the underwriting side, and we won&#x27;t today.&quot;</em> An explicit refusal, not an omission.</li><li><strong>Rivian</strong> (Q2 2026 call, 30 Jul) - Autonomy+ is a genuine new SKU with no predecessor in Rivian&#x27;s own catalogue, monetised since April. CEO RJ Scaringe: <em>&quot;take rates are trending positively.&quot;</em> No take rate, no ARPU, no Autonomy+ revenue line. Software and services was <code>$515m</code> (+37%), but <code>$308m</code> of it is the Volkswagen JV.</li><li><strong>Hippo Holdings</strong> (Q2 2026 call, 30 Jul) - logged, cost ledger. See entry.</li><li><strong>Tele2</strong> (Q2 2026 interim report, 16 Jul) - AI named as <em>&quot;a key pillar of Tele2&#x27;s transformation strategy&quot;</em>; nothing quantified in any direction.</li></ul>
+<div class="callout"><strong>The pattern across four runs: incumbents are now fluent in AI as a margin and productivity adjective and remain unwilling to put a revenue number next to it.</strong> Hartford&#x27;s Tooker is the honest version - not &quot;we have nothing&quot; but &quot;we have KPIs and we are not giving them to you.&quot; That is a different and more interesting fact than absence, and it is the second week running that a large carrier has said a version of it.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Bloom Energy</strong> - <code>$1bn</code> quarterly revenue, <code>+165%</code> YoY, product revenue <code>+215%</code>, all driven by AI data-centre demand. Fails scope, not the bar. This is <em>selling shovels into someone else&#x27;s AI capex</em>, which METHOD excludes for the same reason it excludes chipmakers. It is the most tempting confound in the whole thesis: real, disclosed, enormous non-tech revenue caused by AI that says nothing about whether deploying AI produces revenue. Kept visible here precisely because it will keep showing up.</li><li><strong>Domino Data Lab, Fifth Annual AI report</strong> (639 enterprise AI leaders; <code>57%</code> say ROI still fails to outpace investment, unchanged since 2025; NA <code>51.1%</code> vs UK <code>66.9%</code> vs Europe <code>67.0%</code>). Tier D vendor sentiment survey with no named companies and no measured outcomes. Directionally consistent with this log, which is not a reason to lower the bar for it.</li><li><strong>AI-liability insurance</strong> (Corgi, Klaimee, AI Underwriting Company, Mount; Deloitte projects <em>&quot;nearly $5 billion global business by 2032&quot;</em>) - genuinely new demand created by AI, but created by AI&#x27;s <em>existence</em>, not by the insurer deploying AI. Fails test (c), the capability gate, from the deploying-company side. No premium or revenue figures disclosed by any named carrier.</li><li><strong>Rivian Autonomy+</strong> - fails the inclusion bar on the number, not on the shape. If Rivian ever discloses an Autonomy+ take rate or revenue line it is a strong S3 candidate: no predecessor SKU, and the capability gate is plausibly met.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>CMS 2027 OPPS proposed rule</strong> (proposed 2 Jul 2026) creates <em>Software as a Medical Service</em> - status indicator <code>O1</code>, <code>36</code> HCPCS codes designated, <code>21</code> into New Technology APCs. This is the reimbursement path whose absence is exactly what Tempus&#x27;s CFO described. Comment period and final rule land in Q4 2026; it is the single clearest dated test of whether AI diagnostics becomes a paid category. CMS itself calls it <em>&quot;an interim policy rather than a permanent fix.&quot;</em></li><li><strong>Tempus Q3 2026</strong> - does attach rate keep climbing while payment stays at zero?</li><li><strong>Deere Q3 FY26</strong> (mid-August) - the autonomy-as-recurring-revenue disclosure this log has been waiting for; nothing new in the trailing window.</li><li><strong>Caterpillar, Marriott, Hilton, Kraft Heinz and the remaining non-tech Q2 prints</strong> in the first half of August.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 out-of-scope finding in the appendix and 1 in the cost ledger below.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Tempus AI</span>
+    <span class="sector">Healthcare / precision diagnostics · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) CFO Jim Rogers disclosed: &quot;The algorithm attach rate in Q2 is 45%, a slight uptick from the 40% that we had quoted in Q1&quot; - and then removed the revenue reading himself: &quot;Many of those algorithms remain not being paid, and so there&#x27;s no impact on revenue from the number of algorithms.&quot; Q2 revenue $382.5m (+22% YoY); Diagnostics $289.3m (+20%); Data and Apps $93.2m (+28%). The company&#x27;s own guided uplift - &quot;an estimated $200 uplift in ASP, which equates to approximately $85 million on an annual basis beginning in 2027&quot; and ~$400m by 2028 - is tied to FDA approval of tumor-only xT CDx and unified ADLT pricing, i.e. to a reimbursement event, not to the algorithms.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI algorithms (multi-modal models scoring pathology, imaging and molecular data) are ordered alongside a sequencing test and delivered in the report. Attach rate is the share of tests that carry at least one algorithm. The intended revenue path is per-algorithm reimbursement; that path is largely not yet open, so consumption rises while the associated revenue stays at zero.</dd><dt>Why this shape</dt><dd>S1 - the disclosed number is an input metric (attach rate), not revenue. The S1 standing caveat is satisfied in the strongest possible way: the company did not merely omit the revenue conversion, the CFO volunteered that it is zero. Logged as counter-evidence against S3: this is a frontier-capability AI product, deployed at commercial scale, consumed by clinicians on 45% of tests, generating no incremental revenue - the capability gate is passed and the newly-economic gate is not. Scope is appendix: Tempus is an AI-native diagnostics company, out of scope as a revenue-log subject; it is retained as a comparator because entrants quantify what incumbents will not, and because it is the cleanest available separation of AI capability from AI monetisation.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-tempus-ai-beats-q2-2026-eps-view-as-stock-trims-gains-93CH-4826295" rel="noopener">Q2 2026 earnings call transcript, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If a later quarter shows attach rate rising further with algorithms still unpaid, the &#x27;capability without monetisation&#x27; reading holds. It is falsified if Tempus discloses per-algorithm reimbursement revenue as a separate line, or attributes a specific dollar amount of Diagnostics revenue to algorithms rather than to ADLT/xT CDx pricing. Watch also whether the $85m 2027 and ~$400m 2028 uplifts are ever restated as algorithm-driven; today they are explicitly reimbursement-driven.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A full transcript; both figures and the disclaimer are direct CFO quotes, and the disclaimer cuts against the company&#x27;s own interest.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Hippo Holdings</span>
+    <span class="sector">Insurance · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) CEO Rick McCathron said two named AI agents went live in the quarter - &quot;Hannah, our AI service agent, and Clara, our AI First Notice of Loss agent, are both live this quarter&quot; - and that &quot;together they&#x27;re a big part of why we can grow the top line without growing overhead at the same pace.&quot; CFO Guy Zeltser: &quot;Our continued focus on operating leverage through AI enables us to grow our business while keeping fixed expense largely flat.&quot; Q2 revenue $144.7m; net expense ratio 45.4% (-8pp YoY); fixed expense ratio 29%, down 39 points since the start of 2024.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two customer-facing LLM agents in the non-engineering cost base: Hannah handles inbound policy service contacts, Clara takes first notice of loss. Both sit where headcount would otherwise scale with policy count, so the claimed effect is a flat fixed-expense base under a growing book rather than an expense line that falls.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector (a licensed home insurance carrier; revenue is premium and commission, not software) and a non-engineering function (service and claims intake). Cost ledger, not a revenue shape: management framed this as operating leverage, and no revenue is attributed to either agent. Trap 5 applies - this is cost avoidance (headcount not added), not a realized reduction, and management said so in those words. Trap 1 also present and deliberately not logged as a saving: the same call disclosed Devin, Cognition&#x27;s AI software engineer, rolled out to &quot;nearly a third of our roughly 500 employees&quot; - an adoption metric with no outcome attached, which is why it is noted here rather than entered as a C3. The 39-point fixed-expense-ratio decline since early 2024 predates both agents and is not AI-attributable; only the Q2 flat-fixed-expense claim is.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-hippo-tops-q2-2026-estimates-and-lifts-outlook-93CH-4824352" rel="noopener">Q2 2026 earnings call transcript, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If policy count and premium keep growing while fixed expense stays flat over the next two quarters, the operating-leverage claim holds. It fails if fixed expense resumes scaling with the book, if the expense ratio improvement reverses, or if Hannah/Clara stop being named once the growth story needs a different explanation. Also watch whether Hippo ever quantifies the two agents&#x27; contribution rather than describing it.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A transcript and named systems, but the causal claim is qualitative - the disclosed ratios are company-level and have several parents besides AI.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
