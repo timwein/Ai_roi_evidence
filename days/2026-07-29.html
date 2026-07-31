@@ -21,6 +21,10 @@
   --shape-s3-candidate: #2a78d6;
   --shape-s2: #eb6834;
   --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
 }
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme="light"])) {
@@ -36,6 +40,10 @@
     --shape-s3-candidate: #3987e5;
     --shape-s2: #d95926;
     --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
   }
 }
 :root[data-theme="dark"] {
@@ -51,6 +59,10 @@
     --shape-s3-candidate: #3987e5;
     --shape-s2: #d95926;
     --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
 }
 
 * { box-sizing: border-box; }
@@ -160,6 +172,15 @@ dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
 }
 .empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
 .appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
 
 table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
 table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -180,7 +201,7 @@ footer a { color: var(--text-secondary); }
   <div class="eyebrow"><a href="../index.html">← All days</a></div>
   <h1>2026-07-29</h1>
   <p class="standfirst">0
-  finding(s) in the main log, 1 in the appendix.</p>
+  revenue finding(s) in the main log, 1 in the appendix.</p>
 </header>
 <div class="assessment"><h3>Assessment</h3><div class="callout"><strong>Zero findings in the main log for the second day running. No S3, no S3-CANDIDATE, and no non-tech corporate anywhere on the 27-29 Jul tape put a revenue number next to AI.</strong> One appendix entry, and it is the most useful thing found this run precisely because it cuts against the thesis: Infosys disclosed AI revenue rising and total growth guidance falling in the same release.</div>
 <h4>Sources read</h4>
@@ -195,11 +216,12 @@ footer a { color: var(--text-secondary); }
 <ul><li><strong>Publicis Groupe</strong> - the CEO&#x27;s claim that <code>87%</code> of net revenue is <em>&quot;AI-powered marketing services&quot;</em> is a denominator game of exactly the kind METHOD names, and the <code>~20%</code> three-year growth <em>&quot;4 times faster than our competition&quot;</em> is a comparative on a segment defined circularly as the AI-powered one. Decisive test: <strong>the primary press release contains one AI sentence and attributes no growth to AI.</strong> When the quantified AI claim exists only in the call narration and not in the printed release, that asymmetry is the tell. Note the three retrieved summaries disagreed on H1 organic growth (<code>4.7%</code> vs <code>5.3%</code> vs the release&#x27;s <code>+4.8%</code> Q2 / <code>+4.5%</code> Q1) - a second reason to hold to the release.</li><li><strong>Ford / BlueCruise</strong> and <strong>GM / Super Cruise</strong> (carried from 28 Jul) - fail the same test (c). ADAS subscriptions are real new-SKU revenue and growing <code>+20%</code>, but the capability shipped in 2017-2021. Neither company calls it AI. Reading it as AI revenue would be attribution laundering performed by the reader, not the issuer.</li><li><strong>IQVIA</strong> - <code>294</code> agents, <code>90</code> use cases, <code>19 of 20</code> top pharma. Adoption counting, not a velocity metric and not revenue: a deployment census tells you nothing about throughput or hit rate. Also arguably out of scope as a subject. Fails the bar on the number, not on scope.</li><li><strong>BCG CEO survey</strong> (22 Jul, n=<code>152</code>, <code>$500m+</code> revenue) - the <code>14%</code>-defined-P&amp;L-impact figure is quoted above because it corroborates the disclosure gap, but the headline (<em>&quot;nearly nine in ten CEOs see cost or revenue benefits&quot;</em>) is self-reported sentiment, no fielding date is given, and the log already holds two better-instrumented measurements of the same phenomenon. A third would be padding, not convergence.</li><li><strong>Schneider Electric, Siemens, Nokia</strong> - AI-attributed revenue that is datacentre and grid capex sold <em>into</em> the buildout. Shovel revenue. Same rejection as 28 Jul.</li><li><strong>Agentic-commerce sweep</strong> - returned only vendor and aggregator statistics again (conversion rates, referred-traffic shares). No named merchant disclosed a figure. Tier D, third run in a row it has come back empty.</li></ul>
 <h4>Nearest dated catalysts</h4>
 <ul><li><strong>Thu 30 - Fri 31 Jul:</strong> back half of the non-tech Q2 tape. Insurers and consumer names still to print.</li><li><strong>Thu 13 Aug: Heartflow Q2 2026</strong> (confirmed date). AI-derived FFR-CT with its own reimbursement pathway is the single closest thing to a clean S3 on any calendar - a diagnostic sold to patients whose prior alternative was invasive angiography or nothing. Q1 revenue grew <code>41%</code> and guidance was raised. Whether it is in scope or appendix turns on how the company describes itself; the counterfactual tests should be run properly on that print.</li><li><strong>Infosys Q2 FY27 (Oct):</strong> does AI share keep rising while cc growth guidance stays at or below <code>3%</code>? That is this entry&#x27;s falsifier and the cleanest near-term test of the substitution thesis.</li><li><strong>CMS CY2027 payment rules:</strong> still the clearest structural S3 enabler in view. Standing item until a named provider books revenue against a new AI code.</li><li><strong>Neptune Q3 (Oct):</strong> does a quote-to-bind conversion number ever appear? Carried from 28 Jul.</li></ul></div>
-<p class="empty-note">No findings cleared the bar for the main log. 1 out-of-scope finding recorded in the appendix below. Angles run: Trailing-48h Q2 2026 tape (27-29 Jul): IQVIA, Ford, Philips, Hilton, Boeing, Norfolk Southern reporter sweep, Pharma S3: AstraZeneca Q2 26 transcript, AI-designed molecules, previously unscreenable target/indication space, Insurance S3: carriers pricing previously-declined risk classes; Kinsale, Goosehead, Hartford, Travelers Q2 26, Insurance S1/S2: AI attributed to written premium, quote-to-bind, hit rate on Q2 26 carrier calls, Healthcare S3: AI reimbursement pathway, 2026 AI CPT/HCPCS codes, first revenue booked against an AI code, Healthcare devices S3: GE HealthCare, Philips Q2 26 AI-enabled product revenue and order intake, Diagnostics S3: Heartflow, Cleerly, iRhythm - AI diagnostics at price points that previously supported no service, Industrials S3: AI autonomy sold as a NEW subscription line; mining and rail autonomy (Komatsu, Rio Tinto, Wabtec), Autos: paid ADAS/autonomy subscription revenue and take rates (Ford BlueCruise, Ford Pro Intelligence), Professional services S3: law and accounting work never billable because delivery cost exceeded willingness to pay, Media/marketing services S2: Publicis H1 2026, CoreAI, AI-attributed organic growth and new business wins, Advertising counter-signal: WPP/Omnicom/Havas share loss and AI-driven agency model disruption, IT services: Infosys Q1 FY27 AI revenue percentage, definition, prior-quarter comparator, AI-led deflation, Banking S1/S2: Q2 26 bank calls with AI tied to fee revenue or advisor productivity, Telecom S2: T-Mobile Q2 26 - network-native AI applications, churn, ARPU, service revenue attribution, Hospitality S2: Hilton, Marriott Q2 26 - AI attributed to RevPAR, direct booking or conversion, Retail/grocery/CPG S2: personalization conversion lift, dynamic pricing, agentic-commerce referred sales, QSR S2: AI ordering at Chipotle, Domino&#x27;s, Yum - check average and sales attribution, Utilities/energy: AI-enabled new revenue lines vs. datacentre load growth (Q2 26 utility tape), Incumbent AI-enabled SKU with no predecessor in its own catalog - open sweep, Counter-evidence sweep: AI walk-backs, scaled-back initiatives, missed AI revenue targets, null results, Base-rate research: BCG July 2026 CEO survey on AI P&amp;L attribution at $500m+ companies, Non-US sweep: Japan, Europe, India non-tech incumbents disclosing AI-attributed segment revenue, Mechanism-term sweep in place of the word AI: attach rate, yield management, next-best-action, conversion lift.</p>
-<div class="appendix-rule">Appendix — findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the totals above.</strong></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 out-of-scope finding in the appendix below. Angles run: Trailing-48h Q2 2026 tape (27-29 Jul): IQVIA, Ford, Philips, Hilton, Boeing, Norfolk Southern reporter sweep, Pharma S3: AstraZeneca Q2 26 transcript, AI-designed molecules, previously unscreenable target/indication space, Insurance S3: carriers pricing previously-declined risk classes; Kinsale, Goosehead, Hartford, Travelers Q2 26, Insurance S1/S2: AI attributed to written premium, quote-to-bind, hit rate on Q2 26 carrier calls, Healthcare S3: AI reimbursement pathway, 2026 AI CPT/HCPCS codes, first revenue booked against an AI code, Healthcare devices S3: GE HealthCare, Philips Q2 26 AI-enabled product revenue and order intake, Diagnostics S3: Heartflow, Cleerly, iRhythm - AI diagnostics at price points that previously supported no service, Industrials S3: AI autonomy sold as a NEW subscription line; mining and rail autonomy (Komatsu, Rio Tinto, Wabtec), Autos: paid ADAS/autonomy subscription revenue and take rates (Ford BlueCruise, Ford Pro Intelligence), Professional services S3: law and accounting work never billable because delivery cost exceeded willingness to pay, Media/marketing services S2: Publicis H1 2026, CoreAI, AI-attributed organic growth and new business wins, Advertising counter-signal: WPP/Omnicom/Havas share loss and AI-driven agency model disruption, IT services: Infosys Q1 FY27 AI revenue percentage, definition, prior-quarter comparator, AI-led deflation, Banking S1/S2: Q2 26 bank calls with AI tied to fee revenue or advisor productivity, Telecom S2: T-Mobile Q2 26 - network-native AI applications, churn, ARPU, service revenue attribution, Hospitality S2: Hilton, Marriott Q2 26 - AI attributed to RevPAR, direct booking or conversion, Retail/grocery/CPG S2: personalization conversion lift, dynamic pricing, agentic-commerce referred sales, QSR S2: AI ordering at Chipotle, Domino&#x27;s, Yum - check average and sales attribution, Utilities/energy: AI-enabled new revenue lines vs. datacentre load growth (Q2 26 utility tape), Incumbent AI-enabled SKU with no predecessor in its own catalog - open sweep, Counter-evidence sweep: AI walk-backs, scaled-back initiatives, missed AI revenue targets, null results, Base-rate research: BCG July 2026 CEO survey on AI P&amp;L attribution at $500m+ companies, Non-US sweep: Japan, Europe, India non-tech incumbents disclosing AI-attributed segment revenue, Mechanism-term sweep in place of the word AI: attach rate, yield management, next-best-action, conversion lift.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
 <article class="card counter" data-shape="S2"
   data-counter="1"
   data-scope="appendix"
+  data-ledger="appendix"
   style="--accent: var(--shape-s2)">
   <div class="card-top">
     <span class="company">Infosys</span>
@@ -244,9 +266,10 @@ footer a { color: var(--text-secondary); }
       el.style.display = ok ? '' : 'none';
     });
     document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
       var any = false;
       var n = r.nextElementSibling;
-      while (n && n.matches('article.card[data-scope="appendix"]')) {
+      while (n && n.matches(sel)) {
         if (n.style.display !== 'none') { any = true; break; }
         n = n.nextElementSibling;
       }

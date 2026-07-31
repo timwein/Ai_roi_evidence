@@ -58,11 +58,29 @@ No dependencies beyond the Python standard library.
 
 | Field | Values |
 |---|---|
-| `shape` | `S3` · `S3-CANDIDATE` · `S2` · `S1` |
-| `scope` | `main` · `appendix` (out-of-scope subject — software / AI-native — at **any** shape; never counted in totals) |
+| `shape` | **Revenue:** `S3` · `S3-CANDIDATE` · `S2` · `S1` — **Cost:** `C1` · `C2` · `C3` · `C4` |
+| `scope` | `main` · `appendix` (out-of-scope subject — software / AI-native — at **any** revenue shape; never counted in totals). Cost entries are always `main`; the cost ledger is separated by shape, not by scope. |
 | `status` | `DISCLOSED` · `ESTIMATED` · `PROJECTED` |
 | `source_tier` | `A` · `B` · `C` · `D` |
 | `confidence` | `high` · `medium` · `low` · `speculative` |
+
+### The two ledgers
+
+`S1`–`S3` answer the question the site asks: is AI producing **top-line
+revenue** at non-tech incumbents. `C1`–`C4` are a **separate ledger** of
+AI-attributed **cost** savings, on a 2×2 of sector × function:
+
+| | Non-tech | Tech |
+|---|---|---|
+| **Software engineering** | `C3` | `C1` |
+| **Everything else** | `C4` | `C2` |
+
+Cost entries are **never counted in the revenue totals** and are rendered in
+their own section under a marked rule. Technology companies are in scope for the
+cost ledger and out of scope for the revenue log. A single disclosure is logged
+in exactly one ledger — see METHOD.md for why, and for the standing traps
+(adoption-dressed-as-saving, composite "value" metrics, headcount with many
+parents, the run-cost offset).
 
 Days with no qualifying findings still get a record:
 

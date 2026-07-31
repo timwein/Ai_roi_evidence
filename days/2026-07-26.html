@@ -21,6 +21,10 @@
   --shape-s3-candidate: #2a78d6;
   --shape-s2: #eb6834;
   --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
 }
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme="light"])) {
@@ -36,6 +40,10 @@
     --shape-s3-candidate: #3987e5;
     --shape-s2: #d95926;
     --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
   }
 }
 :root[data-theme="dark"] {
@@ -51,6 +59,10 @@
     --shape-s3-candidate: #3987e5;
     --shape-s2: #d95926;
     --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
 }
 
 * { box-sizing: border-box; }
@@ -160,6 +172,15 @@ dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
 }
 .empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
 .appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
 
 table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
 table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -180,7 +201,7 @@ footer a { color: var(--text-secondary); }
   <div class="eyebrow"><a href="../index.html">← All days</a></div>
   <h1>2026-07-26</h1>
   <p class="standfirst">2
-  finding(s) in the main log.</p>
+  revenue finding(s) in the main log.</p>
 </header>
 <div class="assessment"><h3>Assessment</h3><div class="callout"><strong>One finding, and it is a negative one.</strong> Off-week for the thesis: no S3, no S3-CANDIDATE, and nothing clearing the bar on the positive side.</div>
 <h4>The week&#x27;s non-tech Q2 prints</h4>
@@ -202,6 +223,7 @@ footer a { color: var(--text-secondary); }
 <article class="card counter" data-shape="S2"
   data-counter="1"
   data-scope="main"
+  data-ledger="revenue"
   style="--accent: var(--shape-s2)">
   <div class="card-top">
     <span class="company">Albertsons Companies</span>
@@ -214,6 +236,7 @@ footer a { color: var(--text-secondary); }
 <article class="card counter" data-shape="S2"
   data-counter="1"
   data-scope="main"
+  data-ledger="revenue"
   style="--accent: var(--shape-s2)">
   <div class="card-top">
     <span class="company">S&amp;P 500 (510 firms, 2016-2025) - MIT FutureTech / CMU study</span>
@@ -258,9 +281,10 @@ footer a { color: var(--text-secondary); }
       el.style.display = ok ? '' : 'none';
     });
     document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
       var any = false;
       var n = r.nextElementSibling;
-      while (n && n.matches('article.card[data-scope="appendix"]')) {
+      while (n && n.matches(sel)) {
         if (n.style.display !== 'none') { any = true; break; }
         n = n.nextElementSibling;
       }

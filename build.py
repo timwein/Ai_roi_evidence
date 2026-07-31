@@ -62,7 +62,50 @@ SHAPES = {
         "blurb": "Faster or higher-capacity inputs to revenue. A leading indicator, not realized ROI.",
     },
 }
+
+# ---------------------------------------------------------------------------
+# Cost ledger. Added 2026-07-30. The revenue question (S1-S3) is the thesis;
+# cost evidence is abundant, lower quality, and would drown it if pooled. So
+# cost lives in a SEPARATE ledger with its own counts and its own section, and
+# never enters the S1/S2/S3 totals.
+#
+# The four buckets are a 2x2 - sector (tech / non-tech) x function (software
+# engineering / everything else) - not four unrelated categories. The whole
+# point is the cell comparison: engineering-inside-tech is the easy, well
+# documented cell, and non-engineering-outside-tech is where the bulk of the
+# economy's labour cost actually sits.
+#
+# Deliberately ONE hue for all four, not four new series colors: the validated
+# categorical palette carries three hues and adding four more would break the
+# all-pairs CVD guarantee. The 2x2 cell is carried by TEXT (label + the cell
+# line on every card), never by color. Cost uses a desaturated slate that reads
+# as secondary against the three revenue hues - which is also the correct
+# visual hierarchy, since this ledger is the supporting evidence, not the point.
+# ---------------------------------------------------------------------------
+COST_HUE = {"light": "#5c6672", "dark": "#8b95a3"}
+COST_SHAPES = {
+    "C1": ("Tech · engineering", "Cost saving inside a technology company, software engineering function."),
+    "C2": ("Tech · non-engineering", "Cost saving inside a technology company, outside engineering - support, sales, marketing, G&A."),
+    "C3": ("Non-tech · engineering", "Cost saving at a non-technology company, in its own software engineering function."),
+    "C4": ("Non-tech · non-engineering", "Cost saving at a non-technology company, outside engineering. The cell that matters most and is hardest to evidence."),
+}
+for _k, (_cell, _blurb) in COST_SHAPES.items():
+    SHAPES[_k] = {
+        "label": f"{_k} — {_cell}",
+        "short": _k,
+        "cell": _cell,
+        "light": COST_HUE["light"],
+        "dark": COST_HUE["dark"],
+        "blurb": _blurb,
+    }
+
 SHAPE_ORDER = ["S3", "S3-CANDIDATE", "S2", "S1"]
+COST_ORDER = ["C1", "C2", "C3", "C4"]
+ALL_ORDER = SHAPE_ORDER + COST_ORDER
+
+
+def is_cost(shape):
+    return shape in COST_SHAPES
 
 STATUS_NOTE = {
     "DISCLOSED": "realized and reported",
@@ -97,7 +140,14 @@ def norm_shape(s):
 
 
 def sort_key(e):
-    return (e.get("date", ""), SHAPE_ORDER.index(norm_shape(e.get("shape"))))
+    return (e.get("date", ""), ALL_ORDER.index(norm_shape(e.get("shape"))))
+
+
+def ledger_of(e):
+    """revenue | appendix | cost. Cost is its own ledger regardless of scope."""
+    if is_cost(norm_shape(e.get("shape"))):
+        return "cost"
+    return "appendix" if e.get("scope", "main") == "appendix" else "revenue"
 
 
 # ---------------------------------------------------------------------------
@@ -259,6 +309,15 @@ dl.fields dd strong {{ color: var(--text-primary); font-weight: 600; }}
 }}
 .empty-note {{ color: var(--text-muted); font-style: italic; font-size: 15px; }}
 .appendix-rule {{ margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }}
+.appendix-rule[data-ledger="cost"] {{ border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }}
+.costmatrix {{ margin: 0 0 16px; }}
+.costmatrix table {{ border-collapse: collapse; font-size: 13px; }}
+.costmatrix caption {{ caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }}
+.costmatrix th, .costmatrix td {{ border: 1px solid var(--border); padding: 8px 14px; text-align: left; }}
+.costmatrix thead th {{ font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }}
+.costmatrix tbody th {{ font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }}
+.costmatrix .mv {{ font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }}
+.costmatrix .mk {{ font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }}
 
 table.tv {{ border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }}
 table.tv th, table.tv td {{ text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }}
@@ -385,6 +444,7 @@ def render_entry(e):
     return f"""<article class="{' '.join(classes)}" data-shape="{shape}"
   data-counter="{'1' if e.get('counter_evidence') else '0'}"
   data-scope="{esc(e.get('scope', 'main'))}"
+  data-ledger="{ledger_of(e)}"
   style="--accent: var(--shape-{shape.lower()})">
   <div class="card-top">
     <span class="company">{esc(e.get('company'))}</span>
@@ -398,8 +458,9 @@ def render_entry(e):
 
 def render_day(day, entries):
     date = day.get("date")
-    main = [e for e in entries if e.get("scope", "main") != "appendix"]
-    appx = [e for e in entries if e.get("scope", "main") == "appendix"]
+    main = [e for e in entries if ledger_of(e) == "revenue"]
+    appx = [e for e in entries if ledger_of(e) == "appendix"]
+    cost = [e for e in entries if ledger_of(e) == "cost"]
     out = []
     if day.get("assessment"):
         out.append(
@@ -408,58 +469,107 @@ def render_day(day, entries):
         )
     if not main:
         searched = day.get("searched") or []
-        note = "No findings cleared the bar for the main log."
+        note = "No findings cleared the bar for the main revenue log."
+        extra = []
         if appx:
-            n = len(appx)
-            note += (
-                f" {n} out-of-scope finding{'' if n == 1 else 's'} "
-                "recorded in the appendix below."
+            extra.append(
+                f"{len(appx)} out-of-scope finding{'' if len(appx) == 1 else 's'} in the appendix"
             )
+        if cost:
+            extra.append(
+                f"{len(cost)} in the cost ledger"
+            )
+        if extra:
+            note += " " + " and ".join(extra) + " below."
         if searched:
             note += " Angles run: " + ", ".join(searched) + "."
         out.append(f'<p class="empty-note">{esc(note)}</p>')
     out += [render_entry(e) for e in main]
     if appx:
         out.append(
-            '<div class="appendix-rule">Appendix — findings of <em>any</em> shape whose '
-            "subject is out of scope (software / AI-native). Kept visible so the S3 picture "
-            "is not artificially empty and the incumbent-vs-entrant split stays measurable. "
-            "<strong>Not counted in the totals above.</strong></div>"
+            '<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of '
+            "<em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible "
+            "so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays "
+            "measurable. <strong>Not counted in the revenue totals above.</strong></div>"
         )
         out += [render_entry(e) for e in appx]
+    if cost:
+        out.append(
+            '<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> '
+            "savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function "
+            "(software engineering / everything else). Tech subjects are in scope here, unlike the "
+            "revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, "
+            "because cost evidence is far more abundant than revenue evidence and pooling the two "
+            "would bury the question this log exists to answer.</div>"
+        )
+        out += [render_entry(e) for e in cost]
     return "\n".join(out)
 
 
 def counts(entries):
-    main = [e for e in entries if e.get("scope", "main") != "appendix"]
-    c = Counter(norm_shape(e.get("shape")) for e in main)
-    return c, len(main), len(entries) - len(main)
+    """Revenue ledger only. Cost never enters these numbers."""
+    rev = [e for e in entries if ledger_of(e) == "revenue"]
+    c = Counter(norm_shape(e.get("shape")) for e in rev)
+    appx = len([e for e in entries if ledger_of(e) == "appendix"])
+    return c, len(rev), appx
+
+
+def cost_counts(entries):
+    cost = [e for e in entries if ledger_of(e) == "cost"]
+    return Counter(norm_shape(e.get("shape")) for e in cost), len(cost)
+
+
+def _tile(k, v, s, shape=None, hollow=False):
+    sw = ""
+    if shape:
+        cls = "swatch hollow" if hollow else "swatch"
+        sw = (
+            f'<span class="{cls}" style="background:var(--shape-{shape.lower()});'
+            f'color:var(--shape-{shape.lower()})"></span>'
+        )
+    return (
+        f'<div class="tile"><div class="k">{sw}{esc(k)}</div>'
+        f'<div class="v">{v}</div><div class="s">{esc(s)}</div></div>'
+    )
 
 
 def tiles_html(entries, days):
     c, total, appx = counts(entries)
+    _, cost_total = cost_counts(entries)
     tiles = [
-        ("Findings logged", total, f"{appx} in appendix" if appx else "main log", None, False),
-        ("S3 — New TAM", c.get("S3", 0), "GDP-additive", "S3", False),
-        ("S3 candidates", c.get("S3-CANDIDATE", 0), "counterfactual unproven", "S3-CANDIDATE", True),
-        ("S2 — Share", c.get("S2", 0), "zero-sum at industry level", "S2", False),
-        ("S1 — Velocity", c.get("S1", 0), "leading indicator", "S1", False),
-        ("Days logged", len(days), f"{sum(1 for d in days if not d.get('entry_count'))} empty", None, False),
+        _tile("Revenue findings", total, f"{appx} in appendix" if appx else "main log"),
+        _tile("S3 — New TAM", c.get("S3", 0), "GDP-additive", "S3"),
+        _tile("S3 candidates", c.get("S3-CANDIDATE", 0), "counterfactual unproven", "S3-CANDIDATE", True),
+        _tile("S2 — Share", c.get("S2", 0), "zero-sum at industry level", "S2"),
+        _tile("S1 — Velocity", c.get("S1", 0), "leading indicator", "S1"),
+        _tile("Cost ledger", cost_total, "separate — not in revenue totals", "C4"),
+        _tile("Days logged", len(days), f"{sum(1 for d in days if not d.get('entry_count'))} empty"),
     ]
-    out = []
-    for k, v, s, shape, hollow in tiles:
-        sw = ""
-        if shape:
-            cls = "swatch hollow" if hollow else "swatch"
-            sw = (
-                f'<span class="{cls}" style="background:var(--shape-{shape.lower()});'
-                f'color:var(--shape-{shape.lower()})"></span>'
-            )
-        out.append(
-            f'<div class="tile"><div class="k">{sw}{esc(k)}</div>'
-            f'<div class="v">{v}</div><div class="s">{esc(s)}</div></div>'
-        )
-    return '<div class="tiles">' + "".join(out) + "</div>"
+    return '<div class="tiles">' + "".join(tiles) + "</div>"
+
+
+def cost_matrix_html(entries):
+    """The 2x2, rendered as a 2x2. Text carries the cell, never color alone."""
+    cc, total = cost_counts(entries)
+    if not total:
+        return ""
+    cells = [
+        ("Software engineering", "C3", "C1"),
+        ("Everything else", "C4", "C2"),
+    ]
+    rows = "".join(
+        f"<tr><th scope=\"row\">{esc(fn)}</th>"
+        f'<td><span class="mv">{cc.get(nontech, 0)}</span> <span class="mk">{nontech}</span></td>'
+        f'<td><span class="mv">{cc.get(tech, 0)}</span> <span class="mk">{tech}</span></td></tr>'
+        for fn, nontech, tech in cells
+    )
+    return (
+        '<div class="costmatrix"><table><caption>Cost ledger — '
+        f"{total} entr{'y' if total == 1 else 'ies'}, sector × function. "
+        "Counted separately from the revenue log.</caption>"
+        '<thead><tr><td></td><th scope="col">Non-tech</th><th scope="col">Tech</th></tr></thead>'
+        f"<tbody>{rows}</tbody></table></div>"
+    )
 
 
 def table_view(entries):
@@ -513,9 +623,10 @@ SCRIPT = """
       el.style.display = ok ? '' : 'none';
     });
     document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
       var any = false;
       var n = r.nextElementSibling;
-      while (n && n.matches('article.card[data-scope="appendix"]')) {
+      while (n && n.matches(sel)) {
         if (n.style.display !== 'none') { any = true; break; }
         n = n.nextElementSibling;
       }
@@ -576,7 +687,7 @@ def build():
             [
                 e
                 for e in by_date.get(d.get("date"), [])
-                if e.get("scope", "main") != "appendix"
+                if ledger_of(e) == "revenue"
             ]
         )
     days = sorted(days, key=lambda d: d.get("date", ""), reverse=True)
@@ -591,6 +702,12 @@ def build():
         chips.append(
             f'<button class="chip" data-filter="{s}" aria-pressed="false">'
             f'<span class="swatch{hollow}" style="background:var(--shape-{s.lower()});'
+            f'color:var(--shape-{s.lower()})"></span>{esc(SHAPES[s]["label"])}</button>'
+        )
+    for s in COST_ORDER:
+        chips.append(
+            f'<button class="chip" data-filter="{s}" aria-pressed="false">'
+            f'<span class="swatch" style="background:var(--shape-{s.lower()});'
             f'color:var(--shape-{s.lower()})"></span>{esc(SHAPES[s]["label"])}</button>'
         )
     chips.append(
@@ -616,7 +733,11 @@ def build():
     )
 
     legend = " ".join(
-        f'{SHAPES[s]["short"]} = {esc(SHAPES[s]["blurb"])}' for s in ["S3", "S2", "S1"]
+        f'{SHAPES[s]["short"]} = {esc(SHAPES[s]["blurb"])}'
+        for s in ["S3", "S2", "S1"]
+    )
+    cost_legend = " · ".join(
+        f'{s} = {esc(SHAPES[s]["cell"])}' for s in COST_ORDER
     )
 
     body = f"""
@@ -624,8 +745,10 @@ def build():
   <div class="eyebrow">Running evidence log</div>
   <h1>Is AI creating new demand, or just moving revenue around?</h1>
   <p class="standfirst">Verified evidence that <strong>non-software</strong> corporations are getting
-  <strong>top-line revenue</strong> impact from AI spend — sorted into three shapes. Pure cost-savings
-  stories are excluded by design. Updated daily at 07:00 PT.</p>
+  <strong>top-line revenue</strong> impact from AI spend — sorted into three shapes. A second,
+  separately counted <strong>cost ledger</strong> tracks AI-attributed cost savings on a 2×2 of
+  sector × function, because that evidence arrives far more regularly and must not be allowed to
+  stand in for the revenue question. Updated daily at 07:00 PT.</p>
   <div class="meta-row">
     <span>Last built {esc(updated)}</span>
     <button class="btn" id="themebtn" type="button">Toggle theme</button>
@@ -635,6 +758,8 @@ def build():
 
 {tiles_html(entries, days)}
 <p class="empty-note" style="font-size:13px">{legend}</p>
+{cost_matrix_html(entries)}
+<p class="empty-note" style="font-size:13px">{cost_legend}</p>
 
 <div class="filters">{''.join(chips)}</div>
 
@@ -665,11 +790,13 @@ def build():
 <header class="masthead">
   <div class="eyebrow"><a href="../index.html">← All days</a></div>
   <h1>{esc(date)}</h1>
-  <p class="standfirst">{len([e for e in ents if e.get('scope','main')!='appendix'])}
-  finding(s) in the main log{
-    ", " + str(len([e for e in ents if e.get('scope','main')=='appendix']))
-    + " in the appendix"
-    if any(e.get('scope','main')=='appendix' for e in ents) else ""
+  <p class="standfirst">{len([e for e in ents if ledger_of(e)=='revenue'])}
+  revenue finding(s) in the main log{
+    ", " + str(len([e for e in ents if ledger_of(e)=='appendix'])) + " in the appendix"
+    if any(ledger_of(e)=='appendix' for e in ents) else ""
+  }{
+    ", " + str(len([e for e in ents if ledger_of(e)=='cost'])) + " in the cost ledger"
+    if any(ledger_of(e)=='cost' for e in ents) else ""
   }.</p>
 </header>
 {render_day(d, ents)}
@@ -682,9 +809,12 @@ def build():
         json.dump(log, f, indent=2, ensure_ascii=False)
 
     c, total, appx = counts(entries)
+    cc, cost_total = cost_counts(entries)
     print(
-        f"built · {total} main findings ({appx} appendix) · {len(days)} days · "
+        f"built · {total} revenue findings ({appx} appendix) · {len(days)} days · "
         f"S3={c.get('S3',0)} S3?={c.get('S3-CANDIDATE',0)} S2={c.get('S2',0)} S1={c.get('S1',0)}"
+        f" · cost ledger {cost_total} · "
+        + " ".join(f"{k}={cc.get(k,0)}" for k in COST_ORDER)
     )
 
 
