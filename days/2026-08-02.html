@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-02 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-02</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two revenue findings, both from the hospitality and specialty-insurance tape, and <strong>no S3 for the eighth consecutive run</strong>. Nothing found this run creates demand that did not previously exist; both revenue entries are demand being captured from somebody else.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Wyndham Hotels &amp; Resorts</strong> (Q2 2026 call, 23 Jul) - the most quantified non-tech AI revenue disclosure in weeks: <code>60%</code> of guest travel searches now occur inside an LLM, <code>20%</code> higher conversion on brand.com from LLM-originated traffic, <code>15%</code> ADR premium on autonomously booked rooms, <code>$100,000</code>+ of attributed incremental revenue for the most engaged franchisees. Logged <strong>S2</strong> - the guest was always going to book a room somewhere.</li><li><strong>Ryan Specialty</strong> (Q2 2026 call, 30 Jul) - <code>11%</code> more quotes per head over 12 months, attributed to automated data extraction and rating pre-population; FAC submissions priced &quot;in minutes, not days&quot;. Logged <strong>S1</strong>; revenue conversion conspicuously absent, and management partly credited &quot;hustle&quot;.</li><li><strong>BIS WP 1325</strong> - backlog entry, not fresh. <code>4%</code> labour-productivity gain from AI adoption across 12,000+ EU/US non-financial firms, causally identified. Logged <strong>C4</strong> as the magnitude check the cost ledger was missing.</li><li><strong>Cigna</strong> (Q2 2026, 30 Jul), <strong>Chevron</strong>, <strong>AbbVie</strong>, <strong>Regeneron</strong>, <strong>AXIS Capital</strong>, <strong>Selective Insurance</strong>, <strong>TELUS</strong>, <strong>Accor</strong> - read, nothing that clears the bar.</li></ul>
+<div class="callout">Pattern across eight runs: the revenue evidence that does arrive is consistently <strong>channel capture</strong> - winning the booking, the quote, the subscription that a competitor or a cheaper channel would otherwise have had. That is real firm-level alpha and it is not economic growth. The S3 column stays empty not because nobody claims new TAM but because every claim collapses under test (a).</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Wiley</strong> - <code>$49m</code> of AI licensing revenue in FY2026, <code>+23%</code>, lifetime past <code>$110m</code>, anchored by IQVIA and OpenEvidence. Superficially the cleanest S3 available: a revenue line with no predecessor in the catalogue, buyers who did not exist as buyers three years ago. Rejected on <strong>mission</strong>, not on shape - this is revenue from <em>selling inputs to</em> the AI boom, not ROI on Wiley&#x27;s own AI spend. Counting it would make this log an index of AI-exposure beneficiaries, which is a different and much easier question. Same reasoning excludes utilities selling power to data centres and insurers writing data-centre construction risk. Flagged here because it is a recurring temptation and the log should be explicit about why it says no.</li><li><strong>Accor</strong> (H1 2026, 30 Jul) - CEO Bazin says owners are looking for &quot;cost savings of up to 20% in the next 12 to 18 months through AI automation&quot; and that there is &quot;significant savings and RevPAR to be gained&quot;. A forward hope with no number attached to a result. Fails the inclusion bar on point 2.</li><li><strong>Cigna</strong> - &quot;AI tools to save customers <code>$200 million</code> in medical expenses over three years&quot;. Projected, three-year, and it is a <em>customer</em> benefit claim rather than an expense line of Cigna&#x27;s that fell. Not logged in either ledger.</li><li><strong>Mastercard / Visa agentic commerce</strong> - still no attributed revenue, only product architecture. Unchanged from the 1 Aug sweep.</li><li><strong>Wyndham transcript discrepancy</strong> - Investing.com&#x27;s slide summary and Investing.com&#x27;s own transcript of the same call report materially different AI figures (<code>4 million</code> interactions vs <code>40 million</code> cumulative messages and <code>260,000</code>/day), and Benzinga&#x27;s transcript of the call contains none of them. Logged with the transcript figures and the conflict recorded, rather than dropped - but this is a reminder that secondary transcript renderings are not interchangeable.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li>Caterpillar, Deere and Corteva Q2/Q3 prints (early-to-mid Aug) - the standing test of whether an industrial incumbent will price autonomy as a <strong>new</strong> subscription line rather than a feature.</li><li>Marriott (4 Aug) and Hilton - direct comparators for Wyndham&#x27;s LLM-conversion and autonomous-booking numbers. If the LLM channel is real, more than one lodging brand will quantify it this quarter.</li><li>News Corp, Thomson Reuters, Ziff Davis (early Aug) - more AI licensing disclosures, which will keep testing the Wiley boundary above.</li><li>Q3 calls late Oct - first chance to check the Wyndham falsifier and whether the per-franchisee figure survives.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Wyndham Hotels &amp; Resorts</span>
+    <span class="sector">Hospitality · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (23 Jul 2026) CEO Geoff Ballotti said &quot;roughly 60% of travel searches by our guests are occurring within an LLM&quot; and disclosed &quot;a 20% higher conversion on our brand.com sites when the guest connects to us from an LLM.&quot; Wyndham Connect, the AI guest-engagement platform, is in over 5,000 hotels handling &quot;260,000 guest interactions via this AI tool per day&quot; and generates &quot;$100,000 or more in increased revenues&quot; for engaged franchisees; Wyndham AI Concierge, live in 1,500 hotels, delivers &quot;up to ... 500 basis points of direct contribution&quot; and a &quot;15% increase in ADR, if you&#x27;re booking it autonomously versus on the phone.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct paths. (1) Demand capture: as guest search migrates into LLMs, Wyndham converts LLM-originated traffic to brand.com at a 20% higher rate than other sources - it is winning the direct booking rather than losing the guest to an OTA. (2) Autonomous booking: the AI Concierge takes voice/SMS reservations end to end at the property, and a room booked autonomously prices 15% above the same booking taken on the phone, because the agent upsells and does not drop calls. The per-franchisee revenue figure is Wyndham&#x27;s attribution for the most engaged properties, not a rolled-up corporate number.</dd><dt>Why this shape</dt><dd>S2, not S3. Test: absent the AI, would this guest have booked a hotel room? Almost certainly yes - from an OTA, from a competing brand, or from the same property over the phone at a lower ADR. The mechanism is channel capture and price realisation on demand that already existed. Who lost the sale: OTAs (Booking, Expedia), competing economy/midscale brands, and Wyndham&#x27;s own lower-yielding phone channel. Zero-sum at industry level and GDP-neutral - a guest who was going to sleep somewhere sleeps somewhere slightly more expensive. The 60%-of-searches-in-an-LLM figure is a channel-shift statistic, not a demand-creation one, and should not be read as new TAM.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-wyndham-hotels-posts-q2-eps-beat-shares-fall-on-revenue-miss-93CH-4809225" rel="noopener">Q2 2026 earnings call (transcript via Investing.com), 2026-07-23</a></dd><dt>Falsifier</dt><dd>If Q3/Q4 2026 calls repeat the per-franchisee &quot;$100,000 or more&quot; and the 15% ADR premium without ever converting them into a disclosed corporate fee-revenue contribution, a RevPAR index gain against the competitive set, or a direct-vs-OTA channel mix shift, this was a franchisee sales pitch rather than a company result. Also watch whether the ADR premium survives contact with the full 5,000-hotel base rather than the 1,500 Concierge properties.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Named exec, on the record, on a Tier A call, with several hard numbers - but the revenue figure is a per-property &quot;or more&quot; attribution with no methodology, disclosed in the same quarter Wyndham missed on revenue. Two secondary renderings of the same disclosure disagree on detail (Investing.com&#x27;s slide summary reports &quot;4 million interactions&quot; and &quot;400bps customer satisfaction / 500bps voice conversion&quot; where the transcript says 40m cumulative messages, 260k/day and &quot;500 basis points of direct contribution&quot;); I have used the transcript wording and flag the discrepancy. Benzinga&#x27;s rendering of the same call contains none of these figures at all, which suggests at least one transcript is partial.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Ryan Specialty Holdings</span>
+    <span class="sector">Insurance (specialty distribution / underwriting managers) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) Miles Wuller, CEO of Underwriting Managers, said &quot;the average RSUM property employee ... achieved 11% more quotes per head in the last 12 months than the prior year&quot;, attributing it to &quot;our investments in automated data extraction, data structuring, enrichment, and rating pre-population coming to life.&quot; CEO Tim Turner said the &quot;reinsurance FAC workbench now turns a submission into a priced decision-ready file in minutes, not days&quot;, that the firm has &quot;started rolling out a proprietary engine for deploying AI around the firm&quot;, and that the underwriting-managers business is &quot;auditing five times as many files as we did last year.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Submission intake is the bottleneck in specialty underwriting: a broker sends an unstructured schedule of values, and a human keys it into a rating engine. Automated extraction, structuring, enrichment and rating pre-population removes that step, so the same headcount quotes more accounts. Capacity, not price - Wuller&#x27;s framing is explicitly that efficiency is a countervailing force against a 25-35% decline in catastrophe pricing.</dd><dt>Why this shape</dt><dd>S1: every disclosed number is an input metric - quotes per head, cycle time, files audited. Revenue conversion was conspicuously NOT disclosed. Management said the unlocked capacity &quot;is being directed back into what matters most, winning new business&quot; and that &quot;high retention and new-business wins limited the decline in property revenue&quot;, but attached no AI-attributed revenue number to either. More quotes is not more bound premium: in a softening property market a higher quote count can simply mean more declined quotes at inadequate rates. Note also the honesty of the attribution - Wuller conceded the gain &quot;certainly includes hustle&quot;, and the named mechanisms (data extraction, rating pre-population) are automation more than frontier AI, so the capability gate is weak even though the firm frames it inside its AI rollout.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-ryan-specialty-beats-q2-2026-forecasts-shares-jump-after-hours-93CH-4826434" rel="noopener">Q2 2026 earnings call (transcript via Investing.com); corroborated by Coverager, 31 Jul 2026, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If organic revenue growth in Underwriting Managers does not outpace the segment&#x27;s headcount growth over the next two to three quarters, the 11% quote-per-head gain was absorbed by rate declines and lost quotes rather than converted into premium. A second tell: if the quotes-per-head metric is not repeated next year, it was a one-off talking point.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A call, named executive, precise figure, and independently reported by Coverager the following day with identical wording. Marked down because the metric is self-defined (&quot;quotes per head&quot; over an unstated denominator of property employees), the speaker himself partly attributes it to effort rather than tooling, and no revenue conversion is offered.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">BIS Working Paper 1325 - &#x27;AI adoption, productivity and employment: evidence from European firms&#x27; (12,000+ non-financial EU/US firms)</span>
+    <span class="sector">Cross-sector (research) · EU / US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">Instrumental-variables study of matched EIBIS-ORBIS data on &quot;more than 12,000 non-financial firms in the European Union (EU) and United States (US)&quot;, instrumenting EU firms&#x27; AI adoption with the adoption rates of matched US peers: &quot;AI adoption increases the level of labor productivity by 4%.&quot; The authors find &quot;no adverse effects on firm-level employment&quot;, attribute the gain to capital deepening, and find the benefit concentrated in medium and large firms.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment finding - a causal estimate of the effect size the rest of this ledger is trying to measure one company at a time. Uses matched US peer adoption as an instrument to break the endogeneity between being a good firm and adopting AI, which is the flaw in every cross-sectional adoption-vs-performance correlation.</dd><dt>Why this shape</dt><dd>C4: sample is non-financial firms, effect measured at the whole-firm level rather than in an engineering function. Logged as cost/productivity, not revenue - the outcome is labor productivity, and the paper explicitly attributes it to capital deepening rather than to new demand, so nothing here supports S1-S3. Its value is as a magnitude check: 4% is one to two orders of magnitude below the 30-40% self-reported gains sitting elsewhere in this ledger (Amex, BNY), and it is the only causally identified estimate in the ledger. Backlog entry, not fresh news - published 23 Jan 2026 and logged now because the C ledger otherwise contains only surveys and text-mining and was missing its best-identified datapoint. Age is stated so nobody reads it as a new disclosure.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.bis.org/publ/work1325.htm" rel="noopener">BIS Working Paper No. 1325 (Aldasoro, Gambacorta, Pal, Revoltella, Weiss, Wolski), 2026-01-23</a></dd><dt>Falsifier</dt><dd>The instrument assumes US peer adoption affects EU firm outcomes only through EU adoption; if AI adoption by US peers hits EU firms through competition or supply chains, the estimate is biased. Falsified if later vintages of EIBIS with post-2024 frontier-model adoption fail to reproduce a positive productivity effect, or if the 4% shrinks toward zero once the pre-generative-AI adopters are dropped from the sample.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Central-bank working paper with a plausible identification strategy and a large sample, but not peer reviewed, and the adoption measure is survey-reported and largely pre-dates frontier generative models - so 4% is likely an estimate of the older ML wave, not of what firms are buying in 2026.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
