@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-03 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-03</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 1 in the appendix, 3 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No revenue-side finding cleared the bar today and <strong>no S3 appeared</strong> - the fourth consecutive run without one. What did clear the bar is the sharpest version yet of the pattern this log exists to detect: on a single day, 30 Jul 2026, three non-tech incumbents put precise numbers next to AI <strong>cost</strong>, and the only party that put a number next to AI <strong>revenue</strong> was the software vendor selling to them.</div>
+<h4>Sources read</h4>
+<ul><li><strong>WTW</strong> - Q2 2026 call, 30 Jul. Programme &#x27;Propel&#x27;: <code>$625m</code> of cash spend to produce <code>$400m</code> of run-rate savings by end-2028, path to a <code>30%</code> enterprise operating margin. Logged <strong>C4</strong>. Revenue leg explicitly not quantified - CFO Krasner: <em>&quot;the growth comes from how we redeploy that capacity that gets generated over time.&quot;</em></li><li><strong>TP (Teleperformance)</strong> - H1 2026 results, 30 Jul. <code>1,100+</code> AI projects in production, <code>2.3x</code> YoY; <code>EUR 150-170m</code> run-rate savings programme with roughly <code>EUR 50-70m</code> verbally attributed to AI in core operations. Logged <strong>C4</strong>. EBITDA margin flat YoY - nothing has landed yet.</li><li><strong>The Baldwin Insurance Group</strong> - Q2 2026 call, 30 Jul. Direct bill reconciliation run-rate cost <code>$3m</code> to <code>$1m</code>, internal labour <code>$1.2m</code> to <code>$400k</code>, quality <code>90%</code> to <code>98%</code>. Logged <strong>C4</strong>, and the cleanest realized cost entry in the ledger so far - named process, before-and-after dollars, no composite.</li><li><strong>CCC Intelligent Solutions</strong> - Q2 2026 call, 30 Jul. <code>$120m</code> annualized AI-solution revenue, <code>~50%</code> YoY growth, <code>11%</code> of total revenue, <code>4</code> points of company growth. Logged <strong>S2, appendix</strong> - software vendor, out of scope as a revenue subject.</li><li><strong>Hyatt</strong> - Q2 2026 call, 30 Jul. Read in full for AI revenue attribution; none quantified.</li><li><strong>Standard Chartered</strong> - H1 2026 results, 29 Jul. Checked the results release directly for AI language after third-party coverage implied it. There is none.</li></ul>
+<div class="callout">The asymmetry is the finding. CCC will tell you AI is <code>11%</code> of its revenue. The <em>&quot;top five insurers&quot;</em> deploying that same AI are named only as &quot;top five insurers&quot;, and have disclosed nothing. Every quantified AI revenue number available this week sits one layer up the value chain from the company actually using the AI.</div>
+<p>Worth naming a second-order pattern across the three cost entries, because it cuts against the loudest version of the cost thesis: <strong>all three companies declined to bank a revenue consequence, and two of them said so explicitly.</strong> WTW routes the benefit through capacity redeployment. Baldwin says the benefit is <em>&quot;embedded in the numbers&quot;</em>. This is METHOD trap 2 showing up not as one CEO&#x27;s caution but as a sector convention in insurance services.</p>
+<p>And the magnitudes deserve stating plainly. Baldwin&#x27;s disclosure is the honest one and it is about <code>15</code> basis points of revenue. WTW&#x27;s is <code>$400m</code> but costs <code>$625m</code> to get and does not arrive until 2028. Neither is a margin event yet.</p>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Hyatt</strong> - has <em>&quot;a large-scale AI platform to actually score and value every piece of group business&quot;</em> and an AI platform targeting <em>&quot;revenue opportunities not costs&quot;</em>. Fails inclusion bar 2: no number attached to either. The <code>40%</code> PMS cost reduction they did quantify is a platform migration, not AI.</li><li><strong>Yum! Brands / Byte by Yum</strong> - checked as a candidate incumbent AI SKU with no predecessor in its own catalog. The available disclosure is Q4 2025 (Feb 2026), already stale, and quantifies stockouts and ordering failures rather than revenue or third-party licensing. No S3 counterfactual established.</li><li><strong>Standard Chartered</strong> - the <code>7,800</code>-role reduction attributed to AI is from May 2026, is headcount with several plausible parents (METHOD trap 4), and the H1 2026 results release contains no AI attribution at all. That silence is more interesting than the May headline and is worth re-checking at FY results.</li><li><strong>TP&#x27;s <code>EUR 15-20m</code> H2 2026 financial-services win</strong> - real and dated, but it is TP selling AI-enabled services. Shovel revenue, out of scope as a revenue subject; noted inside the TP cost entry rather than double-logged.</li><li><strong>Armilla / Klaimee and the AI-liability insurance market</strong> - the most promising live S3 hunting ground and searched again today. Everything found is either an AI-native MGA with no disclosed premium volume or vendor-adjacent market commentary. No named carrier has disclosed written premium on an AI-risk class. This remains the single best place for a genuine S3 to appear and it has not yet.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Yum! Brands Q2 2026</strong> - due early Aug. The Byte licensing question is whether any third-party operator revenue is disclosed for the first time.</li><li><strong>John Deere Q3 FY26</strong> - mid-Aug. Autonomy-as-subscription is the cleanest incumbent S3 test available; watch for a per-acre or per-machine recurring number rather than an equipment sale.</li><li><strong>Walmart, Target, Home Depot Q2</strong> - mid-to-late Aug. Retail media and personalization are the highest-probability S2 disclosures left this season.</li><li><strong>WTW FY2026</strong> - first checkpoint on whether any of the <code>$400m</code> starts appearing.</li><li><strong>Standard Chartered FY2026</strong> - whether the May AI-attributed headcount action ever gets a financial number attached to it.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 out-of-scope finding in the appendix and 3 in the cost ledger below. Angles run: S3: insurers pricing previously uninsurable / declined risk classes, S3: AI liability and AI-agent insurance - named carriers, written premium, S3: pharma/biotech previously unscreenable target or indication space, S3: industrials selling autonomy as a new subscription line (ag, mining, construction), S3: healthcare diagnostics/monitoring at newly viable price points, S3: professional services work never billable because delivery cost exceeded willingness to pay, S3: incumbent AI-enabled SKU with no predecessor in its own catalog (Yum! Byte), S3: long-tail / SMB segments served at previously enterprise-only quality, S2: retail and grocery personalization conversion lift, dynamic pricing, retail media, S2/S1: Q2 2026 earnings transcripts - hospitality, insurance broking, banking, telecom, industrials, S1: insurance quote-to-bind, submission and hit-rate disclosures, Counter-evidence: AI revenue claims walked back or missed in Aug 2026, Cost ledger: bank and business-services AI headcount and productivity disclosures, Direct reads: Hyatt, WTW, Baldwin, CCC, TP, Standard Chartered H1 2026.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">CCC Intelligent Solutions</span>
+    <span class="sector">Software - insurance claims · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) CCC disclosed &quot;over $120 million of annualized revenue from AI-based solutions that are growing at nearly 50% year-over-year&quot;, representing &quot;approximately 11% of total revenue in the second quarter and growing approximately 45% year-over-year&quot;, and said &quot;revenue from AI-based solutions contributed 4 points of growth&quot;, driven by APD, subrogation and EvolutionIQ. Named deployments: &quot;a top five insurer became its largest carrier to date to adopt the AI-powered subrogation solution&quot;, and &quot;two top five insurers expanded their use of AI-enabled claims workflows by deploying the First Look solution to identify total losses earlier&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Computer-vision damage appraisal and AI claims workflow sold as add-on modules into CCC&#x27;s existing installed base of auto insurers and collision repairers - subrogation demand packaging, early total-loss identification, and medical-claim synthesis via the acquired EvolutionIQ technology.</dd><dt>Why this shape</dt><dd>Appendix: the subject is a software vendor, out of scope for the main revenue log - CCC&#x27;s AI revenue is its own sales, not adoption ROI at the deploying carriers. Shape S2, not S3, and the distinction is the point: these are add-on modules sold into an installed base that already buys CCC&#x27;s claims platform, and the work displaced was either a competitor&#x27;s tool or the carrier&#x27;s own unpaid manual staff time. Test (a) fails - absent CCC&#x27;s AI the carriers would still be processing subrogation and total losses, and paying somebody to do it. Test (c) is arguable for the vision models but not established by the source. The genuinely useful reading is the asymmetry: the quantified AI revenue sits at the vendor, and the carriers deploying it - all named only as &#x27;top five insurers&#x27; - have disclosed no corresponding revenue or loss-ratio number of their own. That is the shape of this entire log in one disclosure.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/07/30/ccc-intelligent-solutions-ccc-q2-2026-earnings-call-transcript/" rel="noopener">CCC Intelligent Solutions Q2 2026 earnings call transcript, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If the ~50% YoY growth in AI-solution revenue decelerates toward CCC&#x27;s ~7-8% overall growth rate within four quarters, the AI line was a re-labelling of existing modules rather than a new attach. Separately: if any named top-five carrier later discloses a quantified claims-cost or cycle-time benefit, this entry becomes the vendor half of a matched pair and the deploying-side number can finally be tested.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A, specific, dated, repeated across two framings (dollar and percentage) that reconcile with each other; the only softness is that &#x27;AI-based solutions&#x27; is a company-defined revenue category.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">WTW (Willis Towers Watson)</span>
+    <span class="sector">Insurance broking / advisory · US / UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) WTW launched programme &#x27;Propel&#x27;, committing to spend &quot;approximately $625 million in cash&quot; plus &quot;approximately $25 million in non-cash charges to produce approximately $400 million in run-rate savings&quot; by the end of 2028, from &quot;embedding AI and automation across our business&quot; (CEO Carl Hess). CFO Andrew Krasner tied it to &quot;2028 adjusted operating margin targets of 30% at the enterprise, 35% in HWC, and 30% in R&amp;B&quot;. No revenue uplift was quantified: asked where growth comes from, Krasner said &quot;the growth comes from how we redeploy that capacity that gets generated over time.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Broking and HWC workflow automation - the named live tools are Navigator and Neuron, described as &quot;not pilots, they&#x27;re live and in daily use&quot; - plus process automation across a labour-heavy advisory cost base. The saving is headcount and process cost in client-facing and support functions, not engineering.</dd><dt>Why this shape</dt><dd>C4: non-tech (insurance broking and HR/benefits advisory), non-engineering function - the cost base being attacked is broking and consulting labour. Not a revenue shape at any point: WTW quantified the spend, the saving and the margin target, and explicitly declined to quantify a revenue uplift, routing it instead through capacity redeployment. That is METHOD trap 2 in partial form - management banks the cost saving in guidance but leaves the revenue leg entirely qualitative. Note also the ratio: $625m of cash out to get $400m of annual run-rate saving is a ~1.6x payback-year gross, i.e. the run-cost offset is being paid up front and disclosed, which is rarer and better than most cost claims in this ledger.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-wtw-tops-q2-2026-estimates-as-shares-rise-42-93CH-4825085" rel="noopener">WTW Q2 2026 earnings call transcript, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If FY2027 and FY2028 do not show adjusted operating margin marching toward 30% at the enterprise level, or if the $400m run-rate saving is restated downward or quietly folded into a generic &#x27;transformation&#x27; bucket without an AI attribution, this was a re-labelled restructuring programme. Second falsifier: organic revenue growth staying at or below mid-single digits through 2028 would confirm the redeployment leg never converted.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A, specific, dated, and management-owned with a hard 2028 checkpoint - but entirely forward-looking, and $625m of restructuring spend with an AI label is exactly the disclosure METHOD trap 4 warns about.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">TP (Teleperformance SE)</span>
+    <span class="sector">Business services / BPO · France</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">In H1 2026 results (30 Jul 2026) TP disclosed &quot;the number of AI projects running in production reaching 1,100+ in Q2 2026&quot;, up 2.3x, with 272 new AI projects launched in Q2 alone, and said &quot;the AI and efficiency program is expected to generate annual run-rate savings of EUR 150-170 million, with half of these benefits to be realized in 2026.&quot; On the call management attributed roughly EUR 50-70 million of that total to &quot;applying AI to our core operations&quot; - recruiting, quality assurance and workforce management. EBITDA margin was flat year over year.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI applied to TP&#x27;s own internal delivery cost base - candidate screening and recruiting, automated QA of agent interactions, and workforce/schedule management across a several-hundred-thousand-person delivery workforce.</dd><dt>Why this shape</dt><dd>C4: non-tech (business process outsourcing), non-engineering function. Logged once, in the cost ledger, per the single-ledger rule: TP also disclosed a financial-services win projected at &quot;EUR 15-20 million in revenue during H2 2026&quot; and said strategic lines are &quot;more than 15% of Core Services revenue&quot;, but that is TP selling AI-enabled services - shovel revenue, out of scope as a revenue subject - and the number the disclosure is actually about is the saving. Two standing traps apply: the 1,100 projects figure is an adoption metric, not a cost metric (trap 1), and the EUR 150-170m is a composite &#x27;AI and efficiency&#x27; programme from which management carved out an AI share only verbally (trap 3). Flat YoY EBITDA margin is the tell that none of it has landed yet.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/company-news/tp-h1-2026-slides-revenue-stabilizes-as-ai-projects-surge-23x-93CH-4825765" rel="noopener">TP H1 2026 results presentation and earnings call, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If FY2026 does not show roughly EUR 75-85m of the programme realized, or if EBITDA margin is still flat in FY2026 with the shortfall explained by pricing, the saving was competed away to clients rather than retained - which for a BPO is the live question, not whether the saving exists.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A and specific on the programme total, but the AI-attributed slice (EUR 50-70m of EUR 150-170m) is a verbal carve-out from a composite, and I read the H1 slides via Investing.com&#x27;s coverage rather than the company PDF.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">The Baldwin Insurance Group</span>
+    <span class="sector">Insurance distribution · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (30 Jul 2026) Baldwin disclosed &quot;47 thousand tasks completed via AI over the past 17 weeks, maintaining a quality rate exceeding 99%&quot; across &quot;27 processes already optimized&quot;, and gave one fully specified realized saving: direct bill reconciliation &quot;reduced run rate costs from $3 million to $1 million a year&quot;, with &quot;internal labor cost on the process from $1.2 million to roughly $400 thousand&quot;, while reconciliation quality improved &quot;from roughly 90% in month to a sustained 98%&quot;. Management said the model is &quot;running at production scale, not pilot scale&quot; and that AI benefits are embedded in the numbers via efficiency; no revenue figure was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Agentic automation of insurance-brokerage back office - matching carrier direct-bill statements to commission records, plus 26 other service-line processes across commercial and benefits.</dd><dt>Why this shape</dt><dd>C4: non-tech (insurance distribution), non-engineering function - brokerage operations labour. This is the most methodologically clean cost entry in the ledger to date because it is realized rather than projected, names the specific process, and gives a before-and-after on a single line item rather than a composite. It is also the entry that shows the size problem most clearly: a $2m annual run-rate reduction at a company with roughly $1.4bn of annual revenue is about 15 basis points. Rule 1 applies to the headline: &#x27;47,000 tasks&#x27; is an adoption metric and says nothing about cost.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/07/30/baldwin-bwin-q2-2026-earnings-call-transcript/" rel="noopener">Baldwin Insurance Group Q2 2026 earnings call transcript, 2026-07-30</a></dd><dt>Falsifier</dt><dd>If the count of optimized processes is still ~27 at Q2 2027, the deployment was a one-off rather than a compounding programme. Second falsifier: if Baldwin never converts any of the freed capacity into a disclosed organic-growth or margin number, the $2m stays a rounding error and the 47,000-task headline was the point.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A, realized not projected, named process, explicit before-and-after dollars, and management volunteered the modesty of it rather than aggregating into a &#x27;value&#x27; number.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
