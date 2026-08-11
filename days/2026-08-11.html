@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-11 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-11</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 2 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>Zero revenue findings. No S3, no S2, no S1.</strong> Two cost entries, both C4, and both are the same shape: a company that can quantify what AI removed from a workload and cannot quantify what it added to the top line.</div>
+<p>This run swept the trailing window <code>2026-08-09</code> to <code>2026-08-11</code>, plus one unlogged disclosure from 6 Aug that the previous run&#x27;s sweep missed. Roughly 22 distinct searches, weighted toward S3. Nothing on the revenue side cleared the bar.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Airbnb</strong> (call 6 Aug) - support cost per booking <code>-16%</code> YoY, <code>45%</code> of AI-assistant issues resolved without a human, concept-to-launch <code>-60%</code>, features shipped <code>+80%</code>. Chesky: &quot;AI is the best thing to ever happen to Airbnb.&quot; Not one revenue, booking or conversion number attached to it, and AI search is still only entering test. Logged <strong>C4</strong>.</li><li><strong>Hims &amp; Hers</strong> (call 10 Aug) - <code>3x</code> messages per customer in the new Hers care experience, AI answering <code>80%</code> of questions, non-clinical tasks <code>-50%</code>, payback &quot;within 12 to 18 months.&quot; Revenue <code>$753m</code> <code>+40%</code> attributed to weight-loss expansion and the Eucalyptus acquisition. Logged <strong>C4</strong>.</li><li><strong>Hamilton Insurance Group</strong> (call 7 Aug) - AI for submission ingestion and &quot;smart queuing&quot; that &quot;floats the risks that we&#x27;ve analyzed that we have a better chance of winning at to the top of the underwriter&#x27;s queue.&quot; Exactly the S1 hit-rate mechanism, with no number on it. Not logged.</li><li><strong>Wendy&#x27;s</strong> (call 7 Aug) - see near-misses. The follow-up flagged by the last run, now verified.</li><li><strong>Yum! Brands</strong> (call 5 Aug) - Taco Bell Voice AI in &quot;more than 900 U.S. restaurants&quot;, Byte in 25,000+ restaurants, digital sales <code>$9bn</code> and <code>57%</code> of the mix. All adoption; no ticket, attach-rate or same-store-sales attribution. Not logged.</li><li><strong>United Fire Group</strong> (call 4 Aug) - no mention of AI anywhere in the transcript; the <code>0.5</code>-to-<code>1.0</code>-point annual expense-ratio improvement is attributed to &quot;technology modernization&quot; generically. Not logged.</li><li><strong>HeartFlow</strong> - Q2 results moved to <strong>13 Aug</strong>, after this run. The Plaque line and CPT <code>75577</code> remain the cleanest S3 mechanism on the calendar.</li></ul>
+<div class="callout"><strong>Third consecutive week in which the only quantified AI numbers from non-tech incumbents are input metrics and cost metrics.</strong> The asymmetry is now sharp enough to be the finding itself: Airbnb can tell you support cost per booking to the point, and cannot tell you what AI did to bookings. Hims can tell you tasks fell by half, and hands a <code>40%</code> revenue quarter to GLP-1s and an acquisition. Companies measure AI where it touches their own cost base because that is where the instrumentation already existed.</div>
+<div class="callout"><strong>A second, sharper tell: executives are starting to pre-commit to payback dates instead of results.</strong> Hims&#x27; CFO gave &quot;12 to 18 months&quot;; Hamilton&#x27;s CFO said &quot;the operational benefits and those productivity gains have to exceed what the technology expenses are as well.&quot; Both are honest, and both are admissions that the return is not in the numbers yet. Those are dated, falsifiable checkpoints - the log should hold them to it.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Hims &amp; Hers, the revenue half</strong> - CFO Okupe: &quot;AI investments on our platform are driving a meaningfully better consumer experience resulting in a reduction in cancellations.&quot; Churn reduction is a textbook S2 mechanism and this is a CFO on a Tier A call, but there is no magnitude. Fails inclusion bar 2 - the identical test Instacart&#x27;s larger-basket claim failed on 6 Aug. Logged in the cost ledger instead, once.</li><li><strong>Wendy&#x27;s</strong> (call 7 Aug) - <strong>verified, and the answer is a null.</strong> The word AI does not appear anywhere in the Q2 2026 transcript, against US same-restaurant sales <code>-7.0%</code>, traffic <code>-12.5%</code>, a withdrawn full-year outlook and a cut dividend. The prior call (8 May) contained exactly one AI sentence, an &quot;AI recommendation engine&quot; in the mobile app, and no mention of FreshAI either. FreshAI - the most-cited customer-facing AI deployment in QSR, once slated for 500-600 drive-thrus - has now been absent from two consecutive earnings calls, including the one announcing a turnaround plan. Not logged, because an absence carries no number and Wendy&#x27;s was never in this log, so follow-up discipline has nothing to falsify. Recorded here in full because it is the most informative thing this run found.</li><li><strong>Hamilton Insurance Group</strong> - fails bar 2. No submission count, hit ratio or quote volume. CFO Craig Howie&#x27;s caveat is worth keeping on the record as the run-cost objection stated by an insurer rather than a critic: &quot;The operational benefits and those productivity gains have to exceed what the technology expenses are as well.&quot;</li><li><strong>Airbnb engineering claims</strong> (<code>-60%</code> concept-to-launch, <code>+80%</code> features shipped) - standing trap 1. Output and adoption, no headcount or dollar banked, framed as doing more rather than spending less. Covered inside the C4 entry rather than double-logged as a C3.</li><li><strong>Deloitte State of AI in the Enterprise 2026</strong> (&quot;74% want revenue growth, 20% have it&quot;) - could not verify the figure in any document retrieved this run, and the survey was fielded Aug-Sep 2025. Consultant survey, unverified number, stale field date. Dropped.</li><li><strong>Intuit/QuickBooks AI Impact Report</strong> (&quot;43% of US businesses say AI increased revenue&quot;) - Tier D vendor survey, self-reported, no attribution test. Rejected outright.</li><li><strong>CPT 2026 AI codes</strong> (<code>75577</code> for AI coronary plaque quantification, plus new ECG and ILD codes) - the mechanism is real and is the purest S3 shape available: diagnostics newly billable at a price that previously supported no service. Still no company revenue disclosed against it. Waiting on HeartFlow, 13 Aug.</li><li><strong>Colombian/African smallholder parametric cover</strong> - revisited from a different angle this run. Same verdict as 10 Aug: satellite index triggers, AI not the binding capability. Rejected.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>HeartFlow (HTFL) Q2 2026 - 13 Aug, after close.</strong> The Plaque line under Category I code <code>75577</code>, effective 1 Jan 2026, is an AI-enabled SKU with no predecessor in anyone&#x27;s catalogue. Prior guidance put the line at <code>$19-21m</code> for 2026; that figure has not been verified against a primary document in this log and must be before it is used. Highest-value check on the calendar - though the subject is likely appendix scope, being AI-native.</li><li><strong>Deere &amp; Co Q3 FY26 - 20 Aug.</strong> Autonomy-as-subscription remains the cleanest incumbent S3 thesis in industrials and is still entirely unquantified.</li><li><strong>Walmart, Target, Home Depot, Lowe&#x27;s Q2 - 18-21 Aug.</strong> Where a retail-media or personalisation conversion number is most likely to be volunteered.</li><li><strong>Hims &amp; Hers Q3 (early Nov)</strong> - first checkpoint on the &quot;12 to 18 month payback&quot; and on whether the cancellation reduction ever gets a number.</li><li><strong>Airbnb Q3 (early Nov)</strong> - whether AI search leaves test, and whether support cost per booking is disclosed again.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 2 in the cost ledger below. Angles run: Aug 10-11 2026 earnings transcripts, non-tech, AI revenue attribution, insurers pricing previously uninsurable / declined risk classes with AI, insurer new AI-enabled product line, quote-to-bind, submission hit rate, pharma/biotech AI opening previously undruggable target or indication space, healthcare diagnostics newly reimbursable via AI (CPT 2026, code 75577, G0680), industrials selling autonomy as a new subscription line (Deere, per-acre pricing), professional services billing work previously uneconomic to deliver, retail/grocery personalisation conversion lift and retail media (Kroger, Ahold, Tesco), QSR drive-thru voice AI upsell and average check (Wendy&#x27;s, Yum/Taco Bell), bank next-best-action / adviser productivity converted to revenue, hotel, airline and travel marketplace AI conversion and attach rate, AI walk-backs, null studies, disappointing enterprise results (counter-evidence), new academic/central-bank research on AI and firm productivity published this week, parametric and micro-insurance made newly economic by AI, follow-up: Wendy&#x27;s FreshAI presence in Q2 2026 disclosure, follow-up: HeartFlow Plaque revenue against Category I CPT code.</p>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Airbnb</span>
+    <span class="sector">Travel &amp; hospitality · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (6 Aug 2026) CEO Brian Chesky said &quot;In Q2, customer support costs per booking declined about 16% year-over-year, driven in part by improvements by our AI assistant&quot; and &quot;Nearly 45% of issues that start with our AI assistant are now resolved without a human agent.&quot; CFO Ellie Mertz repeated the figure: &quot;The customer service cost per booking is down about 16% year-over-year, in large part due to the AI agent.&quot; No revenue was attributed to AI; the consumer-facing AI search product is still only entering test.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>An AI support agent now handles first-line guest and host contacts in more than 50 languages and closes nearly half of them without a human, so the support cost carried by each booking falls. The metric is a unit cost per booking, not an absolute expense line, which means it improves both when support gets cheaper and when bookings grow faster than support cost.</dd><dt>Why this shape</dt><dd>C4 - non-tech (GICS Consumer Discretionary, hotels/leisure; the same classification under which this log treats Booking, Expedia and Wyndham as in-scope) and a non-engineering function. Cost ledger, not revenue: Chesky called AI &quot;the best thing to ever happen to Airbnb&quot; but attached no revenue, conversion or booking number to it, and AI search is still pre-launch. The same call produced two engineering claims - concept-to-launch time down &quot;as much as 60%&quot; and features shipped up &quot;nearly 80%&quot; versus the same six months last year - which are standing trap 1, adoption and output dressed as saving: no headcount or dollar figure was banked against either, and management framed them as doing more, not spending less. Logged once, on the number that is actually a cost.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-airbnb-tops-q2-2026-estimates-and-lifts-outlook-93CH-4844707" rel="noopener">Q2 2026 earnings call (transcript via Investing.com); figures corroborated by TechCrunch, 7 Aug 2026, 2026-08-06</a></dd><dt>Falsifier</dt><dd>Support cost per booking stops being disclosed, or stops falling, in Q3/Q4 2026 - or the 16% turns out to be denominator-driven (bookings growing faster than support spend) rather than a lower support cost. Ask on the next call whether absolute support expense fell.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A call, two executives independently repeating the number, but hedged as &quot;driven in part&quot; / &quot;in large part&quot; and expressed per booking rather than as an absolute expense.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Hims &amp; Hers Health</span>
+    <span class="sector">Healthcare · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (10 Aug 2026) CTO Mo Elshenawy said &quot;We are making AI load-bearing, not decorative&quot;, that &quot;Hers customers using the new care experience are sending 3 times as many messages on the platform, with AI answering 80% of their questions&quot;, and that &quot;AI has reduced non-clinical tasks... by nearly 50%.&quot; CFO Yemi Okupe said &quot;AI investments will pay back within 12 to 18 months&quot; - i.e. the saving is projected, not banked. Revenue of $753m (+40%) and 300,000 net new subscribers were attributed to weight-loss expansion and the Eucalyptus acquisition, not to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>An agentic support layer bounded by clinical protocols answers the routine share of patient messages, so clinicians and support staff absorb a 3x rise in message volume without a proportional rise in labour. The claim is a reduction in non-clinical task load, not a reduction in an expense line.</dd><dt>Why this shape</dt><dd>C4 - non-tech (consumer telehealth) and a non-engineering function, the cell that matters. Standing trap 5 applies squarely: &quot;non-clinical tasks down nearly 50%&quot; is task load, not a realized expense reduction, and the CFO&#x27;s own 12-to-18-month payback framing concedes the saving has not yet arrived. Deliberately not logged as S2: Okupe said &quot;AI investments on our platform are driving a meaningfully better consumer experience resulting in a reduction in cancellations&quot; - the correct revenue mechanism (churn) with no magnitude attached, which is the same test Instacart failed on 6 Aug. One disclosure, one ledger: logged where the number is.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-hims--hers-q2-2026-revenue-beats-eps-misses-93CH-4850552" rel="noopener">Q2 2026 earnings call (transcript via Investing.com); 8-K earnings release, 10 Aug 2026, 2026-08-10</a></dd><dt>Falsifier</dt><dd>The 12-to-18-month payback window closes (by roughly Q4 2027) without gross margin, support cost per subscriber, or an absolute opex line moving - or the cancellation improvement is never quantified. Also falsified if the 3x message volume turns out to raise clinical cost faster than AI removes non-clinical cost.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A call with specific percentages, but the metrics are task-load and containment rates rather than money, and management explicitly says payback is still ahead.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
