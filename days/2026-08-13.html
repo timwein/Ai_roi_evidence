@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-13 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-13</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log, 1 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>No S3 again - and the first day in this log where an S3-shaped claim was retrieved, tested properly, and failed on three of four tests.</strong> Five findings: two <code>S1</code> velocity entries on the main revenue log, one <code>S2</code> counter-evidence entry, one appendix <code>S2</code>, one <code>C3</code> counter-evidence. Fourteen consecutive runs without a confirmed S3.</div>
+<p>This run swept 11-13 Aug plus unlogged disclosures back to 4 Aug, roughly 20 distinct searches weighted toward S3. No gap in the day records - the last logged day was 12 Aug.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Cars.com</strong> (call 6 Aug) - <code>20%</code> of active searches engage the Carson assistant, Carson users <code>4x</code> more likely to submit a lead, <code>~30%</code> of all June leads. Total revenue <code>+1%</code> to <code>$179.9m</code> in the same quarter, OEM and national advertising <code>-18%</code>. Logged <strong>S1</strong>.</li><li><strong>Xometry</strong> (call 4 Aug) - <code>~15%</code> improvement in CNC cost-prediction accuracy, <code>85%</code> process-recommendation acceptance, marketplace revenue <code>+45%</code> to <code>$215.4m</code>, marketing spend at a record-low <code>3.4%</code> of marketplace revenue. Models credited verbally for conversion and share; no dollar attributed. Logged <strong>S1</strong>.</li><li><strong>Allstate</strong> (call 5 Aug) - ALLIE, an eight-component agentic platform on <code>250+</code> models, <code>40+</code> petabytes and <code>1.5bn</code> CPU hours. Tom Wilson: <em>&quot;I can&#x27;t give you specific numbers how much growth is going to do or how we can do at expenses.&quot;</em> Logged <strong>S2</strong>, counter-evidence.</li><li><strong>Shopify</strong> (call 5 Aug) - AI traffic and orders tripled, new-buyer orders at <code>~2x</code> the rate of other channels, Catalog-powered AI search converting at <code>2x</code> scraped data, <code>75%</code> of AI-referred orders outside the top 100 categories. No dollars. Logged <strong>appendix S2</strong> with the S3 tests run and failed.</li><li><strong>Ford</strong> (press call, late Jun) - AI substituted for experienced engineering judgement on vehicle quality, ~<code>300</code>-<code>350</code> senior engineers hired back to fix it, then first place in J.D. Power initial quality at <code>152</code> PP100. Logged <strong>C3</strong>, counter-evidence, at low confidence because the two retrieved sources disagree on the number.</li><li><strong>HeartFlow</strong> - reports after the close tonight. Not available at run time.</li></ul>
+<div class="callout"><strong>The pattern this run sharpens: AI metrics and revenue metrics are being disclosed in inverse proportion.</strong> Cars.com can tell you a quarter of its June leads came through an assistant and reported <code>1%</code> revenue growth. Allstate can tell you it holds 40 petabytes and cannot tell you what any of it is worth. Shopify tripled a channel and calls it small. In every case the granular number is upstream of money and the money number is either flat, undisclosed, or attributed to something else.</div>
+<div class="callout"><strong>On the S3 test, run properly for once.</strong> Shopify&#x27;s long-tail statistic is the best S3-shaped claim this log has retrieved: <code>75%</code> of AI-referred orders outside the top 100 categories, which sounds exactly like demand that keyword search could not reach. It passes the capability gate cleanly and fails the other three. Buyers in a need-state were going to buy from somebody; the prior alternative was head merchants via search; and no evidence is offered that total demand rose rather than moved. Head-to-tail reallocation is still reallocation. This is the failure mode METHOD names as the worst one, and it is worth recording that the most attractive S3 candidate in three weeks dissolved under the four tests.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Information Services Group</strong> (call ~11 Aug) - AI revenue <code>+64%</code> to <code>$26m</code>, CEO calling AI governance work <em>&quot;new white space&quot;</em>. Genuinely S3-shaped language, but ISG is a consultancy selling AI advisory services. Its own sales are shovels, not deployment ROI. Out of scope as a subject and not strong enough on its own terms for the appendix.</li><li><strong>AIG</strong> - <code>Underwriting by AIG Assist</code> scaling, new business <code>+37%</code> to <code>$1.9bn</code> on the Q2 call. The two facts are adjacent in the reporting and nowhere connected by management. Attribution laundering risk; no AI-attributed number. Rejected.</li><li><strong>Global Indemnity, American Financial Group</strong> - AI named in submission and underwriting workflows, no figure attached to either. Rejected on the inclusion bar.</li><li><strong>CPT 2026 AI codes</strong> (<code>75577</code> coronary plaque, plus ECG and ILD codes) - still the purest S3 mechanism visible anywhere: AI diagnostics newly billable where no service previously existed. Still no company revenue disclosed against it. <strong>HeartFlow reports tonight</strong>; this is the check.</li><li><strong>Morgan Stanley &quot;only 21% of S&amp;P 500 can cite a measurable AI benefit&quot;</strong> - circulating widely this week. Traced only to secondary blog renderings; no primary note retrieved. Dropped on the verification rule, not on substance.</li><li><strong>Deloitte / Intuit / NVIDIA / Backbase survey material</strong> - vendor and consultant sentiment, no named deploying company. Rejected outright, again.</li><li><strong>Nebius, CoreWeave, Constellation Energy, Babcock &amp; Wilcox</strong> - real money, wrong direction. Selling compute, power and parts <em>into</em> the AI build-out is AI-as-customer, not AI-as-capability. Out of frame by design.</li><li><strong>Thomson Reuters / law-firm AI economics material</strong> - the professional-services S3 thesis (work never billable because delivery cost exceeded willingness to pay) is well argued in the trade press and entirely unquantified by any named firm. The <code>$32bn</code> sector figure is a projection from a vendor-affiliated institute. Rejected.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>HeartFlow Q2 - tonight, 13 Aug after close.</strong> The Plaque line under Category I code <code>75577</code>. Highest-value S3 check on the calendar; likely appendix scope.</li><li><strong>Walmart, Target, Home Depot, Lowe&#x27;s Q2 - 18-21 Aug.</strong> Best remaining chance this month for a retail-media or personalisation conversion number from an incumbent.</li><li><strong>Deere Q3 FY26 - 20 Aug.</strong> Autonomy-as-subscription, still unquantified by the company itself; the <code>$3-5bn</code> figure circulating is sell-side modelling, not disclosure.</li><li><strong>Cars.com Q3 (early Nov)</strong> - whether ARPD or dealer count responds to the Carson lead numbers, and whether the <code>30%</code> statistic survives.</li><li><strong>Allstate Q3 (early Nov)</strong> - first chance for a number against ALLIE, and the test of whether <code>9.9%</code> issued-application growth holds.</li><li><strong>Xometry Q3 (early Nov)</strong> - whether marketplace gross margin follows the claimed pricing-accuracy gain.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Allstate</span>
+    <span class="sector">Insurance (P&amp;C) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (5 Aug 2026) CEO Tom Wilson introduced ALLIE - Allstate&#x27;s Large Language Intelligent Ecosystem - an eight-component agentic AI platform that &quot;will leverage Agentic AI to improve customer value, lower cost and increase growth&quot;, built on &quot;250+ analytical models&quot;, &quot;40+ petabytes&quot; of data and &quot;1.5 billion CPU compute hours&quot;. Asked to size it, Wilson said: &quot;I can&#x27;t give you specific numbers how much growth is going to do or how we can do at expenses.&quot; The platform is &quot;not completely built or deployed&quot;. Issued applications rose 9.9% and net premiums written 2.6% in the quarter; neither was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>ALLIE is an agent-to-agent orchestration layer over Allstate&#x27;s existing model estate, intended to touch customer engagement, direct policy sales in three states, pricing accuracy and claims. The growth mechanism management gestures at is conversion and pricing precision at the quote - Allstate generates over 100 million quotes and purchases roughly 50 million leads a year, so small conversion movements are large absolute numbers. None of that is a disclosed result; it is the architecture of one.</dd><dt>Why this shape</dt><dd>Counter-evidence, tagged S2 because incremental premium won on existing auto and home products from existing consumers is the shape Allstate is implicitly claiming, and it is zero-sum - every policy Allstate writes at a better price is one Progressive, GEICO or State Farm did not write. The finding is the refusal: the CEO of a top-tier US insurer announced a named enterprise AI platform, listed compute and model counts to four significant figures, and would not put a number on either the expense or the growth benefit. The quantified metrics offered - 250 models, 40 petabytes, 1.5 billion CPU hours - are pure adoption and scale, METHOD&#x27;s standing trap 1. Note the ordering in Wilson&#x27;s own sentence: customer value, lower cost, then growth. Growth is third and the least specified. The 9.9% issued-application growth in the same quarter is credited to a &quot;multifaceted approach&quot; of affordability, product, distribution, marketing and claims - not to AI - which is attribution discipline by the company, and worth recording as such.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/12/allstate-all-q2-2026-earnings-call-transcript/" rel="noopener">Allstate Q2 2026 earnings call transcript (Motley Fool); ALLIE naming, build status and the refusal to quantify independently corroborated by Insurance Journal (7 Aug) and The Insurer (7 Aug), 2026-08-05</a></dd><dt>Falsifier</dt><dd>If Allstate attaches a dollar figure - expense-ratio points or premium - to ALLIE on the Q3 2026 or Q4 2026 call, this entry is premature and should be downgraded to an ordinary pre-announcement. If two more quarters pass with ALLIE promoted and still no number, and particularly if the expense ratio does not move, treat ALLIE as positioning. The 9.9% issued-application figure is the control: if it decays while ALLIE ships, the platform was not the growth engine.</dd><dt>Confidence</dt><dd><strong>high</strong> — The refusal to quantify is directly quoted from a retrieved transcript and separately reported by two trade outlets that attended the same call. There is little interpretive room in an executive saying he cannot give specific numbers.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Cars.com</span>
+    <span class="sector">Auto retail / Digital marketplace · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (6 Aug 2026) CEO Tobias Hartmann said &quot;around 20% of active searches on Cars.com are engaging with Carson&quot;, that &quot;Carson users are 4x more likely to submit a lead&quot;, and that Carson users &quot;accounted for nearly 30% of total leads submitted in the month of June&quot;. Total Q2 revenue rose 1% to $179.9m; marketplace revenue rose more than 7% while OEM and national advertising fell 18%. No revenue was attributed to Carson.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Carson is an LLM shopping assistant inside the Cars.com marketplace. Cars.com does not sell cars; it sells lead flow and subscription packages to franchise and independent dealers. So the revenue path runs assistant engagement -&gt; lead volume and lead quality -&gt; dealer willingness to pay for marketplace packages (Premium Plus, the fastest-growing package in the quarter, targeted at 15% adoption by year-end). Carson sits upstream of the thing that is actually monetized, which is why the disclosed numbers are lead metrics rather than dollars.</dd><dt>Why this shape</dt><dd>S1. Every disclosed figure is an input metric - engagement rate, lead-submission propensity, share of leads - and none is revenue. Revenue conversion was NOT disclosed, and the surrounding print argues against assuming it: total revenue grew 1% in the same quarter that AI-assisted leads reportedly reached ~30% of the June total. Either the lead-quality gain has not yet repriced dealer packages, or the 4x figure is largely selection - shoppers already close to submitting a lead are the ones who engage an assistant. Cars.com offers no control group, exactly as Amazon offered none for &quot;spend 40% more per order&quot; (logged 12 Aug). Note also that ~30% of leads is a June figure, not a Q2 figure; the quarter-level number was not given.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/13/carscom-cars-q2-2026-earnings-call-transcript/" rel="noopener">Cars.com Q2 2026 earnings call transcript (Motley Fool); figures corroborated in StockStory and MarketBeat call coverage retrieved this run, 2026-08-06</a></dd><dt>Falsifier</dt><dd>Marketplace revenue per dealer (ARPD) and dealer count failing to inflect over Q3-Q4 2026 while Carson engagement is reported higher again. If Carson engagement keeps climbing across two more quarters with no ARPD or dealer-count response, the 4x lead multiple is selection, not causation. Sharper falsifier: if the &quot;30% of leads&quot; statistic is dropped from the Q3 call while Carson is still promoted, treat it as a metric that stopped working.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Quotes taken from a retrieved transcript and independently corroborated by two secondary renderings of the same call. Confidence is capped at medium by the uncontrolled comparison and by the mismatch between the AI metrics and a 1% revenue print.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Xometry</span>
+    <span class="sector">Industrials / Manufacturing marketplace · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (4 Aug 2026) CEO Sanjeev Sahni said &quot;our AI models are effectively optimizing conversion, buyer growth and market share gains&quot;, disclosing an &quot;approximately 15% improvement in CNC cost prediction accuracy&quot; from a new-generation model and process-recommendation acceptance reaching &quot;85%, driven by an upgraded context-aware AI process recommender&quot;. Marketplace revenue grew 45% YoY to $215.4m, total revenue 41% to a record $229.3m, active buyers 20% to 89,557; marketing spend fell to a record-low 3.4% of marketplace revenue.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Xometry quotes custom-manufactured parts instantly from an uploaded CAD file and routes the job to a supplier network, earning the spread. Pricing accuracy is therefore the P&amp;L: underprice and gross margin is lost on the job, overprice and the quote does not convert. A 15% improvement in cost-prediction accuracy widens the band of jobs that can be quoted profitably, and the process recommender picking the right manufacturing process 85% of the time removes a human sourcing step. Sahni&#x27;s framing that the pricing, sourcing and manufacturability models are &quot;no longer independently doing&quot; their jobs but &quot;all interconnected&quot; is the specific 2025-26 change.</dd><dt>Why this shape</dt><dd>S1. The disclosed AI numbers are input metrics - prediction accuracy and recommendation acceptance - not revenue. The 45% marketplace growth is real and management links it verbally to the models, but no dollar of it is attributed, and buyer growth of 20% against revenue growth of 45% means most of the delta is wallet share and mix, which management did not decompose. Revenue conversion is therefore asserted, not disclosed. Explicitly NOT S3: these are better quotes for parts buyers who already buy machined parts from job shops, so absent Xometry the demand exists and someone serves it - test (a) fails. Scope call: kept in the main log rather than the appendix because Xometry&#x27;s revenue is the sale of manufactured parts, not software licences; it is a distributor with an ML pricing engine, not a vendor selling AI. Reasonable people could push it to the appendix, and the ML quoting engine long predates the 24-month capability frontier.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/11/xometry-xmtr-q2-2026-earnings-call-transcript/" rel="noopener">Xometry Q2 2026 earnings call transcript (Motley Fool); revenue, buyer and gross-profit figures corroborated against the company&#x27;s Q2 2026 results release, 2026-08-04</a></dd><dt>Falsifier</dt><dd>Marketplace gross margin failing to hold or expand over Q3-Q4 2026 while cost-prediction accuracy is claimed to improve again - better pricing that does not show up in margin was not better pricing. Second falsifier: if the 15% accuracy and 85% acceptance statistics are not restated or bettered on the Q3 call, treat them as launch marketing for the model refresh rather than managed KPIs.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Transcript retrieved directly and the financial figures cross-checked against the company release. Medium rather than high because the causal link from model accuracy to the 45% growth number is management&#x27;s assertion with no decomposition offered, and because Xometry has grown fast through periods with no model refresh to point at.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Shopify</span>
+    <span class="sector">E-commerce platform (out of scope - software) · CA</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (5 Aug 2026) President Harley Finkelstein said &quot;AI-driven traffic and also orders to Shopify stores tripled year-over-year in the second quarter&quot;, that new buyer orders from AI channels &quot;are coming in at nearly twice the rate of other channels&quot;, that &quot;AI searches powered by Catalog converted twice the rate of those using scraped data&quot;, and that &quot;75% of AI-referred orders originated from outside the top 100 merchant categories&quot;. GMV grew 32% to $115.6bn and revenue 34% to $3.6bn. No dollar amount of revenue was attributed to AI; management called AI &quot;small relative to our massive GMV&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>LLM assistants answer a shopping intent in natural language and resolve it against structured product data. Shopify&#x27;s Catalog exposes its merchants&#x27; inventory to those assistants in machine-readable form rather than leaving them to scrape it, and the 2x conversion gap between Catalog-sourced and scraped results is the price of that structure. Because assistants match intent rather than keywords, the products they surface skew away from the categories that win search-engine auctions.</dd><dt>Why this shape</dt><dd>Appendix: Shopify is a software platform and out of scope as a subject in the main revenue log. Classified S2, not S3, and the distinction is the whole point of retrieving this. The long-tail statistic - 75% of AI-referred orders outside the top 100 categories - is the strongest S3-shaped claim retrieved this run, and it still fails the tests. (a) Counterfactual purchase: not established; a buyer who finds a niche product through an assistant was in most cases going to buy something in that need-state from somebody. (b) Prior alternative: the prior alternative was keyword search, which resolved to head merchants and paid placement - so this reallocates demand from head to tail, and from Google-mediated discovery to assistant-mediated discovery. Someone lost those orders. (c) Capability gate: passes cleanly - intent-resolving assistants at consumer scale did not exist 24 months ago. (d) Newly economic: partially - discovery cost for long-tail SKUs collapsed - but Shopify discloses no evidence that total category demand rose rather than moved. Three of four tests are not met, so this is a distribution shift, not new TAM. Also note what is absent: after tripling, still no dollar figure, and an explicit management caveat that the base is small.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/12/shopify-shop-q2-2026-earnings-call-transcript/" rel="noopener">Shopify Q2 2026 earnings call transcript (Motley Fool), 2026-08-05</a></dd><dt>Falsifier</dt><dd>If Shopify quantifies AI-attributed GMV in dollars in a later quarter and the number is material, this entry understates the finding. Conversely, if AI-attributed traffic triples again in Q3 while total GMV growth stays in the low 30s, the channel is substituting for search rather than adding to demand - which is the S2 reading confirmed. Watch also whether the 75% long-tail share falls as head brands optimise for assistants; if it does, this was a temporary indexing artifact, not a structural advantage for niche merchants.</dd><dt>Confidence</dt><dd><strong>medium</strong> — All four statistics verified verbatim in a retrieved transcript. Medium because every figure is a ratio on an undisclosed and admittedly small base, and &quot;AI-attributed&quot; is Shopify&#x27;s own attribution construct with no published methodology - METHOD&#x27;s denominator-games rule applies.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card counter" data-shape="C3"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c3)">
+  <div class="card-top">
+    <span class="company">Ford Motor Company</span>
+    <span class="sector">Automotive · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c3);color:var(--shape-c3)"></span>C3 — Non-tech · engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Ford VP of vehicle hardware engineering Charles Poon said the company &quot;mistakenly&quot; believed that introducing AI and adjusting design requirements would produce a high-quality product, and that Ford has since rehired, newly hired or promoted experienced engineers into vehicle engineering to fix the resulting quality gaps - reported as approximately 300 by Fox Business (citing a Bloomberg press call) and as 350 by The Next Web (citing The Verge). Poon: &quot;Artificial intelligence is a fantastic tool, but it&#x27;s only as good as the information you use to train it.&quot; Ford subsequently topped J.D. Power&#x27;s 2026 US Initial Quality Study at 152 problems per 100 vehicles.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Ford substituted AI-assisted design-requirement tooling for experienced engineering judgement in vehicle quality. The failure mode Poon describes is not that the models were bad but that the veterans who held the tacit knowledge left before it was captured, so the tools amplified weak inputs instead of catching design flaws. The correction was headcount - re-hiring senior engineers - plus, per the reporting, a large expansion of AI-powered edge-case testing running alongside the humans rather than instead of them.</dd><dt>Why this shape</dt><dd>C3 - non-tech company, engineering function. Counter-evidence to the cost thesis in its strongest available form: not a study, not a survey, but a named incumbent that made the substitution, measured the result, and bought the labour back. It bears on METHOD&#x27;s standing trap 4 in reverse - here the headcount action has an explicitly AI-attributed cause, stated by the executive responsible, against the company&#x27;s interest. Note carefully what it does and does not prove: Ford went on to lead J.D. Power initial quality, so the end state is AI plus experienced engineers beating both prior arrangements. The refutable claim is substitution, not augmentation.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.foxbusiness.com/technology/ford-rehires-experienced-engineers-after-ai-misses-mark" rel="noopener">Fox Business, 29 Jun 2026, reporting a Ford press call originally covered by Bloomberg; corroborated by The Next Web, 26 Jun 2026, citing The Verge, 2026-06-29</a></dd><dt>Falsifier</dt><dd>If Ford&#x27;s engineering headcount falls back over FY2026-27 while quality rankings hold, the rehire was a transition cost of a substitution that ultimately worked, and this entry overstates the reversal. If Ford quantifies the cost of the rehire or of the quality failures - warranty, recall or campaign expense traced to the AI-designed period - the entry should be upgraded from anecdote to a measured loss.</dd><dt>Confidence</dt><dd><strong>low</strong> — Two retrieved sources give materially different engineer counts (approximately 300 vs 350) and name different primary outlets (Bloomberg vs The Verge) for the same press call. Neither primary could be retrieved this run - theverge.com blocks this agent and the Bloomberg original is paywalled - so no single figure is verified and none is asserted here. Only Poon&#x27;s quoted sentence appears verbatim in a document retrieved this run. The item is also roughly seven weeks old, outside the normal window, and is logged on the METHOD ground that counter-evidence decays slowly and this one was unlogged.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
