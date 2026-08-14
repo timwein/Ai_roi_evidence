@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-14 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-14</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log, 1 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>First genuinely interesting S3 pairing in three weeks - and it is a pairing, not a single finding.</strong> Four entries: one <code>S3-CANDIDATE</code> on the main revenue log (RadNet), one appendix <code>S3-CANDIDATE</code> (Heartflow) that exists to be compared against it, one <code>S1</code> and one <code>C4</code> from Aviva&#x27;s H1 results this morning. Still no confirmed S3. Fifteen consecutive runs.</div>
+<p>This run swept 13-14 Aug plus unlogged disclosures back to 9 Aug, roughly 22 distinct searches weighted toward S3. No gap in the day records - the last logged day was 13 Aug.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Aviva</strong> (H1 2026, published this morning) - <code>&gt;45%</code> reduction in medical underwriting case summarisation time at <code>99.99%</code> accuracy <em>&quot;accepted by re-insurers&quot;</em>; commercial-lines quotes <em>&quot;from days to hours&quot;</em>; <code>&gt;250</code> ML models in Personal Lines pricing and claims delivering <code>GBP 100m</code> of claims cost savings; and on the call, <em>&quot;over GBP 200 million of run rate benefits&quot;</em> from AI pricing models. Logged <strong>S1</strong> and <strong>C4</strong>.</li><li><strong>RadNet</strong> (call 10 Aug) - <em>&quot;Revenue from the EBCD program increased 16%&quot;</em>. AI revenue <code>$16.1m</code>, up <code>136%</code>; Digital Health <code>$32.4m</code>, up <code>56.5%</code>; ARR <code>$105.5m</code>, up <code>97%</code>. Logged <strong>S3-CANDIDATE</strong>, main.</li><li><strong>Heartflow</strong> (8-K, 13 Aug) - revenue <code>$64.1m</code>, up <code>48%</code>; guidance raised from <code>$228-232m</code> to <code>$246-250m</code>; Plaque named as a driver of revenue and of record gross margin, and never sized. Logged <strong>appendix S3-CANDIDATE</strong>.</li><li><strong>Deere</strong> (10-Q) - <em>&quot;revenue from SaaS products did not represent a significant percentage of revenues in the periods presented.&quot;</em> The autonomy-as-subscription thesis, in the company&#x27;s own filing, still has no revenue behind it. Reports 20 Aug.</li><li><strong>UnitedHealth, Astrana, CareCloud, Chunghwa, Tele2, SK Telecom, Globant</strong> - checked for AI-attributed revenue. Nothing new that clears the bar.</li></ul>
+<div class="callout"><strong>The comparison this run buys is the point.</strong> RadNet&#x27;s EBCD is the cleanest case in the log of AI creating demand that did not exist: a patient reaching into their own pocket for a diagnostic no insurer pays for, because an algorithm made a second read possible at a price a human read never could. It grew <code>16%</code>. In the same segment, RadNet&#x27;s business of selling AI software to <em>other</em> hospitals grew <code>136%</code>. Heartflow, an AI-native selling the analogous thing, grew <code>48%</code> and raised guidance. The new-demand line is the slowest-growing of the three. If AI were opening real new TAM at pace, that ordering would be inverted.</div>
+<div class="callout"><strong>On the capability gate, which is doing real work now.</strong> Both S3 candidates today fail test (c) and pass the other three. EBCD has been on sale since 2021-22; Heartflow Plaque has been cleared since 2022. What changed in 2026 was not the model - it was reimbursement, a CPT code and a payer decision. That is worth stating plainly: the most credible new-demand evidence this log has found was unlocked by the billing system, not by the frontier. It also means the current capability jump has, so far, produced no new TAM this log can verify at all.</div>
+<div class="callout"><strong>Aviva is now the largest single AI-attributed benefit figure from a non-tech incumbent in the log - and it is not revenue.</strong> <code>GBP 200m</code> of run-rate pricing benefit plus <code>GBP 100m</code> of claims savings, against zero attributed premium. Aviva&#x27;s slide 19 says exactly why the revenue number does not exist: benefits get split between reinvestment, the bottom line and trading decisions. That is an insurer telling you it has chosen not to make the gain legible as any one thing - the disclosure asymmetry stated as policy rather than inferred from silence.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Heartflow Plaque guidance of <code>$29-31m</code></strong> - the number the whole run was set up to check. It is in secondary coverage everywhere and in no primary document retrieved this run; the 8-K exhibit gives total revenue guidance only, and Seeking Alpha returned 403. Dropped on the verification rule, not on substance. Re-attempt when the transcript posts.</li><li><strong>RadNet breast ultrasound</strong> - CFO&#x27;s arithmetic that <em>&quot;we could have 1 million scans, and even if only 30%-40% of the payers recognize the T-code and are reimbursing us at $50-$60, that is a lot of incremental revenue.&quot;</em> Genuinely S3-shaped and the FDA cleared the product end-July, but this is conditional illustration, not guidance, and there is no result. The purest form of the announcement-with-no-result rejection.</li><li><strong>Aviva&#x27;s LLM distribution channel</strong> - slide 30 lists <code>LLM</code> alongside Direct, Intermediaries and PCW as a distribution channel, with <em>&quot;First major insurer app on ChatGPT&quot;</em> and <em>&quot;#1 AI search visibility across key lines&quot;</em>; slide 37 claims <em>&quot;first-mover advantage in LLM distribution&quot;</em>. A channel elevated to strategy-slide status with not one policy, quote or pound attached. Watch this one - it is where an S2 will eventually come from.</li><li><strong>Aviva <code>GBP 90m</code> claims figure</strong> - a secondary source rendered the claims saving as <code>GBP 90m</code> where the slide says <code>GBP 100m</code>. Used the slide.</li><li><strong>MIT NANDA 95%, PwC 4,454-CEO survey, S&amp;P Global 42% abandonment, RAND 80%, Gartner</strong> - all circulating hard this week as AI-disappointment evidence. Consultant and survey sentiment with no named deploying company. Rejected outright, as every run.</li><li><strong>Law-firm AI economics</strong> - the professional-services S3 thesis again (<code>8%</code> of firms adding AI-specific fee lines, fixed-fee shift). Not one named firm with a disclosed number. Rejected on the inclusion bar for the third consecutive week.</li><li><strong>Chunghwa Telecom</strong> - international revenue <code>+9%</code>, pre-tax income <code>+31%</code>, driven by <em>&quot;large-scale AI supply chain projects&quot;</em>. AI-as-customer. Out of frame by design.</li><li><strong>Hunterbrook, &quot;RadNet: The AI Story That Doesn&#x27;t Add Up&quot;</strong> - a short-side piece that would be useful counter-evidence on the RadNet entry. Returned 403; could not read it, so it is not used either for or against.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Walmart, Target, Home Depot, Lowe&#x27;s Q2 - 18-21 Aug.</strong> Best remaining chance this month for a retail-media or personalisation conversion number from an incumbent.</li><li><strong>Deere Q3 FY26 - 20 Aug.</strong> The 10-Q language above is the bar to beat: does autonomy revenue become &quot;significant&quot; or stay unnamed?</li><li><strong>Heartflow Q2 transcript</strong> - when it posts, for the Plaque dollar line and any <code>75577</code> commentary.</li><li><strong>RadNet Q3 (early Nov)</strong> - whether EBCD growth holds at <code>16%</code> or decays, and whether the breast-ultrasound T-code produces revenue rather than arithmetic.</li><li><strong>Aviva FY2026 (Mar 2027)</strong> - first checkpoint on the <code>GBP 200m</code> pricing figure, and on whether the virtual assistant and AI claims agent launching later this year arrive with numbers attached.</li></ul></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">RadNet</span>
+    <span class="sector">Healthcare (diagnostic imaging) · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (10 Aug 2026) CFO Mark Stolper disclosed that &quot;Revenue from the EBCD program increased 16%&quot; year over year. EBCD - Enhanced Breast Cancer Detection - is an AI second read on screening mammography that no payer reimburses and that RadNet sells directly to the patient as a self-pay add-on. It sits inside a Digital Health quarter of $32.4m (+56.5%), of which AI revenue was $16.1m, up 136%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>An algorithm reads the screening mammogram alongside the radiologist. Because no US payer covers a second read, RadNet prices it to the patient at the point of appointment. The revenue is out-of-pocket consumer spend on a diagnostic enhancement that did not previously exist as a purchasable item, booked through the Digital Health segment.</dd><dt>Why this shape</dt><dd>Four tests run. (a) Counterfactual purchase - PASSES: the covered screening mammogram happens either way; the EBCD fee is an additional transaction that does not exist without the algorithm. (b) Prior alternative - PASSES: there was no competing product and no unpaid workaround; routine human double-reading is not done in the US, so patients simply went without. (c) Capability gate - FAILS: mammography CAD on deep learning long predates a 24-month window and RadNet has sold EBCD since 2021-22. This is new TAM opened by pre-frontier ML, not by the current capability jump. (d) Newly economic - PASSES: an algorithmic second read at a self-pay price point supports a service that human double-reading never could. Held at S3-CANDIDATE rather than promoted, for one reason: RadNet has never disclosed EBCD in dollars, so a 16% growth rate sits on an unknown base and the absolute size of the new demand cannot be checked. Note also that the $16.1m AI revenue line is mostly RadNet-as-vendor - DeepHealth software sold to third-party hospitals - which is shovels, not deployment ROI, and is excluded from this entry.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-radnet-tops-q2-2026-estimates-shares-rise-61-93CH-4849907" rel="noopener">RadNet Q2 2026 earnings call transcript (Investing.com rendering); segment revenue, ARR and Digital Health figures corroborated against the company&#x27;s own Q2 2026 results release (9 Aug 2026) retrieved this run, 2026-08-10</a></dd><dt>Falsifier</dt><dd>EBCD growth decelerating toward zero, or the program dropping out of segment commentary, while the headline AI revenue line keeps compounding at triple digits. That pattern would show the money is in selling AI software to other providers, not in new patient demand.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The 16% comes from a transcript rendering rather than a company document, and RadNet publishes no EBCD dollar line, so the figure cannot be reconciled to a filing.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Aviva plc</span>
+    <span class="sector">Insurance · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">Aviva&#x27;s H1 2026 analyst presentation (14 Aug 2026, slide 33) discloses a &quot;&gt;45% Reduction in case summarisation time&quot; in medical underwriting from AI medical-report summarisation running at &quot;99.99% accuracy, accepted by re-insurers&quot;, and CEO Amanda Blanc told the results call Aviva is &quot;using AI in commercial lines to reduce the time it takes to generate quotes from days to hours.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Medical underwriting is the throughput gate on protection and health policy issuance; commercial-lines quote generation is the gate on quote-to-bind. Compressing both raises the number of revenue-producing decisions the same underwriting force can complete, and the re-insurer acceptance of the AI summaries is what makes the faster output bindable rather than merely faster.</dd><dt>Why this shape</dt><dd>S1: every disclosed number is an input metric - time, accuracy, automation rate - not revenue. Revenue conversion is conspicuously absent. Aviva reported Health in-force premiums up 5% and Health operating profit up 28% to GBP 37m and attributed neither to AI, while cutting expected full-year Health operating profit to around GBP 90m against a GBP 100m target. Aviva&#x27;s own slide 19 is unusually candid about why no revenue number exists: AI benefits are deployed three ways - &quot;Reinvest in next opportunity&quot;, &quot;Realise in bottom line&quot;, &quot;Factor into trading decisions&quot; - so management states on the record that it does not bank the gain as one thing.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/presentations/2026/aviva-plc-half-year-2026-presentation.pdf" rel="noopener">Aviva plc Half Year 2026 analyst presentation (slides 19, 32, 33), read directly this run; call commentary from the H1 2026 results call transcript, 2026-08-14</a></dd><dt>Falsifier</dt><dd>Protection and Health new business volumes failing to accelerate through FY26 and H1 27 despite case review time more than halving. If issuance capacity roughly doubled and sales did not move, underwriting speed was never the binding constraint.</dd><dt>Confidence</dt><dd><strong>high</strong> — The underwriting figures are printed on a published Tier A slide retrieved and read directly this run; only the commercial-lines quote comment depends on a transcript rendering.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">Heartflow</span>
+    <span class="sector">Healthcare (medical diagnostics) · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">In its Q2 2026 results (8-K Ex 99.1, 13 Aug 2026) Heartflow reported revenue of $64.1m, up 48% year over year (US $59.6m, +51%), and raised full-year 2026 guidance to &quot;$246 million to $250 million (approximately 40% to 42% growth year-over-year), compared to previous guidance of $228 million to $232 million&quot;. The release names &quot;an increase in total U.S. Plaque revenue case volume&quot; as a driver of both the revenue growth and the record gross margin, and CEO John Farquhar called Plaque &quot;a meaningful second growth engine&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Heartflow Plaque Analysis is an AI quantification of non-calcified coronary plaque from a coronary CT angiogram - a measurement not routinely produced before, and separately billable in the US from 2026 under a Category I CPT code. It is sold alongside the existing FFRCT product into the same installed base of more than 1,800 institutions, so the incremental sale requires no new customer.</dd><dt>Why this shape</dt><dd>Subject is out of scope for the main log and routed to the appendix under METHOD&#x27;s scope-tension rule: Heartflow describes itself as &quot;the leader in AI technology for diagnosing coronary artery disease&quot; and the product is the AI, so it is an AI-native, not an incumbent deploying AI. S3 tests: (a) counterfactual purchase - PARTIAL: plaque burden was previously either not assessed or approximated by a calcium score, so some of this spend is substitution rather than new demand. (b) Prior alternative - PARTIAL: a weaker one existed (calcium scoring, invasive angiography). (c) Capability gate - FAILS: the Plaque product has been FDA-cleared since 2022; what changed in 2026 was reimbursement, not capability. (d) Newly economic - PASSES: a Category I code made a previously unpaid analysis billable. Logged as a candidate and as the entrant-side comparator to RadNet&#x27;s in-scope EBCD entry the same day.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001464521/000146452126000129/htfl-20260813xex99_1.htm" rel="noopener">Heartflow, Inc. Form 8-K Exhibit 99.1, Q2 2026 results; prior-year revenue cross-checked against the Q2 2026 Form 10-Q retrieved this run, 2026-08-13</a></dd><dt>Falsifier</dt><dd>The guidance raise not repeating in Q3, or Plaque ceasing to be named as a driver once the FFRCT base normalises. Harder test: if Heartflow ever breaks Plaque out and the case volume proves to cannibalise FFRCT rather than add to it, this was product mix, not new TAM.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Revenue and guidance are verified in the 8-K exhibit, but Heartflow does not break out Plaque revenue anywhere in it; the $29-31m Plaque guidance circulating in secondary coverage could not be retrieved from any primary document this run and is deliberately excluded.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Aviva plc</span>
+    <span class="sector">Insurance · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the H1 2026 results call (14 Aug 2026) CEO Amanda Blanc said Aviva has &quot;used AI in our pricing models to deliver over GBP 200 million of run rate benefits&quot; in UK Personal Lines, &quot;on top of GBP 100 million of claims cost savings&quot;. The published presentation (slide 32) attributes the GBP 100m to &quot;&gt;250 ML models in PL pricing &amp; claims&quot;, and slide 33 adds &quot;c.100 Wealth FTE capacity created&quot;, &quot;&gt;50% Personal Lines Motor call routing automated&quot; and &quot;50% Time saved&quot; on agentic quality assurance.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>More than 250 machine-learning models running in UK Personal Lines pricing and claims. On the claims side the benefit is indemnity cost - better triage, fraud detection and settlement accuracy. On the pricing side it is risk selection and rate adequacy, which lands in the loss ratio rather than in premium.</dd><dt>Why this shape</dt><dd>C4 - non-tech, non-engineering, the cell that matters. Logged in the cost ledger rather than as revenue because that is where the number sits: &quot;run rate benefits&quot; from pricing models is METHOD&#x27;s standing trap 3, an undefined composite that can contain loss-ratio improvement, rate adequacy and conversion in unknown proportions, and Aviva does not decompose it. Slide 19 confirms the construct is deliberately non-specific: benefits are split between reinvestment, the bottom line and trading decisions. Trap 6 also appears on the record - CFO Charlotte Jones said the company monitors Claude token usage and restricts those costs like any other business expense, which is the run-cost offset acknowledged rather than dodged. On a single-year run-rate basis this is the largest AI-attributed benefit figure a non-tech incumbent has put on the record anywhere in this log.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/presentations/2026/aviva-plc-half-year-2026-presentation.pdf" rel="noopener">Aviva plc Half Year 2026 analyst presentation (slides 19, 32, 33) plus the H1 2026 results call; the GBP 100m and the &gt;250 models read directly off the presentation PDF this run, 2026-08-14</a></dd><dt>Falsifier</dt><dd>UK Personal Lines combined operating ratio failing to improve across FY26 and FY27 while the GBP 200m figure keeps being repeated, or the figure being quietly restated or dropped at full-year results without explanation.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The GBP 100m and the &gt;250 models are verified on the published slide, but the larger GBP 200m pricing figure appears only in call renderings retrieved this run and in no Aviva-published H1 document.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
