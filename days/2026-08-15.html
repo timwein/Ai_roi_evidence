@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-15 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-15</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings, <strong>zero S3</strong> - which leaves the log at zero S3 entries across all fifteen logged days. The day&#x27;s most load-bearing item is negative: OpenAI linked ChatGPT Enterprise usage to Compustat financials for 417 public companies and published no post-adoption revenue result, only a null on usage intensity.</div>
+<p>No run was logged for 14 Aug, so this sweep covered roughly 72 hours (13-15 Aug) rather than the usual 48.</p>
+<h4>Sources read</h4>
+<ul><li><strong>OpenAI / Chatterji et al.</strong>, arXiv <code>2608.12236</code>, submitted 12 Aug - &quot;Revenue per employee is not meaningfully associated with output tokens per employee once other controls are included.&quot; Also: &quot;firms with higher revenue per employee are more likely to adopt ChatGPT Enterprise.&quot; The revenue figure is <em>lagged</em>, so this is a selection regression, not a causal test. Logged as counter-evidence with that caveat stated, because the absence of the obvious test is the finding.</li><li><strong>Indosat Ooredoo Hutchison</strong> H1 2026 (29 Jul) - ARPU <code>+17.3%</code> YoY to <code>IDR46k</code> on revenue of <code>IDR30.7tn</code> (<code>+13.1%</code>), attributed by the company to AI-powered experiences. Subscribers flat at <code>93.4m</code>, so this is monetisation intensity, not acquisition. Logged S2 at low confidence: the release does not separate hyperpersonalisation from resale of bundled Gemini and Adobe Express subscriptions, and offers no counterfactual. Seventeen days old - outside the normal window, flagged.</li><li><strong>AIG</strong> Q2 2026 (13 Aug) - &quot;Underwriting by AIG Assist&quot; live; underwriters &quot;reviewing more submissions and generating quotes significantly faster&quot;. No number of any kind.</li><li><strong>MetLife</strong> Q2 2026 (13 Aug) - &quot;AI is becoming a structural advantage for MetLife and our scale sets us apart.&quot; Revenue impact explicitly not quantified; management said gains &quot;far exceed the costs&quot; without a figure either side.</li><li><strong>IAG</strong> FY26 (13 Aug) - <code>&gt;60%</code> of staff using AI regularly, <code>&gt;90</code> AI solutions in production, a new OpenAI partnership, and FY27 technology spend of <code>~A$400m</code> of which <code>~A$200m</code> is &quot;AI and AI enablement&quot;. Not one dollar of revenue or cost attributed to any of it.</li><li><strong>The RealReal</strong>, <strong>1stdibs</strong>, <strong>Tapestry</strong> Q2/Q4 (13 Aug) - all three narrated AI at length; none attributed revenue.</li></ul>
+<div class="callout"><strong>The pattern, now fifteen logged days deep:</strong> input metrics and spend commitments are disclosed freely; the revenue conversion is not. IAG is the cleanest instance yet - a named annual AI budget with no attributed benefit on either ledger. The gap this log was built to measure is not closing, and this run it was an AI lab&#x27;s own paper that failed to close it.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>IAG</strong> - fails the inclusion bar&#x27;s requirement of a result. <code>&gt;60%</code> staff usage and <code>&gt;90</code> solutions are adoption metrics (standing trap 1); the administration ratio improvement to <code>11.6%</code> is attributed to &quot;transformation&quot;, not to AI. The <code>A$200m</code> is an input.</li><li><strong>AIG</strong>, <strong>MetLife</strong> - fail bar item 2. On-the-record executive statements, but neither a number nor a claim of <em>material</em> revenue impact. MetLife&#x27;s refusal to quantify is the more informative half.</li><li><strong>The RealReal</strong> - Athena intake &quot;on track to process nearly 50% of items by the end of 2026&quot; and removes &quot;multiple dollars per unit&quot; from processing cost: cost-side, no revenue path, and the dollar figure is not a figure.</li><li><strong>1stdibs</strong> - &quot;highest ever click-through rate on a homepage recommendation module&quot; has no baseline and no denominator; &quot;AI-assisted development now accounts for over 70% of our new code&quot; is adoption, not saving (trap 1), and duplicates the Admiral entry of 2026-08-12.</li><li><strong>Tapestry</strong> FY26 (13 Aug) - <code>$8.0bn</code> revenue, <code>+17%</code> pro-forma cc, and a first AI patent. Nothing attributes the growth to AI.</li><li><strong>TELUS</strong> (<code>22%</code> growth in &quot;AI-enabling capabilities&quot;), <strong>Indosat AI Cloud</strong> (<code>$33m</code> H1), <strong>AIG</strong>&#x27;s hyperscaler construction cover, <strong>Vishay</strong>, <strong>Teradyne</strong>, <strong>Applied Optoelectronics</strong> - all AI-as-customer. Real money, pre-existing SKUs, new buyer. Not deployment ROI; excluded by standing rule.</li><li><strong>2026 CPT Category I codes</strong> creating separately billable AI-augmented diagnostic analysis - a genuine S3 <em>enabling condition</em> (a price point where none existed), but a regulatory change, not a company disclosure. Nothing to log until a named provider or device maker books revenue against it. Best S3 lead currently open.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Deere</strong> Q3 FY26, <strong>20 Aug</strong> - the S3 case to watch: autonomy and Solutions-as-a-Service sold as a new recurring line. Deere&#x27;s own 10-Q still says SaaS revenue is not a significant percentage of revenues; the question is whether that sentence changes.</li><li><strong>Walmart</strong> Q2 FY27, <strong>~20 Aug</strong>; <strong>Home Depot ~18 Aug</strong>, <strong>Lowe&#x27;s ~19 Aug</strong>, <strong>Target ~19 Aug</strong> - the last dense cluster of non-tech reporters before the September lull.</li><li><strong>CMS</strong> 2027 OPPS proposed rule - a new payment pathway for algorithm-driven diagnostic software. Comment period and finalisation are the dated checkpoints for the S3-enabling-condition thesis above.</li><li>Any follow-up to arXiv <code>2608.12236</code> adding fiscal 2026 and a post-adoption revenue specification.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Indosat Ooredoo Hutchison</span>
+    <span class="sector">Telecom · Indonesia</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In its H1 2026 results release (29 Jul 2026) Indosat reported revenue of IDR30.7 trillion, up 13.1% YoY, and attributed AI-powered customer experiences directly to a revenue-per-user outcome: &quot;These differentiated experiences helped drive a 19.9% YoY increase in data traffic and a 17.3% YoY increase in Average Revenue Per User (ARPU)&quot;, to IDR46 thousand. The named experiences are the Anti-Spam and Anti-Scam feature, Sahabat-AI, Gemini AI and Adobe Express. Mobile subscribers were flat at 93.4 million, so the ARPU gain is monetisation of an existing base rather than customer acquisition.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two mechanisms are mixed and the company does not split them. (1) AI-driven hyperpersonalisation of offers and pricing against a 93.4m-subscriber base - genuine deployment, and the reading that would make this a real S2. (2) Bundling third-party AI subscriptions (Gemini, Adobe Express) into mobile plans as paid add-ons - that is distribution of somebody else&#x27;s AI, closer to a reseller margin than to ROI on Indosat&#x27;s own AI spend. The disclosed ARPU number covers both.</dd><dt>Why this shape</dt><dd>S2, not S3. Test (a): absent the AI, these subscribers were already buying mobile data from Indosat or a rival - the counterfactual purchase plainly exists. Test (b): the prior alternative was a cheaper plan from the same carrier or from Telkomsel/XLSmart, so any share gain came out of a competitor or out of the customer&#x27;s own downgrade decision. Zero-sum at the Indonesian industry level and GDP-neutral: this is monetisation intensity on a flat subscriber base, not new demand. Worth logging anyway because a non-tech incumbent putting a specific revenue-per-user figure next to AI on the record is rare - most of this log&#x27;s S1/S2 entries stop at input metrics.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.telecomtv.com/content/ai/indosat-ooredoo-hutchison-delivers-double-digit-growth-accelerating-its-ai-led-transformation-56018/" rel="noopener">Indosat Ooredoo Hutchison H1 2026 results release, &#x27;Delivers Double-Digit Growth, Accelerating Its AI-Led Transformation&#x27; (reprinted in full by TelecomTV); corroborated by TNGlobal, 29 Jul 2026, 2026-07-29</a></dd><dt>Falsifier</dt><dd>ARPU growth decelerating below ~10% YoY in FY2026 full-year or H1 2027 results while the AI narrative is retained, or the company continuing to decline to separate hyperpersonalisation-driven ARPU from third-party AI-bundle resale revenue. Also falsifying: Indonesian peers (Telkomsel, XLSmart) posting comparable ARPU gains over the same period without an AI programme, which would make this industry price repair wearing an AI label.</dd><dt>Confidence</dt><dd><strong>low</strong> — The number is real and company-issued, but no counterfactual is offered and Indonesian mobile pricing repaired industry-wide over the period; the bundled-resale component is not separated from the deployment component. Logged 17 days after release - outside the normal 48-hour window and flagged as such.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">OpenAI / Chatterji, Holtz, Rakholia, Tambe &amp; Weeratunga - &#x27;How Organizations Use AI: Evidence from ChatGPT&#x27; (1,500+ organizations, 17m+ messages, 417 US public-company tickers)</span>
+    <span class="sector">Cross-sector (research) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Working paper submitted 12 Aug 2026 linking ChatGPT Enterprise account records to Compustat financials for US public companies through March 2026. On the only revenue question it asks, the answer is null: &quot;Revenue per employee is not meaningfully associated with output tokens per employee once other controls are included&quot;, and for the other usage margins &quot;the point estimates are positive for messages per active usage week per employee and weekly active users per employee, but neither coefficient is statistically significant.&quot; Adoption runs the other way - &quot;firms with higher revenue per employee are more likely to adopt ChatGPT Enterprise&quot;, with &quot;a one-log-point increase in lagged revenue per employee ... associated with roughly 0.4 to 0.9 percentage points higher adoption probability.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment finding - a measurement of whether the revenue signal this log hunts one company at a time shows up in the largest linked enterprise-AI usage dataset that exists. 521 ticker-year observations across 417 tickers with positive message volume, fiscal years 2024-2025.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, the shape that claims AI produces attributable incremental revenue at adopting firms. Read it precisely, because the headline overstates it: revenue per employee here is LAGGED - measured before adoption - so this is a cross-sectional selection regression, not a causal test of whether AI raised anyone&#x27;s revenue. What it establishes is (i) high-revenue-per-employee firms adopt more, i.e. adoption is selected on prior performance, which is exactly the endogeneity that makes every adopter-outperforms-non-adopter statistic worthless, and (ii) among adopters, usage intensity carries no measurable revenue signal. The load-bearing fact is the absence: OpenAI had ChatGPT Enterprise usage linked to Compustat financials through March 2026 - the data needed to test post-adoption revenue changes - and published 69 pages of adoption, seniority and task taxonomy without that result. The strongest-incentive party with the best dataset did not produce the number.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://arxiv.org/abs/2608.12236" rel="noopener">Chatterji, Holtz, Rakholia, Tambe &amp; Weeratunga, &#x27;How Organizations Use AI: Evidence from ChatGPT&#x27;, arXiv 2608.12236 (submitted 12 Aug 2026); surfaced by Fortune, 13 Aug 2026, 2026-08-12</a></dd><dt>Falsifier</dt><dd>A follow-up from these authors, or any linked-data replication, showing a positive post-adoption change in revenue per employee among ChatGPT Enterprise adopters with a credible control group. That would convert this from an absence into a rebutted claim. Conversely, if the 2026 fiscal-year panel is added and the null holds with post-adoption revenue, this entry strengthens considerably.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Quotes verified from the arXiv full text this run, not from the press summary. Confidence is capped at medium because the paper does not test the causal question, so this is evidence about the state of the evidence base rather than about AI&#x27;s true revenue effect.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
