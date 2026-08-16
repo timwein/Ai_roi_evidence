@@ -120,6 +120,20 @@ def best_to_date(models, key, date, lag_days=0):
     return max(vals) if vals else None
 
 
+def frontier_records(models, key):
+    """Successive record-setters only (running max), for capability-vs-time
+    trends — mid-tier releases (e.g. Haiku) and below-envelope releases
+    (e.g. Opus 5 after Fable 5) don't move the frontier and would bias the
+    slope down."""
+    best, out = None, []
+    for m in sorted((m for m in models if m.get(key) is not None),
+                    key=lambda m: m["release_date"]):
+        if best is None or m[key] > best:
+            best = m[key]
+            out.append(m)
+    return out
+
+
 def build_pairs(data, lag_days=0):
     models = data["anthropic_capability"]
     rows = []
@@ -171,12 +185,17 @@ def main():
     m_time = OLS(tt, ln_arr)
 
     # Capability-vs-time trends (Anthropic best-to-date at each revenue date is
-    # a step function; fit on the underlying model series instead).
-    cap = [m for m in data["anthropic_capability"] if m.get("eci") is not None]
+    # a step function; fit on the underlying record-setting releases instead).
+    cap = frontier_records(data["anthropic_capability"], "eci")
     cap_t = [years_since(d(m["release_date"])) for m in cap]
     m_eci_time = OLS(cap_t, [m["eci"] for m in cap])
 
-    fr = data.get("frontier_eci", [])
+    # Cross-lab frontier trend, post Epoch's own piecewise breakpoint
+    # (2024-04-08) so the slope reflects the current regime, not the slower
+    # pre-2024 one.
+    start = d(data.get("frontier_fit_start", "2024-04-08"))
+    fr = [m for m in frontier_records(data.get("frontier_eci", []), "eci")
+          if d(m["release_date"]) >= start]
     m_frontier_time = None
     if len(fr) >= 3:
         m_frontier_time = OLS([years_since(d(m["release_date"])) for m in fr],
@@ -193,6 +212,14 @@ def main():
                 if r["eci"] is not None and r["metr_min"] is not None]
     m_eci_lag = OLS([r["eci"] for r in rows_lag],
                     [math.log(r["arr"]) for r in rows_lag])
+
+    # Sensitivity: drop observations not confirmed by the company or major
+    # press (i.e. the tracker-sourced Aug 2026 point).
+    solid_dates = {p["date"] for p in data["revenue_points"]
+                   if p["kind"] != "projection" and p["confirmed"] != "tracker"}
+    solid = [r for r in used if r["date"] in solid_dates]
+    m_eci_solid = OLS([r["eci"] for r in solid],
+                      [math.log(r["arr"]) for r in solid])
 
     # ------------------------------------------------------------ projections
     proj = []
@@ -236,6 +263,7 @@ def main():
             "eci_vs_time_frontier": m_frontier_time.summary() if m_frontier_time else None,
             "log2_metr_vs_eci_link": link.summary(),
             "ln_arr_vs_eci_lag90d": m_eci_lag.summary(),
+            "ln_arr_vs_eci_no_tracker": m_eci_solid.summary(),
         },
         "collinearity_corr_eci_log2metr": corr(eci, l2h),
         "derived": {
@@ -272,7 +300,8 @@ def main():
     p(f"| log2(h) ~ ECI link | {link.b:.4f} | {link.r2:.3f} | "
       f"horizon doubles per {1/link.b:.1f} ECI pts |")
     p(f"\ncorr(ECI, log2 h) = {corr(eci, l2h):.3f}  → joint 2-var fit not identifiable")
-    p(f"lag-90d sensitivity: ECI slope {m_eci_lag.b:.4f} (vs {m_eci.b:.4f})\n")
+    p(f"lag-90d sensitivity: ECI slope {m_eci_lag.b:.4f} (vs {m_eci.b:.4f}); "
+      f"no-tracker sensitivity: {m_eci_solid.b:.4f}\n")
     p("| ECI | ARR (ECI model) | 80% PI | 95% PI | ARR (METR model) | ensemble | ~when (Anthropic / frontier trend) |")
     p("|---|---|---|---|---|---|---|")
     for pr in proj:
