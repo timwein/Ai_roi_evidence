@@ -1,0 +1,240 @@
+<title>Revenue per ECI Point</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --surface-1: #fcfcfb; --surface-2: #f4f3f0;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #78766f;
+  --border: #dedcd6; --border-strong: #c3c1b9;
+  --c-obs: #2a78d6; --c-model: #d95926; --c-front: #199e70;
+  --band80: rgba(217,89,38,.16); --band95: rgba(217,89,38,.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface-1: #1a1a19; --surface-2: #232322;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #99978d;
+    --border: #383835; --border-strong: #4d4c48;
+    --c-obs: #3987e5; --c-model: #e8622e; --c-front: #1baf7a;
+    --band80: rgba(232,98,46,.20); --band95: rgba(232,98,46,.10);
+  }
+}
+:root[data-theme="dark"] {
+  --surface-1: #1a1a19; --surface-2: #232322;
+  --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #99978d;
+  --border: #383835; --border-strong: #4d4c48;
+  --c-obs: #3987e5; --c-model: #e8622e; --c-front: #1baf7a;
+  --band80: rgba(232,98,46,.20); --band95: rgba(232,98,46,.10);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--surface-1); color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 22px 60px; }
+header h1 { font-size: 27px; letter-spacing: -.02em; margin: 0 0 6px; text-wrap: balance; }
+header .sub { color: var(--text-secondary); max-width: 72ch; margin: 0; }
+.mut { color: var(--text-muted); }
+.mini { font-size: 12.5px; }
+a { color: inherit; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em; }
+
+.callout {
+  border-left: 3px solid var(--c-model); background: var(--surface-2);
+  border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 22px 0;
+  color: var(--text-secondary); max-width: 86ch;
+}
+.callout b { color: var(--text-primary); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; margin: 26px 0; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+.tile .v { font-size: 29px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+.card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 18px 10px; margin: 18px 0; }
+.card h2 { font-size: 15px; margin: 0 0 2px; letter-spacing: -.01em; }
+.card .note { font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px; }
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 780px) { .duo { grid-template-columns: 1fr; } }
+svg { display: block; width: 100%; height: auto; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--text-secondary); margin: 4px 0 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.sw.line { height: 3px; border-radius: 2px; width: 16px; }
+.sw.dash { height: 0; width: 16px; border-top: 3px dashed; border-radius: 0; background: none !important; }
+.sw.hollow { background: transparent !important; border: 2px solid; border-radius: 50%; }
+
+.grid { stroke: var(--border); stroke-width: 1; }
+.tick { font-size: 11.5px; fill: var(--text-muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.axlab { font-size: 12px; fill: var(--text-secondary); }
+.b95 { fill: var(--band95); }
+.b80 { fill: var(--band80); }
+.fit { stroke: var(--c-model); stroke-width: 2.5; fill: none; }
+.fit.dash { stroke-dasharray: 6 5; }
+.obs { fill: var(--c-obs); stroke: var(--surface-2); stroke-width: 2; }
+.front { fill: none; stroke: var(--c-front); stroke-width: 2.2; }
+.diam { fill: var(--c-model); stroke: var(--surface-2); stroke-width: 1.5; }
+.tr-anth { stroke: var(--c-obs); stroke-width: 2; fill: none; opacity: .85; }
+.tr-front { stroke: var(--c-front); stroke-width: 2; fill: none; opacity: .85; }
+.target { stroke: var(--c-model); stroke-width: 1.6; stroke-dasharray: 5 5; }
+.dlab { font-size: 12px; fill: var(--text-secondary); font-weight: 600; }
+.dlab.proj { fill: var(--c-model); }
+.hit { fill: transparent; }
+.pt { cursor: default; outline: none; }
+.pt:hover .obs, .pt:focus .obs { stroke-width: 3; r: 6; }
+.pt:hover .front, .pt:focus .front { stroke-width: 3.4; }
+.pt:focus-visible .hit { stroke: var(--c-obs); stroke-width: 1.5; stroke-dasharray: 3 3; }
+
+#tip {
+  position: fixed; z-index: 10; pointer-events: none; visibility: hidden;
+  background: var(--surface-1); color: var(--text-primary);
+  border: 1px solid var(--border-strong); border-radius: 8px;
+  padding: 8px 11px; font-size: 12.5px; line-height: 1.45; max-width: 300px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.14);
+}
+#tip b { font-weight: 650; }
+
+.tblwrap { overflow-x: auto; margin: 10px 0 4px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--border-strong); white-space: nowrap; }
+td { padding: 7px 12px 7px 0; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.hl td { background: var(--band95); }
+tr.hl td:first-child { font-weight: 650; }
+details { margin: 14px 0; }
+summary { cursor: pointer; color: var(--text-secondary); font-size: 14px; }
+.caveats { max-width: 86ch; }
+.caveats li { margin: 7px 0; color: var(--text-secondary); }
+.caveats b { color: var(--text-primary); }
+footer { margin-top: 34px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-muted); }
+@media (prefers-reduced-motion: no-preference) {
+  #tip { transition: opacity .12s; }
+}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Revenue per ECI Point</h1>
+  <p class="sub">Anthropic's annualized run-rate revenue, fitted against the
+  <a href="https://epoch.ai/eci" rel="noopener">Epoch Capabilities Index</a> and
+  <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/" rel="noopener">METR 50% time horizons</a>
+  of its frontier models — then extended to ECI 170–195, assuming no compute bottlenecks.
+  Data through <b>2026-08-16</b>, n&nbsp;=&nbsp;13 dated observations.</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><div class="k">Fitted elasticity</div><div class="v">×4.4</div><div class="s">ARR per +10 ECI (95% CI ×3.1–×6.1) · R² 0.89</div></div>
+  <div class="tile"><div class="k">ECI 170 → ARR</div><div class="v">$217B</div><div class="s">80% PI $96B–$488B · ~Mar 2027</div></div>
+  <div class="tile"><div class="k">ECI 180 → ARR</div><div class="v">$948B</div><div class="s">80% PI $366B–$2.5T · ~Nov 2027</div></div>
+  <div class="tile"><div class="k">ECI 190 → ARR</div><div class="v">$4.1T</div><div class="s">80% PI $1.4T–$13T · ~Aug 2028</div></div>
+</div>
+
+<div class="callout"><b>Read this as trend arithmetic, not a forecast.</b>
+Revenue, ECI and METR horizons all rose together 2024–2026; n&nbsp;=&nbsp;13 observations of one
+company cannot separate "capability causes revenue" from "both ride time." Past
+~$1T the extrapolation also assumes demand keeps absorbing supply — a
+macroeconomic regime change, not a regression's domain of validity.</div>
+
+<div class="card">
+  <h2>ARR vs ECI — fit and extrapolation</h2>
+  <p class="note">ln ARR = a + 0.1475·ECI. Each revenue observation is paired with the best Epoch-scored public Anthropic model at that date. Dashed = beyond observed range.</p>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--c-obs)"></span>observed ARR (dated)</span>
+    <span><span class="sw line" style="background:var(--c-model)"></span>fit</span>
+    <span><span class="sw dash" style="border-color:var(--c-model)"></span>extrapolation</span>
+    <span><span class="sw" style="background:var(--band80)"></span>80% PI</span>
+    <span><span class="sw" style="background:var(--band95)"></span>95% PI</span>
+    <span><span class="sw" style="background:var(--c-model);transform:rotate(45deg)"></span>projection at target ECI</span>
+  </div>
+  <svg viewBox="0 0 920 470" role="img" aria-label="Scatter of Anthropic annualized revenue against ECI with fitted exponential and prediction intervals extrapolated to ECI 195"><line class="grid" x1="74" y1="407.2" x2="890" y2="407.2"/><text class="tick" x="66" y="411.2" text-anchor="end">$1B</text><line class="grid" x1="74" y1="366.9" x2="890" y2="366.9"/><text class="tick" x="66" y="370.9" text-anchor="end">$3B</text><line class="grid" x1="74" y1="322.7" x2="890" y2="322.7"/><text class="tick" x="66" y="326.7" text-anchor="end">$10B</text><line class="grid" x1="74" y1="282.3" x2="890" y2="282.3"/><text class="tick" x="66" y="286.3" text-anchor="end">$30B</text><line class="grid" x1="74" y1="238.1" x2="890" y2="238.1"/><text class="tick" x="66" y="242.1" text-anchor="end">$100B</text><line class="grid" x1="74" y1="197.7" x2="890" y2="197.7"/><text class="tick" x="66" y="201.7" text-anchor="end">$300B</text><line class="grid" x1="74" y1="153.5" x2="890" y2="153.5"/><text class="tick" x="66" y="157.5" text-anchor="end">$1T</text><line class="grid" x1="74" y1="113.1" x2="890" y2="113.1"/><text class="tick" x="66" y="117.1" text-anchor="end">$3T</text><line class="grid" x1="74" y1="68.9" x2="890" y2="68.9"/><text class="tick" x="66" y="72.9" text-anchor="end">$10T</text><line class="grid" x1="74" y1="28.6" x2="890" y2="28.6"/><text class="tick" x="66" y="32.6" text-anchor="end">$30T</text><line class="grid" x1="120.0" y1="18" x2="120.0" y2="426"/><text class="tick" x="120.0" y="444" text-anchor="middle">130</text><line class="grid" x1="234.9" y1="18" x2="234.9" y2="426"/><text class="tick" x="234.9" y="444" text-anchor="middle">140</text><line class="grid" x1="349.8" y1="18" x2="349.8" y2="426"/><text class="tick" x="349.8" y="444" text-anchor="middle">150</text><line class="grid" x1="464.8" y1="18" x2="464.8" y2="426"/><text class="tick" x="464.8" y="444" text-anchor="middle">160</text><line class="grid" x1="579.7" y1="18" x2="579.7" y2="426"/><text class="tick" x="579.7" y="444" text-anchor="middle">170</text><line class="grid" x1="694.6" y1="18" x2="694.6" y2="426"/><text class="tick" x="694.6" y="444" text-anchor="middle">180</text><line class="grid" x1="809.5" y1="18" x2="809.5" y2="426"/><text class="tick" x="809.5" y="444" text-anchor="middle">190</text><text class="axlab" x="482" y="464" text-anchor="middle">Epoch Capabilities Index (best public Anthropic model)</text><polygon class="b95" points="85.5,396.3 92.2,393.5 98.9,390.7 105.6,388.0 112.3,385.2 119.0,382.4 125.7,379.6 132.4,376.7 139.1,373.9 145.8,371.1 152.5,368.2 159.2,365.4 165.9,362.5 172.6,359.6 179.4,356.8 186.1,353.9 192.8,350.9 199.5,348.0 206.2,345.1 212.9,342.1 219.6,339.2 226.3,336.2 233.0,333.2 239.7,330.2 246.4,327.2 253.1,324.2 259.8,321.2 266.5,318.1 273.2,315.1 279.9,312.0 286.6,308.9 293.3,305.8 300.0,302.7 306.7,299.6 313.4,296.4 320.1,293.3 326.8,290.1 333.5,286.9 340.3,283.7 347.0,280.5 353.7,277.3 360.4,274.0 367.1,270.8 373.8,267.5 380.5,264.2 387.2,260.9 393.9,257.6 400.6,254.3 407.3,251.0 414.0,247.6 420.7,244.3 427.4,240.9 434.1,237.5 440.8,234.1 447.5,230.7 454.2,227.3 460.9,223.9 467.6,220.5 474.3,217.0 481.0,213.6 487.7,210.1 494.5,206.6 501.2,203.1 507.9,199.6 514.6,196.1 521.3,192.6 528.0,189.1 534.7,185.5 541.4,182.0 548.1,178.4 554.8,174.9 561.5,171.3 568.2,167.7 574.9,164.1 581.6,160.5 588.3,156.9 595.0,153.3 601.7,149.7 608.4,146.1 615.1,142.5 621.8,138.8 628.5,135.2 635.2,131.6 641.9,127.9 648.6,124.3 655.4,120.6 662.1,116.9 668.8,113.3 675.5,109.6 682.2,105.9 688.9,102.2 695.6,98.5 702.3,94.8 709.0,91.1 715.7,87.4 722.4,83.7 729.1,80.0 735.8,76.3 742.5,72.6 749.2,68.9 755.9,65.1 762.6,61.4 769.3,57.7 776.0,53.9 782.7,50.2 789.4,46.4 796.1,42.7 802.8,39.0 809.5,35.2 816.3,31.4 823.0,27.7 829.7,23.9 836.4,20.2 843.1,16.4 849.8,12.6 856.5,8.9 863.2,5.1 869.9,1.3 876.6,-2.5 883.3,-6.2 890.0,-10.0 890.0,136.8 883.3,139.3 876.6,141.9 869.9,144.4 863.2,147.0 856.5,149.5 849.8,152.1 843.1,154.6 836.4,157.2 829.7,159.7 823.0,162.3 816.3,164.8 809.5,167.4 802.8,170.0 796.1,172.6 789.4,175.1 782.7,177.7 776.0,180.3 769.3,182.9 762.6,185.5 755.9,188.0 749.2,190.6 742.5,193.2 735.8,195.8 729.1,198.4 722.4,201.1 715.7,203.7 709.0,206.3 702.3,208.9 695.6,211.5 688.9,214.2 682.2,216.8 675.5,219.4 668.8,222.1 662.1,224.7 655.4,227.4 648.6,230.0 641.9,232.7 635.2,235.4 628.5,238.0 621.8,240.7 615.1,243.4 608.4,246.1 601.7,248.8 595.0,251.5 588.3,254.2 581.6,256.9 574.9,259.7 568.2,262.4 561.5,265.2 554.8,267.9 548.1,270.7 541.4,273.4 534.7,276.2 528.0,279.0 521.3,281.8 514.6,284.6 507.9,287.4 501.2,290.2 494.5,293.0 487.7,295.9 481.0,298.7 474.3,301.6 467.6,304.5 460.9,307.3 454.2,310.2 447.5,313.1 440.8,316.1 434.1,319.0 427.4,321.9 420.7,324.9 414.0,327.8 407.3,330.8 400.6,333.8 393.9,336.8 387.2,339.8 380.5,342.8 373.8,345.9 367.1,348.9 360.4,352.0 353.7,355.1 347.0,358.2 340.3,361.3 333.5,364.4 326.8,367.6 320.1,370.7 313.4,373.9 306.7,377.0 300.0,380.2 293.3,383.4 286.6,386.7 279.9,389.9 273.2,393.1 266.5,396.4 259.8,399.7 253.1,403.0 246.4,406.3 239.7,409.6 233.0,412.9 226.3,416.2 219.6,419.6 212.9,422.9 206.2,426.3 199.5,429.7 192.8,433.1 186.1,436.5 179.4,439.9 172.6,443.4 165.9,446.8 159.2,450.3 152.5,453.7 145.8,457.2 139.1,460.7 132.4,464.2 125.7,467.7 119.0,471.2 112.3,474.7 105.6,478.3 98.9,481.8 92.2,485.3 85.5,488.9"/><polygon class="b80" points="85.5,413.9 92.2,411.0 98.9,408.1 105.6,405.2 112.3,402.2 119.0,399.3 125.7,396.3 132.4,393.4 139.1,390.4 145.8,387.5 152.5,384.5 159.2,381.6 165.9,378.6 172.6,375.6 179.4,372.6 186.1,369.6 192.8,366.6 199.5,363.6 206.2,360.6 212.9,357.5 219.6,354.5 226.3,351.5 233.0,348.4 239.7,345.4 246.4,342.3 253.1,339.2 259.8,336.1 266.5,333.0 273.2,329.9 279.9,326.8 286.6,323.7 293.3,320.6 300.0,317.5 306.7,314.3 313.4,311.2 320.1,308.0 326.8,304.8 333.5,301.7 340.3,298.5 347.0,295.3 353.7,292.1 360.4,288.9 367.1,285.7 373.8,282.4 380.5,279.2 387.2,276.0 393.9,272.7 400.6,269.5 407.3,266.2 414.0,262.9 420.7,259.6 427.4,256.4 434.1,253.1 440.8,249.8 447.5,246.4 454.2,243.1 460.9,239.8 467.6,236.5 474.3,233.1 481.0,229.8 487.7,226.4 494.5,223.1 501.2,219.7 507.9,216.3 514.6,213.0 521.3,209.6 528.0,206.2 534.7,202.8 541.4,199.4 548.1,196.0 554.8,192.6 561.5,189.2 568.2,185.8 574.9,182.3 581.6,178.9 588.3,175.5 595.0,172.0 601.7,168.6 608.4,165.2 615.1,161.7 621.8,158.3 628.5,154.8 635.2,151.3 641.9,147.9 648.6,144.4 655.4,140.9 662.1,137.5 668.8,134.0 675.5,130.5 682.2,127.0 688.9,123.5 695.6,120.1 702.3,116.6 709.0,113.1 715.7,109.6 722.4,106.1 729.1,102.6 735.8,99.1 742.5,95.6 749.2,92.1 755.9,88.5 762.6,85.0 769.3,81.5 776.0,78.0 782.7,74.5 789.4,71.0 796.1,67.4 802.8,63.9 809.5,60.4 816.3,56.9 823.0,53.3 829.7,49.8 836.4,46.3 843.1,42.7 849.8,39.2 856.5,35.7 863.2,32.1 869.9,28.6 876.6,25.0 883.3,21.5 890.0,18.0 890.0,108.8 883.3,111.6 876.6,114.4 869.9,117.2 863.2,119.9 856.5,122.7 849.8,125.5 843.1,128.3 836.4,131.1 829.7,133.9 823.0,136.6 816.3,139.4 809.5,142.2 802.8,145.0 796.1,147.8 789.4,150.6 782.7,153.4 776.0,156.2 769.3,159.0 762.6,161.8 755.9,164.6 749.2,167.4 742.5,170.3 735.8,173.1 729.1,175.9 722.4,178.7 715.7,181.5 709.0,184.3 702.3,187.2 695.6,190.0 688.9,192.8 682.2,195.7 675.5,198.5 668.8,201.3 662.1,204.2 655.4,207.0 648.6,209.9 641.9,212.7 635.2,215.6 628.5,218.5 621.8,221.3 615.1,224.2 608.4,227.1 601.7,229.9 595.0,232.8 588.3,235.7 581.6,238.6 574.9,241.5 568.2,244.4 561.5,247.3 554.8,250.2 548.1,253.1 541.4,256.0 534.7,258.9 528.0,261.9 521.3,264.8 514.6,267.7 507.9,270.7 501.2,273.6 494.5,276.6 487.7,279.5 481.0,282.5 474.3,285.5 467.6,288.5 460.9,291.5 454.2,294.4 447.5,297.4 440.8,300.5 434.1,303.5 427.4,306.5 420.7,309.5 414.0,312.6 407.3,315.6 400.6,318.7 393.9,321.7 387.2,324.8 380.5,327.9 373.8,331.0 367.1,334.1 360.4,337.2 353.7,340.3 347.0,343.4 340.3,346.5 333.5,349.7 326.8,352.8 320.1,356.0 313.4,359.1 306.7,362.3 300.0,365.5 293.3,368.7 286.6,371.8 279.9,375.1 273.2,378.3 266.5,381.5 259.8,384.7 253.1,388.0 246.4,391.2 239.7,394.5 233.0,397.7 226.3,401.0 219.6,404.3 212.9,407.5 206.2,410.8 199.5,414.1 192.8,417.4 186.1,420.8 179.4,424.1 172.6,427.4 165.9,430.7 159.2,434.1 152.5,437.4 145.8,440.8 139.1,444.2 132.4,447.5 125.7,450.9 119.0,454.3 112.3,457.7 105.6,461.0 98.9,464.4 92.2,467.8 85.5,471.3"/><path class="fit" d="M85.5,442.6L92.2,439.4L98.9,436.3L105.6,433.1L112.3,429.9L119.0,426.8L125.7,423.6L132.4,420.5L139.1,417.3L145.8,414.1L152.5,411.0L159.2,407.8L165.9,404.7L172.6,401.5L179.4,398.3L186.1,395.2L192.8,392.0L199.5,388.9L206.2,385.7L212.9,382.5L219.6,379.4L226.3,376.2L233.0,373.1L239.7,369.9L246.4,366.7L253.1,363.6L259.8,360.4L266.5,357.3L273.2,354.1L279.9,350.9L286.6,347.8L293.3,344.6L300.0,341.5L306.7,338.3L313.4,335.1L320.1,332.0L326.8,328.8L333.5,325.7L340.3,322.5L347.0,319.3L353.7,316.2L360.4,313.0L367.1,309.9L373.8,306.7L380.5,303.5L387.2,300.4L393.9,297.2L400.6,294.1L407.3,290.9L414.0,287.7L420.7,284.6L427.4,281.4L434.1,278.3L440.8,275.1L447.5,271.9L454.2,268.8L460.9,265.6L467.6,262.5L474.3,259.3"/><path class="fit dash" d="M481.0,256.1L487.7,253.0L494.5,249.8L501.2,246.7L507.9,243.5L514.6,240.3L521.3,237.2L528.0,234.0L534.7,230.9L541.4,227.7L548.1,224.5L554.8,221.4L561.5,218.2L568.2,215.1L574.9,211.9L581.6,208.7L588.3,205.6L595.0,202.4L601.7,199.3L608.4,196.1L615.1,192.9L621.8,189.8L628.5,186.6L635.2,183.5L641.9,180.3L648.6,177.1L655.4,174.0L662.1,170.8L668.8,167.7L675.5,164.5L682.2,161.3L688.9,158.2L695.6,155.0L702.3,151.9L709.0,148.7L715.7,145.5L722.4,142.4L729.1,139.2L735.8,136.1L742.5,132.9L749.2,129.7L755.9,126.6L762.6,123.4L769.3,120.3L776.0,117.1L782.7,113.9L789.4,110.8L796.1,107.6L802.8,104.5L809.5,101.3L816.3,98.1L823.0,95.0L829.7,91.8L836.4,88.7L843.1,85.5L849.8,82.3L856.5,79.2L863.2,76.0L869.9,72.9L876.6,69.7L883.3,66.5L890.0,63.4"/><g class="pt" tabindex="0" data-tip="<b>ECI 170</b> — central $217B<br>80% PI $96B–$488B<br>95% PI $59B–$803B<br>METR model: $376B · ensemble $285B<br>≈ Mar 2027 (Anthropic trend)"><circle class="hit" cx="579.7" cy="209.6" r="14"/><path class="diam" d="M579.7 204.1L585.2 209.6L579.7 215.1L574.2 209.6Z"/></g><text class="dlab proj" x="579.7" y="197.6" text-anchor="middle">$217B</text><g class="pt" tabindex="0" data-tip="<b>ECI 175</b> — central $453B<br>80% PI $189B–$1.1T<br>95% PI $110B–$1.9T<br>METR model: $893B · ensemble $636B<br>≈ Jul 2027 (Anthropic trend)"><circle class="hit" cx="637.2" cy="182.6" r="14"/><path class="diam" d="M637.2 177.1L642.7 182.6L637.2 188.1L631.7 182.6Z"/></g><g class="pt" tabindex="0" data-tip="<b>ECI 180</b> — central $948B<br>80% PI $366B–$2.5T<br>95% PI $204B–$4.4T<br>METR model: $2.1T · ensemble $1.4T<br>≈ Nov 2027 (Anthropic trend)"><circle class="hit" cx="694.6" cy="155.5" r="14"/><path class="diam" d="M694.6 150.0L700.1 155.5L694.6 161.0L689.1 155.5Z"/></g><text class="dlab proj" x="694.6" y="143.5" text-anchor="middle">$948B</text><g class="pt" tabindex="0" data-tip="<b>ECI 185</b> — central $2.0T<br>80% PI $707B–$5.6T<br>95% PI $375B–$10T<br>METR model: $5.0T · ensemble $3.2T<br>≈ Apr 2028 (Anthropic trend)"><circle class="hit" cx="752.1" cy="128.4" r="14"/><path class="diam" d="M752.1 122.9L757.6 128.4L752.1 133.9L746.6 128.4Z"/></g><g class="pt" tabindex="0" data-tip="<b>ECI 190</b> — central $4.1T<br>80% PI $1.4T–$13T<br>95% PI $685B–$25T<br>METR model: $12T · ensemble $7.0T<br>≈ Aug 2028 (Anthropic trend)"><circle class="hit" cx="809.5" cy="101.3" r="14"/><path class="diam" d="M809.5 95.8L815.0 101.3L809.5 106.8L804.0 101.3Z"/></g><text class="dlab proj" x="809.5" y="89.3" text-anchor="middle">$4T</text><g class="pt" tabindex="0" data-tip="<b>ECI 195</b> — central $8.7T<br>80% PI $2.6T–$29T<br>95% PI $1.2T–$60T<br>METR model: $28T · ensemble $16T<br>≈ Dec 2028 (Anthropic trend)"><circle class="hit" cx="867.0" cy="74.2" r="14"/><path class="diam" d="M867.0 68.7L872.5 74.2L867.0 79.7L861.5 74.2Z"/></g><g class="pt" tabindex="0" data-tip="<b>2024-12-31</b> — ARR $1.0B<br>ECI 130 · METR 50% horizon 20 min"><circle class="hit" cx="120.0" cy="407.2" r="13"/><circle class="obs" cx="120.0" cy="407.2" r="4.5"/></g><text class="dlab" x="130.0" y="411.2" text-anchor="start">$1B · Dec 2024</text><g class="pt" tabindex="0" data-tip="<b>2025-03-04</b> — ARR $1.4B<br>ECI 141.5 · METR 50% horizon 60 min"><circle class="hit" cx="252.1" cy="394.9" r="13"/><circle class="obs" cx="252.1" cy="394.9" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-03-31</b> — ARR $2.0B<br>ECI 141.5 · METR 50% horizon 60 min"><circle class="hit" cx="252.1" cy="381.8" r="13"/><circle class="obs" cx="252.1" cy="381.8" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-05-30</b> — ARR $3.0B<br>ECI 141.5 · METR 50% horizon 2 h"><circle class="hit" cx="252.1" cy="366.9" r="13"/><circle class="obs" cx="252.1" cy="366.9" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-07-15</b> — ARR $4.0B<br>ECI 141.5 · METR 50% horizon 2 h"><circle class="hit" cx="252.1" cy="356.3" r="13"/><circle class="obs" cx="252.1" cy="356.3" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-08-31</b> — ARR $5.0B<br>ECI 144 · METR 50% horizon 2 h"><circle class="hit" cx="280.9" cy="348.1" r="13"/><circle class="obs" cx="280.9" cy="348.1" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-10-15</b> — ARR $7.0B<br>ECI 144 · METR 50% horizon 2 h"><circle class="hit" cx="280.9" cy="335.8" r="13"/><circle class="obs" cx="280.9" cy="335.8" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2025-12-31</b> — ARR $9.0B<br>ECI 149.5 · METR 50% horizon 5 h"><circle class="hit" cx="344.1" cy="326.5" r="13"/><circle class="obs" cx="344.1" cy="326.5" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2026-02-12</b> — ARR $14B<br>ECI 155 · METR 50% horizon 12 h"><circle class="hit" cx="407.3" cy="310.3" r="13"/><circle class="obs" cx="407.3" cy="310.3" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2026-03-03</b> — ARR $19B<br>ECI 155 · METR 50% horizon 12 h"><circle class="hit" cx="407.3" cy="299.1" r="13"/><circle class="obs" cx="407.3" cy="299.1" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2026-04-06</b> — ARR $30B<br>ECI 155 · METR 50% horizon 12 h"><circle class="hit" cx="407.3" cy="282.3" r="13"/><circle class="obs" cx="407.3" cy="282.3" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2026-05-15</b> — ARR $47B<br>ECI 155 · METR 50% horizon 12 h"><circle class="hit" cx="407.3" cy="265.8" r="13"/><circle class="obs" cx="407.3" cy="265.8" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>2026-08-06</b> — ARR $70B<br>ECI 161 · METR 50% horizon 12 h"><circle class="hit" cx="476.3" cy="251.2" r="13"/><circle class="obs" cx="476.3" cy="251.2" r="4.5"/></g><text class="dlab" x="466.3" y="241.2" text-anchor="end">~$70B · Aug 2026</text></svg>
+</div>
+
+<div class="duo">
+  <div class="card">
+    <h2>When does ECI get there?</h2>
+    <p class="note">Successive record-setters. Anthropic trend +14.3 pts/yr; cross-lab frontier +15.5 pts/yr (matches Epoch's published estimate).</p>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--c-obs)"></span>Anthropic record</span>
+      <span><span class="sw hollow" style="border-color:var(--c-front)"></span>cross-lab record</span>
+      <span><span class="sw dash" style="border-color:var(--c-model)"></span>targets + ETA</span>
+    </div>
+    <svg viewBox="0 0 452 360" role="img" aria-label="ECI versus time for Anthropic and cross-lab frontier records, with trend lines reaching 170, 180 and 190"><line class="grid" x1="46.0" y1="14" x2="46.0" y2="320"/><text class="tick" x="46.0" y="336" text-anchor="middle">2023</text><line class="grid" x1="96.6" y1="14" x2="96.6" y2="320"/><text class="tick" x="96.6" y="336" text-anchor="middle">2024</text><line class="grid" x1="147.4" y1="14" x2="147.4" y2="320"/><text class="tick" x="147.4" y="336" text-anchor="middle">2025</text><line class="grid" x1="197.9" y1="14" x2="197.9" y2="320"/><text class="tick" x="197.9" y="336" text-anchor="middle">2026</text><line class="grid" x1="248.5" y1="14" x2="248.5" y2="320"/><text class="tick" x="248.5" y="336" text-anchor="middle">2027</text><line class="grid" x1="299.1" y1="14" x2="299.1" y2="320"/><text class="tick" x="299.1" y="336" text-anchor="middle">2028</text><line class="grid" x1="349.9" y1="14" x2="349.9" y2="320"/><text class="tick" x="349.9" y="336" text-anchor="middle">2029</text><line class="grid" x1="46" y1="288.6" x2="370" y2="288.6"/><text class="tick" x="40" y="292.6" text-anchor="end">130</text><line class="grid" x1="46" y1="249.4" x2="370" y2="249.4"/><text class="tick" x="40" y="253.4" text-anchor="end">140</text><line class="grid" x1="46" y1="210.2" x2="370" y2="210.2"/><text class="tick" x="40" y="214.2" text-anchor="end">150</text><line class="grid" x1="46" y1="170.9" x2="370" y2="170.9"/><text class="tick" x="40" y="174.9" text-anchor="end">160</text><line class="grid" x1="46" y1="131.7" x2="370" y2="131.7"/><text class="tick" x="40" y="135.7" text-anchor="end">170</text><line class="grid" x1="46" y1="92.5" x2="370" y2="92.5"/><text class="tick" x="40" y="96.5" text-anchor="end">180</text><line class="grid" x1="46" y1="53.2" x2="370" y2="53.2"/><text class="tick" x="40" y="57.2" text-anchor="end">190</text><path class="tr-anth" d="M105.4,302.2L350.9,29.7"/><path class="tr-front" d="M110.2,298.3L333.4,29.7"/><line class="target" x1="46" y1="131.7" x2="370" y2="131.7"/><text class="dlab proj" x="375" y="135.2" text-anchor="start">Mar ’27</text><line class="target" x1="46" y1="92.5" x2="370" y2="92.5"/><text class="dlab proj" x="375" y="96.0" text-anchor="start">Nov ’27</text><line class="target" x1="46" y1="53.2" x2="370" y2="53.2"/><text class="dlab proj" x="375" y="56.7" text-anchor="start">Aug ’28</text><g class="pt" tabindex="0" data-tip="<b>Claude 3.5 Sonnet</b> (Anthropic) — ECI 130<br>Jun 2024 · cross-lab frontier record"><circle class="hit" cx="120.3" cy="288.6" r="12"/><circle class="front" cx="120.3" cy="288.6" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>GPT-5</b> (OpenAI) — ECI 150<br>Aug 2025 · cross-lab frontier record"><circle class="hit" cx="177.6" cy="210.2" r="12"/><circle class="front" cx="177.6" cy="210.2" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>GPT-5.1</b> (OpenAI) — ECI 151<br>Nov 2025 · cross-lab frontier record"><circle class="hit" cx="191.0" cy="206.2" r="12"/><circle class="front" cx="191.0" cy="206.2" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Gemini 3 Pro</b> (Google DeepMind) — ECI 154<br>Nov 2025 · cross-lab frontier record"><circle class="hit" cx="191.8" cy="194.5" r="12"/><circle class="front" cx="191.8" cy="194.5" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.6</b> (Anthropic) — ECI 155<br>Feb 2026 · cross-lab frontier record"><circle class="hit" cx="202.8" cy="190.5" r="12"/><circle class="front" cx="202.8" cy="190.5" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>GPT-5.5 Pro</b> (OpenAI) — ECI 159<br>Apr 2026 · cross-lab frontier record"><circle class="hit" cx="213.5" cy="174.8" r="12"/><circle class="front" cx="213.5" cy="174.8" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Fable 5</b> (Anthropic) — ECI 161<br>Jun 2026 · cross-lab frontier record"><circle class="hit" cx="220.0" cy="167.0" r="12"/><circle class="front" cx="220.0" cy="167.0" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>GPT-4</b> (OpenAI) — ECI 126<br>Mar 2023 · cross-lab frontier record"><circle class="hit" cx="56.0" cy="304.3" r="12"/><circle class="front" cx="56.0" cy="304.3" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3 Opus</b> (Anthropic) — ECI 128<br>Mar 2024 · cross-lab frontier record"><circle class="hit" cx="105.4" cy="296.5" r="12"/><circle class="front" cx="105.4" cy="296.5" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3 Opus</b> — ECI 128<br>Mar 2024 · Anthropic frontier record"><circle class="hit" cx="105.4" cy="296.5" r="12"/><circle class="obs" cx="105.4" cy="296.5" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3.5 Sonnet</b> — ECI 130<br>Jun 2024 · Anthropic frontier record"><circle class="hit" cx="120.3" cy="288.6" r="12"/><circle class="obs" cx="120.3" cy="288.6" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3.7 Sonnet</b> — ECI 141.5<br>Feb 2025 · Anthropic frontier record"><circle class="hit" cx="154.8" cy="243.5" r="12"/><circle class="obs" cx="154.8" cy="243.5" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.1</b> — ECI 144<br>Aug 2025 · Anthropic frontier record"><circle class="hit" cx="177.3" cy="233.7" r="12"/><circle class="obs" cx="177.3" cy="233.7" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.5</b> — ECI 149.5<br>Nov 2025 · Anthropic frontier record"><circle class="hit" cx="192.7" cy="212.1" r="12"/><circle class="obs" cx="192.7" cy="212.1" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.6</b> — ECI 155<br>Feb 2026 · Anthropic frontier record"><circle class="hit" cx="202.8" cy="190.5" r="12"/><circle class="obs" cx="202.8" cy="190.5" r="3.6"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Fable 5</b> — ECI 161<br>Jun 2026 · Anthropic frontier record"><circle class="hit" cx="220.0" cy="167.0" r="12"/><circle class="obs" cx="220.0" cy="167.0" r="3.6"/></g></svg>
+  </div>
+  <div class="card">
+    <h2>ECI ↔ METR horizon link</h2>
+    <p class="note">Six Anthropic models measured on both. Near-collinear (r&nbsp;=&nbsp;0.97 in the revenue sample) — the two indices are one signal, so they are fitted separately, never jointly.</p>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--c-obs)"></span>Anthropic model</span>
+      <span><span class="sw line" style="background:var(--c-model)"></span>link fit</span>
+    </div>
+    <svg viewBox="0 0 452 360" role="img" aria-label="METR 50 percent time horizon versus ECI for six Anthropic models with near-perfect log-linear link"><line class="grid" x1="56" y1="308.6" x2="434" y2="308.6"/><text class="tick" x="50" y="312.6" text-anchor="end">5 min</text><line class="grid" x1="56" y1="252.5" x2="434" y2="252.5"/><text class="tick" x="50" y="256.5" text-anchor="end">15 min</text><line class="grid" x1="56" y1="181.7" x2="434" y2="181.7"/><text class="tick" x="50" y="185.7" text-anchor="end">1 h</text><line class="grid" x1="56" y1="110.9" x2="434" y2="110.9"/><text class="tick" x="50" y="114.9" text-anchor="end">4 h</text><line class="grid" x1="56" y1="54.8" x2="434" y2="54.8"/><text class="tick" x="50" y="58.8" text-anchor="end">12 h</text><line class="grid" x1="110.0" y1="14" x2="110.0" y2="320"/><text class="tick" x="110.0" y="336" text-anchor="middle">130</text><line class="grid" x1="218.0" y1="14" x2="218.0" y2="320"/><text class="tick" x="218.0" y="336" text-anchor="middle">140</text><line class="grid" x1="326.0" y1="14" x2="326.0" y2="320"/><text class="tick" x="326.0" y="336" text-anchor="middle">150</text><line class="grid" x1="434.0" y1="14" x2="434.0" y2="320"/><text class="tick" x="434.0" y="336" text-anchor="middle">160</text><path class="fit" d="M66.8,306.5L423.2,23.0"/><g class="pt" tabindex="0" data-tip="<b>Claude 3 Opus</b> — ECI 128<br>METR 50% horizon 7 min (TH1.0)"><circle class="hit" cx="88.4" cy="290.0" r="12"/><circle class="obs" cx="88.4" cy="290.0" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3.5 Sonnet</b> — ECI 130<br>METR 50% horizon 11 min (TH1.1)"><circle class="hit" cx="110.0" cy="266.5" r="12"/><circle class="obs" cx="110.0" cy="266.5" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude 3.7 Sonnet</b> — ECI 141.5<br>METR 50% horizon 60 min (TH1.1)"><circle class="hit" cx="234.2" cy="181.4" r="12"/><circle class="obs" cx="234.2" cy="181.4" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.1</b> — ECI 144<br>METR 50% horizon 2 h (TH1.1)"><circle class="hit" cx="261.2" cy="155.3" r="12"/><circle class="obs" cx="261.2" cy="155.3" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.5</b> — ECI 149.5<br>METR 50% horizon 5 h (TH1.1)"><circle class="hit" cx="320.6" cy="100.7" r="12"/><circle class="obs" cx="320.6" cy="100.7" r="4.5"/></g><g class="pt" tabindex="0" data-tip="<b>Claude Opus 4.6</b> — ECI 155<br>METR 50% horizon 12 h (TH1.1)"><circle class="hit" cx="380.0" cy="54.9" r="12"/><circle class="obs" cx="380.0" cy="54.9" r="4.5"/></g><text class="dlab" x="99.19999999999999" y="99.5">R² = 0.997</text><text class="dlab" x="99.19999999999999" y="114.5">horizon ×2 per 4.1 ECI pts</text></svg>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Projections</h2>
+  <p class="note">ECI model with prediction intervals; METR model evaluated at each target's horizon-equivalent; ensemble = geometric mean. ETA from Anthropic / frontier ECI trends.</p>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>ECI</th><th>≈ METR horizon</th><th>ECI model</th><th>80% PI</th><th>95% PI</th><th>METR model</th><th>Ensemble</th><th>~When</th></tr></thead>
+    <tbody><tr class=hl><td>170</td><td>142 h (~4 wk)</td><td><b>$217B</b></td><td>$96B – $488B</td><td>$59B – $803B</td><td>$376B</td><td>$285B</td><td>Mar 2027 / Jan 2027</td></tr><tr><td>175</td><td>330 h (~8 wk)</td><td><b>$453B</b></td><td>$189B – $1.1T</td><td>$110B – $1.9T</td><td>$893B</td><td>$636B</td><td>Jul 2027 / Apr 2027</td></tr><tr class=hl><td>180</td><td>765 h (~19 wk)</td><td><b>$948B</b></td><td>$366B – $2.5T</td><td>$204B – $4.4T</td><td>$2.1T</td><td>$1.4T</td><td>Nov 2027 / Aug 2027</td></tr><tr><td>185</td><td>1,774 h (~44 wk)</td><td><b>$2.0T</b></td><td>$707B – $5.6T</td><td>$375B – $10T</td><td>$5.0T</td><td>$3.2T</td><td>Apr 2028 / Dec 2027</td></tr><tr class=hl><td>190</td><td>~25 work-months</td><td><b>$4.1T</b></td><td>$1.4T – $13T</td><td>$685B – $25T</td><td>$12T</td><td>$7.0T</td><td>Aug 2028 / Apr 2028</td></tr><tr><td>195</td><td>~57 work-months</td><td><b>$8.7T</b></td><td>$2.6T – $29T</td><td>$1.2T – $60T</td><td>$28T</td><td>$16T</td><td>Dec 2028 / Aug 2028</td></tr></tbody>
+  </table>
+  </div>
+</div>
+
+<details>
+  <summary>Observation table — all 13 points with sources</summary>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>Date</th><th>ARR</th><th>ECI</th><th>METR 50% h</th><th>Confirmation</th><th>Source</th></tr></thead>
+    <tbody><tr><td>2024-12-31</td><td>$1.0B</td><td>130</td><td>20 min</td><td>company</td><td><a href="https://www.anthropic.com/news/anthropic-raises-series-f-at-usd183b-post-money-valuation" rel="noopener">Anthropic Series F announcement</a></td></tr><tr><td>2025-03-04</td><td>$1.4B</td><td>141.5</td><td>60 min</td><td>press</td><td><a href="https://www.pymnts.com/artificial-intelligence-2/2025/report-anthropics-annualized-revenue-reaches-1-4-billion/" rel="noopener">The Information via PYMNTS</a></td></tr><tr><td>2025-03-31</td><td>$2.0B</td><td>141.5</td><td>60 min</td><td>press</td><td><a href="https://www.cnbc.com/2025/05/30/anthropic-hits-3-billion-in-annualized-revenue-on-business-demand-for-ai.html" rel="noopener">CNBC/Reuters</a></td></tr><tr><td>2025-05-30</td><td>$3.0B</td><td>141.5</td><td>2 h</td><td>press</td><td><a href="https://www.cnbc.com/2025/05/30/anthropic-hits-3-billion-in-annualized-revenue-on-business-demand-for-ai.html" rel="noopener">CNBC/Reuters</a></td></tr><tr><td>2025-07-15</td><td>$4.0B</td><td>141.5</td><td>2 h</td><td>press</td><td><a href="https://www.bloomberg.com/news/articles/2026-01-21/anthropic-s-revenue-run-rate-tops-9-billion-as-vcs-pile-in" rel="noopener">Bloomberg retrospective</a></td></tr><tr><td>2025-08-31</td><td>$5.0B</td><td>144</td><td>2 h</td><td>company</td><td><a href="https://www.anthropic.com/news/anthropic-raises-series-f-at-usd183b-post-money-valuation" rel="noopener">Anthropic Series F announcement</a></td></tr><tr><td>2025-10-15</td><td>$7.0B</td><td>144</td><td>2 h</td><td>company</td><td><a href="https://money.usnews.com/investing/news/articles/2025-10-15/exclusive-anthropic-aims-to-nearly-triple-annualized-revenue-in-2026-sources-say" rel="noopener">Reuters exclusive</a></td></tr><tr><td>2025-12-31</td><td>$9.0B</td><td>149.5</td><td>5 h</td><td>company</td><td><a href="https://x.com/AnthropicAI/status/2041275563466502560" rel="noopener">Anthropic on X</a></td></tr><tr><td>2026-02-12</td><td>$14B</td><td>155</td><td>12 h</td><td>company</td><td><a href="https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation" rel="noopener">Anthropic Series G announcement</a></td></tr><tr><td>2026-03-03</td><td>$19B</td><td>155</td><td>12 h</td><td>press</td><td><a href="https://www.bloomberg.com/news/articles/2026-03-03/anthropic-nears-20-billion-revenue-run-rate-amid-pentagon-feud" rel="noopener">Bloomberg</a></td></tr><tr><td>2026-04-06</td><td>$30B</td><td>155</td><td>12 h</td><td>company</td><td><a href="https://x.com/AnthropicAI/status/2041275563466502560" rel="noopener">Anthropic on X</a></td></tr><tr><td>2026-05-15</td><td>$47B</td><td>155</td><td>12 h</td><td>company</td><td><a href="https://www.anthropic.com/news/series-h" rel="noopener">Anthropic Series H announcement</a></td></tr><tr><td>2026-08-06</td><td>$70B</td><td>161</td><td>12 h</td><td>tracker</td><td><a href="https://futuresearch.ai/anthropic-financial-forecast/" rel="noopener">FutureSearch Anthropic financial forecast</a></td></tr></tbody>
+  </table>
+  </div>
+  <p class="mini mut">Company-confirmed backbone: $1B → $5B → $9B → $14B → $30B → $47B. The Aug 2026 ~$70B point is tracker-sourced
+  (FutureSearch: trackers "historically run hot"); refitting without it moves ECI 190 from $4.1T to $3.4T.</p>
+</details>
+
+<h2 style="font-size:16px;margin:26px 0 4px">What would make this wrong</h2>
+<ol class="caveats">
+  <li><b>Identification.</b> The time-only trend fits better (R² 0.983; ARR doubling ≈ 3.1 mo) than either capability model — revenue is diffusion on top of capability. These fits answer "if the historical revenue-per-capability elasticity persists," nothing stronger.</li>
+  <li><b>Demand saturation.</b> $4T ARR ≈ 3× today's entire enterprise-software market. The 190s assume AI revenue substitutes for a meaningful share of the global wage bill — maybe what a 25-work-month METR horizon means, but far outside these intervals, which carry sampling uncertainty only.</li>
+  <li><b>Compute assumed away, as posed.</b> Anthropic's 2026 growth was repeatedly described as compute-gated, so the fitted slope likely <i>understates</i> the unconstrained relationship — the one bias with a known sign.</li>
+  <li><b>Specification.</b> Lagging capability 90 days roughly doubles the central estimates; dropping the tracker point trims ~15–20%. Spec choice moves the answer ~2×; the PIs already dwarf that.</li>
+  <li><b>Measurement.</b> Run-rate ≠ GAAP revenue (one reported rival-memo challenge of ~$8B; independent estimates roughly corroborate the company figures). Epoch CIs are ±2–3 pts; METR CIs at the top span ~2×; the public Claude 5 family has no METR value yet, so the METR series tops out at Opus 4.6.</li>
+  <li><b>ETA risk.</b> Dates assume the linear 14–15.5 pts/yr regime holds. A third-party breakpoint analysis of the restricted Mythos Preview argues for ~67 pts/yr; if that reaches public releases, ETAs compress 2–4×.</li>
+</ol>
+
+<footer>
+  Generated 2026-08-16 · <code>python3 fit.py &amp;&amp; python3 make_page.py</code> ·
+  every number sourced in <a href="https://github.com/timwein/Ai_roi_evidence/tree/main/analysis/anthropic-revenue-capability" rel="noopener">data.json</a> ·
+  ECI: Epoch AI (public scale; anchors Claude 3.5 Sonnet = 130, GPT-5 = 150) · METR: Time Horizon 1.1 where available ·
+  revenue: Anthropic announcements, Reuters, Bloomberg, CNBC, The Information, FutureSearch.
+</footer>
+</div>
+
+<div id="tip" role="status"></div>
+<script>
+(function () {
+  var tip = document.getElementById('tip');
+  function show(g) {
+    tip.innerHTML = g.getAttribute('data-tip');
+    tip.style.visibility = 'visible';
+    var r = g.getBoundingClientRect();
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var x = r.left + r.width / 2 - tw / 2;
+    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+    var y = r.top - th - 10;
+    if (y < 8) y = r.bottom + 10;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  function hide() { tip.style.visibility = 'hidden'; }
+  document.querySelectorAll('.pt').forEach(function (g) {
+    g.addEventListener('mouseenter', function () { show(g); });
+    g.addEventListener('mouseleave', hide);
+    g.addEventListener('focus', function () { show(g); });
+    g.addEventListener('blur', hide);
+  });
+  window.addEventListener('scroll', hide, { passive: true });
+})();
+</script>
