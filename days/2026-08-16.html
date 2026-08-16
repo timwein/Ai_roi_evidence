@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-16 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-16</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log, 1 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Three findings, and for the first time in 51 entries the log has something S3-shaped: RadNet&#x27;s patient-paid AI mammography over-read. It is logged as <code>S3-CANDIDATE</code>, not S3 - it fails the capability-gate test outright - but it is the first entry where &quot;absent the AI, would this buyer have bought anything at all?&quot; has a defensible yes.</div>
+<p>Sunday sweep, one day after the last logged run (2026-08-14 was missed, so the window was widened to cover 6-16 Aug). Q2 earnings season is in its tail: the big non-tech retail block reports next week, so this was expected to be thin and mostly was.</p>
+<h4>Sources read</h4>
+<ul><li><strong>RadNet</strong> Q2 2026 call (10 Aug) and results release (9 Aug). CFO Mark Stolper: <em>&quot;Revenue from the EBCD program increased 16%&quot;</em>. EBCD is an AI second read on a screening mammogram that the payer does not cover and the patient buys - priced <code>$75</code> falling to <code>$40</code> in the DeepHealth study period. Separately, Digital Health CEO Kees Westdorp disclosed <code>$16.1m</code> of AI revenue (+136%), <code>$32.4m</code> segment revenue (+56.5%), and ARR of <code>$105.5m</code> (+97%) of which 63% is now external.</li><li><strong>CarGurus</strong> Q2 2026 call (6 Aug). Guru-driven leads <code>+60%</code> sequentially; PriceVantage bookings <code>+50%</code> sequentially with adopting dealers seeing a median <code>15%</code> VDP lift and <code>9%</code> more leads per listing; VINMax promoted listings sold <code>23%</code> faster with <code>34%</code> more leads per day. Revenue <code>$251.0m</code>, +13%. No AI-attributed revenue dollars, and full-year guidance unchanged at 10-13%.</li><li><strong>AIG</strong> Q2 2026 call (13 Aug). Underwriters <em>&quot;reviewing more submissions and generating quotes significantly faster&quot;</em> via Underwriting by AIG Assist - and not one number attached to any of it.</li><li><strong>DeepHealth / RSNA 2024</strong> real-world analysis, 747,604 women across 10 practices: 23% enrolment rising to 33% in the final month, with the paper stating flatly that <em>&quot;AI is not reimbursed&quot;</em>. Used to establish the counterfactual the 2026 call did not.</li></ul>
+<div class="callout">The pattern that survives another run: input metrics are disclosed freely, revenue dollars are not. CarGurus quantifies leads to four decimal places and will not put a dollar next to them; AIG will not even quantify the input. Sixteen day-records in, the log still has zero clean S3 and zero non-tech company willing to state AI-attributed revenue in currency.</div>
+<p>The RadNet case is interesting precisely because it inverts the usual failure. The normal S3 pretender has frontier technology and no new buyer. RadNet has a genuinely new buyer - a patient handing over <code>$40</code> for something no one previously sold - built on unglamorous 2021-era CNN imaging AI. New demand did not require a frontier capability jump. If that generalises, the S3 hunting grounds in METHOD are looking in the wrong place: the gate is willingness to pay at a new price point, not model capability.</p>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>AIG</strong> - fails inclusion bar #2. Qualitative productivity language with no number anywhere in the transcript. Its data-centre <em>&quot;bespoke risk solutions&quot;</em> for AI hyperscalers is separately an AI-as-customer case, not ROI on AI deployment.</li><li><strong>Munich Re aiSure / Armilla / Corgi AI-liability cover</strong> - genuinely new products with no predecessor, but the revenue comes from insuring somebody else&#x27;s AI, not from deploying AI. AI-as-customer, and no premium figures disclosed in any case.</li><li><strong>&quot;More than 60 P&amp;C groups file AI exclusions&quot;</strong> (The Insurer, 23 Jul) - would be real counter-evidence to the insurance S3 thesis, since insurers retreating from AI exposure is the opposite of pricing the previously uninsurable. Could not be logged: the article returned HTTP 401, and the only fetchable substitute (CSO Online, 16 Apr) traces its named carriers - AIG, Great American, W.R. Berkley - to a Financial Times report from November 2025. Too old and too secondary. Flagged for a later run if a primary filings count surfaces.</li><li><strong>RadNet EBCD &quot;45% adoption, north of 50% in 2026&quot;</strong> - this figure appeared in a search snippet attributed to a RadNet call. Two separate fetches of the Q2 2026 transcript found no adoption percentage anywhere in it. Dropped rather than carried at a lower confidence.</li><li><strong>Information Services Group</strong> (AI revenue +64% to <code>$26m</code>) and <strong>ExlService</strong> - consultancies and analytics vendors selling AI services. Shovel-sellers, out of scope as subjects.</li><li><strong>JD.com / JD Logistics</strong> autonomous delivery scale-up - tech platform subject, and no AI-attributed revenue figure.</li><li><strong>Arrive AI</strong> - <code>$14,700</code> of quarterly revenue and <em>expects</em> incremental revenue from a hospital deployment. Projection with no result, at a scale below materiality.</li><li><strong>PwC CEO survey (30% report AI revenue increase), MIT NANDA 95%-of-pilots, S&amp;P 42%-abandonment</strong> - all sentiment surveys, all previously circulated, all explicitly rejected by the inclusion bar.</li><li><strong>Caterpillar Cat AI Assistant</strong>, <strong>Vodafone/Deutsche Telekom/Jio SMB AI</strong> - product announcements and vendor-sourced adoption claims with no disclosed result.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Deere Q3 FY2026, 20 Aug</strong> - the single best scheduled S3 test available. Autonomy is meant to play a <em>&quot;significant role&quot;</em> in the 10%-recurring-revenue-by-2030 goal; watch whether autonomy is sold as a new subscription line or bundled into machine price.</li><li><strong>Home Depot (18 Aug), Target (19 Aug), Lowe&#x27;s (19 Aug), Walmart (~21 Aug)</strong> - the retail personalisation block, where S2 conversion-lift disclosures cluster.</li><li><strong>RadNet</strong> - breast ultrasound AI rolls out across the network by year-end against ~1m annual exams, reimbursed under CPT <code>0690T</code>; and any payer determination on EBCD, which would convert the self-pay S3 case into ordinary S2 reimbursement.</li><li><strong>CarGurus Q3 2026 (~early Nov)</strong> - first quarter where Guru lead growth can be tested against QARSD in year-over-year terms rather than sequential.</li></ul></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">RadNet</span>
+    <span class="sector">Healthcare · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (10 Aug 2026) CFO Mark Stolper said &quot;Revenue from the EBCD program increased 16%&quot; - RadNet&#x27;s Enhanced Breast Cancer Detection, an AI second read on screening mammograms that patients buy out of pocket because payers do not reimburse it. No absolute dollar figure, adoption rate or counterfactual was given on the call.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A screening mammogram is covered by insurance; the AI over-read is not. RadNet offers the patient an opt-in upcharge (priced at $75 falling to $40 during the DeepHealth study period) for Saige-DX to read the study alongside the radiologist, with a second AI pass and escalation to a second radiologist on suspicious findings. The revenue is patient cash on top of a reimbursed exam - AI inference cost is near zero per study, so the entire upcharge is incremental gross margin on a scan the company was already performing.</dd><dt>Why this shape</dt><dd>(a) Counterfactual purchase - PASS. The buyer is the patient, the purchase is optional, and absent the AI there is nothing to buy: the base exam is already paid for by the payer. (b) Prior alternative - PASS. Nobody sold a consumer an AI over-read before this; the nearest analogue is a radiologist double-read, which is not a purchasable US consumer SKU. The DeepHealth RSNA 2024 analysis of 747,604 women across 10 practices recorded 23% enrolment rising to 33% in the final month and states plainly that &quot;AI is not reimbursed&quot; - the closest published evidence that this is net-new self-pay demand. (c) Capability gate - FAIL, and this is the honest weak point. Saige-DX is CNN-era FDA-cleared mammography AI, not a post-2024 frontier capability; 2021 technology would have worked. (d) Newly economic - PASS. A human second read cannot be delivered at $40; near-zero marginal inference cost is what opens the price point. Held at S3-CANDIDATE rather than promoted: the Q2 2026 disclosure is a growth rate with no denominator, management never framed it as incremental demand, and (c) fails outright. It is nonetheless the first entry in this log where the counterfactual purchase question has a defensible yes.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-radnet-tops-q2-2026-estimates-shares-rise-61-93CH-4849907" rel="noopener">Q2 2026 earnings call (transcript), 2026-08-10</a></dd><dt>Falsifier</dt><dd>RadNet stops breaking out EBCD growth in later quarters, or discloses an absolute EBCD revenue figure so small it is immaterial to a $622.7m quarter. Ironically the other falsifier is success: if payers begin reimbursing EBCD, the self-pay counterfactual collapses and the revenue becomes ordinary reimbursed imaging - S2, not S3.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The 16% is a verified Tier A CFO statement, but it was delivered inside a list of Digital Health product-line growth rates (prostate/neuro +13%, TechLive +38%, enterprise imaging workflow +17.3%), so it is not certain whether the EBCD line being grown is patient self-pay revenue at RadNet&#x27;s own centres or licensed EBCD sold to third-party providers. That ambiguity is load-bearing for the shape and is not resolved by the transcript.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">CarGurus</span>
+    <span class="sector">Media / Marketplaces (autos) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (6 Aug 2026) CEO Jason Trevisan said &quot;Guru-driven leads up 60% sequentially in the U.S.&quot; and that VINMax &quot;promoted listings have sold 23% faster and received 34% more leads per day than comparable non-promoted listings&quot;; President &amp; COO Sam Zales said &quot;PriceVantage bookings grew more than 50% sequentially&quot; and that adopting dealers &quot;saw a median 15% lift in VDPs and 9% lift in leads per listing after adoption&quot;. Total revenue was $251.0m, up 13%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct paths. Consumer side: Guru is a natural-language shopping layer that lets buyers describe a use case rather than filter a taxonomy, converting browsing into dealer leads. Dealer side: PriceVantage uses demand signal to tell a dealer where market demand for specific vehicles sits, and VINMax decides which listings to promote. Dealers pay a subscription, so the revenue path runs lead volume -&gt; perceived value -&gt; higher average revenue per subscribing dealer (QARSD), not through a transaction take rate.</dd><dt>Why this shape</dt><dd>Every disclosed number is an input metric - leads, vehicle detail page views, days-to-sale, bookings - so S1 by test. Revenue conversion was disclosed only obliquely and never in dollars: the Q2 2026 earnings presentation states new product adoption was the largest driver of sequential QARSD increases for a third consecutive quarter, and total revenue grew 13%, but no AI-attributed revenue figure was given and full-year growth guidance was left unchanged at 10-13%. Treated as main log on the precedent already set by Cars.com and Zillow in this log; the marketplace-vs-tech-platform boundary is genuinely arguable here. Note the 60% and 50% figures are sequential, not year-over-year - a favourable framing that flatters small bases.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-cargurus-tops-q2-2026-eps-forecast-shares-jump-53-93CH-4844646" rel="noopener">Q2 2026 earnings call (transcript), 2026-08-06</a></dd><dt>Falsifier</dt><dd>QARSD growth decelerates in Q3/Q4 2026 while Guru and PriceVantage adoption keeps climbing - lead volume rising without dealer revenue per dealer following means the AI produced traffic, not willingness to pay. Also watch for the sequential framing quietly disappearing once year-over-year comparisons become available.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures verified verbatim in a fetched Tier A transcript, but they are vendor-side engagement metrics on the company&#x27;s own products with no dollar attribution and a sequential denominator.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">RadNet (DeepHealth / Digital Health segment)</span>
+    <span class="sector">Healthcare · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (10 Aug 2026) Digital Health CEO Kees Westdorp disclosed &quot;$16.1 million of AI revenue, up 136% year-over-year&quot;, Digital Health revenue of &quot;$32.4 million, up 56.5%&quot;, ARR of &quot;$105.5 million, up 97%&quot;, and that &quot;External ARR, revenue generated outside of RadNet, now makes up 63% of our ARR base&quot;, guiding full-year ARR to over $140m.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>An imaging provider productised the AI it built for its own reading workflow and now licenses it to competing hospitals and health systems - Diagnostic Suite, Reporting Pro, AI Studio and clinical AI models - signing approximately $21m of total contract value in the quarter. Nearly two thirds of recurring revenue now comes from outside RadNet&#x27;s own centres.</dd><dt>Why this shape</dt><dd>Routed to the appendix because at this segment RadNet is a software vendor, not a deploying corporation: it is selling the shovels, and METHOD excludes shovel-sellers as subjects of the revenue log even when the parent sits in an in-scope sector. Shape is S2, not S3: the hospitals buying DeepHealth were already buying imaging AI and reporting software from iCAD, Lunit, Aidoc, Sectra and Philips, so a competitor lost the sale. The interesting thing is the direction of travel - a non-tech incumbent crossing into vendor economics off its own deployment - which is exactly the comparator the appendix exists to preserve. Note the segment&#x27;s adjusted EBITDA fell to $2.5m from $3.4m a year earlier on infrastructure investment: the AI vendor line is growing revenue and shrinking profit.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.globenewswire.com/news-release/2026/08/09/3341500/10985/en/radnet-reports-second-quarter-financial-results-with-record-quarterly-revenue-and-adjusted-ebitda-1-and-revises-upwards-2026-financial-guidance-ranges.html" rel="noopener">Q2 2026 earnings call and results release, 2026-08-09</a></dd><dt>Falsifier</dt><dd>External ARR share stalls or reverses below 63%, or full-year ARR lands materially short of the &quot;over $140 million&quot; guide, indicating the external business was front-loaded rather than compounding.</dd><dt>Confidence</dt><dd><strong>high</strong> — Figures appear in both the fetched results release and the fetched call transcript, and are segment-reported rather than management-defined composites.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
