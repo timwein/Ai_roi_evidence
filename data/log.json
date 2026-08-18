@@ -1079,9 +1079,73 @@
       "confidence": "medium",
       "confidence_why": "Figures verified verbatim in a fetched Tier A transcript, but they are vendor-side engagement metrics on the company's own products with no dollar attribution and a sequential denominator.",
       "counter_evidence": false
+    },
+    {
+      "date": "2026-08-18",
+      "company": "Customers Bancorp",
+      "sector": "Banking",
+      "country": "US",
+      "shape": "S1",
+      "scope": "main",
+      "claim": "In its Q2 2026 results release (23 Jul 2026) CEO Sam Sidhu said the bank \"also saw positive revenue impact, with select verticals delivering over 100% improvement in prospecting success rates as AI enhanced our ability to identify and pursue the highest-quality opportunities\", and disclosed a completed pilot of an AI-powered loan closing process that closed selected commercial loans \"in seven days, down from 30 to 60 days typically\".",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q2 2026 earnings release (Form 8-K exhibit 99.1)",
+      "source_date": "2026-07-23",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/0001488813/000148881326000082/q226pressrelease.htm",
+      "mechanism": "Two distinct revenue-producing processes. (1) Commercial prospecting: AI ranks and targets prospects inside named verticals, raising the share of pursued opportunities that convert to a mandate - a hit-rate effect, not a volume effect. (2) Commercial loan closing: an AI-assisted documentation and closing workflow compresses time-to-close from 30-60 days to 7 in pilot, which frees origination capacity and shortens the interval between commitment and interest-earning asset.",
+      "shape_justification": "S1, not S2. Both disclosed numbers are input metrics - a prospecting hit rate and a cycle time - and neither is a revenue figure. The revenue conversion is exactly the interesting absence: Sidhu explicitly asserts \"positive revenue impact\" and then puts no dollar, no basis-point spread and no loan-growth decomposition next to it, in a quarter where loans grew 16.9% and deposits 14.5% for reasons the release attributes to franchise build-out generally. A CEO who is willing to say the words \"positive revenue impact\" in a Tier A filing and unwilling to size them is the standing pattern of this log, stated unusually plainly.",
+      "falsifier": "Q3 or Q4 2026 disclosure that drops the prospecting hit-rate metric entirely, or repeats it without ever converting \"positive revenue impact\" into a dollar or a loan-growth attribution; equally, the seven-day closing pilot failing to appear as a production process with a volume attached. If the 100% figure is never restated on a defined base, treat it as narrative.",
+      "confidence": "medium",
+      "confidence_why": "Tier A filing, named CEO, specific figures - but \"over 100%\" sits on an undisclosed base inside unnamed \"select verticals\", the closing figure is a pilot, and no revenue dollars accompany either.",
+      "counter_evidence": false
+    },
+    {
+      "date": "2026-08-18",
+      "company": "BHP Group",
+      "sector": "Mining",
+      "country": "Australia",
+      "shape": "C4",
+      "scope": "main",
+      "claim": "BHP's FY26 results (17 Aug 2026) disclose US$470 million of EBITDA from technology initiatives in FY26 - US$330 million delivered in-year plus a US$140 million exit run-rate - against a target exit run-rate beyond US$650 million in FY27; on the call CEO Brandon Craig said that \"by the end of 2026, technology initiatives were delivering incremental EBITDA at an annual run rate of almost $500 million\". Autonomous haulage is now roughly 50% of the truck fleet.",
+      "status": "DISCLOSED",
+      "source_tier": "C",
+      "source_name": "FY26 results presentation and FY26 earnings call, via Investing.com renderings (BHP's own PDFs returned HTTP 403 this run)",
+      "source_date": "2026-08-17",
+      "source_url": "https://www.investing.com/news/company-news/bhp-fy26-slides-copper-drives-record-margins-50-growth-targeted-93CH-4864177",
+      "mechanism": "Named AI applications sit inside a wider technology programme: AI-led leaching optimisation at Escondida lifting copper recoveries, predictive and preventative maintenance powered by AI to cut unplanned downtime, autonomous haulage across about half the truck fleet, and pit-to-port supply-chain optimisation. The disclosed EBITDA is the programme's output, not any one of these.",
+      "shape_justification": "C4 - non-tech sector, non-engineering function - and a textbook instance of standing cost trap 3, composite value metrics. The number is attributed to \"technology initiatives\", not to AI; AI is named as a component and never sized, so no AI-attributed figure can be extracted. It is also not cleanly a cost saving: improved copper recoveries raise saleable output, which is a volume effect, so the composite mixes cost avoidance with production gain. Logged once, in the cost ledger, per the single-ledger rule; the revenue reading is noted here rather than double-logged. The two figures do not obviously reconcile - US$470m FY26 total versus a CEO run rate of \"almost $500 million\" - which is itself evidence the construct is loosely defined.",
+      "falsifier": "FY27 results that do not report against the >US$650m exit run-rate, or that restate the definition of technology EBITDA; and the continued absence of any AI-specific decomposition. If the programme figure keeps growing while BHP never says how much of it is AI, the metric is investor-relations arithmetic.",
+      "confidence": "low",
+      "confidence_why": "Real number in a Tier A investor presentation, but read through a Tier C rendering because BHP's own PDFs 403'd this run, attributed to \"technology\" rather than AI, and internally inconsistent between slide and call.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-08-18",
+      "searched": [
+        "S3 insurance: new-risk-class SKUs priced and bound",
+        "S3 insurance: parametric/AI-enabled product launches",
+        "S3 pharma: AI-designed drug revenue attribution",
+        "S3 industrials: autonomy sold as new subscription SKU",
+        "S3 healthcare: AI monitoring at new reimbursed prices",
+        "S3 prof services: work newly billable at fixed fee",
+        "S3 lending: thin-file borrowers newly approved",
+        "S3 utilities: AI sold as a new service line",
+        "S2 retail: today's big-box print, AI attribution",
+        "S2 retail: agentic commerce orders at named chains",
+        "S2 travel/logistics: AI dynamic pricing revenue",
+        "S1 banking: prospecting hit rate, quote-to-close",
+        "S1 insurance: European H1 prints, AI attribution",
+        "C4 mining/industrial: quantified AI cost savings",
+        "Counter-evidence: AI revenue walk-backs and misses",
+        "Academic: firm-level causal AI revenue studies",
+        "Broad 48h sweep: Aug 17-18 non-tech disclosures"
+      ],
+      "assessment": "> Two findings, no S3. A Tier A bank filing with a quantified AI hit-rate gain and no revenue dollars behind it, and a `US$470m` mining number attributed to \"technology\" rather than to AI. Seventeen angles run, S3-weighted; the priority bucket stayed empty for the seventeenth day of eighteen.\n\n## Sources read\n\n- **Customers Bancorp** Q2 2026 8-K (23 Jul, logged despite being `26` days old - unlogged and Tier A). CEO Sam Sidhu: AI drove *\"positive revenue impact, with select verticals delivering over 100% improvement in prospecting success rates\"*, plus an AI loan-closing pilot at `7` days against `30-60` typically. Loans `+16.9%`, deposits `+14.5%`, neither attributed to AI.\n- **BHP** FY26 results and call (17 Aug). `US$470m` of FY26 EBITDA from technology initiatives - `US$330m` in-year plus a `US$140m` exit run-rate - targeting beyond `US$650m` exit run-rate in FY27. CEO Brandon Craig on the call put the end-2026 run rate at *\"almost $500 million\"*, which does not obviously reconcile with the slide.\n- **Home Depot** Q2 FY26 release (18 Aug). Comps `+1.7%`, sales `$47.9bn` `+5.7%`, the best comp since fiscal Q3 2022 - and not one mention of AI, Magic Apron or digital conversion anywhere in the release. The transcript was not retrievable in time; the prior-quarter language was qualitative.\n- **AIG** parametric cloud-outage cover with Parametrix, **Aviva** H1 (`£1.326bn` operating profit, GI premiums `+29%`), **Swiss Re** H1 (net income `$2.8bn`). No AI-attributed premium or revenue in any of them.\n- **Astrana Health** Q2 (6 Aug): revenue `$972.5m`, `+49%`, branded an *\"AI-native healthcare operating system\"* with no AI decomposition of the growth.\n\n> The asymmetry sharpened today. Customers Bancorp is the first entry in this log where an executive says the words \"positive revenue impact\" in a legally exposed filing and then declines to size them - the silence is now explicit rather than inferred. BHP shows the other failure mode: a large, real, audited-adjacent number wrapped in a definition (\"technology\") broad enough that no AI attribution can be recovered from it.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance** - AIG/Parametrix parametric cloud-outage cover, Armilla, Cytora Autopilot. Genuinely new products, but the risk being priced is somebody else's AI, and no premium figure is disclosed. AI-as-customer, fails tests (a) and the number bar.\n- **S3 pharma** - AstraZeneca Reinvent, Recursion and Genesis milestone payments. Discovery-stage speed and partnership dollars, not revenue from a previously unserveable indication. Fails test (a), counterfactual purchase.\n- **S3 industrials** - Deere autonomy-as-subscription, Skkynet subscription growth. Deere reports 20 Aug; nothing disclosed yet. Fails the result bar - announcement, no number.\n- **S3 healthcare** - CPT-2026 AI codes, RPM/RTM code expansion with modelled practice revenue of `$237,600` a year. Modelled, not a named provider's disclosed result. Fails the named-company bar.\n- **S3 professional services** - legal AI adoption at `42%` of firms and `69%` reporting revenue increases. Survey sentiment, unnamed firms. Explicitly rejected by the inclusion bar.\n- **S3 lending** - AI credit scoring lifting approvals `10-35%` and thin-file approvals up to `27%`. Vendor and aggregator statistics with no named lender or loan volume. Tier D.\n- **S3 utilities** - GE Vernova/Alteia GridOS, CenterPoint's `$65bn` capex plan. Capex into the AI build-out and a vendor acquisition, not a deployed AI revenue line.\n- **S2 retail agentic commerce** - Adobe/Shopify traffic multiples, `45%` of shoppers using AI, ChatGPT shopping-query counts. Platform aggregates, no non-tech retailer attributing incremental revenue. Fails named-company plus specific-number.\n- **S2 travel and logistics** - PROS, Fetcherr, airline continuous pricing. Vendor material and patent filings; the *\"several percentage points\"* lift is an industry analysis, not a carrier's disclosure.\n- **Counter-evidence sweep** - C3.ai's `33%` guidance miss and the AI-washing litigation wave. Software and AI-native subjects; their misses describe vendor sales, not deployment ROI. Routed to neither ledger, again.\n- **Academic** - NBER firm-level AI adoption papers and the ~`750`-executive survey. Already-logged territory or productivity-side; nothing new and revenue-attributed surfaced this window.\n\n## Nearest dated catalysts\n\n- **Deere** Q3 FY26, 20 Aug - still the best scheduled S3 test available: whether autonomy is finally sold as a separate subscription line with a recurring-revenue figure, or stays bundled into machine price.\n- **Target** and **Lowe's**, 19 Aug, and **Walmart** Q2 FY27, ~21 Aug - the retail personalisation and retail-media block, where any S2 conversion-lift number would land.\n- **Home Depot** Q2 transcript, once posted - worth a retro-check for whether Magic Apron got a number on the call that the release withheld.\n- **Customers Bancorp** Q3 2026, late Oct - the falsifier checkpoint on the prospecting figure and on whether the seven-day closing pilot reaches production.\n- **BHP** FY27 half-year, Feb 2027 - first checkpoint on the `US$650m` technology exit run-rate and on whether AI is ever sized separately.",
+      "entry_count": 1
+    },
     {
       "date": "2026-08-17",
       "searched": [

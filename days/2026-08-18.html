@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-18 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-18</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings, no S3. A Tier A bank filing with a quantified AI hit-rate gain and no revenue dollars behind it, and a <code>US$470m</code> mining number attributed to &quot;technology&quot; rather than to AI. Seventeen angles run, S3-weighted; the priority bucket stayed empty for the seventeenth day of eighteen.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Customers Bancorp</strong> Q2 2026 8-K (23 Jul, logged despite being <code>26</code> days old - unlogged and Tier A). CEO Sam Sidhu: AI drove <em>&quot;positive revenue impact, with select verticals delivering over 100% improvement in prospecting success rates&quot;</em>, plus an AI loan-closing pilot at <code>7</code> days against <code>30-60</code> typically. Loans <code>+16.9%</code>, deposits <code>+14.5%</code>, neither attributed to AI.</li><li><strong>BHP</strong> FY26 results and call (17 Aug). <code>US$470m</code> of FY26 EBITDA from technology initiatives - <code>US$330m</code> in-year plus a <code>US$140m</code> exit run-rate - targeting beyond <code>US$650m</code> exit run-rate in FY27. CEO Brandon Craig on the call put the end-2026 run rate at <em>&quot;almost $500 million&quot;</em>, which does not obviously reconcile with the slide.</li><li><strong>Home Depot</strong> Q2 FY26 release (18 Aug). Comps <code>+1.7%</code>, sales <code>$47.9bn</code> <code>+5.7%</code>, the best comp since fiscal Q3 2022 - and not one mention of AI, Magic Apron or digital conversion anywhere in the release. The transcript was not retrievable in time; the prior-quarter language was qualitative.</li><li><strong>AIG</strong> parametric cloud-outage cover with Parametrix, <strong>Aviva</strong> H1 (<code>£1.326bn</code> operating profit, GI premiums <code>+29%</code>), <strong>Swiss Re</strong> H1 (net income <code>$2.8bn</code>). No AI-attributed premium or revenue in any of them.</li><li><strong>Astrana Health</strong> Q2 (6 Aug): revenue <code>$972.5m</code>, <code>+49%</code>, branded an <em>&quot;AI-native healthcare operating system&quot;</em> with no AI decomposition of the growth.</li></ul>
+<div class="callout">The asymmetry sharpened today. Customers Bancorp is the first entry in this log where an executive says the words &quot;positive revenue impact&quot; in a legally exposed filing and then declines to size them - the silence is now explicit rather than inferred. BHP shows the other failure mode: a large, real, audited-adjacent number wrapped in a definition (&quot;technology&quot;) broad enough that no AI attribution can be recovered from it.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance</strong> - AIG/Parametrix parametric cloud-outage cover, Armilla, Cytora Autopilot. Genuinely new products, but the risk being priced is somebody else&#x27;s AI, and no premium figure is disclosed. AI-as-customer, fails tests (a) and the number bar.</li><li><strong>S3 pharma</strong> - AstraZeneca Reinvent, Recursion and Genesis milestone payments. Discovery-stage speed and partnership dollars, not revenue from a previously unserveable indication. Fails test (a), counterfactual purchase.</li><li><strong>S3 industrials</strong> - Deere autonomy-as-subscription, Skkynet subscription growth. Deere reports 20 Aug; nothing disclosed yet. Fails the result bar - announcement, no number.</li><li><strong>S3 healthcare</strong> - CPT-2026 AI codes, RPM/RTM code expansion with modelled practice revenue of <code>$237,600</code> a year. Modelled, not a named provider&#x27;s disclosed result. Fails the named-company bar.</li><li><strong>S3 professional services</strong> - legal AI adoption at <code>42%</code> of firms and <code>69%</code> reporting revenue increases. Survey sentiment, unnamed firms. Explicitly rejected by the inclusion bar.</li><li><strong>S3 lending</strong> - AI credit scoring lifting approvals <code>10-35%</code> and thin-file approvals up to <code>27%</code>. Vendor and aggregator statistics with no named lender or loan volume. Tier D.</li><li><strong>S3 utilities</strong> - GE Vernova/Alteia GridOS, CenterPoint&#x27;s <code>$65bn</code> capex plan. Capex into the AI build-out and a vendor acquisition, not a deployed AI revenue line.</li><li><strong>S2 retail agentic commerce</strong> - Adobe/Shopify traffic multiples, <code>45%</code> of shoppers using AI, ChatGPT shopping-query counts. Platform aggregates, no non-tech retailer attributing incremental revenue. Fails named-company plus specific-number.</li><li><strong>S2 travel and logistics</strong> - PROS, Fetcherr, airline continuous pricing. Vendor material and patent filings; the <em>&quot;several percentage points&quot;</em> lift is an industry analysis, not a carrier&#x27;s disclosure.</li><li><strong>Counter-evidence sweep</strong> - C3.ai&#x27;s <code>33%</code> guidance miss and the AI-washing litigation wave. Software and AI-native subjects; their misses describe vendor sales, not deployment ROI. Routed to neither ledger, again.</li><li><strong>Academic</strong> - NBER firm-level AI adoption papers and the ~<code>750</code>-executive survey. Already-logged territory or productivity-side; nothing new and revenue-attributed surfaced this window.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Deere</strong> Q3 FY26, 20 Aug - still the best scheduled S3 test available: whether autonomy is finally sold as a separate subscription line with a recurring-revenue figure, or stays bundled into machine price.</li><li><strong>Target</strong> and <strong>Lowe&#x27;s</strong>, 19 Aug, and <strong>Walmart</strong> Q2 FY27, ~21 Aug - the retail personalisation and retail-media block, where any S2 conversion-lift number would land.</li><li><strong>Home Depot</strong> Q2 transcript, once posted - worth a retro-check for whether Magic Apron got a number on the call that the release withheld.</li><li><strong>Customers Bancorp</strong> Q3 2026, late Oct - the falsifier checkpoint on the prospecting figure and on whether the seven-day closing pilot reaches production.</li><li><strong>BHP</strong> FY27 half-year, Feb 2027 - first checkpoint on the <code>US$650m</code> technology exit run-rate and on whether AI is ever sized separately.</li></ul></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Customers Bancorp</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In its Q2 2026 results release (23 Jul 2026) CEO Sam Sidhu said the bank &quot;also saw positive revenue impact, with select verticals delivering over 100% improvement in prospecting success rates as AI enhanced our ability to identify and pursue the highest-quality opportunities&quot;, and disclosed a completed pilot of an AI-powered loan closing process that closed selected commercial loans &quot;in seven days, down from 30 to 60 days typically&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct revenue-producing processes. (1) Commercial prospecting: AI ranks and targets prospects inside named verticals, raising the share of pursued opportunities that convert to a mandate - a hit-rate effect, not a volume effect. (2) Commercial loan closing: an AI-assisted documentation and closing workflow compresses time-to-close from 30-60 days to 7 in pilot, which frees origination capacity and shortens the interval between commitment and interest-earning asset.</dd><dt>Why this shape</dt><dd>S1, not S2. Both disclosed numbers are input metrics - a prospecting hit rate and a cycle time - and neither is a revenue figure. The revenue conversion is exactly the interesting absence: Sidhu explicitly asserts &quot;positive revenue impact&quot; and then puts no dollar, no basis-point spread and no loan-growth decomposition next to it, in a quarter where loans grew 16.9% and deposits 14.5% for reasons the release attributes to franchise build-out generally. A CEO who is willing to say the words &quot;positive revenue impact&quot; in a Tier A filing and unwilling to size them is the standing pattern of this log, stated unusually plainly.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001488813/000148881326000082/q226pressrelease.htm" rel="noopener">Q2 2026 earnings release (Form 8-K exhibit 99.1), 2026-07-23</a></dd><dt>Falsifier</dt><dd>Q3 or Q4 2026 disclosure that drops the prospecting hit-rate metric entirely, or repeats it without ever converting &quot;positive revenue impact&quot; into a dollar or a loan-growth attribution; equally, the seven-day closing pilot failing to appear as a production process with a volume attached. If the 100% figure is never restated on a defined base, treat it as narrative.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A filing, named CEO, specific figures - but &quot;over 100%&quot; sits on an undisclosed base inside unnamed &quot;select verticals&quot;, the closing figure is a pilot, and no revenue dollars accompany either.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">BHP Group</span>
+    <span class="sector">Mining · Australia</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">BHP&#x27;s FY26 results (17 Aug 2026) disclose US$470 million of EBITDA from technology initiatives in FY26 - US$330 million delivered in-year plus a US$140 million exit run-rate - against a target exit run-rate beyond US$650 million in FY27; on the call CEO Brandon Craig said that &quot;by the end of 2026, technology initiatives were delivering incremental EBITDA at an annual run rate of almost $500 million&quot;. Autonomous haulage is now roughly 50% of the truck fleet.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Named AI applications sit inside a wider technology programme: AI-led leaching optimisation at Escondida lifting copper recoveries, predictive and preventative maintenance powered by AI to cut unplanned downtime, autonomous haulage across about half the truck fleet, and pit-to-port supply-chain optimisation. The disclosed EBITDA is the programme&#x27;s output, not any one of these.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function - and a textbook instance of standing cost trap 3, composite value metrics. The number is attributed to &quot;technology initiatives&quot;, not to AI; AI is named as a component and never sized, so no AI-attributed figure can be extracted. It is also not cleanly a cost saving: improved copper recoveries raise saleable output, which is a volume effect, so the composite mixes cost avoidance with production gain. Logged once, in the cost ledger, per the single-ledger rule; the revenue reading is noted here rather than double-logged. The two figures do not obviously reconcile - US$470m FY26 total versus a CEO run rate of &quot;almost $500 million&quot; - which is itself evidence the construct is loosely defined.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/company-news/bhp-fy26-slides-copper-drives-record-margins-50-growth-targeted-93CH-4864177" rel="noopener">FY26 results presentation and FY26 earnings call, via Investing.com renderings (BHP&#x27;s own PDFs returned HTTP 403 this run), 2026-08-17</a></dd><dt>Falsifier</dt><dd>FY27 results that do not report against the &gt;US$650m exit run-rate, or that restate the definition of technology EBITDA; and the continued absence of any AI-specific decomposition. If the programme figure keeps growing while BHP never says how much of it is AI, the metric is investor-relations arithmetic.</dd><dt>Confidence</dt><dd><strong>low</strong> — Real number in a Tier A investor presentation, but read through a Tier C rendering because BHP&#x27;s own PDFs 403&#x27;d this run, attributed to &quot;technology&quot; rather than AI, and internally inconsistent between slide and call.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
