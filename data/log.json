@@ -1119,9 +1119,73 @@
       "confidence": "low",
       "confidence_why": "Real number in a Tier A investor presentation, but read through a Tier C rendering because BHP's own PDFs 403'd this run, attributed to \"technology\" rather than AI, and internally inconsistent between slide and call.",
       "counter_evidence": false
+    },
+    {
+      "date": "2026-08-19",
+      "company": "Target Corporation",
+      "sector": "Retail",
+      "country": "US",
+      "shape": "S1",
+      "scope": "main",
+      "claim": "On the Q2 2026 earnings call (19 Aug 2026) CMO Cara Sylvester said AI-powered Teacher and College Wish List recommendations and more personalized app content produced \"total wish list creations up more than 50% to last year, items added to these lists more than doubling, and conversion across our key back-to-school pages up nearly 20%\". Q2 digital comparable sales were +8.7% and total comps +3.8%, neither attributed to AI, and no incremental revenue dollars were sized.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q2 2026 earnings call transcript, and Target Q2 2026 earnings highlights release",
+      "source_date": "2026-08-19",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-target-beats-q2-2026-estimates-shares-slip-premarket-93CH-4867580",
+      "mechanism": "AI-generated wish-list recommendations for teacher and college registries plus personalised content on the app home screen, applied to back-to-school category pages. Separately CEO Michael Fiddelke said Target's \"digital traffic sourced from external AI platforms is growing more than 3.5 times the industry as compared to a year ago\" off partnerships with OpenAI and Google Gemini, and named Chandhu Nair as a new Chief AI Officer. CFO Jim Lee disclosed Roundel gross billings +nearly 20%, Target Plus marketplace GMV +more than 40% and Circle 360 membership revenue +over 40% - none of which Target attributed to AI.",
+      "shape_justification": "S1: the AI-attributed number is conversion, an input metric, not revenue. Revenue conversion is conspicuously absent rather than merely unstated - digital comps (+8.7%) and three separate high-growth non-merchandise lines were disclosed on the same call and none was tied to the AI capability. The conversion figure is scoped to \"key back-to-school pages\", a seasonal category subset, with no baseline conversion rate and no counterfactual for a quarter in which traffic rose 3.6% anyway.",
+      "falsifier": "Q3 or Q4 FY26 calls describing personalisation qualitatively with no repeat conversion figure, or the back-to-school conversion metric not being carried into holiday. Also: a Chief AI Officer appointed in August with no sized revenue contribution by the FY26 close.",
+      "confidence": "medium",
+      "confidence_why": "Tier A, on-the-record CMO quote with specific figures, but a seasonal category-page conversion rate with no baseline, no dollars and no counterfactual.",
+      "counter_evidence": false
+    },
+    {
+      "date": "2026-08-19",
+      "company": "Rakuten Group",
+      "sector": "E-commerce / Internet services",
+      "country": "Japan",
+      "shape": "S2",
+      "scope": "main",
+      "claim": "In its Q2 FY2026 results release (10 Aug 2026) Rakuten disclosed that \"the advertising business achieved high growth with revenue reaching 65.6 billion yen, up 15.6% YoY, driven by AI-powered search and targeted banner advertising on Rakuten Ichiba and Rakuten Travel\". Group revenue was 665.5bn yen (+11.6%) and non-GAAP operating income 42.0bn yen (+109.6%). No AI-specific share of the 15.6% was given.",
+      "status": "ESTIMATED",
+      "source_tier": "B",
+      "source_name": "Rakuten Group Q2 FY2026 financial results highlights (company release)",
+      "source_date": "2026-08-10",
+      "source_url": "https://global.rakuten.com/corp/news/press/2026/0810_01.html",
+      "mechanism": "AI applied to ad search relevance and banner targeting across the Ichiba marketplace and Rakuten Travel, with AI also generating ad creative and running screening and bidding across large campaign volumes. Trade coverage (MediaPost, 10 Aug) adds that Rakuten's conversational chatbot shortened time from item discovery to checkout and raised average order value on Ichiba, with no figure disclosed. The same release notes that \"from Q1/26, a portion of AI-related development costs are allocated to each business\" - the run-cost offset is being pushed into segment P&L.",
+      "shape_justification": "S2, and the losers are rival Japanese ad platforms and retail-media networks - these advertisers were already buying inventory somewhere. Fails S3 test (a): the counterfactual purchase clearly exists. Fails (c): search relevance ranking and automated bidding are not a capability that appeared in the last 24 months. The entry's real weakness is undecomposed attribution: the whole 15.6% is narrated as AI-driven with no split against Ichiba GMV growth or ad-load, and no counterfactual offered. Subject scope: Rakuten is an e-commerce, fintech and mobile conglomerate, not a software vendor, hyperscaler or AI-native, so main rather than appendix - the same treatment given to Booking and Expedia in this log.",
+      "falsifier": "Advertising revenue growth decelerating back toward Ichiba GMV growth in H2 FY2026 while the AI attribution language persists, or no AI-attributed ad revenue figure ever being separated from segment growth in a later quarter.",
+      "confidence": "low",
+      "confidence_why": "Real dated segment revenue at a named company, but the AI causation is an undecomposed management assertion in a Tier B release with no counterfactual and no AI-specific dollar.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-08-19",
+      "searched": [
+        "S1 retail: Target Q2 AI personalization conversion",
+        "S2 retail: Lowe's Q2 Mylow AI attribution",
+        "S3 insurance: previously uninsurable classes priced",
+        "S3 industrials: autonomy as new subscription SKU",
+        "S3 healthcare: AI diagnostics newly reimbursed",
+        "S3 pharma: AI-designed drugs, undruggable targets",
+        "S3 prof services: newly billable fixed-fee work",
+        "S3 lending: thin-file borrowers newly approved",
+        "S3 SMB: long-tail segments newly economic to serve",
+        "S3 telecom/energy: AI sold as a new service line",
+        "S2 e-commerce: AI search and ad revenue attribution",
+        "S2 grocery/CPG: dynamic pricing revenue lift",
+        "S2 beauty: Estee Lauder FY26 AI attribution",
+        "S1 banking: AI prospecting and origination hit rate",
+        "C4 non-tech: quantified claims/call-centre savings",
+        "Counter-evidence: AI revenue misses and walk-backs",
+        "Broad 48h sweep: Aug 18-19 non-tech disclosures"
+      ],
+      "assessment": "> Two findings, no S3 - the eighteenth day of nineteen with the priority bucket empty. **Target** is the first large US retailer in this log to put a specific AI-attributed conversion number on a Tier A call, and it is still an input metric with no dollars behind it. **Rakuten** attributes a whole segment's `15.6%` growth to AI without decomposing any of it.\n\n## Sources read\n\n- **Target** Q2 2026 call and release (19 Aug). CMO Cara Sylvester: AI-powered Teacher and College Wish List recommendations drove wish-list creations `+more than 50%`, items added `more than doubling`, and conversion on key back-to-school pages `up nearly 20%`. Digital comps `+8.7%`, total comps `+3.8%`, traffic `+3.6%` - none attributed to AI. CEO Michael Fiddelke added that digital traffic from external AI platforms is growing `3.5x` the industry rate, and named a first Chief AI Officer.\n- **Rakuten** Q2 FY2026 release (10 Aug, `9` days old and unlogged). Advertising revenue `65.6bn yen`, `+15.6%` YoY, \"driven by AI-powered search and targeted banner advertising\". Group revenue `665.5bn yen`, non-GAAP operating income `42.0bn yen` `+109.6%`. The release also notes AI development costs are now allocated into each business from Q1/26.\n- **Lowe's** Q2 2026 release (19 Aug). Comps `+0.2%`, online sales `+15.7%`, full-year guidance cut to the bottom of range. Zero mentions of AI, Mylow or personalisation anywhere in the release - notable given Mylow was the centrepiece of the May call.\n- **Estee Lauder** FY26 Q4 8-K (19 Aug). Organic net sales `+5%` in Q4, `+3%` for the year. Zero AI, personalisation or technology attribution in the release.\n- **TJX** Q2 FY27 (19 Aug): comps `+4%`, net income `$1.5bn`, no AI attribution. **Analog Devices** FQ3 (19 Aug): revenue `$4.02bn` `+40%` on data-centre demand - AI-as-customer, and a chipmaker, so doubly out of frame.\n\n> The Target and Rakuten pair is the cleanest illustration yet of the two ways revenue-side AI evidence fails. Target discloses a real number that is not revenue. Rakuten discloses real revenue with an attribution that cannot be audited. Neither gives you an incremental AI dollar, and eighteen of nineteen logged days have now produced no S3 at all.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance** - Munich Re aiSure, Armilla, Corgi, Mayflower Specialty, Embroker standalone AI-liability policies with limits of `$2m-$50m`. Genuinely new SKUs, but no carrier discloses bound premium, and the risk being priced is somebody else's AI. Fails the specific-number bar.\n- **S3 healthcare** - Aidoc's CARE Body CT Multi-Triage won CMS New Technology Add-on Payment eligibility on 13 Aug, effective 1 Oct 2026; new CPT `75577` for AI coronary plaque pays `$950.50` under OPPS. A real reimbursement pathway, but Aidoc is an AI-native vendor and no named hospital has disclosed revenue from it. Fails the non-tech-subject and named-deployer tests.\n- **S3 pharma** - `117` AI-enabled assets in human trials across `63` companies per an ASCO 2026 analysis; Insilico registered a Phase III for rentosertib. Pipeline stage and partnership payments, not revenue from a previously unserveable indication. Fails test (a).\n- **S3 industrials** - Deere reports F3Q26 tomorrow; Zebra's Nucleus and Workcloud AI suites launched in June with no separated subscription revenue. Announcement without a result.\n- **S3 professional services** - legal AI adoption at `42%` of firms, `25%` raising fees, Eudia at `$105m` as an AI-native fixed-fee firm. Survey sentiment plus an AI-native subject. Fails the named-incumbent bar.\n- **S3 lending** - AI underwriting lifting approvals `10-35%` and thin-file approvals `up to 27%`. Aggregator and vendor statistics with no named lender. Tier D.\n- **S3 SMB and telecom/energy** - Tellus Energy AI, NTT DATA's Smart AI Agent Ecosystem, utility AI capex of `$240bn` in 2026. Vendor launches and build-out capex, not a deployed AI revenue line at a non-tech incumbent.\n- **S2 grocery and CPG** - an NVIDIA survey reporting `89%` of retail/CPG respondents saying AI increases annual revenue and `30%` claiming `>10%`. Consultant-tier sentiment with no named company. Explicitly rejected by the inclusion bar.\n- **Counter-evidence** - **Baidu** posted a fifth straight revenue decline (`-4%` to `31.3bn` yuan, net income `-68%`) despite AI at half of revenue; OpenAI's sequential growth of `18%` came with a widening loss. Both are AI-native or platform subjects, so their misses describe vendor economics, not deployment ROI. Routed to neither ledger for the third consecutive run.\n- **C4 sweep** - Appian described a customer cutting claims processing time `75%` and expecting to \"save millions\". Vendor-narrated, deployer unnamed. Tier D.\n\n## Nearest dated catalysts\n\n- **Deere** Q3 FY26, 20 Aug - still the best scheduled S3 test on the board: whether autonomy is finally sold as a separate subscription line with a recurring-revenue figure.\n- **Walmart** Q2 FY27, ~21 Aug - the largest remaining retail print this window and the most likely place for an agentic-commerce or retail-media number with AI attribution.\n- **Aidoc NTAP effective 1 Oct 2026** - the first date on which a named hospital system could plausibly book AI-triage reimbursement revenue. Check Q4 provider calls in Jan 2027.\n- **Target** Q3 FY26, ~Nov - the falsifier checkpoint on whether the back-to-school conversion figure is repeated for holiday.\n- **Rakuten** Q3 FY2026, ~Nov - whether advertising growth holds above Ichiba GMV growth, or converges back to it.",
+      "entry_count": 2
+    },
     {
       "date": "2026-08-18",
       "searched": [
