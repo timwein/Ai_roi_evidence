@@ -1163,6 +1163,25 @@
   ],
   "days": [
     {
+      "date": "2026-08-20",
+      "searched": [
+        "insurers pricing previously-uninsurable risk classes with AI (new premium)",
+        "pharma/biotech AI-designed candidate opening previously-unscreenable indication revenue",
+        "industrials selling autonomy as a NEW subscription line (Deere precision ag / engaged acres)",
+        "healthcare diagnostics/monitoring at new price points / CMS AI reimbursement catalyst",
+        "Walmart Q2 FY27 (20 Aug) Sparky/agentic AI revenue, AOV, advertising",
+        "Deere Q3 FY26 (20 Aug) precision-ag recurring revenue / autonomy subscription",
+        "Target Q2 (retail media / AI) — already logged 19 Aug",
+        "Estee Lauder Q4 AI personalization revenue/conversion",
+        "American Integrity / AIG / Assurant Q2 AI underwriting new risk segment premium",
+        "generic Aug 18-20 non-tech earnings: AI incremental revenue, attach rate, dynamic pricing",
+        "retailers Ross/Williams-Sonoma/Coty AI conversion / new SKU revenue",
+        "utility/telecom AI-enabled new product line revenue that 'did not exist'"
+      ],
+      "assessment": "> **Empty day for the main revenue log — zero S3, zero S3-CANDIDATE, zero S2, zero S1, no cost entry.** The 20 Aug tape (Walmart, Deere, Target already logged 19 Aug, Estee Lauder) produced no *fresh* quantified AI-to-revenue attribution that clears the bar. Off the mid-Jul earnings cluster; this thinness is expected.\n\n## Sources read\n- **Walmart** — Q2 FY27 release (20 Aug). Total revenue `$187.9b` (+5.9%), global eCommerce +23%, global advertising +38%. The release attributes **no revenue to AI, Sparky, or agentic platforms** — the only mention is boilerplate (\"agentic platforms\" in the forward-looking-risk section). The circulating \"`35%` higher order value for Sparky users\" is a *Q4 FY26 (19 Feb 2026)* disclosure recycled by trade blogs, not a new number; logging it now would restate an old claim. Today's call transcript not yet indexed.\n- **Deere** — Q3 FY26 release (20 Aug), net income `$1.379b`. Release names \"precision technology solutions\" generically but discloses **no precision-ag / autonomy recurring-revenue or engaged-acres figure**. Transcript pending — Deere is a standing S3 candidate (autonomy sold as a new subscription line) and worth re-checking once the call is up.\n- **Estee Lauder** — Q4 FY26 call (19 Aug). AI cited for \"real-time personalization for many of our performance campaigns\" and Meta's \"AI-powered tools... conversational commerce,\" plus AI-enabled consumer insights. **No isolated revenue, conversion, or sales figure** — fails inclusion bar #2.\n- **American Integrity Insurance** — Q2 FY26 call (19 Aug). Record `43,000` new-business policies explicitly credited to human underwriters and agency relationships; **AI not mentioned** as a driver. A quiet counter-signal to the \"AI is rewriting underwriting\" narrative, but not a walk-back of a prior claim, so not loggable as counter-evidence.\n\n> Pattern across the last two weeks: the revenue signal that *does* clear the bar is clustering in S1 (velocity — CarGurus, Cars.com, Skyward \"bionic underwriting\") and S2 (share — Booking, Expedia, Shopify, Rakuten, Target). Genuine S3 remains near-absent: one S3-CANDIDATE (RadNet EBCD) in the whole log. The Aug 20 releases did nothing to change that.\n\n## Near-misses deliberately not logged\n- **Walmart Sparky `35%` AOV** — real S2-shaped claim but a Feb-2026 restatement, not a fresh Q2 FY27 number; METHOD bars re-logging the same claim. Re-examine if today's transcript carries an updated figure.\n- **Estee Lauder AI personalization** — named mechanism, named company, but no attributed number. Bar #2 fail.\n- **Deere precision technology** — release too generic; no figure. Pending transcript.\n\n## Nearest dated catalysts\n- Deere Q3 FY26 call transcript (20 Aug) — check for engaged-acres / precision-ag recurring-revenue disclosure (S3 watch).\n- Walmart Q2 FY27 call transcript (20 Aug) — check whether Furner restated or *updated* the Sparky AOV figure.\n- CMS's proposed new Medicare payment category for AI diagnostic software (per FierceHealthcare/Beckers) — a reimbursement catalyst that could make AI screening newly economic (S3). Watch for a named diagnostics provider putting revenue against it.",
+      "entry_count": 0
+    },
+    {
       "date": "2026-08-19",
       "searched": [
         "S1 retail: Target Q2 AI personalization conversion",
