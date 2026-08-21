@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-21 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-21</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log, 1 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>Three findings, all S1, and they are the same finding wearing four company logos.</strong> No S3 again - the standing count is one S3-CANDIDATE in the whole log. What the week produced instead is a disclosure convention: the AI cohort differential, a metric that cannot establish incrementality and is now the house style at four of the largest retailers in the US.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Walmart</strong> - Q2 FY2027 call, 20 Aug. Furner: Sparky users <code>+70%</code> y/y and spending <code>40%</code> more per order. Up from <code>35%</code> on the Q4 FY26 call in February, so the claim held and rose. eCommerce <code>+23%</code>, advertising <code>+38%</code>, neither attributed to AI, no incremental dollars. Logged S1.</li><li><strong>Lowe&#x27;s</strong> - Q2 2026 call, 19 Aug. Mylow users convert at <code>3x</code> non-users; <code>~25m</code> questions fielded since launch. No ticket, basket or dollar figure. Logged S1.</li><li><strong>Albertsons</strong> - WSJ interview, 17 Aug. SVP Jill Pavlovich: AOV <code>+10%</code> on conversational search, <code>+26%</code> on the fuller assistants. This is the figure that <em>disappeared</em> from the 23 Jul earnings call and has now reappeared in a newspaper. Logged S1, and the venue is the point.</li><li><strong>Home Depot</strong> - Q2&#x27;26 call, 18 Aug. Magic Apron at &quot;millions of questions per month&quot;, Pros who use the AI Material List Builder &quot;purchase more&quot;. <strong>Not one number attached to any of it.</strong> Same week, same category, same mechanism as Lowe&#x27;s - and Home Depot declined to produce the cohort statistic. Not logged: fails inclusion bar #2.</li><li><strong>Deere</strong> - Q3 FY26 call, 20 Aug. The scheduled S3 test on the board, and it came back negative. <code>520m</code> engaged acres, <code>&gt;190m</code> highly engaged, <code>~450k</code> monthly digital users, See &amp; Spray heading to <code>~1/3</code> of North American sprayers on order at <code>&gt;50%</code> herbicide savings. <strong>Zero revenue dollars against precision or autonomy, and no separated subscription line.</strong> Third consecutive examination of Deere&#x27;s precision franchise with adoption metrics and no money.</li><li><strong>Ross Stores</strong> (20 Aug) - one AI answer in Q&amp;A, &quot;AI is everywhere... in every conference room&quot;, no metric. <strong>BJ&#x27;s Wholesale</strong> (21 Aug) - no AI mention in the release. <strong>Chunghwa Telecom</strong> (5 Aug) - AI revenue is IDC and AI-supply-chain projects, i.e. selling into the buildout, out of frame by the Verizon precedent.</li><li><strong>CGTrader / Fortune</strong> (20 Aug) - counter-evidence, appendix. AI assets are <code>1 in 6</code> new uploads and <code>~1.1%</code> of revenue.</li></ul>
+<div class="callout"><strong>The pattern, stated plainly: the industry has standardised on a metric that cannot be wrong.</strong> Walmart says Sparky users spend <code>40%</code> more per order. Amazon said Alexa for Shopping users spend &quot;over 40% more per order&quot; three weeks earlier. Albertsons says <code>10%</code> and <code>26%</code> more per basket. Lowe&#x27;s says <code>3x</code> conversion. Every one is a comparison between people who chose to use an assistant and people who did not - and the shoppers most likely to open an AI assistant are the ones already deepest in intent. Not one of the four disclosed an incremental dollar, a control group, or a base rate. Amazon is the tell: two quarters ago it put a <code>~$12bn</code> incremental annualised sales figure on its shopping assistant, and has since replaced it with the cohort statistic.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>Deere precision ag</strong> - adoption metrics only, no revenue dollars. Fails inclusion bar #2 on the revenue line, same as the Precision Essentials rejection on 2026-07-27. The <code>&gt;50%</code> herbicide saving is a <em>customer&#x27;s</em> cost, at unnamed customers, and belongs to neither ledger.</li><li><strong>Home Depot Magic Apron</strong> - named company, named mechanism, real scale, no number. Bar #2.</li><li><strong>NBER 34984 / Atlanta Fed</strong> (Baslandze et al., ~750 executives, March 2026) - reports a &quot;productivity paradox&quot; with perceived gains exceeding measured gains &quot;likely reflecting a delay in revenue realizations&quot;. Directionally the most interesting sentence retrieved today, but it is a five-month-old executive survey with no named company and no revenue figure, and three comparable surveys are already logged. Padding, not evidence.</li><li><strong>GM autonomy subscriptions</strong> (<code>$3.1bn</code> 2026 revenue, <code>$7.5bn</code> deferred) - a projection, from a Tier C secondary in June, and GM does not call it AI. Fails the retrieval and attribution tests both.</li><li><strong>Chunghwa Telecom, SK Telecom</strong> - AI-linked revenue growth that is infrastructure sold <em>to</em> the buildout. Shovels, not results.</li><li><strong>Aviva H1 2026, specialty insurance sweep, pharma/biotech sweep, thin-file lending sweep, professional-services sweep</strong> - no named incumbent put a number on the revenue line. The insurance S3 hunting ground has now been dry for four consecutive weeks; every result returns vendor marketing.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Albertsons Q2 FY2026 call, ~Oct 2026</strong> - the sharpest test on the board: does the <code>10%</code>/<code>26%</code> figure survive contact with an SEC-exposed venue, or does it live only in press interviews?</li><li><strong>Walmart Q3 FY2027, ~Nov</strong> - does the <code>40%</code> per-order gap widen, hold, or compress as Sparky penetration rises? Compression is the selection-bias signature.</li><li><strong>Lowe&#x27;s Q3 2026, ~Nov</strong> - whether <code>3x</code> is repeated and whether it is ever converted into ticket or digital-sales dollars.</li><li><strong>Medtronic Q1 FY2027, 1 Sep</strong> - next healthcare device print with AI-enabled SKUs; not 18 Aug as some aggregators listed.</li><li><strong>Roche Pharma Day, 28 Sep</strong> - the standing pharma S3 checkpoint set on 2026-07-26.</li></ul></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Walmart</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 FY2027 call (20 Aug 2026) CEO John Furner said: &quot;The number of customers using Sparky is up 70% from last year, and the customers and members who use Sparky for shopping spend 40% more per order than others who do not.&quot; The per-order differential is up from the 35% Walmart disclosed on the Q4 FY2026 call (19 Feb 2026). Global eCommerce grew 23% and global advertising 38% in the quarter; neither was attributed to AI and no incremental sales dollars were sized.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Sparky, a conversational assistant inside the Walmart app, answers open-ended shopping intents (Furner&#x27;s example: a weekly high-protein meal plan) and returns recipes, meal kits and a one-click basket of ingredients, plus recognition of items the shopper already bought. The revenue path is cross-category basket building - the assistant converts a single-item errand into a multi-category order.</dd><dt>Why this shape</dt><dd>S1, not S2, and the distinction follows the Amazon precedent logged 2026-08-12: a cohort spend differential is an input/behavioural metric, not attributed incremental revenue. Nobody has established that the same shopper spends more because of Sparky; the disclosed statistic is equally consistent with high-frequency, high-basket shoppers being the ones who try an assistant first. Revenue conversion is conspicuously absent rather than merely unstated - Walmart sized eCommerce (+23%) and advertising (+38%) growth on the same call and attributed neither to AI. Note the convergence: Walmart&#x27;s cohort statistic (40% more per order) is now numerically identical to Amazon&#x27;s Alexa for Shopping figure from three weeks earlier. Two of the largest retailers on earth have settled on the same non-causal disclosure format.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-walmart-beats-q2-2026-forecasts-shares-sink-89-93CH-4870025" rel="noopener">Q2 FY2027 earnings call (transcript via Investing.com, cross-checked against the TradingKey transcript and PYMNTS coverage); prior 35% figure via Modern Retail coverage of the Q4 FY2026 call, 2026-08-20</a></dd><dt>Falsifier</dt><dd>If the differential is causal it should persist or widen as Sparky moves from early adopters to the median shopper; if it is selection, it must compress as penetration rises. Usage is already +70% y/y, so Q3/Q4 FY27 is the test. Treat as narrative if Walmart drops the per-order figure, replaces it with adoption-only metrics (users, questions answered), or never converts it into an incremental-sales dollar figure by the FY27 close.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier A, named CEO, verbatim quote verified across two transcripts - high confidence it was said. Low confidence as evidence of incremental revenue: an uncontrolled cohort comparison with unaddressed selection bias and no dollars attached.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Lowe&#x27;s Companies</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (19 Aug 2026) Lowe&#x27;s disclosed that &quot;customers who engage with Mylow while browsing online convert at three times the rate of those who don&#x27;t&quot;, and that Mylow has fielded approximately 25 million customer and associate questions since launch. No revenue, basket or ticket figure was attributed to Mylow, and the quarter&#x27;s positive comparable sales were not attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Mylow is a generative assistant on lowes.com answering home-improvement project questions in session; the same engine powers a Mylow Companion application for store associates. The claimed revenue path is intent resolution - a shopper who gets a project question answered mid-session completes the purchase instead of abandoning.</dd><dt>Why this shape</dt><dd>S1: conversion rate is an input metric, not revenue. Revenue conversion conspicuously absent - Lowe&#x27;s put no dollars, ticket or basket figure against Mylow on the same call where it reported comps and raised its store target. Selection bias is severe and unaddressed in the specific direction that inflates the number: a shopper who stops to ask a project question is deeper in purchase intent than the average browser, so a 3x conversion gap is the expected result even if Mylow were inert. Not S2 because no incremental revenue is attributed; not S3 because these buyers were already buying home-improvement product from Lowe&#x27;s or a competitor.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.benzinga.com/news/26/08/61303010/lowe-s-companies-reports-q2-2026-results-full-earnings-call-transcript" rel="noopener">Q2 2026 earnings call (full transcript via Benzinga; figure cross-checked against Retail TouchPoints coverage of the same call), 2026-08-19</a></dd><dt>Falsifier</dt><dd>A 3x gap should compress toward 1x as Mylow reaches the median shopper rather than the self-selected early cohort. Treat as narrative if Lowe&#x27;s stops repeating the multiple, or if by FY27 it has still never converted it into a ticket, basket or digital-sales dollar figure. Direct comparator on the board: Home Depot ran the same play in the same week (Magic Apron, millions of questions per month) and disclosed no conversion figure at all.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier A call and the figure is confirmed in two independent renderings of the transcript. Low as ROI evidence: an uncontrolled cohort ratio with no baseline conversion rate, no denominator and no dollars.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Albertsons Companies</span>
+    <span class="sector">Grocery · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In a Wall Street Journal interview published 17 Aug 2026, Albertsons SVP of Digital Shopping Experiences Jill Pavlovich said average order value rises 10% when customers use the company&#x27;s conversational search and 26% when they use its more comprehensive assistants that match recipes and ingredients to dietary preferences. Follow-up on the entry logged 2026-07-26: the 10% figure is the same one CEO Susan Morris put on the record on 7 Jan 2026 and did NOT repeat on the 23 Jul Q1 FY2026 call. It has reappeared - in a press interview rather than an SEC-exposed venue - accompanied by a higher second figure.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Conversational search plus a fuller meal-planning assistant that resolves a dietary constraint into a recipe and then into an ingredient list. Pavlovich&#x27;s stated mechanism is category breadth: &quot;All of a sudden they&#x27;re shopping across categories, across items, not spearfishing for that single item that they need&quot;.</dd><dt>Why this shape</dt><dd>S1 by the same test applied to Amazon (2026-08-12) and Walmart today: an average-order-value differential between users and non-users is a cohort/behavioural input metric, not attributed incremental revenue. The 26% figure is the more interesting one and the weaker one - it describes the deepest-engagement cohort, which is also the most self-selected. What makes this entry worth logging is not the number but the venue. The claim vanished from the July earnings call and returned in a newspaper interview eight weeks later. Partial reverse-falsification of the 2026-07-26 entry, whose falsifier asked whether Albertsons would re-disclose a revenue-attributed AI metric at or above 10% - it has, but not where securities liability attaches.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.pymnts.com/news/artificial-intelligence/2026/albertsons-ai-assistants-drive-immediate-26percent-basket-growth-among-early-adopters/" rel="noopener">WSJ interview with Jill Pavlovich (17 Aug 2026), retrieved via PYMNTS and Supermarket News coverage; WSJ original not retrieved this run, 2026-08-17</a></dd><dt>Falsifier</dt><dd>The clean test is the Q2 FY2026 call (expected Oct 2026): does Morris put the 10% or 26% figure on an earnings call, or does it stay in press interviews? If AI revenue metrics only ever appear in trade and newspaper venues and never in the SEC-exposed one, that asymmetry is itself the finding and this entry should be re-read as evidence of disclosure arbitrage rather than of revenue.</dd><dt>Confidence</dt><dd><strong>low</strong> — Named exec, on the record, two independent trade outlets carrying identical figures - but the WSJ primary was not retrieved this run, it is a cohort AOV differential with no dollars, no base and no control, and the venue carries no legal exposure.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card counter" data-shape="S3"
+  data-counter="1"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s3)">
+  <div class="card-top">
+    <span class="company">CGTrader</span>
+    <span class="sector">Digital marketplace (3D assets) · LT</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s3);color:var(--shape-s3)"></span>S3 — New TAM</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Marketplace transaction data covering June 2025 - May 2026, reported by Fortune on 20 Aug 2026: AI-generated models are now roughly 1 in 6 newly uploaded assets on CGTrader but account for &quot;$1 out of every $90 in generated revenue&quot; (~1.1%) and 2.6% of sales. Only 5% of CGTrader customers who tried an AI-generated asset found it worked well, against 20% who found it inadequate. Alongside: Pew reports 52% of US adults are &quot;more concerned than excited&quot; about greater AI use, up from 38% in 2022.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Generative models collapsed the cost of producing a 3D asset, so supply expanded roughly six-fold as a share of new uploads. The S3 hypothesis this tests is the newly-economic one: if AI-collapsed production cost opens demand that previously could not be served, revenue share should track supply share. It does not - a ~17% share of new supply converts to ~1-3% of transactions.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S3, and specifically to test (d), newly economic. This is the cleanest natural experiment retrieved to date on whether an AI-driven cost collapse creates demand: the cost curve moved hard, supply followed, and buyers did not. It contradicts the standing assumption that cheaper production is sufficient for new TAM - on this marketplace it produced catalogue inflation, not a new market. Appendix scope because CGTrader is an online software marketplace and out of scope as a subject in the main revenue log; the finding is about buyer behaviour, not about CGTrader&#x27;s own AI deployment. Two figures are given for the same phenomenon (1.1% of revenue, 2.6% of sales); read them as revenue share and unit share respectively - Fortune does not reconcile them and neither should this entry.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://fortune.com/2026/08/20/ai-product-fatigue-online-marketplace-ecommerce/" rel="noopener">Fortune, reporting CGTrader marketplace data (June 2025 - May 2026) and Pew Research August 2026, 2026-08-20</a></dd><dt>Falsifier</dt><dd>If AI-asset revenue share on CGTrader rises materially toward its supply share over the next two reporting periods, the discount is a quality-and-trust lag rather than a demand ceiling, and this entry becomes a snapshot of an early market rather than evidence against test (d). Also falsified if the gap is shown to be a ranking or labelling artefact of the marketplace itself rather than buyer preference.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Real transaction data over a 12-month window from a named marketplace, which is far better than survey sentiment - but Tier C, single-outlet, self-reported by the marketplace, one narrow asset category, and the two revenue-share figures are not reconciled in the source.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
