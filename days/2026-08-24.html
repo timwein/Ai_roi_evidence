@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-24 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-24</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No S3 today, and nothing new on the revenue side that clears the bar. What the day produced is two pieces of counter-evidence and one cost entry - the honest read of a Monday after an earnings-free weekend, in the tail of retail reporting season.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Etsy</strong> - Q2 2026 call (<code>6 Aug</code>): CEO Kruti Patel Goyal put agentic traffic at &quot;less than 1% of our overall traffic&quot;, higher-intent and higher-AOV, with no GMS or revenue figure attached. Logged S1 / counter-evidence at <code>18</code> days old because it is the only hard ceiling any retailer has disclosed on this channel.</li><li><strong>Ross Stores</strong> - Q2 2026 call (<code>20 Aug</code>): sales <code>+13%</code> to <code>$6.26bn</code>, comps <code>+10%</code>, and CEO Jim Conroy, asked directly about AI and agentic search, attributed none of it, calling AI &quot;icing on the cake&quot;. Logged S1 / counter-evidence.</li><li><strong>Sysco</strong> - Q4 FY2026 release (<code>4 Aug</code>, 8-K exhibit), reconfirmed <code>20 Aug</code>: <code>$100m</code> of FY2027 efficiency improvements &quot;driven by an artificial intelligence (AI)-powered transformation&quot;. Cost only, no revenue target anywhere in either release. Logged C4, PROJECTED.</li><li><strong>Deere &amp; Company</strong> - Q3 FY2026 call (<code>20 Aug</code>): <code>520m</code> engaged acres, <code>1.2m</code> connected machines, See &amp; Spray on about one-third of North American sprayers on order. Not logged - see near-misses.</li><li><strong>Walmart</strong>, <strong>Target</strong>, <strong>Albertsons</strong>, <strong>Amazon</strong> - re-read through a <code>20 Aug</code> PYMNTS roundup. Every figure in it was already in this log from the primary calls; no new disclosure, and the roundup added no denominator to any of them.</li></ul>
+<div class="callout">The pattern across runs is now sharp: the retail agentic-commerce cluster is all numerator and no denominator. Four companies have disclosed growth rates and per-order lifts; <strong>Etsy</strong> is the first to disclose the base, and the base is under <code>1%</code> of traffic. Both things are true at once - the channel is real and it is immaterial.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 industrials, autonomy as a new line</strong> - <strong>Deere &amp; Company</strong> Q3 FY2026 - failed the capability gate and the result bar together. Deanna Kovar said Deere &quot;will soon build on that foundation with AI enabled capabilities&quot;, future tense with no result, and the engaged-acre and See &amp; Spray figures are precision-ag adoption metrics whose underlying technology long predates the frontier-model era.</li><li><strong>S3 insurance, newly-serveable risk</strong> - carrier product launches, GWP disclosures and AI-liability coverage - every hit was a vendor platform (<strong>Sixfold</strong>, <strong>Cytora</strong>, <strong>DeNexus</strong>) or an insurtech (<strong>Corgi</strong>), Tier D and out of scope as subject. No incumbent carrier disclosed premium bound on a class it previously declined.</li><li><strong>S3 pharma, unscreenable target space</strong> - no AI-discovered drug has an approval, so there is no revenue to disclose. Every hit was a market-size forecast, which fails the named-company and specific-claim tests.</li><li><strong>S2 QSR, drive-thru upsell</strong> - <strong>Wendy&#x27;s</strong> FreshAI &quot;15% increase in upsell attachment&quot; traces to a 2025 investor day. Outside any defensible window and not retrieved from a primary source this run.</li><li><strong>S2 retail, agentic conversion</strong> - a claim that <strong>Walmart</strong>&#x27;s ChatGPT Instant Checkout converts &quot;three times lower&quot; appeared only in a search-engine synthesis. The Forrester post it was attributed to (<code>28 May 2026</code>) contains neither Walmart, nor Instant Checkout, nor any conversion figure. Dropped as aggregator misattribution.</li><li><strong>Counter-evidence, the &quot;95% of AI pilots fail&quot; study</strong> - content-farm renderings now describe its design as &quot;2,400 enterprises across 15 industries over 18 months&quot;, which is not the MIT NANDA study. Reconstructed numbers, not logged.</li><li><strong>AI-as-customer, not AI ROI</strong> - <strong>Caterpillar</strong>, <strong>Applied Industrial Technologies</strong>, <strong>Bloom Energy</strong> and <strong>Duke Energy</strong> all showed AI-build-out demand. Pre-existing SKUs sold to a new buyer; out of frame by definition, not by a close judgement call.</li><li><strong>S1 medtech</strong> - <strong>GE HealthCare</strong> and <strong>Philips</strong> Q2 2026 both described their portfolios as AI-enabled. Neither broke out an AI SKU number, so there is nothing to test.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>26 Aug 2026</code> - <strong>Nvidia</strong> Q2 FY2027. Not a log subject, but the capex-versus-realised-revenue gap is the macro frame every entry here sits inside. Date per preview coverage; one aggregator said <code>28 Aug</code>, so treat it as approximate.</li><li>Week of <code>24-28 Aug 2026</code> - the remaining large retail reporters. Last chance this season for a retailer to put revenue, rather than traffic, next to AI.</li><li>Early <strong>Nov 2026</strong> - <strong>Etsy</strong> Q3. The falsifier on today&#x27;s entry: does agentic traffic cross <code>1%</code>, and does a GMS figure finally appear next to it.</li><li>Early <strong>Nov 2026</strong> - <strong>Sysco</strong> Q1 FY2027. First read on whether the <code>$100m</code> is being realised, and whether the AI share is ever broken out.</li><li>Late <strong>Nov 2026</strong> - <strong>Ross Stores</strong> Q3. Whether Conroy ever puts a number on any of it.</li></ul></div>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Etsy</span>
+    <span class="sector">Retail / E-commerce marketplace · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (6 Aug 2026) CEO Kruti Patel Goyal said: &quot;Traffic from agentic experiences is still less than 1% of our overall traffic. We&#x27;re still seeing the same things that we shared last time. They&#x27;re higher intent, higher average order value traffic.&quot; No GMS, take-rate or revenue figure was attached to the channel. Logged 18 days after the call because it is the only hard ceiling any retailer has put on agentic traffic.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Third-party AI assistants refer shoppers into Etsy listings; Etsy&#x27;s own Gifting Assistant beta offers conversational gift discovery on-platform. Both are top-of-funnel referral and discovery against the existing catalogue - no new product, no new seller supply, no new price point.</dd><dt>Why this shape</dt><dd>S1, and counter-evidence to it. The disclosed number is an input metric - share of total traffic - not revenue, which is the S1 test. Revenue conversion was conspicuously absent: management characterised the traffic as higher-intent and higher-AOV but attached no GMS or revenue figure, and said it was seeing &quot;the same things that we shared last time&quot;, so this is a second quarter of qualitative-only characterisation. Logged as counter-evidence because it is the first named-company denominator for a channel the log&#x27;s retail cluster (Walmart Sparky, Target, Lowe&#x27;s Mylow, Albertsons Ask AI, Amazon Alexa for Shopping) has described only in growth rates and per-order lifts. A channel below 1% of traffic cannot yet be material to any of them, whatever its growth rate.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/12/etsy-etsy-q2-2026-earnings-call-transcript/" rel="noopener">Q2 2026 earnings call transcript (wording, speaker and date confirmed across two independent renderings - Motley Fool and Investing.com), 2026-08-06</a></dd><dt>Falsifier</dt><dd>If Etsy&#x27;s Q3 2026 call (early Nov 2026) still puts agentic traffic below roughly 1% of total, the channel is not compounding at the rate the peer growth-rate disclosures imply. If it crosses low single digits with a GMS figure attached, this entry is superseded and the cluster&#x27;s optimism is vindicated.</dd><dt>Confidence</dt><dd><strong>high</strong> — Verbatim CEO quote from a Tier A call, retrieved this run and confirmed against a second independent transcript rendering that agrees on wording, speaker and date.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Ross Stores</span>
+    <span class="sector">Retail (off-price) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q2 2026 call (20 Aug 2026), asked directly how AI and agentic search would affect off-price retail, CEO Jim Conroy said &quot;AI is everywhere. It&#x27;s in every conference room and every boardroom across the country&quot; and described AI as &quot;icing on the cake&quot; on top of existing execution. No AI-attributed sales, traffic or conversion figure was offered, in a quarter when sales rose 13% to $6.26bn and comparable store sales rose 10%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Conroy described AI as embedded in analytics, planning and allocation, and used daily by the company&#x27;s developers, explicitly not organised as a separate function. The mechanism disclosed is internal-process, and it was explicitly not credited with the quarter&#x27;s result.</dd><dt>Why this shape</dt><dd>S1, and counter-evidence to it. Nothing was quantified, so this cannot be S2 or S3; it is tagged against S1 because the analyst question was specifically about agentic search and AI-driven demand, the same thesis the log&#x27;s retail S1 cluster feeds. The informative content is the refusal: a retailer posting a 10% comp whose CEO volunteers no AI attribution at all is the control case for the peers who do attribute. Not a walk-back - Ross never made a claim to walk back - which is why it is the cleaner comparator.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-ross-stores-tops-q2-2026-estimates-shares-jump-after-hours-93CH-4870582" rel="noopener">Q2 2026 earnings call transcript, 2026-08-20</a></dd><dt>Falsifier</dt><dd>If Ross quantifies an AI-attributed sales, traffic or margin figure at Q3 (late Nov 2026) or at an investor day, this stops being counter-evidence and becomes the baseline for a first claim. If the language stays qualitative through FY2026 while comps hold, the off-price model looks structurally indifferent to the AI demand story.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The substantive point - zero quantification on a Tier A call - is unambiguous in the transcript retrieved this run; the &quot;icing on the cake&quot; phrasing appears in that rendering plus one search-result summary, not in two independently retrieved transcripts.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Sysco Corporation</span>
+    <span class="sector">Foodservice distribution · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">Sysco&#x27;s Q4 FY2026 results release (4 Aug 2026, filed as an 8-K exhibit) states: &quot;Included in the 2027 guidance is approximately $100 million of efficiency improvements driven by an artificial intelligence (AI)-powered transformation of business processes and customer engagement.&quot; A 20 Aug 2026 corporate release reconfirmed it as a &quot;$100 million cost-savings program enabled by AI-driven process improvements, automation initiatives, and operating efficiencies.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Named workstreams are inventory management and forecasting accuracy, coding efficiency, routing optimisation and back-office automation, alongside the AI360 selling tool. Four of the five named workstreams are supply-chain or back-office, which is what puts this in C4 rather than C3.</dd><dt>Why this shape</dt><dd>C4 - non-tech company, predominantly non-engineering functions. Standing trap 3 (composite value metrics) applies and is the reason confidence is only medium: the same release says the company &quot;expects combined cost-outs of approximately $100 million, including the carry-forward benefit from previously announced actions&quot;, so the figure mixes AI-driven savings with pre-existing non-AI cost actions and Sysco does not break out the AI share. Revenue reading noted and deliberately not logged: CEO Kevin Hourican credited AI360 with sales-colleague productivity and Sysco Brand penetration of 46.4%, up 30bps, but the release attributes volume growth to case growth, supply-chain productivity and brand penetration rather than to AI. Per the one-ledger rule this is logged once, on the cost side, where the number actually sits.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/96021/000009602126000026/syy2026q4pressrelease.htm" rel="noopener">Q4 FY2026 results press release (8-K exhibit), reconfirmed by the 20 Aug 2026 board/AI-transformation release, 2026-08-04</a></dd><dt>Falsifier</dt><dd>If FY2027 closes (late June 2027) without Sysco reporting realised cost-outs at or near $100m, or if the programme quietly stops being broken out, the figure was a guidance framing device rather than a plan. Interim checkpoint: the Q1 FY2027 call in early Nov 2026.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figure verified verbatim in the SEC-filed press release retrieved this run, but it is PROJECTED, composite with non-AI carry-forward actions, and the AI share is undisclosed.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
