@@ -1419,9 +1419,73 @@
       "confidence": "medium",
       "confidence_why": "Figure verified verbatim in the SEC-filed press release retrieved this run, but it is PROJECTED, composite with non-AI carry-forward actions, and the AI share is undisclosed.",
       "counter_evidence": false
+    },
+    {
+      "date": "2026-08-26",
+      "company": "Woolworths Group",
+      "sector": "Grocery / Retail",
+      "country": "Australia",
+      "shape": "S1",
+      "scope": "main",
+      "claim": "On the FY2026 results call (25-26 Aug 2026) CEO Amanda Bardwell said that \"leveraging agentic AI, Olive, our much-loved digital shopping companion, has transformed into a personal shopping companion\", with the results presentation disclosing \"over 1 million unique customers who used the tool\". Group eCommerce sales rose 15.9% to $10.6bn and average weekly digital visits reached 14 million, up 22.9%; neither was attributed to AI. No AI-attributed revenue, basket-size or conversion figure was given, and Bardwell said of Olive that \"it is still early days\".",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "FY2026 full-year results call and investor presentation, 26 Aug 2026 (transcript and slides renderings via Investing.com, both retrieved this run; headline financials cross-checked against Motley Fool Australia, 26 Aug 2026)",
+      "source_date": "2026-08-26",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-woolworths-group-lifts-profit-in-h2-2026-shares-rise-4-93CH-4876206",
+      "mechanism": "Olive is a conversational assistant in the Woolworths app that Bardwell says customers use for \"recipe inspiration, meal planning, and product discovery\". The stated revenue path is basket construction: Smart Basket, launched in the period, \"helps customers build their online baskets faster through predictive additions based on purchasing habits\", which Bardwell said is \"seeing positive engagement and customer retention rates\" - no engagement or retention number was attached to either claim. The presentation also states \"connected customers who engaged with digital platforms spent 2.4 times more than in-store-only customers in Q4\", but that is a channel statistic Woolworths did not attribute to AI and is straightforwardly confounded by who shops online.",
+      "shape_justification": "S1, and at the weak end of it. The only AI-specific number is adoption - unique users - not throughput, conversion or hit rate, so this sits a step below the Walmart and Albertsons disclosures already in the log, which at least offered a cohort spend differential. Revenue conversion is conspicuously absent rather than merely unstated: Woolworths sized eCommerce growth (15.9%), digital visits (+22.9%), app share of orders (>70% in Q4) and a 2.4x connected-customer spend gap on the same day, and attributed none of them to Olive, Smart Basket or any AI capability. Not S2 - nothing incremental is attributed. Not S3 - grocery baskets are the definition of pre-existing demand.",
+      "falsifier": "An FY27 half-year or full-year result that repeats the Olive narrative with adoption metrics only, or drops the unique-customer figure, and still puts no basket-size, conversion or retention number next to it. Contrast test: Albertsons put a 10%/26% average-order-value figure on the same capability class in August 2026, so the metric exists and is disclosable - continued silence from a grocer of this size is the falsifier.",
+      "confidence": "medium",
+      "confidence_why": "Quotes are verbatim from a retrieved transcript rendering and independently matched in a retrieved slides rendering; the underlying claim is adoption only, which is why this is not high.",
+      "counter_evidence": false
+    },
+    {
+      "date": "2026-08-26",
+      "company": "Woolworths Group",
+      "sector": "Grocery / Retail",
+      "country": "Australia",
+      "shape": "C4",
+      "scope": "main",
+      "claim": "In the same FY2026 results (26 Aug 2026) Bardwell said the Team Assist platform is \"already managing over 7,000 queries per week and resolving nine in 10 before reaching our advisory team\", and the presentation states \"AI-powered catalogue planning reduced production time from a week to a few hours\". No dollar saving, no headcount effect and no inference or licensing run-cost was disclosed against either.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "FY2026 full-year results call and investor presentation, 26 Aug 2026 (transcript and slides renderings via Investing.com, both retrieved this run)",
+      "source_date": "2026-08-26",
+      "source_url": "https://www.investing.com/news/company-news/woolworths-fy2026-slides-profit-surges-127-ai-drives-growth-93CH-4876214",
+      "mechanism": "Two separate non-engineering deployments at a retailer with roughly 200,000 employees. Team Assist is a retrieval-and-answer agent sitting in front of an internal advisory team, deflecting queries that would otherwise consume adviser time. The marketing assistant suite applies AI \"across planning, drafting, and production\" of the weekly catalogue, compressing a weekly production cycle into hours.",
+      "shape_justification": "C4 - non-tech company, non-engineering function, the cell METHOD.md weights most heavily. Two standing traps apply and neither is resolved by the disclosure. Trap 1, adoption dressed as saving: 7,000 queries and a 90% deflection rate measure volume handled, not an expense line that fell. Trap 5, cost avoidance versus realized reduction: a catalogue produced in hours instead of a week frees marketing capacity, and Woolworths did not say whether that capacity was banked or reinvested. Group cost of doing business was discussed on the call but never attributed to AI. Logged in the cost ledger only - the Olive/Smart Basket revenue-side disclosure is logged separately as S1 and these are distinct claims, not one claim double-counted. Source discrepancy worth flagging: the call transcript describes Team Assist as resolving queries \"before reaching our advisory team\", i.e. team-facing, while the slides rendering says \"resolved 9 in 10 customer interactions without human intervention\". The CEO's verbatim wording is taken as authoritative; the slides rendering may be an aggregator paraphrase.",
+      "falsifier": "An FY27 result that carries no cost-of-doing-business reduction attributable to these platforms, or that grows advisory headcount alongside a rising Team Assist query count. Also: any disclosure of AI run-cost that offsets the deflection - Woolworths has so far disclosed the benefit side only.",
+      "confidence": "low",
+      "confidence_why": "Numbers are specific and verbatim from a Tier A results presentation, but nothing is quantified in dollars, and the two renderings disagree on whether Team Assist serves employees or customers.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-08-26",
+      "searched": [
+        "S3 insurance: uninsurable classes now priced/bound",
+        "S3 insurance: parametric AI cover, named carrier",
+        "S3 pharma: unscreenable targets to booked revenue",
+        "S3 industrials: autonomy as new subscription SKU",
+        "S3 healthcare: AI diagnostics, new CMS payment path",
+        "S3 prof services: fixed-fee work never billable",
+        "S3 lending: thin-file borrowers, disclosed volume",
+        "S3 incumbents: AI SKU with no catalogue predecessor",
+        "S3 telecom/energy: AI sold as a new service line",
+        "S2 grocery: agentic assistant basket and AOV lift",
+        "S2 retail: AI personalisation conversion attribution",
+        "S1/S2 banks: Canadian Q3 tape, AI attribution",
+        "S1 retail: late-Aug Q2 tape, AI-attributed metrics",
+        "Counter: AI revenue walk-backs and null results",
+        "Counter: execs declining to quantify AI revenue",
+        "Trailing 48h: 24-26 Aug disclosures",
+        "Gap cover: 25 Aug, missed run day"
+      ],
+      "assessment": "> Two entries, both from one company - Woolworths' FY26 results - and **no S3 anywhere**. The trailing 48 hours were a bank-and-retail tape, and the pattern is that large financials narrate AI hard and quantify it not at all.\n\n## Sources read\n\n- **Woolworths Group** (FY26 results, `26 Aug`) - Olive agentic shopping assistant, `1m` unique users, eCommerce `+15.9%` to `$10.6bn`. Adoption disclosed, revenue conversion not. Logged **S1**.\n- **Woolworths Group** (same results) - Team Assist `7,000` queries/week, `9 in 10` resolved; catalogue production cut from a week to hours. No dollar saving. Logged **C4**.\n- **Scotiabank** (Q3 FY26 call, `25 Aug`) - CEO Scott Thomson on expanding Scotia Intelligence and launching Knowledge Agents. Not one number attached to AI. Digital sales passed `44%` of total sales, not AI-attributed.\n- **Bank of Montreal** (Q3 FY26, `26 Aug`) - record adjusted net income `C$2.9bn`, revenue `+11%`. The only AI reference from CEO Darryl White was to the US \"AI CapEx cycle\" as a macro driver. AI-as-customer, not AI ROI.\n- **DICK'S Sporting Goods** (Q2, `25 Aug`) - comps `+4.9%`, guidance cut. No AI attribution in a quarter that absorbed Foot Locker.\n- **Bath & Body Works** and **Abercrombie & Fitch** (Q2, `26 Aug`) - results released, no AI-attributed figure in the releases retrieved.\n\n> The revealing comparison is Albertsons versus Woolworths. Both are grocers with a conversational assistant; Albertsons put `10%` and `26%` average-order-value numbers on it in August, Woolworths put a user count on it. The metric plainly exists and is disclosable, which makes the silence a choice rather than an absence.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance, new risk classes** - Sixfold, nsur.ai, parametric wildfire/cyber launches - all vendor capability announcements; failed the inclusion bar (no deploying carrier, no bound premium).\n- **S3 pharma, unscreenable target space** - Recursion/Exscientia milestone pool, Insilico INS018_055 - failed test (a): no counterfactual purchase, and no revenue recognised in the trailing window.\n- **S3 lending, thin-file borrowers** - Zest AI and vendor approval-lift claims of `25-40%` - Tier D, no named lender, no originated volume.\n- **S3 professional services, newly billable work** - legal AFA and fixed-fee commentary - trade and vendor essays, no named firm and no revenue figure.\n- **Royal Bank of Canada** - the only hard Canadian-bank number available is `C$700m-1bn` of \"revenue and cost savings by 2027\", a composite metric from March 2026 with no named speaker in the source retrieved. Failed METHOD trap 3 and the near-primary-source test.\n- **Woolworths connected-customer `2.4x` spend gap** - not attributed to AI by the company and confounded by channel self-selection; kept in the entry's mechanism field, not as the claim.\n- **Deere** - lifted FY26 guidance on an \"AI construction boom\". AI-as-customer: pre-existing SKUs sold into the build-out, not ROI on deployment.\n- **Globant** - `$6trn` professional-services TAM claim and Glob.AI ARR `+60%`, but the outlook was trimmed on the same call. Out of scope as an IT-services subject and `13` days old; held for the appendix if it recurs with a cleaner number.\n- **\"56% of CEOs have seen no AI revenue or cost benefit\"** - consultant sentiment survey, explicitly excluded by METHOD.\n\n## Nearest dated catalysts\n\n- **Royal Bank of Canada** Q3 FY26, `27 Aug 2026` - does the `C$700m-1bn` AI figure get updated, decomposed into revenue versus cost, or quietly dropped?\n- **National Bank of Canada** and **CIBC** Q3 FY26, week of `27 Aug 2026`.\n- **Costco**, **Kroger** and the September grocery tape - the test of whether Albertsons' order-value disclosure format spreads or stays a one-off.\n- **Salesforce**, **Broadcom** early September - out of scope as subjects, but their customer-named disclosures occasionally carry a deploying company's number.\n- **Woolworths** H1 FY27, February 2027 - the falsifier checkpoint on Olive.",
+      "entry_count": 1
+    },
     {
       "date": "2026-08-24",
       "searched": [
