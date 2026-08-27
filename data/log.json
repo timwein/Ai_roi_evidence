@@ -1,6 +1,46 @@
 {
   "entries": [
     {
+      "date": "2026-08-27",
+      "company": "Williams-Sonoma, Inc.",
+      "sector": "Retail",
+      "country": "US",
+      "shape": "S1",
+      "scope": "main",
+      "claim": "On the Q2 FY2026 call (26 Aug 2026) Chief Technology and Digital Officer Sameer Hassan said of the Williams Sonoma brand's AI shopping assistant: \"Engagement with Olive is up 700%. Revenue is up 620%, and customers who engage with Olive convert at 3 times a higher rate\", and that \"A visit where we personalize the experience now generates roughly 9 times the revenue of an average visit. Last year, that was 2X.\" A second rendering of the same transcript dates both Olive figures \"since the beginning of the year\". Total Q2 revenue was $1.96bn, +6.7%, with comparable brand revenue +6.2%; none of it was attributed to AI and no incremental dollars were sized. CEO Laura Alber's only quantified framing was qualitative - \"AI is an accelerator to our strategy and our productivity.\"",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q2 FY2026 earnings call transcript",
+      "source_date": "2026-08-26",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-williamssonoma-tops-q2-2026-estimates-shares-slip-93CH-4877547",
+      "mechanism": "Olive is a conversational shopping assistant on the Williams Sonoma brand site that takes open-ended intents and returns product sets; the disclosed revenue path is conversion, with engagers converting at 3x the site rate. Separately, an e-commerce personalization layer selects on-site content per visit, and Williams-Sonoma measures a personalized visit against an average visit. The 9x figure is a ratio between two visit populations, not a lift measured against a held-out control.",
+      "shape_justification": "S1, not S2, because the load-bearing numbers are input metrics - engagement, a conversion multiple, and a revenue-per-visit ratio. \"Revenue is up 620%\" is growth in revenue transacted through the Olive surface off an undisclosed base, which is the denominator game METHOD names: a numerator with no base is not attributed incremental revenue and cannot promote to S2. Revenue conversion was conspicuously absent: no dollars, no share of e-commerce, no statement that any of the 6.2% comp was Olive-driven. The 9x personalized-visit figure is confounded by self-selection - high-intent visitors are more likely both to be personalized to and to buy - and Williams-Sonoma offered no counterfactual.",
+      "falsifier": "Williams-Sonoma puts a base under Olive in a later quarter - dollars or a share of digital revenue - and it lands immaterial, under roughly 1-2% of e-commerce, as Etsy's under-1% traffic disclosure did for agentic channels. Equally falsifying: the 700%/620%/3x growth rates vanish from disclosure once the base is large enough to be embarrassing, or comps decelerate while the Olive ratios keep compounding.",
+      "confidence": "medium",
+      "confidence_why": "Figures verified in two independent renderings of the same Tier A transcript, but every one is a ratio or a growth rate with no base and none is tied to a revenue dollar. The speaker's name appears in full in one rendering and as a first name only in the other.",
+      "counter_evidence": false
+    },
+    {
+      "date": "2026-08-27",
+      "company": "Williams-Sonoma, Inc.",
+      "sector": "Retail",
+      "country": "US",
+      "shape": "C4",
+      "scope": "main",
+      "claim": "On the same Q2 FY2026 call (26 Aug 2026) Sameer Hassan said of Otto, the assistant launched for the Pottery Barn brands: \"Over 70% of engagements with Otto are able to be resolved without handing you over to a person.\" No dollar saving, no headcount action, no service-cost-per-contact figure was attached, and Williams-Sonoma did not say what the pre-Otto deflection rate was.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q2 FY2026 earnings call transcript",
+      "source_date": "2026-08-26",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-williamssonoma-tops-q2-2026-estimates-shares-slip-93CH-4877547",
+      "mechanism": "A customer-service assistant fronting the Pottery Barn brands' contact channels, resolving order, product and post-purchase queries without escalation to a human agent. The cost path is contact deflection - each resolved engagement is an agent-handled contact not incurred - but the company disclosed the deflection rate, not the contact cost or the volume it applies to.",
+      "shape_justification": "C4 - non-tech company, non-engineering function. Logged on the same footing as Woolworths Team Assist (26 Aug 2026): a specific, quantified deflection rate from a Tier A source with no dollar attached. METHOD trap 5 applies in advance: even at face value this is cost avoidance on contacts, not a reduction in a disclosed expense line, and without a baseline deflection rate the 70% cannot be read as incremental. Logged separately from the Olive S1 entry because it is a distinct disclosure about a distinct product, not a second reading of the same number.",
+      "falsifier": "Williams-Sonoma never converts the deflection rate into a service-cost figure - cost per contact, customer-service expense down, or SG&A leverage attributed to Otto - in FY2026 or FY2027 disclosure, or the 70% figure disappears from later calls without a successor metric.",
+      "confidence": "medium",
+      "confidence_why": "Direct quote from a Tier A transcript, but a deflection rate with no baseline and no cost denominator is the weakest form of cost evidence the ledger admits.",
+      "counter_evidence": false
+    },
+    {
       "date": "2026-07-26",
       "company": "Albertsons Companies",
       "sector": "Grocery / Retail",
@@ -1462,6 +1502,29 @@
     }
   ],
   "days": [
+    {
+      "date": "2026-08-27",
+      "searched": [
+        "S3 insurance: new risk classes priced and bound",
+        "S3 pharma: unscreenable target space revenue",
+        "S3 healthcare: AI CPT codes, newly billable work",
+        "S3 industrials: autonomy as new subscription line",
+        "S3 prof services: work never billable before",
+        "S3 SMB long tail: newly economic segments",
+        "S3 energy/mining/ag: new AI service lines",
+        "S3 telecom/utility: AI SKU with no predecessor",
+        "S2 retail: agentic commerce conversion and AOV",
+        "S1 Canadian banks: Q3 FY26 AI disclosures",
+        "S1 insurance: quote-to-bind and hit-rate gains",
+        "S2 hospitality: AI revenue management uplift",
+        "S2 apparel: Q2 tape, ANF/Gap/Burlington/Foot Locker",
+        "S1/S2 Japan/India/Europe non-tech disclosures",
+        "Counter-evidence: walk-backs and cancelled AI work",
+        "Counter-evidence: new econometric adoption studies"
+      ],
+      "assessment": "> Two entries, both from **Williams-Sonoma**, and **no S3** for the eleventh consecutive run. The retail agentic cluster gained its most extreme ratios yet and still not one dollar of attributed revenue.\n\n## Sources read\n\n- **Williams-Sonoma** (Q2 FY2026 call, `26 Aug`) - Olive engagement `+700%`, revenue `+620%`, engagers converting at `3x`; personalized visits at `9x` the revenue of an average visit, up from `2x`. Total revenue `$1.96bn`, comps `+6.2%`, none of it AI-attributed. Logged **S1**.\n- **Williams-Sonoma** (same call) - Otto for Pottery Barn resolves `over 70%` of engagements without a human handoff. No cost figure. Logged **C4**.\n- **Abercrombie & Fitch** (Q2, `26 Aug`) - record net sales `$1.27bn`, `+5%`, fifteenth straight growth quarter. CEO Fran Horowitz named AI twice, both times as \"speed and efficiency\" with no number attached. Not logged.\n- **CIBC** (Q3 FY26, `27 Aug`) - net income `$2.41bn`, revenue `$8.37bn`. The release names CAI 2.0, AdvisorAssist and Knowledge Central. Every one is a pilot or a launch with zero quantification. Fails the result bar outright.\n- **Royal Bank of Canada** (Q3 FY26, `27 Aug`) - profit `$6.02bn` on revenue `$18.54bn` per wire coverage. The EDGAR 6-K I actually retrieved was the **Q2** filing, not Q3; its single AI reference sits in the forward-looking-statements risk list. No Q3 AI figure verified this run, and the `C$700m-1bn` composite target flagged as yesterday's catalyst was not updated in anything retrieved.\n- **National Bank of Canada** (Q3 FY26, `27 Aug`) - net income `$1,307m`, `+23%`. No AI attribution found.\n- **PYMNTS** retail roundup (`20 Aug`) re-read for names - every figure in it (**Walmart**, **Amazon**, **Target**, **Albertsons**, **Shopify**, **Etsy**) was already logged from the primary calls.\n\n> The numerator-without-denominator pattern is now six companies deep and hardening into a disclosure convention. **Walmart**, **Amazon**, **Albertsons**, **Target**, **Shopify** and now **Williams-Sonoma** have each published a ratio - AOV differential, conversion multiple, growth rate - and none has published the base it sits on. **Etsy** remains the only retailer to disclose the denominator, and it was under `1%`. Williams-Sonoma's `9x` is the most extreme ratio in the log and also the most self-selected.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance, new risk classes** - Sixfold AI Underwriter (`hit ratios +15%`, `GWP per underwriter +30%`), BriteCore copilots, Armilla AI liability cover - all Tier D vendor claims with no deploying carrier named and no bound premium. Fails the inclusion bar and the Tier D rule together.\n- **S3 pharma, unscreenable targets** - no AI-discovered drug holds FDA approval as of this run; Insilico's rentosertib registered a Phase III on `7 Jul 2026`. No revenue exists to disclose, so test (a) cannot be run.\n- **S3 healthcare, newly billable work** - the 2026 CPT set adds Category I codes for AI-assisted lung-nodule, stroke and fracture detection, which is a genuine newly-economic mechanism: services previously delivered but not separately billable now carry RVUs. Every source was a billing-vendor explainer with no named provider and no collected revenue. Held as a structural catalyst, not an entry.\n- **S3 industrials and telecom, new SKUs** - **SK Telecom** AIDC revenue `+92.5%` to `KRW 136.2bn`, **Fujikura** ordinary profit up `2.7x` on AI data-centre demand. Both are AI-as-customer: pre-existing capacity and fibre sold to a new buyer. Out of frame by definition.\n- **S3 professional services and SMB long tail** - **Globant** CRO on serving \"clients with different kind of scale that we couldn't do before\". Forward-looking aspiration, no revenue figure, and out of scope as an IT-services subject. Same disposition as yesterday.\n- **S2 hospitality, AI revenue management** - hotel-tech trade press quoting `ADR +10-15%` and `RevPAR +8-15%`. No named operator, no earnings source, vendor-authored.\n- **Counter-evidence, failed AI spend** - the `2.4%` of revenue lost on failed AI projects traces to **Emergn**, a consultancy, surveying `700` leaders. A sentiment-and-self-report survey, explicitly excluded by METHOD. The RAND `80.3%` and Gartner `28%` figures reached this run only through content-farm renderings and were not retrieved from either primary.\n- **Consultant results survey** - **WTW**'s March 2026 analytics survey claims adopters run combined ratios `6pts` lower and premium growth `3pts` higher. Unnamed companies, cross-sectional association, and published by a firm that sells the analytics. Fails the named-company test.\n\n## Nearest dated catalysts\n\n- **Gap Inc.** Q2 FY2026, `27 Aug 2026` afternoon PT - reported after this sweep closed. Check next run for any AI-attributed conversion figure.\n- **Costco** and the September grocery tape - whether Albertsons' order-value disclosure format spreads.\n- **Dollar General**, **Ulta Beauty**, **lululemon**, early September - the tail of the retail quarter and the last chance this season for a denominator.\n- **Williams-Sonoma** Q3 FY2026, November 2026 - the falsifier checkpoint on Olive. A base, or the ratios quietly disappear.\n- **Royal Bank of Canada** - the `C$700m-1bn` AI target remains unverified against a primary source. Retrieve the Q3 report and supplementary package directly next run.\n",
+      "entry_count": 1
+    },
     {
       "date": "2026-08-26",
       "searched": [

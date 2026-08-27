@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-27 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-27</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two entries, both from <strong>Williams-Sonoma</strong>, and <strong>no S3</strong> for the eleventh consecutive run. The retail agentic cluster gained its most extreme ratios yet and still not one dollar of attributed revenue.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Williams-Sonoma</strong> (Q2 FY2026 call, <code>26 Aug</code>) - Olive engagement <code>+700%</code>, revenue <code>+620%</code>, engagers converting at <code>3x</code>; personalized visits at <code>9x</code> the revenue of an average visit, up from <code>2x</code>. Total revenue <code>$1.96bn</code>, comps <code>+6.2%</code>, none of it AI-attributed. Logged <strong>S1</strong>.</li><li><strong>Williams-Sonoma</strong> (same call) - Otto for Pottery Barn resolves <code>over 70%</code> of engagements without a human handoff. No cost figure. Logged <strong>C4</strong>.</li><li><strong>Abercrombie &amp; Fitch</strong> (Q2, <code>26 Aug</code>) - record net sales <code>$1.27bn</code>, <code>+5%</code>, fifteenth straight growth quarter. CEO Fran Horowitz named AI twice, both times as &quot;speed and efficiency&quot; with no number attached. Not logged.</li><li><strong>CIBC</strong> (Q3 FY26, <code>27 Aug</code>) - net income <code>$2.41bn</code>, revenue <code>$8.37bn</code>. The release names CAI 2.0, AdvisorAssist and Knowledge Central. Every one is a pilot or a launch with zero quantification. Fails the result bar outright.</li><li><strong>Royal Bank of Canada</strong> (Q3 FY26, <code>27 Aug</code>) - profit <code>$6.02bn</code> on revenue <code>$18.54bn</code> per wire coverage. The EDGAR 6-K I actually retrieved was the <strong>Q2</strong> filing, not Q3; its single AI reference sits in the forward-looking-statements risk list. No Q3 AI figure verified this run, and the <code>C$700m-1bn</code> composite target flagged as yesterday&#x27;s catalyst was not updated in anything retrieved.</li><li><strong>National Bank of Canada</strong> (Q3 FY26, <code>27 Aug</code>) - net income <code>$1,307m</code>, <code>+23%</code>. No AI attribution found.</li><li><strong>PYMNTS</strong> retail roundup (<code>20 Aug</code>) re-read for names - every figure in it (<strong>Walmart</strong>, <strong>Amazon</strong>, <strong>Target</strong>, <strong>Albertsons</strong>, <strong>Shopify</strong>, <strong>Etsy</strong>) was already logged from the primary calls.</li></ul>
+<div class="callout">The numerator-without-denominator pattern is now six companies deep and hardening into a disclosure convention. <strong>Walmart</strong>, <strong>Amazon</strong>, <strong>Albertsons</strong>, <strong>Target</strong>, <strong>Shopify</strong> and now <strong>Williams-Sonoma</strong> have each published a ratio - AOV differential, conversion multiple, growth rate - and none has published the base it sits on. <strong>Etsy</strong> remains the only retailer to disclose the denominator, and it was under <code>1%</code>. Williams-Sonoma&#x27;s <code>9x</code> is the most extreme ratio in the log and also the most self-selected.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - Sixfold AI Underwriter (<code>hit ratios +15%</code>, <code>GWP per underwriter +30%</code>), BriteCore copilots, Armilla AI liability cover - all Tier D vendor claims with no deploying carrier named and no bound premium. Fails the inclusion bar and the Tier D rule together.</li><li><strong>S3 pharma, unscreenable targets</strong> - no AI-discovered drug holds FDA approval as of this run; Insilico&#x27;s rentosertib registered a Phase III on <code>7 Jul 2026</code>. No revenue exists to disclose, so test (a) cannot be run.</li><li><strong>S3 healthcare, newly billable work</strong> - the 2026 CPT set adds Category I codes for AI-assisted lung-nodule, stroke and fracture detection, which is a genuine newly-economic mechanism: services previously delivered but not separately billable now carry RVUs. Every source was a billing-vendor explainer with no named provider and no collected revenue. Held as a structural catalyst, not an entry.</li><li><strong>S3 industrials and telecom, new SKUs</strong> - <strong>SK Telecom</strong> AIDC revenue <code>+92.5%</code> to <code>KRW 136.2bn</code>, <strong>Fujikura</strong> ordinary profit up <code>2.7x</code> on AI data-centre demand. Both are AI-as-customer: pre-existing capacity and fibre sold to a new buyer. Out of frame by definition.</li><li><strong>S3 professional services and SMB long tail</strong> - <strong>Globant</strong> CRO on serving &quot;clients with different kind of scale that we couldn&#x27;t do before&quot;. Forward-looking aspiration, no revenue figure, and out of scope as an IT-services subject. Same disposition as yesterday.</li><li><strong>S2 hospitality, AI revenue management</strong> - hotel-tech trade press quoting <code>ADR +10-15%</code> and <code>RevPAR +8-15%</code>. No named operator, no earnings source, vendor-authored.</li><li><strong>Counter-evidence, failed AI spend</strong> - the <code>2.4%</code> of revenue lost on failed AI projects traces to <strong>Emergn</strong>, a consultancy, surveying <code>700</code> leaders. A sentiment-and-self-report survey, explicitly excluded by METHOD. The RAND <code>80.3%</code> and Gartner <code>28%</code> figures reached this run only through content-farm renderings and were not retrieved from either primary.</li><li><strong>Consultant results survey</strong> - <strong>WTW</strong>&#x27;s March 2026 analytics survey claims adopters run combined ratios <code>6pts</code> lower and premium growth <code>3pts</code> higher. Unnamed companies, cross-sectional association, and published by a firm that sells the analytics. Fails the named-company test.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Gap Inc.</strong> Q2 FY2026, <code>27 Aug 2026</code> afternoon PT - reported after this sweep closed. Check next run for any AI-attributed conversion figure.</li><li><strong>Costco</strong> and the September grocery tape - whether Albertsons&#x27; order-value disclosure format spreads.</li><li><strong>Dollar General</strong>, <strong>Ulta Beauty</strong>, <strong>lululemon</strong>, early September - the tail of the retail quarter and the last chance this season for a denominator.</li><li><strong>Williams-Sonoma</strong> Q3 FY2026, November 2026 - the falsifier checkpoint on Olive. A base, or the ratios quietly disappear.</li><li><strong>Royal Bank of Canada</strong> - the <code>C$700m-1bn</code> AI target remains unverified against a primary source. Retrieve the Q3 report and supplementary package directly next run.</li></ul></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Williams-Sonoma, Inc.</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q2 FY2026 call (26 Aug 2026) Chief Technology and Digital Officer Sameer Hassan said of the Williams Sonoma brand&#x27;s AI shopping assistant: &quot;Engagement with Olive is up 700%. Revenue is up 620%, and customers who engage with Olive convert at 3 times a higher rate&quot;, and that &quot;A visit where we personalize the experience now generates roughly 9 times the revenue of an average visit. Last year, that was 2X.&quot; A second rendering of the same transcript dates both Olive figures &quot;since the beginning of the year&quot;. Total Q2 revenue was $1.96bn, +6.7%, with comparable brand revenue +6.2%; none of it was attributed to AI and no incremental dollars were sized. CEO Laura Alber&#x27;s only quantified framing was qualitative - &quot;AI is an accelerator to our strategy and our productivity.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Olive is a conversational shopping assistant on the Williams Sonoma brand site that takes open-ended intents and returns product sets; the disclosed revenue path is conversion, with engagers converting at 3x the site rate. Separately, an e-commerce personalization layer selects on-site content per visit, and Williams-Sonoma measures a personalized visit against an average visit. The 9x figure is a ratio between two visit populations, not a lift measured against a held-out control.</dd><dt>Why this shape</dt><dd>S1, not S2, because the load-bearing numbers are input metrics - engagement, a conversion multiple, and a revenue-per-visit ratio. &quot;Revenue is up 620%&quot; is growth in revenue transacted through the Olive surface off an undisclosed base, which is the denominator game METHOD names: a numerator with no base is not attributed incremental revenue and cannot promote to S2. Revenue conversion was conspicuously absent: no dollars, no share of e-commerce, no statement that any of the 6.2% comp was Olive-driven. The 9x personalized-visit figure is confounded by self-selection - high-intent visitors are more likely both to be personalized to and to buy - and Williams-Sonoma offered no counterfactual.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-williamssonoma-tops-q2-2026-estimates-shares-slip-93CH-4877547" rel="noopener">Q2 FY2026 earnings call transcript, 2026-08-26</a></dd><dt>Falsifier</dt><dd>Williams-Sonoma puts a base under Olive in a later quarter - dollars or a share of digital revenue - and it lands immaterial, under roughly 1-2% of e-commerce, as Etsy&#x27;s under-1% traffic disclosure did for agentic channels. Equally falsifying: the 700%/620%/3x growth rates vanish from disclosure once the base is large enough to be embarrassing, or comps decelerate while the Olive ratios keep compounding.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures verified in two independent renderings of the same Tier A transcript, but every one is a ratio or a growth rate with no base and none is tied to a revenue dollar. The speaker&#x27;s name appears in full in one rendering and as a first name only in the other.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Williams-Sonoma, Inc.</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the same Q2 FY2026 call (26 Aug 2026) Sameer Hassan said of Otto, the assistant launched for the Pottery Barn brands: &quot;Over 70% of engagements with Otto are able to be resolved without handing you over to a person.&quot; No dollar saving, no headcount action, no service-cost-per-contact figure was attached, and Williams-Sonoma did not say what the pre-Otto deflection rate was.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A customer-service assistant fronting the Pottery Barn brands&#x27; contact channels, resolving order, product and post-purchase queries without escalation to a human agent. The cost path is contact deflection - each resolved engagement is an agent-handled contact not incurred - but the company disclosed the deflection rate, not the contact cost or the volume it applies to.</dd><dt>Why this shape</dt><dd>C4 - non-tech company, non-engineering function. Logged on the same footing as Woolworths Team Assist (26 Aug 2026): a specific, quantified deflection rate from a Tier A source with no dollar attached. METHOD trap 5 applies in advance: even at face value this is cost avoidance on contacts, not a reduction in a disclosed expense line, and without a baseline deflection rate the 70% cannot be read as incremental. Logged separately from the Olive S1 entry because it is a distinct disclosure about a distinct product, not a second reading of the same number.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-williamssonoma-tops-q2-2026-estimates-shares-slip-93CH-4877547" rel="noopener">Q2 FY2026 earnings call transcript, 2026-08-26</a></dd><dt>Falsifier</dt><dd>Williams-Sonoma never converts the deflection rate into a service-cost figure - cost per contact, customer-service expense down, or SG&amp;A leverage attributed to Otto - in FY2026 or FY2027 disclosure, or the 70% figure disappears from later calls without a successor metric.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Direct quote from a Tier A transcript, but a deflection rate with no baseline and no cost denominator is the weakest form of cost evidence the ledger admits.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
