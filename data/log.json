@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "date": "2026-08-30",
+      "company": "Deere & Company",
+      "sector": "Industrials / Agricultural machinery",
+      "country": "US",
+      "shape": "S1",
+      "scope": "main",
+      "claim": "On the Q3 FY2026 call (20 Aug 2026) Deanna Kovar said \"current EOP trends suggest factory adoption of See & Spray will nearly double, with the technology included on about one-third of North American sprayers on order,\" and that \"customers are using See & Spray on significantly more acres year over year while achieving more than 50% herbicide savings.\" Deere separately disclosed \"more than 520 million engaged acres across nearly 1.2 million connected machines\" and that \"highly engaged acres have grown to more than 190 million acres, representing double-digit growth for the year.\" No revenue, price premium or margin contribution was attached to any of it. Production & Precision Agriculture net sales fell 6% to $3.998 billion in the quarter and are guided down about 10% for the full year.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Deere & Company Q3 FY2026 earnings call transcript",
+      "source_date": "2026-08-20",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-deere-beats-q3-2026-estimates-raises-outlook-93CH-4870160",
+      "mechanism": "See & Spray is a camera-and-machine-vision boom that identifies individual weeds in-row and fires only the nozzles above them instead of broadcasting herbicide across the field. Deere monetises it as a factory-installed option and a retrofit kit on its sprayer line, so the revenue path is a higher-ASP machine plus the Operations Center data relationship, not a per-acre fee. The disclosed 50% herbicide saving is the customer's cost saving, which is what funds the willingness to pay - it is not a Deere cost saving and is not logged as one.",
+      "shape_justification": "S1 because every disclosed number is an input metric - attach rate on machines on order, acres run, engaged acres, connected machines, monthly digital users - and Deere attributed no revenue, no price premium and no margin contribution to any of them. Revenue conversion was conspicuously absent, and the direction of travel actively cuts against it: the segment that carries See & Spray shrank 6% in the quarter and is guided down about 10% for the year, so a doubling attach rate is compounding inside a contracting base. Not S3 - it fails capability gate (c), since See & Spray shipped in 2021-22 on pre-frontier computer vision, and fails prior-alternative test (b), since the farmers buying it were already buying sprayers and herbicide from Deere or a competitor. Not S2 either, because no incremental revenue was attributed to anybody. One honesty note that belongs on the record: Deere did not use the word AI about See & Spray on this call. Its only AI mention was forward-looking - Kovar saying the company \"will soon build on that foundation with AI-enabled capabilities designed to unlock even more value from the data within Operations Center.\"",
+      "falsifier": "Attach rate only matters if it shows up in price. If FY2027 carries See & Spray to a third or more of North American sprayers on order and Deere still discloses no precision-ag price premium, mix benefit or technology-attributed revenue line, this was an adoption metric standing in for an economic one. The same conclusion follows if the attach-rate figure quietly drops out of the disclosure set. Conversely, a Q4 FY26 or FY27 call that sizes precision-ag revenue converts this entry to S2.",
+      "confidence": "medium",
+      "confidence_why": "Tier A transcript with the quotes verified against two independent retrievals of the same call, but the figures are adoption metrics with no revenue attached and Deere itself did not label See & Spray as AI.",
+      "counter_evidence": false
+    },
+    {
       "date": "2026-08-27",
       "company": "Williams-Sonoma, Inc.",
       "sector": "Retail",
@@ -1622,6 +1642,29 @@
     }
   ],
   "days": [
+    {
+      "date": "2026-08-30",
+      "searched": [
+        "S3 insurance: uninsurable risk classes newly priced",
+        "S3 insurance: parametric AI coverage launches",
+        "S3 pharma: unscreenable targets and indications",
+        "S3 healthcare: AI screening at newly paid rates",
+        "S3 industrials: autonomy as a new subscription",
+        "S3 prof services: work never billable before",
+        "S3 SMB: long-tail served at enterprise quality",
+        "S2 retail: agentic search traffic and conversion",
+        "S2 retail media: AI targeting and ad revenue",
+        "S2 hospitality: AI pricing and yield disclosures",
+        "S1 banking: Canadian Q3 calls, AI revenue metrics",
+        "S1 retail: late-August Q2 calls, AI funnel metrics",
+        "S1 ag machinery: precision-ag attach and engagement",
+        "Counter: cancelled AI projects and walk-backs",
+        "Counter: execs declining to quantify AI revenue",
+        "C4 research: new firm-level AI productivity papers"
+      ],
+      "assessment": "> No S3, and no revenue attribution anywhere in the sweep. One finding: **Deere** expects See & Spray factory adoption to nearly double to about one-third of North American sprayers on order - disclosed inside a segment whose sales fell `6%`.\n\n## Sources read\n\n- **Deere & Company** Q3 FY2026 call (20 Aug) - the one thing that cleared the bar, and it is ten days old rather than from the trailing 48 hours. Attach rate \"will nearly double\", `520m` engaged acres, `1.2m` connected machines, `>50%` herbicide savings for the farmer. Zero dollars attributed, in a segment guided down about `10%` for the year.\n- **Ulta Beauty** Q2 2026 call (27 Aug) - CEO Kecia Steelman on scaling content into ChatGPT, a Google Gemini multi-SKU purchase integration and the on-site Ulta AI shopping agent. Not one number attached to any of it.\n- **Best Buy** Q2 FY27 call (27 Aug) - phased rollout of the Ask Blue assistant and a completed OpenAI commerce integration, both announcements without results. Separately, \"emerging categories\" including AI glasses more than doubled, which is AI as merchandise, not AI as capability.\n- **Scotiabank** Q3 2026 call (25 Aug) - Scotia Intelligence expanded with Knowledge Agents, framed entirely as capacity freed for higher-value work. No revenue uplift, no cost figure, no productivity metric.\n- **Abercrombie & Fitch** Q2 2026 call (26 Aug) - a single AI sentence in the whole transcript: \"greater use of technology and AI to improve speed and efficiency.\"\n- **Gap Inc.** Q2 FY2026 call (27 Aug) - the retrieved call summary contains no mention of AI, agentic commerce or personalisation at all.\n\n> Six retail and bank calls from the same week, and the AI content is now almost entirely *distribution* news - we are in ChatGPT, we shipped an assistant, we integrated with a model provider. That is a change in kind from the July calls, which at least offered cohort deltas. Announcing a channel is cheaper than measuring one, and this week the sector took the cheaper option.\n\nThe Deere entry is the useful counterweight, because it is the rare case where the input metric is *rising fast* and the revenue line is *falling*. That combination is not evidence against AI; it is evidence that attach rate and revenue are separable, which is exactly the assumption most S1 disclosures quietly ask the reader to make.\n\n## Near-misses deliberately not logged\n\n- **S3 healthcare, AI screening at newly paid rates** - CMS HCPCS `G0680`, effective 1 Apr 2026, pays roughly `$15.50` for algorithmic coronary-calcium analysis of chest CTs already being performed, which is a textbook newly-economic mechanism. Failed the inclusion bar, not the shape test: the only retrievable write-ups were a vendor blog and a May 2026 trade piece that returned `403`, and no named health system disclosed volumes or revenue.\n- **S3 healthcare, diagnostics at new price points** - **RadNet** and the `747,604`-woman EBCD figure resurfaced in search. Failed dedupe: already logged 16 Aug, and the underlying ASSURE study predates it.\n- **S3 industrials, autonomy as a new subscription** - **Deere**, **Caterpillar**, **Komatsu**. Failed test (a) and the number test: strategy language about shifting value to software and services, with no disclosed subscription revenue, subscriber count or per-acre fee from any of the three.\n- **S3 prof services, work never billable before** - law and accounting AI pricing. Every retrievable source was a legal-tech vendor blog citing itself. Tier D, no named firm, no result.\n- **S3 insurance, uninsurable risk classes and parametric** - searched twice with different phrasing. Everything returned was a 2026 predictions post or a broker thought-piece; not one named carrier with a bound-premium figure on a class it previously declined.\n- **S2 retail, agentic search and conversion** - PYMNTS aggregation of **Walmart** Sparky `40%` per-order and **Amazon** Alexa for Shopping `350m` users. Failed dedupe: both logged 21 Aug and 12 Aug respectively, from the primary calls.\n- **AI as customer, not AI ROI** - **IREN**, **Bloom Energy**, **Core Scientific**, **TeraWulf**, **Nvidia**. Real money, pre-existing SKUs, new buyer. Out of scope by construction and worth restating because it is the single most common false positive in this search space.\n- **Counter-evidence, cancelled AI projects** - Mavvrik/Benchmarkit (`25%` delayed or cancelled an AI initiative on cost) and Emergn (`2.4%` of revenue lost to failed AI work). Both vendor-sponsored surveys of unnamed firms. Rejected on the same rule that keeps vendor case studies out.\n- **C4 research, firm-level productivity papers** - NBER `w34984` / Atlanta Fed, ~`750` executives, whose abstract describes a productivity paradox where perceived gains exceed measured gains \"likely reflecting a delay in revenue realizations.\" Directly on-thesis and still not logged: the working-paper PDF returned `403` this run, the abstract carries no figure, and the paper is dated March 2026. Logging it without a verified number would breach the rule against reconstructing figures. Flagged as a catalyst instead.\n\n## Nearest dated catalysts\n\n- **Lululemon**, **Costco** and the September retail tail - the last of the Q2 calls, and the last chance before Q3 season for a retailer to convert an agentic-commerce channel claim into a sales number.\n- **Deere** Q4 FY2026, late November - the direct test of this entry's falsifier. Watch for a precision-ag price premium, mix benefit or technology revenue line, and for whether the See & Spray attach figure survives.\n- Mid-October Q3 earnings cluster - banks first, then insurers. The seven-insurer silence logged 29 Aug is the standing prior; the question is whether any carrier breaks it with an attributed ratio or premium number.\n- NBER `w34984` full text - retrieve on a run where the Atlanta Fed PDF is reachable, and log it with real figures or not at all.",
+      "entry_count": 1
+    },
     {
       "date": "2026-08-29",
       "searched": [
