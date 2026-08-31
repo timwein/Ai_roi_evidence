@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-31 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-08-31</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log, 1 in the appendix, 2 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two days covered (<code>2026-08-30</code> missed, so the sweep ran back to <code>2026-08-29</code>). Four findings, <strong>zero S3</strong> - the twenty-fifth consecutive run without a confirmed new-TAM entry. The day&#x27;s most valuable item is counter-evidence: <strong>Meta</strong> killed its agent-driven restructuring after internal data showed the throughput gain did not reach users.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Meta Platforms</strong> - Reuters special report, <code>26 Aug</code>. Project OT cancelled. Code changes to internal platforms <code>+220%</code> YoY against user-visible features <code>+36%</code>; incidents <code>+40%</code>; incident-response time <code>+70%</code>; sentiment <code>74%</code> to <code>55%</code> favorable. Zuckerberg: agent technology had not accelerated as anticipated.</li><li><strong>BMO Financial Group</strong> - Q3 2026 call, <code>25 Aug</code>. SmartDecision returns life underwriting decisions in <code>10 seconds</code> against an industry <code>28 business days</code>, on eligible applications to <code>$5m</code> with no tele-interview or medical evidence. No premium, policy count or revenue attached. Separately, Lumi Assistant raised productivity <code>17%</code> among <em>new</em> employees only, with no cost figure.</li><li><strong>Workday</strong> - Q2 FY2027 call, <code>27 Aug</code>. AI new ACV <code>&gt;$100m</code>, <code>&gt;25%</code> of all new ACV; AI SKU ARR near <code>$600m</code>, <code>+200%</code> YoY. Appendix - vendor&#x27;s own sales, not deployment ROI.</li><li><strong>Ulta Beauty</strong> - Q2 call, <code>27 Aug</code>. Personalization &quot;fueled incremental sales&quot;; AI sourcing, a Gemini partnership and the Ulta AI shopping agent all cited. Not one number attached to any of them, on <code>$3.0bn</code> of net sales.</li><li><strong>Best Buy</strong> - Q2 FY2027 call, <code>27 Aug</code>. Ask Blue conversational assistant and an OpenAI checkout integration described qualitatively; the only quantified AI item was <em>AI glasses sales</em> more than doubling, which is selling AI hardware, not deploying AI.</li><li><strong>Gap Inc.</strong> - Q2 call, <code>27 Aug</code>. One AI mention in the entire call, from the CFO, on supply-chain capex.</li></ul>
+<div class="callout">The pattern across three runs is now specific enough to name: the retail cohort has moved from quantifying AI to gesturing at it. <strong>Target</strong> (<code>19 Aug</code>), <strong>Walmart</strong>, <strong>Lowe&#x27;s</strong> and <strong>Williams-Sonoma</strong> all put ratios on the table; one week later <strong>Ulta</strong>, <strong>Best Buy</strong> and <strong>Gap</strong> put none. Ratios without a base are the cheapest possible disclosure, and the cohort is trending toward disclosing even less than that.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - Munich Re aiSure, Testudo, Relm, Chaucer/Armilla standalone gen-AI liability towers. Genuinely new SKUs with no catalogue predecessor, but the mechanism is insuring AI, not deploying it - AI-as-customer. No named incumbent disclosed bound premium, and the launches date to January and February.</li><li><strong>S3 healthcare, newly reimbursable diagnostics</strong> - Aidoc&#x27;s CMS New Technology Add-on Payment for CT multi-triage, <code>13 Aug</code>, effective <code>1 Oct</code>. A payment path, not a result, and the subject is an AI vendor. Fails the announcement-with-no-result test.</li><li><strong>S2 retail, personalization lift</strong> - <strong>Ulta Beauty</strong>. &quot;Fueled incremental sales through personalization&quot; is an explicit revenue claim with no number and no isolation of AI from promotions or loyalty. Fails inclusion bar 2.</li><li><strong>S1 retail, agentic commerce</strong> - <strong>Best Buy</strong>. Ask Blue and the ChatGPT checkout integration carry no engagement, conversion or lead metric. AI glasses doubling is a product category, not deployment ROI.</li><li><strong>C-ledger, AI project cancellation rates</strong> - CFO Dive on the 2026 State of AI Cost Governance Report: <code>25%</code> of affected organisations delayed or cancelled an AI initiative. Produced by Mavvrik, a firm selling AI cost management, with Benchmarkit; no sample size disclosed, no companies named. Tier D vendor survey, rejected.</li><li><strong>S1 professional services</strong> - Thomson Reuters 2026 AI in Professional Services Report. Vendor research from a company selling AI legal tools, adoption percentages only. Tier D.</li><li><strong>S1 logistics</strong> - <strong>Atlas Energy Solutions</strong>, <code>4,600</code> autonomous shipments in Q2, <code>+70%</code> sequentially. Plausible S1 on a revenue-producing delivery process, but the disclosure is three weeks old and the autonomy is a supplier&#x27;s stack; held for verification rather than logged thin.</li><li><strong>Appendix, AI-native revenue</strong> - Insilico Medicine H1 2026 revenue <code>US$106.3m</code>, <code>+287%</code>. Milestone and licensing income from partnered programmes, not product revenue from a new indication; the new-TAM counterfactual is not established anywhere in the release.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Costco</strong> Q4 FY2026, late September - the last large grocer without an AI revenue disclosure on record here.</li><li><strong>Oracle</strong>, <strong>Adobe</strong>, <strong>Broadcom</strong> mid-September - vendor-side reads on whether the Workday AI-ACV pattern generalises.</li><li>Q3 earnings season from mid-October: the first quarter in which <strong>Target</strong>, <strong>Walmart</strong>, <strong>Lowe&#x27;s</strong> and <strong>Williams-Sonoma</strong> must either repeat their AI ratios or drop them. Every one of those entries carries a falsifier that fires on that call.</li><li><strong>Meta</strong> Q3 2026 call, late October - watch whether the <code>30%</code> output-per-engineer figure from January survives the Reuters report.</li></ul></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">BMO Financial Group (BMO Insurance)</span>
+    <span class="sector">Banking / life insurance · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q3 2026 earnings call (25 Aug 2026) CEO Darryl White said: &quot;BMO Insurance launched another AI-powered platform, SmartDecision. It uses predictive modeling to deliver underwriting decisions in as little as 10 seconds, compared with an industry average of 28 business days or more.&quot; BMO&#x27;s own launch release (9 Jul 2026) puts instant decisions on eligible applications up to $5 million across Term Life, Universal Life and Whole Life, with no traditional tele-interviews and no medical evidence for eligible applicants. No premium, no policy count, no revenue and no attach-rate figure was attached to SmartDecision on the call or in the release.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Predictive models score eligible life applications against third-party and application data in place of tele-interview and paramedical evidence, so an advisor can bind coverage inside a single client meeting instead of losing the applicant across a 28-business-day requirements cycle. The revenue path, if it exists, is fall-out reduction: applications that currently die between illustration and issue.</dd><dt>Why this shape</dt><dd>S1, not S2 or S3. The disclosed number is latency - `10 seconds` against an industry `28 business days` - a pure input metric, so it cannot be S2 without attributed dollars. Revenue conversion was conspicuously absent: White cited it in a list of AI proof points and neither he nor CFO commentary sized bound premium, application volume, or individual-insurance sales growth against it. Against the S3 tests it fails (a) and (b): a buyer seeking $5m of term coverage would have bought it from another Canadian carrier on the slower process, so any gain is share taken from Manulife, Sun Life or Canada Life, not new demand. Test (c) is also weak - accelerated underwriting on third-party data predates 2024. The one live S3 question BMO did not answer is whether instant no-medical issue converts applicants who abandon the traditional process entirely; nothing in the disclosure establishes that.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.marketbeat.com/earnings/reports/2026-8-25-bank-of-montreal-stock/" rel="noopener">Q3 2026 earnings call transcript (MarketBeat rendering), corroborated by BMO Insurance launch release on newsroom.bmo.com, 2026-08-25</a></dd><dt>Falsifier</dt><dd>BMO never puts a volume or premium number next to SmartDecision - policies bound, application growth, or individual-insurance sales attributed - through FY2027, or the `10 seconds` line reappears on later calls with no successor metric. Sharper: BMO Insurance&#x27;s segment revenue growth fails to separate from the Canadian life market over the four quarters following the July 2026 launch.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The capability claim is first-party, dated, and repeated by the CEO on a Tier A call plus a corporate release, so the fact is solid. The revenue significance is entirely unevidenced.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Workday, Inc.</span>
+    <span class="sector">Technology - enterprise software · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q2 FY2027 call (27 Aug 2026) CFO Zane Rowe said &quot;AI New ACV exceeded $100 million, accounting for more than 25% of all new annualized contract value closed during the second quarter&quot;; CEO Aneel Bhusri repeated that &quot;AI products alone drove more than 100 million of new ACV.&quot; President of Product &amp; Technology Gerrit Kazmaier disclosed &quot;Nearly $600 million in ARR from our AI SKUs and that is up more than 200% year-over-year and up over 20% from last quarter.&quot; Bhusri added that &quot;more than 5.5 thousand customers are using 1 or more of our organic agents,&quot; up more than 35% sequentially. Total Q2 revenue was $2.649bn, subscription revenue $2.471bn.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Priced AI SKUs and agent products sold as add-ons into Workday&#x27;s installed HCM and financials base, plus a Flex Credits consumption model with 200 customers signed in the quarter.</dd><dt>Why this shape</dt><dd>Appendix: Workday is an enterprise software vendor, out of scope as a subject for the revenue log, and this is AI-as-product - its own sales - not ROI on its own AI deployment. It is logged rather than discarded because it is the sharpest available read on what non-tech enterprises will actually *pay* for AI, in dollars, on a Tier A call: `$600m` of AI ARR and `&gt;25%` of new ACV. Shape is S2, not S3: these SKUs are sold to existing Workday customers who already buy HR and finance software from Workday or a rival, so the counterfactual purchase exists and the dollars are a mix of upsell and budget reallocated from other line items. The load-bearing caveat is that this is the seller&#x27;s side of the ledger - it evidences AI spend, and says nothing about whether the buyers got a return.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/08/31/workday-wday-q2-2027-earnings-call-transcript/" rel="noopener">Workday Q2 FY2027 earnings call transcript, 2026-08-27</a></dd><dt>Falsifier</dt><dd>AI ARR growth decelerating sharply while total subscription revenue growth does not accelerate, which would mean AI SKUs are cannibalising core pricing rather than adding to it. Also falsifying: the `$600m` AI ARR figure disappearing from disclosure, or net revenue retention failing to improve across FY2027 despite AI attach.</dd><dt>Confidence</dt><dd><strong>high</strong> — Three named executives, three consistent figures, Tier A call, and a number Workday would be embarrassed to walk back.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card counter" data-shape="C1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c1)">
+  <div class="card-top">
+    <span class="company">Meta Platforms</span>
+    <span class="sector">Technology - internet platform · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c1);color:var(--shape-c1)"></span>C1 — Tech · engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">A Reuters special report (26 Aug 2026, Katie Paul), built on internal documents, recordings and 20+ interviews, reports that Meta cancelled the November wave of layoffs under &quot;Project OT&quot; (Organization Transformation) - a plan to hand the daily work of thousands of employees to AI agents supervised by small teams of human &quot;builders&quot; - after internal data showed code changes to Meta&#x27;s own platforms and infrastructure up 220% year over year while changes producing new or upgraded user-visible features rose only 36%. Technical and security incidents rose 40% and time spent on incident response rose 70%. Employee sentiment fell from 74% to 55% favorable. Zuckerberg told staff AI agent technology had not &quot;accelerated&quot; as quickly as he had anticipated. The May 2026 10% reduction stands; the second wave does not.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Agentic coding and workflow agents replacing human execution across engineering and adjacent functions, with keystroke-and-click tracking software installed on US employees&#x27; devices to train agents to reproduce human workflows. The failure mode reported is not that agents produced nothing - they produced a great deal of code - but that the output did not reach users.</dd><dt>Why this shape</dt><dd>C1 counter-evidence, and it lands directly on this log&#x27;s own 2026-01-28 Meta entry, where CFO Susan Li disclosed `30%` higher output per engineer and `80%` for power users. This is the first quantified read of what that throughput converted into: a `220%` rise in code changes against a `36%` rise in shipped user-visible features, with incidents up `40%` and firefighting time up `70%`. That is the denominator the January figure lacked, and it is the cleanest published instance of standing trap 1 - adoption and activity metrics dressed as productivity - being falsified from inside the company that published the original number. Tier C rather than A because it is journalism on internal documents, not a filing; weighted heavily anyway because the direction of the reporting is against the company&#x27;s own interest.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.sundaytimes.timeslive.co.za/news/2026-08-26-special-report-mark-zuckerberg-had-a-bold-plan-to-replace-meta-staff-with-ai-heres-how-it-imploded/" rel="noopener">Reuters special report by Katie Paul, read via the Sunday Times syndication and corroborated by Engadget&#x27;s account of the same report, 2026-08-26</a></dd><dt>Falsifier</dt><dd>Meta discloses on a later call that Project OT was restarted, or reports a shipped-feature or engineering-efficiency metric for FY2026 that reconciles the `220%` / `36%` gap as a measurement artefact. Also falsifying: Meta repeats an output-per-engineer figure in FY2026 disclosure alongside a user-facing delivery metric that moved with it. Conversely, if the January `30%` output-per-engineer claim is quietly dropped from all subsequent disclosure, this entry is confirmed.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Detailed internal figures from a named Reuters investigative byline with document and recording sourcing, but Meta has not confirmed them and the metrics are the company&#x27;s internal constructs.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">BMO Financial Group (Canadian Personal &amp; Business Banking)</span>
+    <span class="sector">Banking · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the same Q3 2026 call (25 Aug 2026) CEO Darryl White said: &quot;Our Lumi Assistant frontline chat box brings speed and efficiency to a new level, simplifying access to policy information across Canadian Personal &amp; Business Banking, increasing productivity amongst new employees by 17%,&quot; and that Lumi &quot;is being extended and scaled to support client conversations, starting with mortgage renewals.&quot; No dollar saving, no headcount action, no cost-per-contact figure and no expense line was attached. BMO reported record Q3 EPS of $3.96, up 22%, with no part of it attributed to Lumi.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A retrieval assistant over internal policy and procedure documents, used by branch and contact-centre staff so a new hire can answer a policy question without escalating to a tenured colleague. The cost path is ramp time for new frontline employees, not a reduction in existing headcount.</dd><dt>Why this shape</dt><dd>C4 - non-tech, non-engineering, the cell that matters, and a textbook instance of standing trap 1. `17%` productivity among *new employees only* is a ramp-time metric on the smallest and least expensive cohort of the frontline; it says nothing about steady-state cost and BMO did not convert it into one. The scope qualifier is doing heavy lifting and should not be dropped when this is quoted. Logged in the cost ledger and not as S1 because the mortgage-renewal extension is stated as a plan, not a result.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.marketbeat.com/earnings/reports/2026-8-25-bank-of-montreal-stock/" rel="noopener">Q3 2026 earnings call transcript (MarketBeat rendering), 2026-08-25</a></dd><dt>Falsifier</dt><dd>BMO never converts Lumi into an expense figure - Canadian P&amp;BC non-interest expense, cost-per-contact, or training cost - by the FY2027 close, or the `17%` figure disappears once Lumi covers tenured staff, implying the gain does not survive outside the new-hire cohort. Also falsifying: the mortgage-renewal client-facing extension is not reported on again.</dd><dt>Confidence</dt><dd><strong>medium</strong> — First-party CEO statement on a Tier A call, but a self-defined productivity construct with no stated measurement method and no cost translation.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
