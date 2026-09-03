@@ -1819,9 +1819,48 @@
       "confidence": "low",
       "confidence_why": "Tier D consultant survey, n=152 self-selected respondents, sentiment on one side of the comparison, fielding dates not disclosed in the release, and the surveyor sells the fix for the deficiency it reports.",
       "counter_evidence": true
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Heartflow, Inc.",
+      "sector": "Healthcare",
+      "country": "US",
+      "shape": "S3-CANDIDATE",
+      "scope": "appendix",
+      "claim": "Q2 2026 total revenue of $64.1m, up 48% YoY (US revenue $59.6m, up 51%), with full-year 2026 guidance raised to $246m-$250m; management named AI Plaque Analysis - a new SKU with no predecessor in its catalog - as 'a meaningful second growth engine' but disclosed no standalone Plaque revenue figure.",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Q2 2026 results release / Form 8-K",
+      "source_date": "2026-08-13",
+      "source_url": "https://www.globenewswire.com/news-release/2026/08/13/3344881/0/en/heartflow-reports-second-quarter-2026-financial-results-and-raises-full-year-2026-guidance.html",
+      "mechanism": "Deep-learning quantification of coronary plaque from CCTA scans, sold as an analysis SKU distinct from the older FFRct product, and reimbursed under new 2026 Category I CPT coding for AI-enabled coronary plaque analysis (Medicare rates ~$950-$1,000). It lets cardiologists offer non-invasive plaque quantification that previously required invasive angiography or was simply not performed.",
+      "shape_justification": "S3-CANDIDATE, appendix. Out of scope as subject: Heartflow is an AI-native medtech whose core product IS the AI analysis, not a non-tech incumbent deploying AI, so it is routed to the appendix as an entrant comparator per METHOD. S3 tests: (a) counterfactual - only partially met; absent AI plaque analysis some physicians would order invasive cath (a substitute, which leaks toward S2), others nothing. (b) prior alternative - no non-invasive AI plaque-quantification service existed in Heartflow's catalog; leans S3. (c) capability gate - CNN plaque quantification from CCTA is a recent capability. (d) newly economic - new 2026 CPT codes make it reimbursable, opening a service line that supported no billing before. Held at CANDIDATE because the release discloses total platform revenue but NO standalone Plaque revenue (management calls Plaque 'nascent'), so the new-TAM dollar counterfactual is not established.",
+      "falsifier": "If Q3/Q4 2026 or FY2027 disclosure never breaks out Plaque revenue, or Plaque revenue stalls while durable FFRct utilization carries the growth, the 'second growth engine' new-TAM framing was narrative rather than a distinct new market.",
+      "confidence": "medium",
+      "confidence_why": "Tier A total-revenue figures are firm; the S3 claim rests on a product line whose revenue is not separately quantified.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-09-03",
+      "searched": [
+        "S3 insurance: new-risk-class SKUs priced/bound",
+        "S3 pharma: unscreenable target/indication space",
+        "S3 industrials: autonomy as new subscription",
+        "S3 healthcare: AI diagnostics, new price points",
+        "S3 prof-services: newly-billable AI work",
+        "S3 SMB long-tail: enterprise quality, low price",
+        "S2 retail: personalization/retail-media lift",
+        "S2 banking: next-best-action cross-sell rev",
+        "S1 energy/utility: AI new-product revenue",
+        "S1 telecom/logistics/auto: AI feature subs",
+        "S2 retail/CPG: Q2 earnings AI sales attribution",
+        "Counter: AI revenue walk-backs, null studies"
+      ],
+      "assessment": "> Zero main-log revenue findings and zero confirmed S3 - the 27th consecutive run with no realized new-TAM revenue at a non-tech incumbent. The one loggable item is an appendix S3-CANDIDATE: **Heartflow**'s Tier A Q2 disclosure of a new AI diagnostic SKU, but with the new-market revenue not broken out.\n\nOff-earnings-season Wednesday. Yesterday (`2026-09-02`) was covered, so no gap to widen for. The sweep ran ~12 distinct angles weighted toward S3; nothing non-tech cleared the bar with a named, quantified, verified revenue attribution.\n\n## Sources read\n\n- **Heartflow** (appendix) - Q2 2026 release, `13 Aug 2026`: total revenue `$64.1m` (+`48%` YoY), US `$59.6m` (+`51%`), FY guidance raised to `$246m-$250m`. AI Plaque Analysis called *\"a meaningful second growth engine\"* and *\"nascent\"* - no standalone Plaque revenue disclosed. Logged appendix because the subject is AI-native medtech, not a deploying incumbent.\n- **Royal Bank of Canada** - Q3 call reappeared in search; already logged `2026-08-28` (C4, plus the CAD `700m-1bn` AI enterprise-value target). No new claim; not re-logged.\n- **McKinsey State of AI 2026** - the *\"6% high performers / 37% attribute some EBIT\"* survey resurfaced via TechTimes' *\"94% can't move the needle\"* framing. Already logged `2026-08-28` (S2). Not re-logged.\n- **MIT NANDA \"95% of pilots fail\"** - this is the 2025 report, not new; consultant/survey basis. Not logged.\n\n> Cross-run pattern holds: the log keeps catching AI as a *cost* lever and a *funnel-velocity* (S1) lever at incumbents, while every S3-shaped disclosure that is genuinely new-TAM keeps coming from AI-native entrants (Heartflow today) that belong in the appendix. The incumbent-vs-entrant split is the finding.\n\n## Near-misses deliberately not logged\n\n- **S3 healthcare, AI diagnostics** - Heartflow (logged appendix); new 2026 CPT codes for AI coronary-plaque analysis are real, but no non-tech provider disclosed a named, quantified revenue line from the new codes. Failed the named-incumbent + number test for the main log.\n- **S3 pharma, unscreenable targets** - Insilico's rentosertib (AI-discovered TNIK inhibitor) enters Phase III ~`30 Aug 2026`, but it is AI-native and pre-revenue. Failed inclusion bar (no revenue) and scope.\n- **S1/S2 energy-utility, AI new product** - Bloom Energy (`$751m` Q1, +`130%`), NextEra, Advanced Energy, Valmont all sell power/equipment INTO the AI build-out. AI-as-customer, pre-existing SKUs to a new buyer. Failed the AI-as-capability test.\n- **S1 telecom, AI growth** - SK Telecom operating income +`67%` on an *\"AI infrastructure\"* pivot; that is a shovels business plus cost, not revenue on deployed AI. Failed the deployment-ROI test.\n- **S2 banking, next-best-action** - Yapi Kredi's `5%` conversion lift came via a NICE Ltd vendor document (Tier D, not confirmed by the bank). Failed the tier / independent-confirmation test.\n- **S2 retail, personalization** - Walmart/Amazon/Target *\"bigger baskets\"* AI-assistant claims (PYMNTS, Tier C) carried no new quantified number; all three already logged. Failed the specific-number and dedupe tests.\n- **S3 prof-services, newly-billable work** - Allen & Overy / A&O Shearman fixed-fee AI work is a margin-defense story from a TSIA blog (Tier D). Failed the top-line + tier test.\n- **Counter-evidence, AI coverage** - \"Berkshire/Chubb/Travelers removing AI coverage\" (Substack, Tier C/D) is directionally interesting counter-evidence to the insure-AI-risk S3 thesis, but not primary and not company-confirmed. Failed the source-tier test.\n\n## Nearest dated catalysts\n\n- Heartflow Q3 2026 report (~mid-Nov 2026) - watch for a broken-out Plaque revenue line; that is the falsifier check.\n- Q3 2026 US earnings season clusters mid-Oct; retail/CPG (Walmart, Target, Home Depot) and P&C insurers are the densest non-tech AI-attribution grounds.\n- Canadian bank Q4 fiscal 2026 reports (early Dec) - RBC/TD/CIBC/BMO have all made AI enterprise-value claims now falsifiable against results.\n- 2026 CPT AI-diagnostic codes (coronary plaque, perivascular fat) - watch RadNet/imaging providers' Q3 for the first named-incumbent revenue attribution.",
+      "entry_count": 0
+    },
     {
       "date": "2026-09-02",
       "searched": [

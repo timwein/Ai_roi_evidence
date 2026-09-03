@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-03 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-03</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 1 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Zero main-log revenue findings and zero confirmed S3 - the 27th consecutive run with no realized new-TAM revenue at a non-tech incumbent. The one loggable item is an appendix S3-CANDIDATE: <strong>Heartflow</strong>&#x27;s Tier A Q2 disclosure of a new AI diagnostic SKU, but with the new-market revenue not broken out.</div>
+<p>Off-earnings-season Wednesday. Yesterday (<code>2026-09-02</code>) was covered, so no gap to widen for. The sweep ran ~12 distinct angles weighted toward S3; nothing non-tech cleared the bar with a named, quantified, verified revenue attribution.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Heartflow</strong> (appendix) - Q2 2026 release, <code>13 Aug 2026</code>: total revenue <code>$64.1m</code> (+<code>48%</code> YoY), US <code>$59.6m</code> (+<code>51%</code>), FY guidance raised to <code>$246m-$250m</code>. AI Plaque Analysis called <em>&quot;a meaningful second growth engine&quot;</em> and <em>&quot;nascent&quot;</em> - no standalone Plaque revenue disclosed. Logged appendix because the subject is AI-native medtech, not a deploying incumbent.</li><li><strong>Royal Bank of Canada</strong> - Q3 call reappeared in search; already logged <code>2026-08-28</code> (C4, plus the CAD <code>700m-1bn</code> AI enterprise-value target). No new claim; not re-logged.</li><li><strong>McKinsey State of AI 2026</strong> - the <em>&quot;6% high performers / 37% attribute some EBIT&quot;</em> survey resurfaced via TechTimes&#x27; <em>&quot;94% can&#x27;t move the needle&quot;</em> framing. Already logged <code>2026-08-28</code> (S2). Not re-logged.</li><li><strong>MIT NANDA &quot;95% of pilots fail&quot;</strong> - this is the 2025 report, not new; consultant/survey basis. Not logged.</li></ul>
+<div class="callout">Cross-run pattern holds: the log keeps catching AI as a <em>cost</em> lever and a <em>funnel-velocity</em> (S1) lever at incumbents, while every S3-shaped disclosure that is genuinely new-TAM keeps coming from AI-native entrants (Heartflow today) that belong in the appendix. The incumbent-vs-entrant split is the finding.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 healthcare, AI diagnostics</strong> - Heartflow (logged appendix); new 2026 CPT codes for AI coronary-plaque analysis are real, but no non-tech provider disclosed a named, quantified revenue line from the new codes. Failed the named-incumbent + number test for the main log.</li><li><strong>S3 pharma, unscreenable targets</strong> - Insilico&#x27;s rentosertib (AI-discovered TNIK inhibitor) enters Phase III ~<code>30 Aug 2026</code>, but it is AI-native and pre-revenue. Failed inclusion bar (no revenue) and scope.</li><li><strong>S1/S2 energy-utility, AI new product</strong> - Bloom Energy (<code>$751m</code> Q1, +<code>130%</code>), NextEra, Advanced Energy, Valmont all sell power/equipment INTO the AI build-out. AI-as-customer, pre-existing SKUs to a new buyer. Failed the AI-as-capability test.</li><li><strong>S1 telecom, AI growth</strong> - SK Telecom operating income +<code>67%</code> on an <em>&quot;AI infrastructure&quot;</em> pivot; that is a shovels business plus cost, not revenue on deployed AI. Failed the deployment-ROI test.</li><li><strong>S2 banking, next-best-action</strong> - Yapi Kredi&#x27;s <code>5%</code> conversion lift came via a NICE Ltd vendor document (Tier D, not confirmed by the bank). Failed the tier / independent-confirmation test.</li><li><strong>S2 retail, personalization</strong> - Walmart/Amazon/Target <em>&quot;bigger baskets&quot;</em> AI-assistant claims (PYMNTS, Tier C) carried no new quantified number; all three already logged. Failed the specific-number and dedupe tests.</li><li><strong>S3 prof-services, newly-billable work</strong> - Allen &amp; Overy / A&amp;O Shearman fixed-fee AI work is a margin-defense story from a TSIA blog (Tier D). Failed the top-line + tier test.</li><li><strong>Counter-evidence, AI coverage</strong> - &quot;Berkshire/Chubb/Travelers removing AI coverage&quot; (Substack, Tier C/D) is directionally interesting counter-evidence to the insure-AI-risk S3 thesis, but not primary and not company-confirmed. Failed the source-tier test.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li>Heartflow Q3 2026 report (~mid-Nov 2026) - watch for a broken-out Plaque revenue line; that is the falsifier check.</li><li>Q3 2026 US earnings season clusters mid-Oct; retail/CPG (Walmart, Target, Home Depot) and P&amp;C insurers are the densest non-tech AI-attribution grounds.</li><li>Canadian bank Q4 fiscal 2026 reports (early Dec) - RBC/TD/CIBC/BMO have all made AI enterprise-value claims now falsifiable against results.</li><li>2026 CPT AI-diagnostic codes (coronary plaque, perivascular fat) - watch RadNet/imaging providers&#x27; Q3 for the first named-incumbent revenue attribution.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 out-of-scope finding in the appendix below. Angles run: S3 insurance: new-risk-class SKUs priced/bound, S3 pharma: unscreenable target/indication space, S3 industrials: autonomy as new subscription, S3 healthcare: AI diagnostics, new price points, S3 prof-services: newly-billable AI work, S3 SMB long-tail: enterprise quality, low price, S2 retail: personalization/retail-media lift, S2 banking: next-best-action cross-sell rev, S1 energy/utility: AI new-product revenue, S1 telecom/logistics/auto: AI feature subs, S2 retail/CPG: Q2 earnings AI sales attribution, Counter: AI revenue walk-backs, null studies.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">Heartflow, Inc.</span>
+    <span class="sector">Healthcare · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">Q2 2026 total revenue of $64.1m, up 48% YoY (US revenue $59.6m, up 51%), with full-year 2026 guidance raised to $246m-$250m; management named AI Plaque Analysis - a new SKU with no predecessor in its catalog - as &#x27;a meaningful second growth engine&#x27; but disclosed no standalone Plaque revenue figure.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Deep-learning quantification of coronary plaque from CCTA scans, sold as an analysis SKU distinct from the older FFRct product, and reimbursed under new 2026 Category I CPT coding for AI-enabled coronary plaque analysis (Medicare rates ~$950-$1,000). It lets cardiologists offer non-invasive plaque quantification that previously required invasive angiography or was simply not performed.</dd><dt>Why this shape</dt><dd>S3-CANDIDATE, appendix. Out of scope as subject: Heartflow is an AI-native medtech whose core product IS the AI analysis, not a non-tech incumbent deploying AI, so it is routed to the appendix as an entrant comparator per METHOD. S3 tests: (a) counterfactual - only partially met; absent AI plaque analysis some physicians would order invasive cath (a substitute, which leaks toward S2), others nothing. (b) prior alternative - no non-invasive AI plaque-quantification service existed in Heartflow&#x27;s catalog; leans S3. (c) capability gate - CNN plaque quantification from CCTA is a recent capability. (d) newly economic - new 2026 CPT codes make it reimbursable, opening a service line that supported no billing before. Held at CANDIDATE because the release discloses total platform revenue but NO standalone Plaque revenue (management calls Plaque &#x27;nascent&#x27;), so the new-TAM dollar counterfactual is not established.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.globenewswire.com/news-release/2026/08/13/3344881/0/en/heartflow-reports-second-quarter-2026-financial-results-and-raises-full-year-2026-guidance.html" rel="noopener">Q2 2026 results release / Form 8-K, 2026-08-13</a></dd><dt>Falsifier</dt><dd>If Q3/Q4 2026 or FY2027 disclosure never breaks out Plaque revenue, or Plaque revenue stalls while durable FFRct utilization carries the growth, the &#x27;second growth engine&#x27; new-TAM framing was narrative rather than a distinct new market.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A total-revenue figures are firm; the S3 claim rests on a product line whose revenue is not separately quantified.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
