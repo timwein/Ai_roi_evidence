@@ -1839,9 +1839,54 @@
       "confidence": "medium",
       "confidence_why": "Tier A total-revenue figures are firm; the S3 claim rests on a product line whose revenue is not separately quantified.",
       "counter_evidence": false
+    },
+    {
+      "date": "2026-09-04",
+      "company": "Insilico Medicine",
+      "sector": "Biotechnology / drug discovery",
+      "country": "HK/CN",
+      "shape": "S2",
+      "scope": "appendix",
+      "claim": "In interim results announced 26 Aug 2026, Insilico Medicine reported H1 2026 revenue of US$106.3 million, up 287.2% year on year, at a 90.3% gross margin, with net profit of US$35.54 million (adjusted non-IFRS US$51.23 million) - its first profitable interim period. US$103.1 million of that (97% of revenue) came from drug discovery and pipeline development, which the company attributed to \"large-amount upfront payments from a series of key business development (BD) deals reached during the period, as well as milestone payments continually confirmed from existing collaborations\" - named partners include Eli Lilly, Servier, SK Biopharmaceuticals and Takeda. Software solutions revenue was US$2.70 million, 2.5% of the total.",
+      "status": "DISCLOSED",
+      "source_tier": "B",
+      "source_name": "H1 2026 interim results announcement (company release; figures cross-checked against the PR Newswire rendering of the same announcement)",
+      "source_date": "2026-08-26",
+      "source_url": "https://insilico.com/news/s11n46hx31-commercialization-roadmap-validated-with",
+      "mechanism": "Generative-chemistry and target-discovery models produce preclinical assets in-house; the assets are then out-licensed to pharma partners for upfront and milestone payments. The revenue is the sale of AI-originated molecules, not the sale of AI software - software solutions are only 2.5% of the half. This is the cleanest available read on whether an AI-originated product actually converts into cash from third-party buyers.",
+      "shape_justification": "S2, not S3, and the distinction is the whole point. (a) Counterfactual purchase: Eli Lilly, Servier, SK Biopharmaceuticals and Takeda in-license preclinical assets continuously; absent Insilico they would have bought something. (b) Prior alternative: conventional discovery biotechs and the partners' own internal programmes - a competitor lost the deal. (c) Capability gate: Insilico's platform is generative chemistry and multi-omics target ranking that predates the last ~24 months; no recent frontier jump is load-bearing. (d) Newly economic: partially - discovery cost per asset falls - but the buyer set is unchanged, so this reallocates pharma BD spend rather than creating new demand. Appendix scope because the subject is an AI-native drug-discovery company, not a deploying incumbent; it is logged because METHOD's appendix exists precisely so entrant evidence stays visible next to the incumbent log.",
+      "falsifier": "A half without a headline BD deal. 97% of revenue is lumpy upfronts and milestones, so if H2 2026 or H1 2027 reverts toward the ~US$27 million H1 2025 base once the Lilly/Servier/SK/Takeda upfronts are booked, this was deal timing rather than a commercialisation engine. Second falsifier: software solutions revenue staying near US$2.7 million, which would mean the platform itself has no standalone market.",
+      "confidence": "medium",
+      "confidence_why": "Figures are the company's own interim results and were cross-checked across two renderings of the same announcement, but the revenue is 97% lumpy BD upfronts and the company offers no counterfactual for what the assets would have fetched without AI.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-09-04",
+      "searched": [
+        "S3 insurance: new-risk-class SKUs priced and bound",
+        "S3 pharma: previously unscreenable target space",
+        "S3 industrials: autonomy sold as a new subscription",
+        "S3 healthcare: 2026 AI CPT codes, new billable tests",
+        "S3 prof services: work never billable before",
+        "S3 banking: advice for sub-threshold mass market",
+        "S3 telecom/utility: AI SKU with no predecessor",
+        "S3 autos: autonomy subscription take rates",
+        "S2 retail: agentic traffic conversion, basket lift",
+        "S2 grocery/CPG: retail media and dynamic pricing",
+        "S2 hospitality: AI revenue management uplift",
+        "S1 insurance: quote-to-bind and hit-rate gains",
+        "S1/S2 early-Sep calls: CPG, apparel, discounters",
+        "Counter-evidence: dropped AI targets and walk-backs",
+        "Counter-evidence: AI traffic that fails to convert",
+        "Follow-up: Wiley AI licensing line, quarter on quarter",
+        "Appendix: AI-native drug discovery monetisation",
+        "Appendix: insurtech S-1 and IPO disclosures"
+      ],
+      "assessment": "> One finding, and it is an appendix entry: **Insilico Medicine** turned AI-originated drug assets into `US$106.3m` of half-year revenue and a first profit. The main log gained nothing - no S3, no S2, no S1 from a non-tech incumbent. Off-season week, thin by construction.\n\n## Sources read\n\n- **Insilico Medicine** H1 2026 interim results (`26 Aug 2026`) - revenue `US$106.3m`, `+287.2%`, net profit `US$35.54m`; `97%` of it upfronts and milestones from **Eli Lilly**, **Servier**, **SK Biopharmaceuticals** and **Takeda**. Logged, appendix, S2.\n- **Wiley** Q1 FY2027 (`3 Sep 2026`) - AI licensing income of `$14m` against a `$29m` prior-year comparison, on revenue down `3%` to `$386m`. Not logged: AI is the buyer here, not the capability.\n- **Bamboo Insurance** Form S-1 (`1 Sep 2026`) - Managed Premium `$766m` in 2025, `+58%`, `+34%` in H1 2026, in a California market admitted carriers exited. No figure in the filing is attributed to AI.\n- **Best Buy** Q2 FY2027 call (`27 Aug 2026`) - phased rollout of the Ask Blue assistant announced with no result attached.\n- **Campbell's** Q4 FY2026 call (`3 Sep 2026`) - the full transcript contains no mention of AI or artificial intelligence by any speaker or analyst. A Tier A consumer-staples call in September 2026 where the word never comes up is worth recording.\n- **PVH** Q2 2026 call (`3 Sep 2026`) - checked through coverage; no AI attribution surfaced and the full transcript sits behind a paywall, so treat this one as unresolved rather than negative.\n- **Rivian** Q2 2026 call - CEO \"really encouraged by the take rates\" on Autonomy+, with no take rate and no revenue given.\n\n> The pattern after 33 logged days: the main log still contains **zero confirmed S3**. Every genuinely new-demand story that surfaces is either an AI-native routed to the appendix or a candidate whose counterfactual the source never establishes.\n\nA second pattern hardened this week. The quantified AI revenue arriving right now is overwhelmingly earned from the AI build-out rather than from deploying AI - **Wiley** licensing its backlist, **TELUS** selling sovereign compute, **SK Telecom** booking `KRW131.4bn` of AI datacentre revenue.\n\nThat is real money and it is not what this log measures. An incumbent selling a pre-existing asset to a new buyer has not demonstrated ROI on its own AI spend.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance, new risk classes** - **Bamboo Insurance** S-1, **Corgi** AI-liability cover - Bamboo's growth is real but the filing attributes no number to AI, only to \"data, technology and AI\" as a bundle; fails the attribution test and METHOD's attribution-laundering rule.\n- **AI-as-customer** - **Wiley**, **TELUS** Sovereign AI Factory, **SK Telecom**, **Chunghwa Telecom** - pre-existing assets sold to a new buyer; fails the AI-as-capability boundary. Wiley is the sharpest of them and worth a follow-up as counter-evidence if the licensing line keeps shrinking.\n- **S2 retail agentic commerce** - **Best Buy** Ask Blue - launch with no result; fails the pilot-to-production test. **Walmart**, **Target**, **Amazon** and **Etsy** carry the same claims and are already logged.\n- **S3 autos** - **Rivian** Autonomy+ - an executive's qualitative encouragement is not a number and not a statement of material revenue impact; fails inclusion bar item 2.\n- **Vendor-sourced conversion figures** - Anthropic's commerce blueprint (`2 Sep 2026`) claims carts up to `35%` larger and shoppers `60%` likelier to buy, naming **Shopify** and **Priceline** as live deployers. The figures are the vendor's own and neither deployer confirmed them; Tier D, rejected.\n- **Hospitality yield management** - trade-press claims of `+8-15%` RevPAR and `+17%` total revenue from AI revenue management - no named operator, no primary source; fails inclusion bar item 1.\n- **Aggregate channel analytics** - Adobe's `393%` AI-traffic growth and `37%` higher revenue per visit - a measurement of a channel across unnamed retailers, not any company's attributed result.\n- **Cost-side items encountered** - none this run cleared the C1-C4 bar either; the week's cost material was consultant survey sentiment about abandoned pilots, which METHOD rejects outright.\n\n## Nearest dated catalysts\n\n- `9 Sep 2026` - **American Eagle** and **Signet Jewelers** Q2, and **Korn Ferry** Q1 FY2027, the first professional-services read since the segment recast.\n- `11 Sep 2026` - **Kroger** Q2 2026: retail media and personalization are the two mechanisms most likely to produce a quantified S2 from a grocer.\n- Mid-to-late Sep - **Copart** Q4 FY2026, which has been positioning AI total-loss decisioning as something it sells to carriers rather than uses internally. That would be an S3 shape if a price and a customer ever appear.\n- Mid-Oct - Q3 earnings season opens, US banks from around `13 Oct`. The last three dense windows each produced two or three main-log entries; the off-weeks between them produce close to zero, and this run is one of those.",
+      "entry_count": 0
+    },
     {
       "date": "2026-09-03",
       "searched": [
