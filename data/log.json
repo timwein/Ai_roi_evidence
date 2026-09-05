@@ -1859,9 +1859,50 @@
       "confidence": "medium",
       "confidence_why": "Figures are the company's own interim results and were cross-checked across two renderings of the same announcement, but the revenue is 97% lumpy BD upfronts and the company offers no counterfactual for what the assets would have fetched without AI.",
       "counter_evidence": false
+    },
+    {
+      "date": "2026-09-05",
+      "company": "Manulife Financial Corporation",
+      "sector": "Insurance",
+      "country": "Canada",
+      "shape": "C4",
+      "scope": "main",
+      "claim": "In a company press release dated 16 Jun 2026, President and CEO Phil Witherington said of Manulife's AI programme: \"We expect to generate more than $1 billion of enterprise value by 2027, with $300 million achieved as of year-end 2025.\" The release defines that enterprise value as comprising \"realized run-rate expense reductions, top-line revenue uplift from AI-powered workflows, fraud reduction, and growth absorption\" - four components, none of them broken out.",
+      "status": "ESTIMATED",
+      "source_tier": "B",
+      "source_name": "Manulife press release - 'Manulife Named #1 Life Insurer for AI Maturity for Second Consecutive Year by Evident'",
+      "source_date": "2026-06-16",
+      "source_url": "https://www.prnewswire.com/news-releases/manulife-named-1-life-insurer-for-ai-maturity-for-second-consecutive-year-by-evident-804697893.html",
+      "mechanism": "Named deployments behind the number: MAUDE, the Manulife Automated Underwriting Decision Engine, which the release says now processes over half of eligible individual life applications automatically in Canada with decisions \"in as little as two minutes\"; John Hancock's Quick Quote; AI assistants for Asia distribution partners; and AI-enabled tooling in Wealth & Asset Management. Underwriting automation is the load-bearing one - it is simultaneously an expense reduction and a quote-to-bind velocity story, which is exactly why the composite cannot be split.",
+      "shape_justification": "C4 - non-tech subject (a life insurer), non-engineering function (underwriting, claims, distribution). Logged in the cost ledger rather than as a revenue shape because METHOD's trap 3 applies squarely: \"enterprise value\" is a company-defined construct and Manulife explicitly says it mixes expense reduction, revenue uplift, fraud reduction and growth absorption. There is a revenue claim inside this number - \"top-line revenue uplift from AI-powered workflows\" - and it is unquantified, so it cannot support an S1, S2 or S3 entry. Trap 5 also applies: \"growth absorption\" is hiring not done, which is cost avoidance rather than a fallen expense line. Logged once, here. Note the age: this disclosure is 11 weeks old and outside the normal 48-hour sweep window; it is logged because it was unlogged, cost evidence decays slowly per METHOD, and it is a clean specimen of the composite-metric problem rather than because it is news.",
+      "falsifier": "Manulife's FY2026 results or 2027 investor materials either break the $1bn into its four components - at which point the revenue share becomes checkable - or they do not. If the run-rate figure keeps being reported only as an undifferentiated \"enterprise value\" total, or if the 2027 target is quietly restated downward or dropped from the disclosure, this was a programme metric rather than a P&L event. A second falsifier: if the $300m at YE2025 does not roughly double by YE2026, the $1bn by 2027 does not arrive.",
+      "confidence": "low",
+      "confidence_why": "The quote and the figures are verified against the company's own wire release retrieved this run and cross-checked against a second rendering, but the metric itself is a company-defined composite with no audited component and no external verification.",
+      "counter_evidence": false
     }
   ],
   "days": [
+    {
+      "date": "2026-09-05",
+      "searched": [
+        "S3 insurance: new-risk-class SKUs priced and bound",
+        "S3 pharma: previously unscreenable target space",
+        "S3 industrials: autonomy sold as new subscription",
+        "S3 healthcare: diagnostics at new price points",
+        "S3 prof services: newly billable delivery",
+        "S3 lending: thin-file borrowers newly approved",
+        "S3 SMB: long-tail served at enterprise quality",
+        "S2 retail: personalization and agentic conversion",
+        "S2 retail media: AI targeting revenue lift",
+        "S2 travel: yield and revenue management uplift",
+        "S2 telecom: churn and ARPU attribution",
+        "S1 insurance: underwriting and quote-to-bind",
+        "Counter-evidence: walk-backs and null results",
+        "Cost ledger: C4 non-tech back-office claims"
+      ],
+      "assessment": "> **Empty day in the revenue log for the second run running - no S3, no S3-CANDIDATE, no S2, no S1.** One entry logged, and it is a cost-ledger C4: **Manulife** attributes `$300m` of \"enterprise value\" to AI with `$1bn` targeted by 2027, and openly says the number contains revenue uplift it will not break out. That is the day's actual finding.\n\n## Sources read\n\n- **Manulife Financial** press release (`16 Jun 2026`) - CEO Phil Witherington: `$1bn` of enterprise value by 2027, `$300m` achieved at year-end 2025, defined as expense reductions plus \"top-line revenue uplift from AI-powered workflows\" plus fraud reduction plus growth absorption. Logged, C4, `low` confidence. Eleven weeks old and flagged as such.\n- **Lululemon** Q2 FY2026 call (`3 Sep 2026`) - the full transcript contains exactly one AI mention, from CFO Meghan Frank, listing \"AI-powered systems and automation\" among supply-chain efficiencies. No number. A new Chief AI and Technology Officer was announced with no result attached.\n- **Victoria's Secret** and **Bath & Body Works** Q2 2026 - **Bath & Body Works** cites \"improved discovery, personalization, and demand creation\" with no figure and no attribution to AI specifically.\n- **Copart** - Q4 FY2026 has not reported. The Q3 call remains the last word: carriers \"both excited and terrified\" about AI total-loss decisioning, no price and no customer.\n- **Munich Re**, **Mosaic**, **Armilla**, **Testudo** - the AI-liability line now genuinely exists as a product category. Not one carrier has disclosed a premium figure for it.\n- **Digital Insurance** (`13 Aug 2026`) survey piece - the industry-wide claim of \"10% to 30% gains in incremental premium from the same budgets\" names no carrier.\n\n> The pattern after 34 logged days is hardening into something specific. Non-tech incumbents are now willing to put a dollar figure next to AI - **Manulife** `$1bn`, **TD** `CAD 200m`, **BHP** `US$470m`, **Santander** `EUR 35m` - and every one of them is a composite that swallows the revenue line rather than isolating it.\n\nThat is not an accident of disclosure style. Isolating AI-attributed revenue requires a counterfactual the company would have to defend; isolating cost does not. The composite is the path of least legal resistance, and it is why this log's main ledger stays close to empty while the cost ledger fills.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance, AI as a new risk class** - **Munich Re** aiSure with **Mosaic** (`EUR 15m` per-claim parametric cover), **Armilla**, **Testudo** - the clearest new-SKU-with-no-predecessor shape available anywhere right now, and it fails inclusion bar item 2: no premium, no policy count, no executive statement of material revenue impact. Also sits on the AI-as-customer boundary, since the demand exists because AI exists, not because these carriers deployed AI.\n- **S1 insurance underwriting throughput** - **Markel** and Cytora, `113%` gain in GWP per underwriting FTE - a 2023 vendor announcement recycled into 2026 trade press; fails the Tier D rule and the recency test.\n- **S2 insurance, attribution laundering** - **Liberty Mutual**, `$2.6bn` Q2 net income and a `43%` profit rise reported alongside \"embedded AI\" as a driver - no attribution of any part of the delta to AI; fails METHOD's attribution-laundering rule outright.\n- **S3 lending, thin-file borrowers** - approval-rate uplifts of `10-35%` and `25-50%` circulating in the lending trade press - every figure is a vendor's, no named lender stands behind one; fails inclusion bar item 1.\n- **S2 hospitality and airline yield** - Sabre's claim of `3.5%` revenue uplift and hotel RevPAR gains of `3-10%` - vendor-side, no named operator confirming; fails Tier D.\n- **S2 telecom** - ARPU uplift of `10-15%` and churn reduction of `10-25%` - consultant modelling, not results; fails the sentiment-survey rule.\n- **AI-as-customer** - **Dell** (`$74bn` of AI servers), **Broadcom** (`$16.7bn`, `+221%`), **SpaceX** AI infrastructure contracts - real revenue, wrong question.\n- **Verification failure worth recording** - a trade-press rendering gave Manulife's figures as `$717m` by 2027 and `$213m` at end-2025. The company's own release says `$1bn` and `$300m`. Both secondary numbers were wrong, and neither would have been caught without fetching the primary. This is the reason for the rule.\n\n## Nearest dated catalysts\n\n- `8 Sep 2026` - **Casey's General Stores** Q1 FY2027.\n- `9 Sep 2026` - **American Eagle** and **Signet Jewelers** Q2, plus **Korn Ferry** Q1 FY2027, still the first professional-services read since the segment recast.\n- `11 Sep 2026` - **Kroger** Q2 2026, the best remaining shot this month at a quantified grocery S2 from retail media or personalization.\n- Mid-to-late Sep - **Copart** Q4 FY2026, where AI total-loss decisioning sold to carriers would be an S3 shape if a price and a named customer ever appear.\n- Mid-Oct - Q3 earnings season opens, US banks from around `13 Oct`. Three consecutive off-week runs have now produced one main-log revenue entry between them.",
+      "entry_count": 0
+    },
     {
       "date": "2026-09-04",
       "searched": [
