@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-07 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-07</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">One finding, and it is a negative one. <strong>Wiley</strong> - the non-tech incumbent with the most explicit &quot;AI revenue&quot; line item anywhere in this log - disclosed that the line halved year over year, from <code>$29m</code> to <code>$14m</code>. No S3 cleared today.</div>
+<p>US markets were shut for Labor Day and the early-September earnings window is one of the thinnest of the year, so the sweep covered <code>16</code> angles against a near-empty calendar.</p>
+<h4>Sources read</h4>
+<ul><li><strong>John Wiley &amp; Sons</strong> - Q1 FY2027 release, retrieved as the Ex-99.1 exhibit to the 3 Sep 2026 Form 8-K. <code>$14m</code> AI licensing revenue in the quarter against <code>$29m</code> prior year. Research Solutions AI licensing fell from <code>$16m</code> to <code>$4m</code>. Logged.</li><li><strong>John Wiley &amp; Sons</strong> - Q1 FY2027 call, same day. CEO Matthew Kissner split the quarter <code>$10.5m</code> model training and <code>$3.5m</code> recurring, named <code>$14m</code> already contracted across Q2 and Q3, and reaffirmed &quot;over $50 million in fiscal 2027&quot;.</li><li><strong>John Wiley &amp; Sons</strong> - Q4 FY2026 call, 16 Jun 2026, retrieved for the trend line. AI revenue <code>$40m</code> in FY2025 rising to <code>$49m</code> in FY2026, with the recurring piece going from roughly <code>$1m</code> to <code>$8m</code>.</li><li><strong>Eli Lilly</strong> - TuneLab, the platform putting Lilly&#x27;s own discovery models in front of external biotechs. Retrieved and checked for a revenue figure; there is none, and access is free to selected partners by design.</li><li><strong>PwC 29th Global CEO Survey</strong> - the widely recycled <code>56%</code> of CEOs seeing &quot;no significant financial benefit&quot; from AI. Fielded 30 Sep to 10 Nov 2025 and published January 2026.</li></ul>
+<div class="callout">The Wiley series is the most useful shape in the whole log, because it separates two things every other AI-revenue disclosure blurs. One-time corpus licensing is lumpy and now shrinking; the subscription product Wiley built on top of it is compounding from <code>$1m</code> to <code>$8m</code> to roughly a <code>$14m</code> annualised run rate. Headline AI revenue can fall while the durable part triples.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, previously uninsurable classes</strong> - Sixfold, DeNexus DeRISK UWA, Hiscox quote-cycle claims. All failed the named-deployer test or were vendor-side Tier D with no carrier confirming premium bound.</li><li><strong>S3 pharma, model licensing</strong> - <strong>Eli Lilly</strong> TuneLab. Fails the inclusion bar outright: no number, and the product is deliberately free, so there is no revenue to attribute.</li><li><strong>S3 healthcare, new AI CPT codes</strong> - the 2026 code set genuinely opens reimbursement for AI-assisted reads. No named provider has yet disclosed revenue booked against those codes, so there is nothing to log until a health system puts a figure on it.</li><li><strong>S3 professional services</strong> - law and accounting fixed-fee economics. Every source was a vendor or consultancy blog reasoning from margin arithmetic; not one named a firm or a number.</li><li><strong>S3 industrials, autonomy subscriptions</strong> - <strong>Deere</strong>, <strong>Caterpillar</strong>, <strong>Trimble</strong>. The <code>$1.8bn</code> precision-ag figure circulating traces only to aggregator pages, not to a Deere document, so it was dropped under the never-reconstruct-a-number rule. <strong>Deere</strong> is already logged at 2026-09-02.</li><li><strong>S2 retail, agentic commerce lift</strong> - &quot;retailers with branded AI agents grew holiday sales <code>59%</code> faster&quot;, &quot;AI-referred visits converted <code>31%</code> more often&quot;. Unnamed companies, vendor analytics, Tier D. Rejected.</li><li><strong>S2 grocery and staples</strong> - <strong>Tesco</strong>, <strong>Sainsbury&#x27;s</strong>, <strong>Carrefour</strong>, <strong>Ahold Delhaize</strong> retail-media and personalisation. Real programmes, no attributed revenue; the only figure available was McKinsey&#x27;s generic <code>10-15%</code> personalisation uplift, which is not a disclosure.</li><li><strong>S1 banking</strong> - <strong>TD Bank</strong>&#x27;s <code>C$1bn</code> ambition split <code>C$500m</code> revenue uplift and <code>C$500m</code> cost. Already logged 2026-08-29 as C4; no new disclosure this run.</li><li><strong>Counter-evidence, surveys</strong> - <strong>PwC</strong>&#x27;s <code>56%</code> figure is a sentiment survey with fieldwork now ten months old, and the log already carries <strong>McKinsey</strong> (2026-08-28) and <strong>BCG</strong> (2026-09-02) on the same point. Recycling it would be padding.</li><li><strong>S1 consumer, early-September calls</strong> - <strong>Lululemon</strong> (3 Sep), <strong>Casey&#x27;s</strong>, <strong>Signet</strong>, <strong>Toro</strong>, <strong>HealthEquity</strong>. Checked; none attributed revenue or funnel movement to AI. Signet&#x27;s Q2 FY2027 release does not land until 9 Sep.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Signet Jewelers</strong> Q2 FY2027 release and call, 9 Sep 2026 - a jewellery retailer with a heavy personalisation programme and no AI disclosure yet.</li><li><strong>Barclays Global Consumer Staples Conference</strong>, 9 Sep 2026 - <strong>Unilever</strong>, <strong>Mondelez</strong>, <strong>P&amp;G</strong> and <strong>Molson Coors</strong> all presenting. Staples CEOs have so far said nothing quantified about AI revenue; a fireside chat is where that first breaks.</li><li><strong>Wiley</strong> Q2 FY2027, expected early December 2026 - the first checkpoint on the <code>$14m</code> contracted for Q2 and Q3, and on whether the recurring line holds near a <code>$14m</code> annualised rate.</li><li>Mid-October, the Q3 2026 reporting cluster - the banks and insurers open it, and this log&#x27;s densest S1 supply has come from P&amp;C carriers and Canadian banks.</li></ul></div>
+<article class="card candidate counter" data-shape="S3-CANDIDATE"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">John Wiley &amp; Sons, Inc.</span>
+    <span class="sector">Media / Scholarly publishing · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">In the Q1 FY2027 earnings release filed as an SEC Form 8-K exhibit (3 Sep 2026) Wiley states &quot;AI licensing revenue totaled $14 million for the quarter&quot;, against prior-year AI licensing revenue of $29 million - down 52% year over year. The release breaks the comparison out by segment: Research Solutions AI licensing was &quot;$16 million vs. $4 million this quarter&quot;, and the prior-year Learning comparisons were $8 million in Academic and $5 million in Professional. On the call the same day CEO Matthew Kissner said &quot;Of the $14 million, $10.5 million is from model training and $3.5 million is recurring&quot;, that Wiley has &quot;contracted a further $14 million of AI licensing revenue that will be realized across Q2 and Q3&quot;, and that the company remains &quot;well on track for over $50 million in fiscal 2027&quot;. At Q4 FY2026 (16 Jun 2026) Kissner had disclosed the annual series: &quot;We grew AI revenue from 40 million to 49 million with a rapidly expanding recurring base&quot;, with the recurring piece &quot;rapidly scaling from roughly 1 million last year to 8 million in fiscal 26&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct revenue lines sit inside the single &quot;AI licensing&quot; label, and they behave differently. The first is one-time model-training licensing: Wiley sells rights to its journal corpus and backfile to AI developers training foundation models, which is episodic, deal-shaped and non-recurring. The second is a subscription business Wiley built - knowledge feeds sold to 23 corporate customers across five verticals, and Nexus, a licensing service Wiley operates on behalf of 71 third-party publisher partners. Only the second is a product; the first is rent on an asset Wiley already owned.</dd><dt>Why this shape</dt><dd>S3-CANDIDATE, and the candidate flag is doing real work. Test (a) counterfactual purchase: the buyers are AI model developers and corporate AI teams, who previously bought nothing from Wiley - passes. Test (b) prior alternative: the prior alternative was uncompensated scraping or going without, not a competitor&#x27;s product - passes. Test (c) capability gate: the demand requires frontier LLM training, which did not exist as a buying category ~24 months before the earliest of these deals - passes on the demand side. Test (d) newly economic: yes for the recurring feeds, which had no viable buyer before. What fails is the question that sits behind all four: this is not ROI on Wiley&#x27;s own AI spend. Wiley is monetising a pre-existing corpus because AI labs became buyers - structurally the same as a genset maker selling into the data-centre build-out, which the standing rule excludes as AI-as-customer rather than AI-as-capability. The recurring half is the part with a genuine claim to being a new SKU with no predecessor in Wiley&#x27;s catalog. It is logged rather than dropped because it is the cleanest dated, SEC-filed, falsifiable test available of whether AI-adjacent revenue at a non-tech incumbent is durable. Marked counter_evidence because the headline answer this quarter is no: the line halved. The nuance that keeps it from being purely negative is that the decline is entirely in the lumpy one-time component, while the recurring base compounds - roughly $1m (FY25) to $8m (FY26) to $3.5m in a single quarter, about a $14m annualised run rate.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/107140/000162828026060252/ex991earningsrelease.htm" rel="noopener">Wiley Q1 FY2027 earnings release (SEC Form 8-K, Ex-99.1), 3 Sep 2026; Q1 FY2027 and Q4 FY2026 earnings calls, 2026-09-03</a></dd><dt>Falsifier</dt><dd>Wiley needs roughly $22m of AI revenue in Q4 FY2027 and beyond what is contracted to reach the &quot;over $50 million&quot; target, since only $14m realised plus $14m contracted is visible. If FY2027 AI revenue lands below $49m - i.e. below FY2026 - the new-TAM reading is dead and this was a two-year pull-forward of corpus rights. Second falsifier, independent of the first: if the recurring component fails to reach roughly $16m for FY2027 (the low end of Kissner&#x27;s own &quot;2x to 3x&quot; the $8m FY2026 base), then the durable product half is not compounding and the whole line is one-time licensing with a subscription veneer.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The figures are exact, SEC-filed and quoted verbatim from a document retrieved this run, so the numbers are high confidence; the shape is not, because whether AI-as-customer rent belongs in a revenue-ROI log at all is unresolved and stated openly rather than assumed.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
