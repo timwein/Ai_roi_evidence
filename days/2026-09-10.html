@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-10 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-10</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No revenue finding today and no S3. One cost-ledger entry: <strong>Sysco</strong> put <code>$500m</code> of AI-powered efficiency on the record for fiscal 2029 and attributed exactly <code>$0</code> of revenue to AI in the same release.</div>
+<p>The Sysco disclosure is the sharpest single artefact this log has collected on the cost-versus-revenue asymmetry, because both sides appear in one document. The company quantified the cost-out to the dollar and across three fiscal years. It raised its mid-term sales algorithm by <code>100bps</code> on the same day and did not attribute any of that raise to AI.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Sysco</strong> - Form 8-K Ex-99.1, 9 Sep 2026: &quot;Introducing target of at least <code>$500 million</code> for AI powered efficiency to be realized by fiscal year 2029&quot;, plus the same-day Barclays deck&#x27;s &quot;<code>~$100 million</code> in net cost out included within fiscal 2027 guidance&quot;. Logged C4. Mid-term net sales growth raised <code>4%-6%</code> to <code>4%-7%</code>, adjusted EPS <code>6%-8%</code> to <code>9%-11%</code>, neither attributed to AI.</li><li><strong>Sysco</strong> Barclays conference remarks, 9 Sep 2026 - CEO Kevin Hourican named AI 360 as a sales-driving tool giving reps &quot;suggestions on what to sell to that specific customer on that specific day&quot;. No number attached; the sales raise was credited mainly to local-business recovery, share gains and the pending Jetro Restaurant Depot deal.</li><li><strong>Casey&#x27;s General Stores</strong> - Q1 FY2027 transcript, 9 Sep 2026. Full-text swept: zero mentions of AI, machine learning, personalisation or algorithmic pricing, in a quarter with <code>27.7%</code> EPS growth and a <code>30%</code> prepared-food lift at remodelled stores.</li><li><strong>ABM Industries</strong> - Q3 FY2026 transcript, 9 Sep 2026. Zero AI mentions, from a facility-services firm that sells into data centres.</li><li><strong>Victoria&#x27;s Secret &amp; Co.</strong> - Q2 FY2026 transcript, 9 Sep 2026. Zero AI or personalisation mentions.</li><li><strong>BioSpace</strong>, 11 Feb 2026 - pharma AI round-up citing <strong>AstraZeneca</strong> at &quot;more than 50% faster target drug design and validation&quot;. Read for an S1; not logged, see near-misses.</li></ul>
+<div class="callout">Cross-run pattern: the AI numbers non-tech incumbents will put their name to are cost numbers, and they are getting bigger and more forward-dated. <strong>Manulife</strong> on 5 Sep and <strong>Sysco</strong> on 24 Aug and again today are all cost ledger. The last main-log revenue entries were <strong>Shoprite</strong> and <strong>Deere</strong> on 1-2 Sep, both S1 input metrics with no revenue conversion disclosed. Confirmed S3 in the main log still stands at <code>0</code> across <code>39</code> logged days; the log&#x27;s single confirmed S3, <strong>CGTrader</strong> on 21 Aug, sits in the appendix because the subject is out of scope.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - Corgi (full-stack carrier for startup cover, <code>$108m</code> raise), Jointly AI Broker, DeNexus DeRISK UWA with Chaucer as early adopter - all fail the inclusion bar at step one: funding rounds and product launches with no disclosed result. Corgi is also AI-native, so appendix at best.</li><li><strong>S3 healthcare, AI billing codes</strong> - the AMA&#x27;s CPT-2026 set is the first to recognise AI explicitly, and Cleerly moved its coronary plaque assessment from Category III to a permanent Category I code. Genuinely S3-shaped: a service that previously supported no billable line. Failed on subject - Cleerly is private and AI-native - and on evidence: no company disclosed revenue against the new codes.</li><li><strong>S3 banking, thin-file lending</strong> - vendor-sourced claims of <code>10%-35%</code> approval-rate gains and <code>27%</code> for thin-file borrowers. Tier D, unnamed lenders, no disclosed volume. Fails METHOD&#x27;s Tier D rule outright.</li><li><strong>S3 industrials, autonomy subscriptions</strong> - Caterpillar CES 2026 autonomy positioning, Dassault value-based AI monetisation from 2026. Announcements, no result; Dassault is also a software vendor.</li><li><strong>S2 hospitality, yield management</strong> - <code>8%-15%</code> RevPAR uplift inside 90 days, <code>19%</code> group-revenue uplift. Every figure traces to revenue-management vendors&#x27; own blogs. No named hotel operator, no earnings disclosure. Tier D.</li><li><strong>S2 telecom, churn and upsell</strong> - <code>10%-25%</code> churn reduction, <code>20%-45%</code> upsell conversion improvement. Same failure: aggregator statistics with no named operator behind them.</li><li><strong>S2 retail, assistants and baskets</strong> - PYMNTS&#x27; Q2 round-up recycles <strong>Walmart</strong> Sparky, <strong>Target</strong> wish lists and <strong>Albertsons</strong> conversational search, all already logged 19-24 Aug. Restated claim, no new quarter. Blocked by dedupe.</li><li><strong>S1 pharma, trial acceleration</strong> - <strong>GSK</strong> &quot;15% faster trials saving <code>£8 million</code>&quot; and a <strong>Novartis</strong> enrollment claim both trace to a marketing blog citing JPM 2026 remarks; the drug name in the GSK item could not be corroborated in any primary source, so the figure is treated as unverified and dropped. <strong>AstraZeneca</strong>&#x27;s &quot;more than 50% faster&quot; is a Tier C secondary from 11 Feb 2026, seven months stale and never traced to an AstraZeneca document this run.</li><li><strong>AI-as-customer, excluded by scope</strong> - Broadcom&#x27;s <code>$16.7bn</code> AI semiconductor quarter, Cisco&#x27;s <code>$7.5bn</code> FY2027 AI infrastructure target, Microsoft&#x27;s <code>$101.9bn</code> Azure disclosure. Real money, pre-existing SKUs, new buyer. Not AI ROI on deployment.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Kroger</strong> Q2 FY2026 results, expected the week of 11 Sep 2026 - the one large grocer with an AI-personalised promotions story and a retail-media line, and the nearest chance of a revenue-attributed number.</li><li><strong>Oracle</strong>, <strong>Adobe</strong> mid-September - out of scope as subjects, but their commentary on what non-tech buyers are actually paying for is the leading indicator for this log.</li><li><strong>Darden</strong>, <strong>FedEx</strong>, <strong>Nike</strong>, <strong>Accenture</strong> late September - restaurants, logistics, consumer and professional services in one week; Accenture&#x27;s bookings split is the closest thing to a read on whether AI work is new demand or rebadged.</li><li><strong>Sysco</strong> Q1 FY2027, early November - first checkpoint on whether the <code>~$100m</code> of in-year net cost out is showing up, and whether AI 360 gets a number.</li><li>Q3 earnings season from mid-October - the next dense window for non-tech revenue attribution.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 in the cost ledger below. Angles run: S3 insurance: risk classes newly priced and bound, S3 pharma: previously unscreenable target space, S3 industrials: autonomy as new subscription line, S3 healthcare: AI-only diagnostics, new price points, S3 healthcare: 2026 AI CPT codes as new billing, S3 prof services: work never billable before, S3 banking: thin-file borrowers newly underwritten, S3 autos/ag/logistics: AI SKU with no predecessor, S2 retail: personalization conversion and basket lift, S2 retail media: AI ad revenue attribution, S2 hospitality: AI yield management RevPAR uplift, S2 telecom/utilities: churn and upsell attribution, S1 pharma: AI trial enrollment and design speed, S1 food distribution: AI selling tools, case growth, S1 non-tech earnings 8-10 Sep: AI mentions swept, C4 non-tech ops: AI cost programs with figures, Counter-evidence: AI ROI walk-backs, null studies, Counter-evidence: execs declining to quantify AI.</p>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Sysco Corporation</span>
+    <span class="sector">Foodservice distribution · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">In a release filed as an SEC Form 8-K exhibit on 9 Sep 2026, ahead of its presentation at the Barclays Global Consumer Staples Conference, Sysco headlined &quot;Introducing target of at least $500 million for AI powered efficiency to be realized by fiscal year 2029&quot;. CEO Kevin Hourican: &quot;The $500 million of AI powered efficiency improvement will deploy over the next three years. These savings reflect a durable change in how we execute our day-to-day business across truck routing, merchandising, and sales.&quot; The accompanying investor deck, filed the same day, states &quot;Introducing $500 million of AI and technology efficiency net cost out realized in fiscal 2029&quot; and &quot;~$100 million in net cost out included within fiscal 2027 guidance&quot;. This is a 5x scale-up of the $100 million FY2027 figure logged here on 2026-08-24 and extends the horizon to FY2029. In the same release Sysco raised its mid-term algorithm: net sales growth from 4%-6% to 4%-7%, adjusted EPS growth from 6%-8% to 9%-11%. No revenue is attributed to AI anywhere in the release.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Four named workstreams: supply-chain productivity (routing software, warehouse efficiency, miles reduction), automation across merchandising and procurement, indirect spend management, and customer experience plus back-office simplification. None of the four is software engineering; all four sit in the operating core of a food distributor, which is what makes this a C4 rather than a C3. Sysco also runs a sales-side tool, AI 360, which Hourican described at the Barclays conference as giving reps &quot;suggestions on what to sell to that specific customer on that specific day&quot; - but no number is attached to it.</dd><dt>Why this shape</dt><dd>C4, non-tech / non-engineering, the cell METHOD weights most heavily. Logged in the cost ledger and only there, per the single-ledger rule, because the number is a cost-out number: `$500m` of net cost out by FY2029, `~$100m` of it inside FY2027 guidance. There is a revenue reading available and it was deliberately not taken: at the Barclays conference Hourican said &quot;two of our AI initiatives are sales-driving capabilities, one at the local level, which is the AI selling tool I mentioned earlier, AI 360&quot;, and the mid-term net sales algorithm went up by 100bps at the top end on the same day. That is not loggable as S1 or S2 - the sales raise is attributed to local-business recovery, share gains in a fragmented market and the pending Jetro Restaurant Depot acquisition as much as to AI, and no portion of it is quantified as AI-attributed. Standing traps: this is trap 5, cost avoidance versus realized reduction, in its cleanest form - a three-year target, not an expense line that has fallen. Trap 6, the run-cost offset, is unaddressed: the release nets nothing out for inference, licensing or the technology transformation spend required to produce the savings, beyond the word &quot;net&quot;.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0000096021/000095014226002525/eh260827503_ex9901.htm" rel="noopener">Form 8-K Ex-99.1 press release, 9 Sep 2026; Form 8-K Ex-99.1 Barclays Global Consumer Staples Conference presentation, same day; Barclays conference remarks, 2026-09-09</a></dd><dt>Falsifier</dt><dd>FY2027 results not evidencing the `~$100m` of in-year net cost out already baked into guidance, or the `$500m` FY2029 target being restated, re-based to a different metric, or quietly folded into a general &quot;transformation&quot; number in a later quarter. Also falsifying: adjusted EPS landing outside the raised 9%-11% mid-term band while the AI program is still described as on track, which would mean the savings are being offset somewhere management is not naming.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures and quotes verified verbatim against two SEC-filed exhibits retrieved this run, so the disclosure is high confidence; the saving itself is a FY2029 target with nothing realized, which caps confidence in the outcome.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
