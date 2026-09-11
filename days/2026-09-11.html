@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-11 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-11</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 2 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No main-log finding and no confirmed S3. Two appendix entries, both quantified AI revenue lines at vendors, both small: <strong>Nano-X</strong> disclosed <code>663%</code> AI growth that is an acquisition, and <strong>Research Solutions</strong> disclosed <code>$0.8m</code> of AI ARR at a company whose total revenue fell <code>1.5%</code>.</div>
+<p>The two largest non-tech disclosures of the day were <strong>Kroger</strong>&#x27;s Q2 and <strong>Labcorp</strong>&#x27;s investor day. Between them they cover a <code>$150bn</code> grocer and a <code>$13bn</code> diagnostics network, and neither attributed a dollar of revenue or a basis point of margin to AI.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Kroger</strong> - Q2 FY2026 release and call, <code>11 Sep 2026</code>, the first print under CEO Greg Foran. Identical sales without fuel <code>0.2%</code>, full-year guidance cut from <code>1.0%-2.0%</code> to <code>0.2%-0.8%</code>. The release contains no mention of AI. Kroger Precision Marketing profit grew <code>24%</code> and adjusted eCommerce sales <code>20%</code>, both credited on the call to merchandising and media collaboration, expanded ad inventory and optimisation - not to AI.</li><li><strong>Labcorp</strong> - Investor Day release and deck, <code>10 Sep 2026</code>. Four strategic priorities, one of which is &quot;shape our future through innovation and technology, including AI and robotics&quot;. A <code>2026-2029</code> framework of <code>5%-8%</code> revenue CAGR and <code>75-150bps</code> of margin expansion. Full-text swept: not one revenue, cost or margin figure anywhere in the deck is attributed to AI.</li><li><strong>Nano-X Imaging</strong> - Form 6-K Ex-99.3, <code>9 Sep 2026</code>. AI and Software Solutions <code>$2,083k</code> against <code>$273k</code>, with <code>$1.8m</code> of that from consolidating Nanox Health IT. Logged, appendix, counter-evidence.</li><li><strong>Research Solutions</strong> - Form 8-K Ex-99.1, <code>9 Sep 2026</code>. AI-related ARR <code>$0.8m</code> inside total ARR of <code>$22.5m</code>; total revenue <code>$48.3m</code>, down <code>1.5%</code>. Logged, appendix.</li><li><strong>IBEX</strong> - Form 10-K, <code>10 Sep 2026</code>, and Q4 FY2026 call, <code>10 Sep 2026</code>. The only SEC filing in the last two weeks containing the phrase &quot;AI-enabled revenue&quot;, and it appears purely as forward-looking belief: the company expects to &quot;capture a greater share of higher margin AI-enabled revenue work&quot;. No AI revenue figure anywhere in the 10-K. Revenue growth of <code>15.4%</code> is attributed to embedded-base performance and <code>17</code> new client wins.</li><li><strong>Brown &amp; Brown</strong> - Investor Day deck, <code>10 Sep 2026</code>. A full technology section with proprietary AI products, AI incubator and AI literacy programmes. On the company&#x27;s own technology-journey timeline, &quot;AI-driven growth&quot; is labelled <em>Future</em>. No number.</li><li><strong>Chewy</strong> - Q2 FY2026 Form 8-K, <code>9 Sep 2026</code>. Net sales <code>$3.33bn</code>, up <code>7.3%</code>. The single AI mention in the release is a forward-looking risk factor about infrastructure reliability.</li><li><strong>Elevance Health</strong>, <strong>Macy&#x27;s</strong>, <strong>Designer Brands</strong>, <strong>Seacoast Banking</strong>, <strong>Invitation Homes</strong>, <strong>Baker Hughes</strong>, <strong>Korn Ferry</strong> - 8-Ks filed <code>9-11 Sep 2026</code>. Every AI mention in all seven is boilerplate risk-factor or forward-looking-statement language. Swept in full.</li><li><strong>Oracle</strong> - Q1 FY2027, <code>10 Sep 2026</code>. Out of scope as a subject, read as the capex-side comparator: cloud infrastructure revenue <code>$7.4bn</code> up <code>121%</code>, RPO backlog <code>$664bn</code>, <code>850MW</code> of capacity delivered in one quarter.</li></ul>
+<div class="callout">Cross-run pattern, now four runs deep: the only parties putting AI revenue numbers in writing are the ones selling AI, and the numbers are getting smaller as you move down the stack from <strong>Oracle</strong>&#x27;s <code>$664bn</code> backlog to <strong>Research Solutions</strong>&#x27; <code>$0.8m</code> of AI ARR. Confirmed S3 in the main log remains <code>0</code> across <code>40</code> logged days. The last main-log revenue entries were <strong>Shoprite</strong> and <strong>Deere</strong> on <code>1-2 Sep</code>, both S1 input metrics with no revenue conversion.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - Cytora Autopilot with <strong>Markel</strong> at <code>113%</code> written premium per FTE. Fails two tests: the figure traces to a Cytora case study first published in <code>2023</code>, and it is Tier D vendor material never confirmed in a Markel filing. Also an S1 input metric, not revenue.</li><li><strong>S3 insurance, AI liability cover</strong> - <strong>Armilla</strong>, <strong>Testudo Global</strong> with Gallagher Re, <strong>Lemonade</strong> Autonomous Car. Product launches with no disclosed premium or result; fails the inclusion bar at step two.</li><li><strong>S3 autos, autonomy subscription</strong> - <strong>Rivian</strong> Autonomy+, <code>$2,500</code> upfront or <code>$49.99</code>/month. Software and services revenue <code>$515m</code> up <code>37%</code>, but the company explicitly does not break out Autonomy+ and the line includes the Volkswagen JV. Management said take rates are &quot;trending positively&quot; with no number attached. Fails the named-number test.</li><li><strong>S3 healthcare, AI CPT codes</strong> - the <code>2026</code> CPT set&#x27;s AI-augmented codes. Still no provider anywhere has disclosed billed revenue against them; every source is a billing-services blog. Fails Tier D.</li><li><strong>S2 telecom, AI-attributed growth</strong> - <strong>BCE</strong>, whose Q2 2026 release disclosed combined Ateko and Bell Cyber &quot;AI-powered enterprise solutions&quot; revenue up <code>29%</code>. Excluded on age - the disclosure is <code>7 Aug</code> - and because the line mixes cyber with AI and is Bell selling AI rather than deploying it.</li><li><strong>S2 retail, agentic commerce</strong> - Salesforce and Adobe figures on AI-referred traffic and AI-influenced orders. These are &quot;AI-influenced&quot; denominators, explicitly rejected by the method, and no named retailer stands behind them.</li><li><strong>S1 professional services, BPO AI</strong> - <strong>IBEX</strong>, whose CEO said Sierra AI deployments &quot;ramp from proof of concept to 20%-40% of enterprise volume almost immediately&quot;. A client-side deployment metric at unnamed clients, with no revenue attached at IBEX or at them.</li><li><strong>AI-as-customer, not AI ROI</strong> - <strong>Distribution Solutions Group</strong> citing &quot;rising AI-driven industrial power demand&quot;, <strong>Siemens</strong> on US orders up <code>54%</code> on data-centre demand, <strong>Baker Hughes</strong> on energy convergence. Real revenue from pre-existing SKUs sold to a new buyer. Not deployment ROI, by the standing rule.</li><li><strong>Counter-evidence, out of window</strong> - <strong>C3.ai</strong> FY2026 revenue <code>$250.3m</code> against <code>$389.1m</code>, a <code>35%</code> decline at the one public pure-play enterprise AI application vendor selling into utilities, energy and manufacturing. Reported <code>3 Jun 2026</code>, three months stale, so not logged - but it is the single sharpest demand-side read available on whether non-tech incumbents are buying.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Adobe</strong> Q3 FY2026, <code>10 Sep 2026</code> - out of scope as a subject; its AI-first ARR growth rate is the cleanest read on whether the AI revenue that exists is going to software vendors rather than their customers.</li><li><strong>Darden</strong>, <strong>FedEx</strong>, <strong>Nike</strong>, <strong>Accenture</strong> the week of <code>21 Sep 2026</code> - restaurants, logistics, consumer and professional services in one week. Accenture&#x27;s bookings split is the closest available read on whether AI work is new demand or rebadged.</li><li><strong>Costco</strong> Q4 FY2026, late September - the other large grocer, and the control case against Kroger&#x27;s silence.</li><li><strong>Sysco</strong> Q1 FY2027, early November - first checkpoint on the <code>~$100m</code> of in-year net cost out and on whether AI 360 ever gets a revenue number.</li><li>Q3 earnings season from mid-October - the next dense window for non-tech revenue attribution, and the first quarter in which the <code>2026</code> AI CPT codes will have been billable for three full quarters.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 2 out-of-scope findings in the appendix below. Angles run: S3 insurance: new risk classes priced and bound, S3 pharma: previously undruggable target space, S3 industrials: autonomy sold as new subscription, S3 healthcare: AI screening at new price points, S3 prof services: work never billable before, S3 banking: thin-file borrowers newly underwritten, S3 autos: AI SKU with no catalog predecessor, S2 grocery: Kroger personalization and retail media, S2 hospitality: AI yield management RevPAR uplift, S2 telecom: AI churn and upsell attribution, S1 insurance: quote-to-bind, underwriting hit rate, S1 diagnostics: Labcorp investor day AI framing, SEC full-text: AI revenue phrases, 29 Aug-11 Sep, SEC full-text: AI cost-savings phrases, 2 weeks, Counter-evidence: AI revenue lines that shrank, Counter-evidence: execs declining to quantify AI.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card candidate counter" data-shape="S3-CANDIDATE"
+  data-counter="1"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">Nano-X Imaging Ltd.</span>
+    <span class="sector">Healthcare / medical imaging · Israel</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">In its H1 2026 operating and financial review, furnished to the SEC as Exhibit 99.3 to a Form 6-K on 9 Sep 2026, Nano-X disclosed segment revenue of $2,083 thousand for AI and Software Solutions in the six months to 30 June 2026 against $273 thousand in the comparable period - stated in the filing as &quot;an increase in revenue from AI and Software Solutions during the Reported Period was $1.7 million, or 663%.&quot; The same paragraph states the increase was &quot;primarily due to the consolidation of the Nanox Health IT business, which accounted for $1.8 million of revenue in the Reported Period.&quot; Backing the acquired business out leaves roughly $0.3 million of AI and software revenue against $0.273 million a year earlier. Total company revenue was $8.467 million, up 45%, of which teleradiology services were $6.055 million and Nanox.ARC imaging systems $329 thousand. Logged as counter-evidence: the headline 663% AI growth rate is consolidation of an acquired business, not demand for AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Nanox.AI sells algorithms that re-read CT scans already taken for some other clinical reason and flag incidental findings - coronary artery calcium, vertebral compression fractures, fatty liver. The asserted new-TAM mechanism is opportunistic screening: revenue from a population nobody was screening, because no one was going to pay a radiologist to re-read a scan looking for something the referring physician did not order. Health systems pay per study analysed, and downstream they capture the follow-on care the finding generates.</dd><dt>Why this shape</dt><dd>Filed as S3-CANDIDATE and as counter-evidence to S3, not as a confirmed S3. (a) Counterfactual purchase: plausibly yes - nobody was buying a second read of an already-acquired scan - but the filing establishes none of it. (b) Prior alternative: the prior alternative was doing nothing, which is the S3 shape. (c) Capability gate: weak. Automated CT quantification of calcium scores is pre-2024 machine vision, not a frontier capability. (d) Newly economic: unproven, and this filing is the evidence against it - stripped of the Nanox Health IT consolidation the AI line is roughly $0.3m on a half-year, essentially flat year over year, which is what an unserved market that stays unserved looks like. Scope is appendix because the subject sells the AI rather than deploying it; the deploying corporations are the health systems, and none of them are named or quantified here.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/1795251/000121390026098227/ea030482601ex99-3.htm" rel="noopener">H1 2026 operating and financial review, Form 6-K Exhibit 99.3, 2026-09-09</a></dd><dt>Falsifier</dt><dd>H2 2026 or FY2026 disclosure that breaks out Nanox.AI revenue excluding Nanox Health IT and shows it still under roughly $1m annualised. If the company stops disclosing the AI and Software Solutions segment separately now that an acquisition is inside it, treat that as confirmation that the organic line is not presentable.</dd><dt>Confidence</dt><dd><strong>high</strong> — Segment table and the consolidation attribution are both in the same primary filing, retrieved and quoted verbatim this run.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Research Solutions, Inc.</span>
+    <span class="sector">Information services / research workflow software · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In its FY2026 results release, filed as an SEC Form 8-K exhibit on 9 Sep 2026 for the year ended 30 June 2026, Research Solutions disclosed &quot;Annual Recurring Revenue (ARR) up 7.8% to $22.5 million, which includes approximately $16.2 million of B2B recurring revenue and $6.3 million of B2C recurring revenue... This included AI related ARR of $0.8 million.&quot; The Q4 bullet states the same $0.8 million &quot;grew 125% sequentially from the third quarter of fiscal 2026.&quot; Total revenue was $48.3 million, down 1.5% year over year, with transaction revenue falling to $27.5 million from $30.1 million. The named AI products are Scite MCP and Article Galaxy MCP, which the company says &quot;allow researchers to utilize the unique functionality of Scite and Article Galaxy inside ChatGPT, Claude, Copilot, and any AI tools researchers already use.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>MCP connectors expose the company&#x27;s citation-analysis and document-delivery back end inside the LLM assistants researchers are already working in, so the platform is billed as a tool call rather than as a destination web app. Revenue is recurring subscription ARR from university libraries and life-science R&amp;D groups.</dd><dt>Why this shape</dt><dd>S2, not S3, and the distinction is the point. Test (b) fails for S3: the buyers are existing academic and life-science customers who were already paying for Article Galaxy and Scite, so this is a new access channel priced to the installed base, not demand that did not previously exist. Test (c) passes cleanly - an MCP server addressing ChatGPT and Claude could not have been built 24 months ago - which is exactly why capability novelty alone must never be allowed to carry an S3 call. Scope is appendix because the subject is a software vendor selling AI, not a non-tech corporate deploying it. The scale is the finding: $0.8m is 3.6% of ARR and 1.7% of revenue at a company that describes itself as &quot;the leading AI-powered research workflow platform,&quot; and total revenue still fell 1.5%.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/1386301/000110465926106331/tm2625003d1_ex99-1.htm" rel="noopener">FY2026 results release, SEC Form 8-K Exhibit 99.1, 2026-09-09</a></dd><dt>Falsifier</dt><dd>FY2027 disclosure in which AI-related ARR is not broken out, or is broken out below roughly $2 million. A line growing 125% sequentially that does not roughly triple over the following year was a launch spike, not a product.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both figures quoted verbatim from the Form 8-K exhibit retrieved this run; the ARR composition sentence is unambiguous.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
