@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-13 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-13</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log, 1 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Three findings, no confirmed S3, and the one that matters runs backwards. <strong>People Incorporated</strong> put the first hard number in this log on AI <em>subtracting</em> revenue from a non-tech incumbent: a <code>5%</code> decline in Core Sessions attributed to Google AI Overviews - filed in the same document that credits an OpenAI licensing partnership for part of a <code>$32.9m</code> increase in licensing revenue.</div>
+<p>Sunday sweep, so the trailing window holds Friday filings only. The productive move was to stop reading earnings calls and read registration statements and recast MD&amp;As, where the language is drafted by lawyers rather than by investor relations.</p>
+<h4>Sources read</h4>
+<ul><li><strong>People Incorporated</strong> - recast Item 7 MD&amp;A, Form 8-K Ex-99.1, <code>11 Sep 2026</code>. Digital advertising down <code>$5.4m</code>, or <code>1%</code>; programmatic decline driven by a <code>5%</code> Core Sessions fall attributed primarily to Google AI Overviews, with an explicit forward-looking statement that it will continue. Licensing and Other revenue up <code>$32.9m</code>, or <code>28%</code>, jointly attributed to Apple News+, syndication and a full year of OpenAI. Logged S2, counter-evidence.</li><li><strong>Rent the Runway</strong> - Q2 fiscal 2026 release, Form 8-K Ex-99.1, <code>11 Sep 2026</code>. AI outfits generation now at <code>100%</code> of customers; app engagement <code>~35%</code>; during the pilot, customers with the experience &quot;added items to their bag approximately <code>12%</code> more often than those without it&quot;. Revenue <code>$97.7m</code>, up <code>20.8%</code>, credited to assortment and membership flexibility. Logged S1.</li><li><strong>Orion180 Insurance Group</strong> - Form S-1/A, <code>9 Sep 2026</code>. <code>3.7m</code> quotes, <code>397,000</code> policies bound and <code>28,000</code> claims processed since 2021 attributed to automation and ML; <code>$76m</code> of modeled catastrophe losses against <code>$33m</code> actual since 2018; H1 revenue <code>$80.1m</code> against <code>$50.4m</code>. Underwriting segment combined ratio still <code>124.7%</code>. Logged S1, appendix.</li><li><strong>Informa</strong> - H1 2026 results statement, <code>30 July 2026</code>. Read specifically to test the widely recycled claim that Informa expects over <code>$75m</code> of AI-related revenue this year. That figure appears in no Informa document retrieved this run. What the statement actually says is that data and content &quot;continuing to attract licensing interest&quot;, and that underlying growth of <code>5.4%</code> at Taylor &amp; Francis is stated <em>excluding non-recurring data contracts</em>.</li><li><strong>Tailored Brands</strong> and <strong>Cumberland Farms</strong> - Form S-1/A and F-1/A, <code>31 Aug</code> and <code>4 Sep 2026</code>. <code>71</code> and <code>33</code> AI mentions between them, none carrying a figure.</li><li><strong>Macy&#x27;s</strong>, <strong>Zumiez</strong>, <strong>Designer Brands</strong>, <strong>Torrid</strong>, <strong>Build-A-Bear</strong>, <strong>Reformation</strong> - 10-Qs filed <code>10</code>-<code>11 Sep 2026</code>, swept in full. Every AI mention is a risk factor or a marketing-channel list. Not one number.</li><li><strong>SEC full-text search</strong> - <code>24</code> queries across <code>30 Aug</code>-<code>13 Sep</code>. &quot;AI revenue&quot; returns <code>6</code> filings for the whole of September and <strong>Wiley</strong> is still the only non-tech name among them; &quot;AI-driven revenue&quot; and &quot;attributable to artificial intelligence&quot; return zero; &quot;previously uninsurable&quot; returns zero.</li></ul>
+<div class="callout">The cross-run pattern sharpened today rather than repeating. This log has spent seven weeks asking whether incumbents can attribute revenue <em>to</em> AI. <strong>People Inc.</strong> is the first entry where an incumbent attributes revenue loss to <em>someone else&#x27;s</em> AI, with a number, in a filing - and the offsetting AI licensing line in the same P&amp;L is the one number the company declines to break out. The asymmetry is now three-sided: cost savings get quantified, revenue gains do not, and revenue losses get quantified only when a platform is the cause.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 media: publisher licensing beyond Wiley</strong> - <strong>Informa</strong> / <strong>Taylor &amp; Francis</strong>, <strong>Springer Nature</strong> - the <code>$75m</code> and <code>$10m</code> figures circulating in trade coverage trace to no primary document retrieved this run; Informa quantifies nothing and strips data contracts out of underlying growth.</li><li><strong>S3 media: the OpenAI line at People Inc.</strong> - the <code>$32.9m</code> licensing increase - jointly attributed to Apple News+, syndication and OpenAI, so no AI-attributed figure can be isolated; logging it as S3 would be exactly the S2-dressed-as-S3 error the method exists to prevent.</li><li><strong>S3 insurance: newly writeable risk classes</strong> - <strong>Orion180</strong>, <strong>Corgi</strong>, <strong>DeNexus DeRISK UWA</strong>, <strong>Sixfold</strong> - Orion180 writes ordinary homeowners where a residual market already exists, failing test (b); the others are vendor-side with no carrier confirming bound premium.</li><li><strong>S3 retail: AI-enabled SKU with no predecessor</strong> - <strong>Tailored Brands</strong> S-1/A - every mention is forward-looking, &quot;we expect these capabilities will allow us to increase awareness&quot;; an expectation is not a result.</li><li><strong>S3 industrials: autonomy as a new subscription</strong> - <strong>Caterpillar</strong> services target and CES announcements, <strong>Komatsu</strong> / <strong>EARTHBRAIN</strong> / <strong>AIM Intelligent Machines</strong> partnership - no revenue, order or subscription figure attributed to AI or autonomy, for the third consecutive run.</li><li><strong>S3 healthcare: the 2026 AI CPT codes</strong> - <code>0992T</code> for AI perivascular fat analysis, <code>0993T</code>-<code>0995T</code> for algorithmic ECG - real new billing infrastructure, but only coding-industry commentary discusses it; no named provider has yet reported revenue billed under these codes.</li><li><strong>S2 telecom: AI revenue attribution</strong> - <strong>Verizon</strong> Q2 2026 and the <code>$1bn</code>-plus Google dark-fibre agreement - AI-as-customer on a pre-existing SKU, which is explicitly out of frame for this log.</li><li><strong>S2 restaurants: voice AI ticket lift</strong> - <strong>Yum! Brands</strong> Byte, <code>900</code>-plus Taco Bell restaurants on voice AI, AI-driven A/B testing on drive-thru menu boards - rollout counts and pilot descriptions, with no ticket, check-average or sales figure attached.</li><li><strong>Counter-evidence: enterprise AI ROI studies</strong> - the <code>57%</code>-failing-to-outpace-investment study of <code>639</code> enterprise AI leaders - vendor-fielded, Tier D, and the publishing site returned HTTP 403, so not one figure could be verified against a document actually retrieved.</li><li><strong>S3 professional services, S3 banking thin-file, S3 Europe/Asia</strong> - all three angles returned vendor blogs, implementation guides and market-size projections. No named deployer, no disclosed number, nothing to reject on a substantive test.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Orion180</strong> IPO pricing - the S-1/A is on file with <code>20,000,000</code> shares and a full underwriting syndicate, so a priced deal and updated premium figures land within weeks.</li><li><strong>People Incorporated</strong> next quarterly report - the first test of whether Core Sessions keep falling, and the first chance for the company to break out the OpenAI licensing line now that it is a standalone publisher rather than an IAC segment.</li><li><strong>Rent the Runway</strong> Q3 fiscal 2026 - the first quarter fully exposed to outfits generation at <code>100%</code> rollout, and the checkpoint for this entry&#x27;s falsifier.</li><li><strong>Wiley</strong> Q2 FY2027 - management reaffirmed &quot;over $50 million in fiscal 2027&quot; against <code>$14m</code> booked in Q1 and <code>$14m</code> contracted across Q2 and Q3; this is the nearest dated test of an AI revenue target anywhere in the log.</li><li>Mid-October - Q3 earnings season opens with the US banks, the densest AI-attribution window on the calendar and the one that has produced most of this log&#x27;s cost ledger.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">People Incorporated (formerly IAC; owner of People Inc. Group, formerly Dotdash Meredith)</span>
+    <span class="sector">Media / Digital publishing · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">In a recast Management&#x27;s Discussion and Analysis filed as Exhibit 99.1 to a Form 8-K on 11 Sep 2026, People Incorporated states that fiscal 2025 digital Advertising revenue fell $5.4 million, or 1%, and that &quot;the programmatic revenue decline was due primarily to lower impression volumes driven by a 5% decline in Core Sessions, due primarily to the impact of the increasing prominence of Google AI Overviews on Google search sessions.&quot; The filing adds, on the record and forward-looking as of 11 Sep 2026: &quot;The Company expects the increasing prominence of Google AI Overviews to continue to negatively impact Core Sessions and advertising revenue.&quot; The same document reports Licensing and Other revenue up $32.9 million, or 28%, &quot;due primarily to improved performance of Apple News+ and content syndication partners and to the contribution of a full year of OpenAI revenue, a partnership which began in May 2024.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Google&#x27;s AI Overviews answers the query on the search results page, so the click that used to land on a People Inc. property never happens. Fewer sessions means fewer ad impressions, and programmatic revenue is impression-volume times rate. Higher programmatic rates and premium direct sales offset part of it; the volume loss is the AI effect. Running the other way in the same P&amp;L, AI labs became content buyers - the OpenAI partnership sits inside Licensing and Other revenue.</dd><dt>Why this shape</dt><dd>S2, tagged as counter-evidence because it is the share shape running in reverse at the incumbent. The advertiser still spends and the query still gets answered; what moved is who captures the impression - from the publisher to the platform&#x27;s own answer surface. Zero-sum at the industry level and GDP-neutral, which is exactly the S2 test, with People Inc. as the party that lost the sale and Google as the party that took it. The OpenAI licensing line is the S3-shaped offset in the same filing and is deliberately NOT logged as S3: the $32.9 million increase is jointly attributed to Apple News+, content syndication and OpenAI, so no AI-attributed figure can be isolated and test (a) cannot be scored on a number the company did not break out.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/1800227/000162828026061531/iaci-20260911_d2.htm" rel="noopener">Recast Item 7 MD&amp;A, SEC Form 8-K Exhibit 99.1, filed in connection with the IAC-to-People Incorporated renaming and the People Inc. segment recast, 2026-09-11</a></dd><dt>Falsifier</dt><dd>If People Inc. Core Sessions stabilise or grow in fiscal 2026 reporting while AI Overviews coverage keeps widening, the attribution was a convenient label for ordinary programmatic softness. In the other direction, if the company ever breaks out OpenAI licensing revenue and it exceeds the advertising loss, the net AI effect at this publisher is positive and the entry should be re-read.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A filing with an explicit causal attribution management is exposed on, but the disclosed number is a session count rather than a dollar of AI-caused revenue loss, and the period is fiscal 2025 - the document is two days old, the data is a year old.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Rent the Runway, Inc.</span>
+    <span class="sector">Retail / Apparel rental · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In its Q2 fiscal 2026 results release, filed as an SEC Form 8-K exhibit on 11 Sep 2026, Rent the Runway states that it &quot;completed the rollout of AI-powered outfits generation to all customers&quot; and reports the pilot read: &quot;Engagement with the feature in our app is running approximately 35% and during the pilot, customers with the experience added items to their bag approximately 12% more often than those without it.&quot; In the same release total revenue was $97.7 million, up 20.8% year over year, and add-on bookings were up 81%, with that growth attributed to &quot;higher subscriber engagement with our assortment and membership flexibility&quot; - not to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A generative outfitting layer on the rental catalogue assembles complete looks rather than returning individual garments, so a subscriber browsing a single dress is shown a wearable combination. The claimed effect runs through discovery: more items enter the bag per session because the customer is shown what goes together instead of having to imagine it. Avatars were added to the same surface in August 2026 and virtual try-on is in pilot.</dd><dt>Why this shape</dt><dd>S1, because the disclosed number is an input metric - add-to-bag frequency and feature engagement - not revenue. The methodology is unusually clean for this log: a with-versus-without comparison during a pilot, which is closer to a controlled read than the self-selected adopter cohorts most retailers report. But bag adds are two conversions removed from rented units and three from revenue. Revenue conversion is conspicuously absent: the same release attributes 20.8% revenue growth and 81% add-on bookings growth to assortment and membership flexibility and puts no dollar, unit or AOV figure next to AI.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/1468327/000146832726000086/q22026earningsrelease.htm" rel="noopener">Q2 fiscal 2026 results release, SEC Form 8-K Exhibit 99.1 (wording cross-checked against the GlobeNewswire rendering of the same release), 2026-09-11</a></dd><dt>Falsifier</dt><dd>Outfits generation reached 100% of customers by end-June 2026, so Q3 and Q4 fiscal 2026 are fully exposed quarters. If neither carries an AI-attributed revenue, conversion or average-order-value figure - or if revenue growth decelerates while the feature is fully deployed - the 12% pilot lift was a selection or novelty artefact that did not survive rollout.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A filing and an explicit with-versus-without construction, but both figures are hedged as &quot;approximately&quot;, no baseline or sample size is given, and the metric stops at the bag.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Orion180 Insurance Group Inc.</span>
+    <span class="sector">Insurance / Personal lines property · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In an amended Form S-1 registration statement filed 9 Sep 2026, Orion180 states: &quot;The use of automation and machine learning models in our underwriting process enables significant quote and bind throughput as we generated approximately 3,700,000 new quotes, bound approximately 397,000 new policies, and processed approximately 28,000 claims from the year ended December 31, 2021 through the six months ended June 30, 2026&quot;, and that its underwriting engine&#x27;s &quot;use of machine learning algorithms allow us to provide bindable quotes without the need for human interaction upfront.&quot; On risk selection it claims &quot;an average direct loss ratio of 36% since inception&quot; and that &quot;since 2018, we outperform external industry models for catastrophe events by more than two times, with $76 million of aggregate modeled losses as compared to $33 million of actual losses incurred.&quot; Consolidated total revenues for the six months ended 30 Jun 2026 were $80.1 million against $50.4 million, up 58.8%, with net income of $13.5 million against a $3.0 million loss. In the Underwriting segment, total revenue was $45.6 million against $32.7 million, up 39.5% - attributed in the filing to &quot;gross premiums written growth&quot;, not to the models - and the segment combined ratio was 124.7% against 158.4%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>The MY180 platform pulls 47 property and 11 personal data fields from 12 third-party data providers, plus aerial imagery and tech-enabled self-inspections, and runs proprietary ML models to predict claims frequency and severity, retention propensity and property-specific flood load factors. The output is a bindable quote produced without human review, which is what converts a data pipeline into throughput: quotes issued per unit of underwriter time rises, and human underwriters are redeployed onto portfolio-level exposure management.</dd><dt>Why this shape</dt><dd>S1: the numbers are input metrics - quotes generated, policies bound, straight-through binding without human touch. Not S3. The company writes ordinary homeowners cover in catastrophe-exposed states; the filing contains no use of the word &quot;uninsurable&quot;, and a residual or surplus-lines market already serves these buyers, so test (b) fails outright - absent Orion180 these homeowners buy from a competitor or the state pool. Scope is appendix on the Neptune precedent (logged 28 Jul 2026): this is a platform-built insurance entrant with &quot;over 40% of our workforce (including the third-party developers that we employ) dedicated to IT and data science&quot;, not an incumbent deploying AI onto an existing book. Revenue conversion is disclosed but not attributed: revenue is up 58.8% and the filing credits premium growth, not the models.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/2124472/000162828026061012/orion180-sx1a.htm" rel="noopener">Form S-1/A registration statement (preliminary prospectus), 2026-09-09</a></dd><dt>Falsifier</dt><dd>The Underwriting segment combined ratio is 124.7%. If it stays above 100% through 2027 while quote and bind throughput keeps rising, the machine-learning claim is a distribution and speed story, not the risk-selection advantage the prospectus argues for - and the 36% average direct loss ratio is a gross figure that survives only until reinsurance and expense are taken out, as the 69.6% net loss ratio in the same table shows.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Registration statement, so management is legally exposed, but every operating figure is unaudited issuer-selected marketing framing in a live IPO document, and the throughput number is a cumulative four-and-a-half-year total with no pre-AI baseline to compare against.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
