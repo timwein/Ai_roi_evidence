@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-16 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-16</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">One finding, and it is a <code>25%</code> capacity number rather than a dollar. <strong>CIBC</strong> became the first company in this log to convert a previously logged AI time-saving into a client-facing capacity figure - and still would not convert capacity into revenue. No S3. Confirmed S3 in the main log stands at <code>0</code> across <code>45</code> logged days.</div>
+<p>The sweep covered the trailing <code>48</code> hours with no gap since the last run on <code>15 Sep</code>. Live material was again conference season, not earnings season: Barclays Global Financial Services days two and three, and the Deutsche Bank Healthcare Summit.</p>
+<h4>Sources read</h4>
+<ul><li><strong>CIBC</strong> - Barclays GFS, <code>15 Sep 2026</code>. CFO Robert Sedran: <em>&quot;If an advisor could do four meetings a day with a client, now they should be able to do five.&quot;</em> Also <em>&quot;the first agentic AI solution in Canadian banking to a broad network internally.&quot;</em> No revenue, no net new assets. Logged S1, PROJECTED.</li><li><strong>M&amp;T Bank</strong> - Barclays GFS, <code>16 Sep 2026</code>. CEO Rene Jones: tech spend from about <code>$300m</code> six years ago to <code>$1.2bn</code>; releases from about <code>15,000</code> to <code>65,000</code> a year; <code>16,000</code> of <code>22,000</code> employees trained on AI. On the economics: <em>&quot;If we wake up one day and find out that you can run a bank 20% more efficient...Most likely, that goes to the customer.&quot;</em></li><li><strong>Associated Banc-Corp</strong> - Barclays GFS, <code>15 Sep 2026</code>. CEO Andy Harmening: <em>&quot;We have 30 use cases in process with AI already&quot;</em>, and one internal tool built for <code>$45,000</code> against an <code>$800,000</code> purchase price. A single-instance build-versus-buy comparison, not a cost line.</li><li><strong>American Express</strong> - Barclays GFS, <code>16 Sep 2026</code>. CFO Christophe Le Caillec mentioned AI only in the context of white-collar employment holding up. No figure, and no repeat of Squeri&#x27;s <code>$200</code>-<code>$400m</code> productivity framing logged <code>30 Jul</code>.</li><li><strong>Huntington Bancshares</strong> - Barclays GFS, <code>16 Sep 2026</code>. Neither management nor the moderator said the words artificial intelligence. Worth recording: in a week when every peer led with AI, one large regional simply did not.</li><li><strong>Centene</strong> - Deutsche Bank Healthcare Summit, <code>16 Sep 2026</code>. CFO Drew Asher on fraud and abuse: <em>&quot;using AI to very promptly identify, we create a trust factor with, I think, 70 data points.&quot;</em> No dollar attached to trend.</li><li><strong>BNY</strong> - Barclays GFS, <code>14 Sep 2026</code>, re-read for the cross-sell angle. CFO Dermot McDonogh: <em>&quot;we&#x27;ve taken $2 billion of efficiency, which...we reinvested every dollar of it back.&quot;</em> That is METHOD&#x27;s trap 2 stated outright by the CFO.</li></ul>
+<div class="callout">The pattern across three runs of conference season: banks will now quantify AI <strong>inputs</strong> - use cases, coders, trained employees, meetings per day, benefit-versus-cost roll-ups - and will not quantify AI <strong>revenue</strong>. Seven quarters into enterprise deployment, not one non-tech incumbent in this log has put a revenue number next to an AI programme on a Tier A source.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, AI-liability cover</strong> - <strong>AIG</strong>, <strong>Chubb</strong>, <strong>Travelers</strong>, <strong>W.R. Berkley</strong>, <strong>Berkshire Hathaway</strong>, <strong>Tokio Marine</strong>, <strong>Fairfax</strong> via a CSIS analysis of <code>4 Sep 2026</code> reporting <code>60</code>+ P&amp;C carriers filing AI exclusions and state regulators approving over <code>80%</code> of exclusion requests. Fails the scope test rather than an S3 test: this is AI as an insured peril, not AI as the underwriting capability METHOD&#x27;s hunting ground describes. Underlying figures also trace to <em>The Information</em> and the <em>FT</em>, not to a filing retrieved this run.</li><li><strong>S3 insurance, new SKU</strong> - <strong>Zurich Insurance</strong> Data Center Project Guard, US construction premium up <code>31%</code> to <code>$1.3bn</code> in H1 2026. Fails capability gate (c): the SKU exists because AI capex is building data centres, not because an AI capability made the risk writable. Textbook AI-as-customer.</li><li><strong>S1 healthcare, ambient scribes</strong> - <strong>Riverside Health</strong> <code>11%</code> RVU rise resurfaced in an <code>5 Aug 2026</code> trade piece. Already logged <code>2 Sep</code>; no new quarter, no restatement. Dedupe, not a test failure.</li><li><strong>S2 telecom</strong> - <strong>TELUS</strong> <code>22%</code> growth in AI-enabling revenue and a <code>$800m</code>-to-<code>$2bn</code> 2028 target. Quote traces to the <code>12 Feb 2026</code> call, far outside the window, and the revenue is sold to AI buyers - shovels, not deployment ROI. The <code>$2.1bn</code> TELUS Digital impairment is the more interesting artefact and is also five weeks stale.</li><li><strong>Cost ledger, credit bureau</strong> - <strong>Equifax</strong> doubling its AI cost-reduction target to <code>$150m</code> through 2028. Real and quantified, but announced <code>21 Jul 2026</code> with the Q2 release; stale, not new.</li><li><strong>S2 professional services</strong> - ISG&#x27;s <code>15 Sep</code> and <code>16 Sep</code> releases on healthcare revenue-cycle AI and insurer readiness. Tier D consultant material with no named deploying company. Rejected on the bar.</li><li><strong>Sweep, SEC full text</strong> - EDGAR full-text search over <code>1</code>-<code>16 Sep</code> for <em>revenue from AI</em>, <em>AI-driven revenue</em>, <em>incremental revenue from AI</em> and <em>attributable to AI</em> returned <code>0</code> non-tech operating-company hits. The phrase set is simply not in filings.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>FedEx</strong> Q1 FY2027, <code>18 Sep 2026</code> - first large logistics read of the quarter.</li><li><strong>Darden</strong>, <strong>General Mills</strong>, <strong>Lennar</strong>, <code>17</code>-<code>18 Sep 2026</code> - restaurants, CPG and housing.</li><li><strong>Accenture</strong> Q4 FY2026, around <code>24 Sep 2026</code> - the cleanest read on whether AI services demand is converting to billings.</li><li><strong>Groceryshop</strong>, Las Vegas, <code>22</code>-<code>24 Sep 2026</code> - <strong>Kroger</strong>, <strong>Sam&#x27;s Club</strong>, <strong>BJ&#x27;s Wholesale</strong>, <strong>Dollar General</strong>, <strong>Unilever</strong> and <strong>Instacart</strong> on the agenda, with a dedicated AI-powered shopping track. The best scheduled chance this month of a retailer putting a number on agentic commerce.</li><li><strong>CIBC</strong> Q4 2026, early December - the falsifier checkpoint on AdvisorAssist.</li></ul></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Canadian Imperial Bank of Commerce (CIBC)</span>
+    <span class="sector">Banking · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">At the Barclays 24th Annual Global Financial Services Conference on 15 Sep 2026, CFO Robert Sedran put the first client-facing capacity number on AdvisorAssist, the AI platform CIBC launched on 31 Jul 2026: &quot;If an advisor could do four meetings a day with a client, now they should be able to do five&quot; - a 25% uplift in advisor meeting capacity. Sedran described AdvisorAssist as &quot;really is about helping advisors prepare for meetings, helping with the meeting notes and charting notes&quot;, and said the separate internal agentic system &quot;CIBC AI internal engine that we&#x27;ve built ourselves is actually quite powerful and has been rolled out to the entire bank&quot;, the first such rollout &quot;to a broad network internally&quot; in Canadian banking. No revenue, net-new-assets, revenue-per-advisor or wealth-segment figure was attached, and the meetings number is framed as what an advisor &quot;should be able to&quot; do, not as measured throughput.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AdvisorAssist automates meeting preparation, meeting notes and charting notes for CIBC&#x27;s wealth and private-banking advisors. Documentation is the binding constraint on an advisor&#x27;s calendar, so removing it converts administrative hours into client-facing slots. The revenue path runs entirely through advisor capacity - one more meeting per advisor per day is roughly 20-25% more client contact, which is the input to advice sales and asset gathering. Nothing about what CIBC sells changes.</dd><dt>Why this shape</dt><dd>S1 on the METHOD test: the number is an input metric (meetings per advisor per day) on a revenue-producing process, not revenue. This is the follow-up checkpoint on the 29 Aug entry, where Culham disclosed AdvisorAssist cutting advisor administrative time &quot;by up to 50%&quot; with no revenue conversion. Three weeks later the bank has converted that time saving into a capacity number for the first time - which is progress along the S1 chain - but has still not converted capacity into a dollar. Revenue conversion remains conspicuously absent: no wealth-segment revenue, net new assets or revenue-per-advisor metric was offered or asked for. Status is PROJECTED, not DISCLOSED, because &quot;should be able to do five&quot; is management&#x27;s expectation of the tool, not an observed throughput measurement; a CFO would be embarrassed to walk back a measured number and would not be embarrassed to walk back this one.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/cibc-at-barclays-conference-higher-returns-steady-growth-93CH-4902086" rel="noopener">CIBC CFO Robert Sedran, Barclays 24th Annual Global Financial Services Conference, 15 Sep 2026 (date, time and speaker confirmed against CIBC&#x27;s own media advisory of 9 Sep 2026; quotes pulled verbatim from the Investing.com transcript rendering, which exists in matching US and Canadian editions), 2026-09-15</a></dd><dt>Falsifier</dt><dd>If CIBC&#x27;s Q4 2026 and FY2027 wealth disclosure shows no rise in meetings per advisor, revenue per advisor or net new assets attributable to AdvisorAssist - or if the four-to-five framing is never repeated with an actual measured figure - then both the 50% admin-time claim and this capacity claim were launch statistics rather than capacity that reached the top line.</dd><dt>Confidence</dt><dd><strong>low</strong> — Management on the record at a Tier A investor conference, verified verbatim this run, but the figure is prospective, applies to one workflow, and has no revenue attached.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
