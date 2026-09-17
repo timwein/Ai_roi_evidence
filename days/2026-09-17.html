@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-17 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-17</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log, 1 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Five findings and the best revenue-side day this log has had. <strong>AXA</strong> put a hard unit count - <code>+500k</code> new contracts - next to a named AI programme on a Tier A investor day, which no non-tech incumbent in <code>46</code> logged days had done. It is still <strong>S2</strong>: those are French motor and home policies that would otherwise have been bought from a competitor. No S3. Confirmed S3 in the main log stands at <code>0</code>.</div>
+<p>The sweep covered the trailing <code>48</code> hours with no gap since the last run on <code>16 Sep</code>. The live material was an investor day, an industrials conference and an IPO filing - not earnings. Yesterday&#x27;s catalyst list was wrong on dates: <strong>Darden</strong> reports <code>24 Sep</code> and <strong>General Mills</strong> <code>23 Sep</code>, not this week.</p>
+<h4>Sources read</h4>
+<ul><li><strong>AXA</strong> - Group Investor Day 2026 deck, <code>15 Sep 2026</code>, <code>152</code> pages, read in full. Page <code>112</code>, France appendix: the ARiANE &quot;AI-powered commercial activation engine&quot; delivered <code>+50%</code> digital-lead conversion and <code>+500k</code> new contracts across <code>22</code> motor and home use cases. Page <code>15</code>: &quot;Scaling AI across the value chain, generating EUR 500-700m recurring value by 2029&quot;, pre-tax and net of investments. Logged S2 and C4 respectively.</li><li><strong>RXO</strong> - Morgan Stanley Laguna, <code>16 Sep 2026</code>, plus its own Q2 Form 8-K deck. <code>5x</code> more spot-quote emails per day via the AI agent, digital carrier offers up <code>~25%</code>, and volume headroom of <code>15%</code>-plus on current headcount with brokerage headcount down mid-teens. Logged S1.</li><li><strong>C.H. Robinson</strong> - company newsroom, <code>10 Sep 2026</code>, on the Citi TMT and Jefferies fireside chats. Productivity up <code>60%</code> since late 2022 on under <code>$1.2m</code> a year of token spend; quote coverage from <code>60</code>-<code>65%</code> to <code>100%</code>. CFO Damon Lee: <em>&quot;I&#x27;m now getting to a third of the universe of freight that was available to me before that I never got to.&quot;</em> Logged S1.</li><li><strong>Bamboo Insurance</strong> - Form S-1/A, <code>14 Sep 2026</code>. <code>88%</code> of 2025 policies bound straight through without manual intervention; Managed Premium <code>$766m</code> from <code>$484m</code>. Logged S1, appendix.</li><li><strong>Cognex</strong> - Morgan Stanley Laguna, <code>16 Sep 2026</code>, and its Q2 8-K of <code>5 Aug 2026</code>. <code>9,000</code> new customers in 2025, about <code>3x</code> the 2024 pace, and OneVision opening inspection categories the CFO called previously unsolvable. Not logged - see near-misses.</li><li><strong>LuxExperience</strong> (Mytheresa, Net-a-Porter) - Form 20-F, <code>16 Sep 2026</code>, searched in full. Every AI mention is a risk factor. The company warns that agentic shopping could see &quot;a growing portion of customer traffic and transactions... intermediated by third-party AI platforms that we do not control.&quot; No AI revenue disclosure of any kind.</li><li><strong>SEC full-text search</strong> - <code>19</code> phrase queries over <code>8</code>-<code>17 Sep</code>. &quot;AI-driven revenue&quot;, &quot;revenue attributable to AI&quot;, &quot;incremental revenue from AI&quot;, &quot;artificial intelligence revenue&quot;, &quot;previously uninsurable&quot; and &quot;newly addressable&quot; return <code>0</code> filings between them.</li></ul>
+<div class="callout">The pattern shifted today, and in a specific direction. The first hard revenue attribution from a non-tech incumbent did not arrive in an earnings release - it arrived in a strategic-plan deck, in a country appendix, on page <code>112</code>, under a heading about delivering the <em>previous</em> plan. Companies are willing to quantify AI revenue retrospectively, as evidence they can execute, and unwilling to guide on it prospectively. <strong>AXA</strong> guides topline at &quot;&gt;5% p.a.&quot; and labels it &quot;Amplified with AI&quot; without splitting the amplification out.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 industrials, AI SKU with no catalog predecessor</strong> - <strong>Cognex</strong> OneVision, full server-rack verification at <code>100</code>-<code>200</code> inspection points, transparent-surface inspection. Fails the inclusion bar on the number-to-claim link: the newly addressable categories carry no revenue of their own, and the CEO attributes record Q2 revenue of <code>$291m</code> to &quot;a more favorable demand environment and focused execution&quot;, not to AI. Test (c) is also weak - deep-learning vision predates 24 months. The rack-verification use case is partly AI-as-customer.</li><li><strong>S2 retail, agentic commerce</strong> - <strong>LuxExperience</strong> 20-F. No number, no claim; it is a risk factor, not a finding. Worth noting as the sharpest statement yet by a luxury retailer that agentic intermediation is a threat to margin discipline rather than an opportunity.</li><li><strong>S1 logistics, GXO</strong> - Laguna, <code>16 Sep 2026</code>. Contract pipeline up to <code>$2.7bn</code> from <code>$2.3bn</code> and a robotics, AI and humanoid push. Pipeline is not revenue and none of it is AI-attributed.</li><li><strong>Counter-evidence, CEO surveys</strong> - PwC&#x27;s 2026 Global CEO Survey (<code>4,454</code> CEOs), reporting <code>56%</code> seeing neither revenue nor cost benefit from AI. Rejected twice over: it is consultant sentiment, and the figure traces to a January release, not to a document retrieved this run.</li><li><strong>S3 insurance, new risk classes</strong> - <strong>Sixfold</strong>&#x27;s AI underwriter, cited with <code>$270bn</code> of customer gross written premium and gross written premium per underwriter up to <code>30%</code>. Tier D vendor material with no deploying carrier confirming it, and the launch is <code>12 Jun 2026</code>.</li><li><strong>S3 banking, thin-file lending</strong> - Zest AI and the CU Lending Collective, with <strong>Centris Federal Credit Union</strong> citing <code>30%</code> indirect-lending growth. Fails the named-and-confirmed test: the figure is a vendor rendering, and a credit union is not a filer.</li><li><strong>AI-as-customer, excluded by scope</strong> - <strong>Cummins</strong>, <strong>Bloom Energy</strong>, <strong>Advanced Energy</strong>, <strong>Watsco</strong> at Laguna and in Q2 materials. Real money from the AI build-out, sold from pre-existing SKUs to a new buyer. Not deployment ROI.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>FedEx</strong> Q1 FY2027, <code>18 Sep 2026</code> - the large-logistics read, after two brokerage S1s logged today.</li><li><strong>General Mills</strong> Q1 FY2027, <code>23 Sep 2026</code>, and <strong>Darden</strong> Q1 FY2027, <code>24 Sep 2026</code> - CPG and restaurants.</li><li><strong>Groceryshop</strong>, Las Vegas, <code>22</code>-<code>24 Sep 2026</code> - <strong>Kroger</strong> and <strong>DoorDash</strong> are scheduled on AI-powered shopping experiences, <strong>Sam&#x27;s Club</strong> on assortment. The best scheduled chance this month of a grocer putting a number on agentic commerce.</li><li><strong>Accenture</strong> Q4 FY2026, around <code>24 Sep 2026</code> - whether AI services demand converts to billings.</li><li><strong>AXA</strong> FY2026 results, February 2027 - the first checkpoint on whether the EUR <code>500</code>-<code>700m</code> AI value gets a progress line.</li><li><strong>RXO</strong> Q3 2026, late October - the falsifier on <code>15%</code> volume headroom at flat headcount.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">AXA SA (AXA France)</span>
+    <span class="sector">Insurance · France</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In the AXA France appendix of the AXA Group Investor Day 2026 deck (15 Sep 2026), under the heading &quot;Delivering 2024-2026 plan | AI for distribution&quot;, AXA discloses that its ARiANE programme - described as an &quot;AI-powered commercial activation engine&quot; &quot;turning customer signals into &#x27;next-best offers&#x27; and prioritized sales actions&quot; - has &quot;22 Target use cases activated in motor &amp; home&quot;, a &quot;+50% Digital leads conversion rate&quot; and &quot;+500k New contracts&quot;. On the group AI page the same result appears as &quot;x1.5 conversion rate&quot; from &quot;Deployment of AI sales coach&quot;, footnoted &quot;Achievement observed within the deployment scope in at least one entity where the deployment has been completed.&quot; No euro figure is attached to the 500,000 contracts and AXA does not say over what period they were written beyond the 2024-2026 plan.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>ARiANE scores inbound and installed-base customer signals and pushes ranked next-best-offer actions to AXA France&#x27;s agent and direct channels across 22 motor and home use cases. The revenue path is ordinary funnel arithmetic: the same lead volume converts at 1.5x, and the incremental conversions accumulate as written contracts. Nothing about the underlying motor or home product changes; the AI sits entirely in targeting and sales prioritisation.</dd><dt>Why this shape</dt><dd>S2, not S1, because the disclosed figure is an output - contracts written - not only the conversion rate that produced them. Who lost the sale: French motor insurance is compulsory and home insurance near-universal, so essentially every one of those 500,000 buyers would have bought a comparable policy from a competing French insurer or bancassurer. This is share-shifting inside a mature, saturated pool and is GDP-neutral at industry level. Not S3 on test (a) - the counterfactual purchase clearly exists; not on (b) - the prior alternative was a rival policy, not going without; not on (c) - next-best-offer propensity scoring is textbook pre-2024 ML. Note the caveat AXA itself prints: the x1.5 is &quot;observed within the deployment scope in at least one entity&quot;, i.e. a best-case cut, not a group-wide average. This is nonetheless the hardest unit-count revenue attribution any non-tech incumbent has put in this log, and the first time a top-five global insurer has named a contract count next to an AI programme on a Tier A source.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www-axa-com.cdn.prismic.io/www-axa-com/Cm6LJtzT92zMmUeO_AXA_Investor_Day_2026.pdf" rel="noopener">AXA Group Investor Day 2026 presentation, p.112 (France appendix) and p.15 (group AI page), 2026-09-15</a></dd><dt>Falsifier</dt><dd>AXA France GWP and new-business contract counts through the 2027-29 plan. If ARiANE produced 500,000 incremental contracts, AXA France retail new business should visibly outgrow the French market over the plan; if AXA drops the contract count from future disclosure, or the +14% p.a. Life GWP growth guided for 2027-29e is met without any repeat AI attribution, this was a plan-launch talking point rather than a measured result.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A investor-day deck, figure read verbatim from the PDF retrieved this run, but AXA gives no euro value, no period, no incrementality test and no control group - and footnotes the conversion multiplier as a best-entity observation.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">RXO, Inc.</span>
+    <span class="sector">Logistics · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">At Morgan Stanley&#x27;s 14th Annual Laguna Conference on 16 Sep 2026, Chief Strategy Officer Jared Weisfeld said RXO &quot;can grow volume by about 15% plus based on our current headcount and how we&#x27;re leveraging our technology&quot;, with brokerage headcount down a mid-teens percentage year over year. RXO&#x27;s own Q2 2026 earnings presentation, filed as a Form 8-K exhibit on 6 Aug 2026, quantifies the underlying agents: &quot;5x more spot quote emails processed per day via proprietary AI agent&quot;, &quot;Improved AI freight matching model and user experience helped increase digital carrier offers by ~25%&quot;, &quot;~50% increase in agentic phone calls&quot; and &quot;~30% improvement in Managed Transportation workflow automation&quot;, under the header &quot;Committed to technology and AI investments with strong returns&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A freight broker&#x27;s revenue is gated by how many carrier and shipper quotes its people can touch. RXO&#x27;s spot-quote agent reads and prices inbound quote emails, the freight-matching model surfaces loads to carriers digitally, and agentic voice handles routine carrier calls. Each removes a human touch from the quoting loop, so load volume decouples from brokerage headcount. RXO says users of the AI spot quote agent showed higher gross profit per load and truckload volume than non-users, and grew truckload volume 2% year over year in Q2 while headcount fell.</dd><dt>Why this shape</dt><dd>S1: every disclosed number is an input - quotes per day, carrier offers, agentic calls, volume headroom on fixed headcount. Revenue conversion is partially disclosed and partially absent: RXO reports an 11% sequential rise in truckload gross profit per load, but attributes it to a 900bps sequential increase in spot mix, not to AI, and gives no AI-attributed revenue or gross-profit figure anywhere. The one causal revenue claim - that agent users outperform non-users on gross profit per load and volume - is made without a magnitude, which is exactly the shape of claim METHOD&#x27;s inclusion bar rejects on its own. It is logged only because the input metrics beneath it are Tier A and quantified.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/transcripts/rxo-at-morgan-stanley-laguna-conference-share-gains-lift-outlook-93CH-4904701" rel="noopener">Jared Weisfeld, Morgan Stanley 14th Annual Laguna Conference, 16 Sep 2026 (Investing.com transcript rendering); operating metrics verified verbatim in RXO&#x27;s Q2 2026 earnings presentation, Form 8-K Ex-99, 6 Aug 2026, 2026-09-16</a></dd><dt>Falsifier</dt><dd>RXO&#x27;s Q3 and Q4 2026 brokerage results. The 15%-plus volume headroom on current headcount is testable: if truckload volume growth over the next two quarters does not outpace brokerage headcount growth, the capacity claim was theoretical. Also watch whether the 5x spot-quote figure reappears in Q3 materials or quietly disappears.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The operating metrics are Tier A and verified verbatim in the SEC filing; the 15% capacity quote comes from an aggregator&#x27;s rendering of a paywalled fireside transcript and could not be checked against a primary recording this run.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">C.H. Robinson Worldwide, Inc.</span>
+    <span class="sector">Logistics · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In a newsroom post dated 10 Sep 2026 summarising its appearances at Citi&#x27;s Global TMT Conference (8 Sep) and the Jefferies Global Industrials Conference (9 Sep), C.H. Robinson states that &quot;since late 2022, productivity in C.H. Robinson&#x27;s North American Surface Transportation and Global Forwarding businesses has improved by more than 60%&quot; and that &quot;we&#x27;ve had 13 quarters in a row of truckload outgrowth and 10 consecutive quarters of beating EPS consensus&quot;, on AI token spend of &quot;less than $1.2 million&quot; annually: &quot;There is no hobby spend on AI at C.H. Robinson. Every dollar we spend on tokens, every dollar we spend on engineering capacity has a readymade high-probability ROI assigned to it.&quot; The underlying quoting metric, given at both conferences, is that the transactional-quote agent lifted response coverage from roughly 60-65% of the ~600,000 annual North American quote requests to 100%, at 31-32 seconds versus 17-20 minutes, with headroom to 6 million quotes a year without extra personnel.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Freight brokerage revenue is capped by quote coverage: a quote never answered is freight never priced. C.H. Robinson&#x27;s agent answers the whole inbound transactional-quote queue rather than the two-thirds a human desk could reach, which is why CFO Damon Lee frames it as reach rather than cost - &quot;I&#x27;m now getting to a third of the universe of freight that was available to me before that I never got to.&quot; A second agent re-prices continuously rather than on a 30-90 day cycle, which the company says lifted repricing acceptance to 93% from roughly 50%.</dd><dt>Why this shape</dt><dd>S1: the numbers are coverage, latency and capacity - inputs on a revenue-producing process - not attributed revenue. Revenue conversion is claimed but not quantified: the company links Lean AI to 13 straight quarters of truckload outgrowth, i.e. share gain, without isolating how much of that outgrowth the agents produced. Note the ledger call - the same programme carries a genuine cost story (gross profit per employee up 60%, North American surface transportation headcount down ~30%) and is logged once, here, because the entry is about quote coverage, not headcount. Age noted: the disclosures are 7-9 days old, outside the trailing 48 hours, and are logged as a strong unlogged finding from the past two weeks.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.chrobinson.com/en-us/about-us/newsroom/news/2026/ch-robinson-highlights-key-themes-from-recent-investor-conferences/" rel="noopener">C.H. Robinson newsroom, &quot;Key Themes from Recent Investor Conferences&quot;, 10 Sep 2026 (quoting coverage figures corroborated in FreightWaves&#x27; report of the Citi TMT session, 8 Sep 2026, and the Jefferies fireside rendering, 9 Sep 2026), 2026-09-10</a></dd><dt>Falsifier</dt><dd>Truckload volume growth versus market in Q3 and Q4 2026. If 100% quote coverage really opened a third more addressable freight, the outgrowth streak should extend and gross profit dollars should rise, not just gross profit per employee. A quarter where productivity is again cited but the outgrowth streak breaks would mean the agents bought efficiency, not reach.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Company-issued and dated, with the productivity, token-spend and outgrowth figures verbatim from the page retrieved this run; the 600k-to-6m quoting headroom traces to conference renderings rather than to a filing, so it is treated as supporting colour.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Bamboo Insurance Services, Inc.</span>
+    <span class="sector">Insurance · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">In an amended Form S-1 filed 14 Sep 2026, the California homeowners MGU Bamboo states: &quot;For the year ended December 31, 2025, an average of 88% of our policies converted from quote to bind through straight-through processing without manual intervention&quot;, that it delivers &quot;over 75% of quotes that can be bound as of February 2026&quot;, and that its platform produces &quot;approximately 85% straight-through processing, bindable quotes in less than five minutes, which we believe far outperforms industry norms&quot;. Over the same period Managed Premium &quot;grew to $766 million from $484 million&quot;, a 58% increase, MGU segment revenue grew 68%, and Attritional Claims Frequency fell from 4.0% in Q1 2023 to 2.0% in Q2 2026.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Bamboo scores each submission against &quot;over 200 granular datapoints&quot; at address level, including an &quot;AI-powered platform that converts aerial imagery into true roof-condition insights&quot; that replaces roof-age proxies, then routes the risk to whichever of its programmes can take it. Because aggregation is managed in real time, the platform can return a bindable quote instead of declining after an agent has already invested time - which is the actual revenue mechanism, since a declined submission is a lost sale and a lost agent relationship.</dd><dt>Why this shape</dt><dd>Appendix on scope, consistent with the Neptune (28 Jul) and Orion180 (13 Sep) precedents: Bamboo is a technology-first insurance entrant, not an incumbent deploying AI, and describes itself as &quot;a tech- and data-enabled MGU&quot;. S1, not S3, despite the tempting setting. Test (b) fails: California homeowners who could not get private cover had the FAIR Plan, and Bamboo&#x27;s own DIC products are sold explicitly as a wrap around it - a prior alternative existed. Test (c) fails harder: aerial-imagery roof scoring and CAT aggregation modelling are not capabilities that appeared in the last 24 months. What Bamboo actually has is superior risk selection into a market incumbents cannot rebalance because California restricts non-renewals - a regulatory arbitrage amplified by analytics, not new demand. Revenue conversion is disclosed in the same document (58% premium growth) but Bamboo attributes it to the technology platform in general, never isolating the AI component.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0002125355/000162828026061664/bambooinsuranceservicesinc.htm" rel="noopener">Bamboo Insurance Services, Inc., Form S-1/A, 2026-09-14</a></dd><dt>Falsifier</dt><dd>The 88% straight-through quote-to-bind rate and the loss ratio in post-IPO reporting. If straight-through processing is real underwriting rather than speed theatre, attritional loss ratio should hold as Managed Premium scales past $1bn. A rising attritional loss ratio alongside a rising bind rate would mean the platform is binding business it should have declined.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A registration statement with liability attached and figures read verbatim from the filing, but every number is management&#x27;s own framing in a document written to sell shares, and the AI contribution is never separated from the wider platform.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">AXA SA</span>
+    <span class="sector">Insurance · France</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">At its Investor Day on 15 Sep 2026 AXA launched its 2027-2029 plan &quot;Growing Forward&quot; and put a number on AI for the first time: &quot;Scaling AI across the value chain, generating EUR 500-700m recurring value by 2029&quot;, footnoted &quot;Expected, pre-tax, allocated within the three pillars of the plan and net of investments.&quot; The figure is repeated on the plan summary page as &quot;EUR 500-700m recurring AI value from 2029&quot; alongside topline growth of &quot;&gt;5% p.a. CAGR 2026-29e&quot;, a P&amp;C combined ratio of &quot;ca. 91%&quot; and an expense-ratio improvement of &quot;ca. -90bps&quot;. AXA also discloses &quot;80% of employees using AI regularly&quot; and &quot;~70% AI-ready core insurance systems&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AXA allocates the AI benefit across its three plan pillars - growth, technical excellence and efficiency - naming an AI sales coach, end-to-end AI call and email answering, the Photon pricing engine, an AI underwriting cockpit, AI fraud detection and claims-recovery automation. The stated cost mechanisms are a ca. -90bps non-commission expense ratio and a -40bps loss ratio from claims-cost savings by 2029.</dd><dt>Why this shape</dt><dd>C4 - non-tech, non-engineering - but flagged hard on METHOD trap 3: &quot;recurring value&quot; is a company-defined composite. AXA explicitly says it is &quot;allocated within the three pillars&quot;, one of which is Growth, so the number mixes revenue uplift, loss-ratio improvement and expense reduction and AXA does not split it. It is also net of investments, which is better practice than most - the run-cost offset (trap 6) is at least nominally handled. Logged here rather than in the revenue ledger because the headline number is a value construct, not attributed revenue; the revenue-shaped part of the same investor day is logged separately as the AXA France ARiANE entry, which is a distinct disclosure with its own figures.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www-axa-com.cdn.prismic.io/www-axa-com/Cm6LJtzT92zMmUeO_AXA_Investor_Day_2026.pdf" rel="noopener">AXA Group Investor Day 2026 presentation, p.15, p.24 and p.73, 2026-09-15</a></dd><dt>Falsifier</dt><dd>AXA&#x27;s FY2027 and FY2028 results. A EUR 500-700m pre-tax benefit is roughly 5-8% of group underlying earnings, so if it is real it must show up as a named line in the plan-progress reporting. If the 2027 or 2028 results give no AI progress figure, or the expense ratio and loss ratio move as guided with no AI attribution, the number was a plan-launch framing device.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A, verbatim from the deck retrieved this run, and unusually explicit about being pre-tax and net of investment - but it is a 2029 target for a composite AXA declines to decompose.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
