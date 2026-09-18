@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-18 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-18</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log, 1 in the appendix.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings, no S3, and the most useful thing today is a negative: <strong>Informa&#x27;s</strong> widely-cited <code>$75m</code> 2026 AI-licensing number does not exist in Informa&#x27;s own accounts. Confirmed S3 in the main log stays at <code>0</code> after <code>47</code> logged days. The revenue-side finding is <strong>Ford</strong> - a real disclosure, but an S2 that fails the capability gate on inspection.</div>
+<p>No gap since the last run on <code>17 Sep</code>; the sweep covered the trailing <code>48</code> hours, with one in-window conference restatement pulling in a first disclosure from <code>8 Sep</code>.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Ford</strong> - Morgan Stanley Laguna, <code>17 Sep 2026</code>, and Goldman Sachs Communacopia, <code>8 Sep 2026</code>, both read. Integrated Services president Mike Aragon: <code>530,000</code> BlueCruise subscribers on a <code>1.5m</code> install base, up <code>40%</code>; <code>200,000</code> of them subscribing after the bundled trial ends, up <code>170%</code>; <code>1.6m</code> total paid subscribers; blended ARPU <code>$14</code> a month; contribution margins <em>&quot;over 50%&quot;</em>. Logged <strong>S2</strong>.</li><li><strong>Informa</strong> - H1 2026 results statement, <code>30 Jul 2026</code>, read in full against the aggregator claim. Informa gives <strong>no</strong> 2026 AI or data-licensing revenue figure. The <code>$75m+</code> figure circulating as a 2026 expectation is Informa&#x27;s own description of <em>2024</em> non-recurring data access revenues, which its <code>2025</code> results say were <em>lower</em>. Not logged - see near-misses.</li><li><strong>Salesforce</strong> - Q2 FY2027 release, <code>26 Aug 2026</code>, restated at Dreamforce on <code>16 Sep</code>. Agentforce ARR <em>&quot;exceeded $1.5 billion, up over 240% Y/Y&quot;</em>; with Data 360, <em>&quot;nearly $3.9 billion&quot;</em>. Same page: <em>&quot;Effective Q2 FY27, Agentforce ARR includes our AI offerings, Slackbot and Headless 360.&quot;</em> Logged <strong>appendix S2</strong>, <code>23</code> days old, with the redefinition flagged.</li><li><strong>AutoNation</strong> - Morgan Stanley Laguna, <code>17 Sep 2026</code>. AI in call handling, collections and back office; CFO Tom Szlosek: <em>&quot;we look for tangible impacts of AI&quot;</em> and <em>&quot;there&#x27;s probably a lot more that we&#x27;re scratching the surface on.&quot;</em> No number, so no entry.</li><li><strong>EMCOR</strong>, <strong>Ingersoll Rand</strong> - Laguna, <code>17 Sep 2026</code>. Read and rejected as AI-as-customer.</li></ul>
+<div class="callout">The pattern across three runs: incumbents are getting comfortable disclosing AI <em>units</em> - contracts, subscribers, meetings, quotes - and remain unwilling to disclose AI <em>dollars</em>. <strong>AXA</strong> gave <code>+500k</code> contracts, <strong>CIBC</strong> gave a meeting-per-day count, <strong>Ford</strong> gives subscriber counts and an ARPU but no Integrated Services revenue line. The vendors, meanwhile, give dollars to two decimal places. That asymmetry is itself the finding: the money is legible where it is being spent and illegible where it is supposedly being earned.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S2 media: AI licensing as a new revenue line</strong> - <strong>Informa</strong>/<strong>Taylor &amp; Francis</strong>, via a scholarly-publishing aggregator asserting <em>&quot;expects total AI-related revenue across its portfolio to exceed $75 million for the year&quot;</em>. Failed verification: the figure is nowhere in Informa&#x27;s H1 2026 statement, which discloses only that H1 growth of <code>5.4%</code> <em>excludes</em> non-recurring data contracts. The aggregator has re-dated a <code>2024</code> comparative as a <code>2026</code> expectation. This is the exact failure METHOD&#x27;s verify-against-a-fetched-document rule exists to catch.</li><li><strong>S2 grocery/CPG: retail media, personalisation</strong> - AI-cart study reporting <code>32%</code> higher spend and <code>25%</code> more items over <code>12,418</code> sessions. Failed the named-company test: the deploying retailer is <em>&quot;a major German supermarket chain&quot;</em>. <strong>Kroger&#x27;s</strong> Precision Marketing profit <code>+24%</code> failed attribution - it is a retail-media result with no AI attribution offered by Kroger.</li><li><strong>S2 hospitality: AI revenue management uplift</strong> - a <code>5-8%</code> revenue uplift attributed to <strong>Hilton&#x27;s</strong> dynamic pricing. Tier D vendor-adjacent blog, no Hilton confirmation, no retrievable primary. Dropped.</li><li><strong>S3 industrials / AI-as-customer</strong> - <strong>EMCOR</strong> (<code>18.3%</code> H1 organic growth, data-centre electrical revenue <code>+45%</code>), <strong>TE Connectivity</strong> (<code>$3bn</code> AI cloud revenue target pulled forward), utilities&#x27; <code>$240bn</code> 2026 capex. Real money, pre-existing SKUs, new buyer. Not AI ROI on deployment.</li><li><strong>S3 lending: thin-file borrowers newly approvable</strong> - the mechanism is real and would be textbook S3 if quantified, but no named lender disclosed incremental approvals or volume. Nothing to log.</li><li><strong>S3 prof services: work never billable before</strong> - <strong>ISG</strong> AI revenue <code>$26m</code>, <code>+64%</code>, <code>37%</code> of H1 firmwide revenue. Out of scope as subject (advisory firm selling AI services) and the disclosure is from early August, outside the window. Held for the appendix if it recurs.</li><li><strong>Counter: null studies, non-quantifiers</strong> - <strong>NVIDIA&#x27;s</strong> <code>88%</code>-see-revenue-impact figure, <strong>Grant Thornton&#x27;s</strong> <code>58%</code> vs <code>15%</code>, <strong>Deloitte</strong> and <strong>McKinsey</strong> waves. All sentiment surveys; Grant Thornton is already logged. Padding, not evidence.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>General Mills</strong> Q1 FY2027 - <code>23 Sep 2026</code>.</li><li><strong>Darden Restaurants</strong> Q1 FY2027 - <code>24 Sep 2026</code>, Rick Cardenas and Raj Vennam.</li><li><strong>Accenture</strong> Q4 FY2026 - <code>25 Sep 2026</code>. Out of scope as subject, but its bookings commentary is the best single read on what non-tech clients are actually buying.</li><li><strong>UiPath</strong> investor day - <code>22 Sep 2026</code>, appendix comparator only.</li><li><strong>FedEx</strong> Q1 FY2027 - later than usual this year; confirm the date rather than assuming the mid-September slot.</li><li><strong>Ford</strong> Q3 2026 earnings, late October - the checkpoint for whether the <code>200,000</code> post-trial BlueCruise cohort is disclosed again.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Ford Motor Company</span>
+    <span class="sector">Autos · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">Mike Aragon, President of Ford Integrated Services, gave the first full subscriber-and-ARPU disclosure for Ford&#x27;s software services business at the Goldman Sachs Communacopia + Technology Conference (8 Sep 2026) and repeated it at Morgan Stanley&#x27;s 14th Annual Laguna Conference (17 Sep 2026): &quot;530,000 total BlueCruise subscribers, up 40% year over year&quot; against a &quot;1.5 million&quot; vehicle install base; &quot;200,000&quot; of those subscribe after the bundled trial ends, up 170% year over year; &quot;1.6 million paying subscribers after vehicle purchase, excluding bundled trials&quot; across the whole platform, including &quot;900,000 Ford Pro commercial subscribers, up 20% year over year&quot;; blended ARPU across Ford Pro and retail of &quot;$14&quot; a month; and on margins, &quot;our margins are very healthy. They are very much in line with what you would expect in a SaaS business. Contribution margins are over 50%.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>BlueCruise is a paid hands-free highway driving subscription sold on top of the vehicle. The AI is the perception-and-control stack; the revenue mechanism is the conversion of a bundled trial into a recurring paid subscription on an already-sold car, plus Ford Pro Intelligence telematics at $10 a month into commercial fleets. Revenue is subscriber count times price, at above-50% contribution margin, on hardware the customer already owns.</dd><dt>Why this shape</dt><dd>S2, not S3, and the distinction is the point. (a) Counterfactual purchase: a buyer who wants hands-free highway driving could buy GM Super Cruise or Tesla&#x27;s driver-assist subscription instead - the demand pre-exists and is contested. (b) Prior alternative: paid competitor products, not nothing. (c) Capability gate: BlueCruise shipped in 2021, so it does not require any capability absent 24 months ago; this fails the gate cleanly. (d) Newly economic: no - the segment was already served. What is genuinely new is the disclosure quality, not the shape: a non-tech incumbent putting subscriber count, growth, ARPU and contribution margin on one slide is rare in this log. Note also this is a volume-and-price disclosure, not an attributed revenue figure - Ford did not give a dollar revenue line for Integrated Services at either event.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/transcripts/ford-at-morgan-stanleys-14th-annual-laguna-conference-software-push-93CH-4906126" rel="noopener">Mike Aragon, Goldman Sachs Communacopia + Technology Conference, 8 Sep 2026 (first disclosure), restated at Morgan Stanley&#x27;s 14th Annual Laguna Conference, 17 Sep 2026; Investing.com transcript renderings of both events retrieved, plus an independent MarketBeat/DailyPolitical rendering of the Laguna session carrying identical figures, 2026-09-17</a></dd><dt>Falsifier</dt><dd>The 200,000 post-trial subscribers is the load-bearing number: it is the only one that measures willingness to pay rather than trial bundling. If post-trial subscribers stop being disclosed, or their 170% growth decays toward the 40% headline rate while the install base keeps growing, the trial funnel is doing the work and the product-market-fit claim fails. Equally: if Ford never converts these counts into a disclosed Integrated Services revenue and margin line in a 10-K segment note, it stays a conference talking point.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures cross-checked across three independent renderings of two separate events and internally consistent (530k of a 1.5m install base; 200k of the 530k post-trial). Downgraded from high because every rendering retrieved is a third-party transcript summary rather than a Ford-issued document, and the renderings differ slightly in whether the 200,000 cohort is described as &#x27;post-trial&#x27; or &#x27;post-purchase&#x27;.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Salesforce, Inc.</span>
+    <span class="sector">Software · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In its Q2 FY2027 results (26 Aug 2026), restated to investors at Dreamforce on 16 Sep 2026, Salesforce disclosed that &quot;Agentforce ARR exceeded $1.5 billion, up over 240% Y/Y&quot; and that &quot;Agentforce and Data 360 annual recurring revenue (&quot;ARR&quot;) reached nearly $3.9 billion, up over 210% Y/Y&quot;, on total quarterly revenue of $11.3 billion. The same release carries the definition change that produces part of the growth rate: &quot;Effective Q2 FY27, Agentforce ARR includes our AI offerings, Slackbot and Headless 360.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Agentforce is sold as consumption-priced AI agents on top of an existing Salesforce subscription. The revenue is the vendor&#x27;s own sales of AI capability, not ROI on AI the vendor deployed in its own revenue-producing processes.</dd><dt>Why this shape</dt><dd>Appendix: the subject is a software vendor, out of scope for the revenue log under METHOD&#x27;s &#x27;shovels&#x27; exclusion, and is logged here only as a comparator for what incumbents will and will not quantify. S2 rather than S3: Agentforce ARR is displacing spend that buyers would otherwise put into competing automation, CRM add-ons or services headcount - the counterfactual purchase exists, so this reallocates rather than creates demand. The `240%` growth rate is not comparable to the prior year&#x27;s because Salesforce moved the goalposts in the same quarter it reported: Slackbot and Headless 360 were folded into the Agentforce ARR definition effective Q2 FY27, and the release does not size the reclassification.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.salesforce.com/news/press-releases/2026/08/26/fy27-q2-earnings/" rel="noopener">Salesforce Q2 FY2027 results press release, 26 Aug 2026 (numbers restated at the Dreamforce 2026 investor session, 16 Sep 2026), 2026-08-26</a></dd><dt>Falsifier</dt><dd>If Salesforce does not restate the prior-year Agentforce ARR base on the new definition, or quietly widens the definition again next quarter, the growth rate is a metric-construction artefact. The harder test: total subscription revenue grew 12% while the AI line grew 240% - if the AI number keeps compounding without total subscription growth accelerating, Agentforce is cannibalising existing Salesforce spend rather than adding to it.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures verbatim from the company&#x27;s own release, retrieved this run; the definition-change footnote is on the same page. Confidence is capped at medium precisely because the metric was redefined in the quarter being reported.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
