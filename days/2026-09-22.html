@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-22 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-22</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings and the day&#x27;s lead is a walk-back. <strong>TELUS</strong> put <code>22%</code> AI-enabling revenue growth and a circa-<code>$2bn</code> 2028 AI target on the record on <code>8 May</code>, then impaired the TELUS Digital unit by <code>$2.1bn</code> on <code>31 Jul</code> and cut guidance - the cleanest quantified reversal of an AI revenue claim this log has recorded. No S3. Confirmed S3 in the main log stays at <code>0</code> after <code>51</code> logged days.</div>
+<p>No gap since the last run on <code>21 Sep</code>. Tuesday of the first September-quarter week, with <strong>AutoZone</strong> reporting this morning and <strong>Groceryshop</strong> opening in Las Vegas. <code>21</code> angles run, <code>11</code> of them S3-weighted.</p>
+<h4>Sources read</h4>
+<ul><li><strong>TELUS</strong> - Q1 2026 release (<code>8 May</code>) and Q2 2026 release (<code>31 Jul</code>), both from telus.com, plus the Q2 MD&amp;A filed as a Form 6-K exhibit and the Q2 call transcript. May: <em>&quot;Our AI-enabling capabilities delivered strong double-digit growth of 22 per cent&quot;</em> and <em>&quot;our target of circa $2 billion in 2028&quot;</em>. July: a <em>&quot;pre-tax, non-cash intangible asset and goodwill impairment of $2.1 billion&quot;</em> on the TELUS Digital cash-generating unit, service-revenue guidance cut from <code>2-4%</code> growth to <em>&quot;flat to negative 2 per cent&quot;</em>, and a <code>55%</code> dividend reset. CFO Gopi Chande: <em>&quot;customer adoption is slower than we previously modeled as sales cycles have extended and deal sizes have compressed.&quot;</em></li><li><strong>Costco</strong> - Q3 FY2026 call (<code>28 May</code>), transcript read in full, with the carousel figure cross-checked against two trade renderings. CFO Gary Millerchip on generative search: <em>&quot;We are now leveraging AI to enhance our product pages online, which in turn is increasing our relevance with the large language models&quot;</em>, with <em>&quot;triple digit growth in Q3&quot;</em> in AI-sourced traffic at <em>&quot;the highest conversion rate of all traffic coming to our site&quot;</em> - and no dollars attached to any of it.</li><li><strong>AutoZone</strong> - Q4 FY2026 release, Form 8-K exhibit <code>99.1</code> filed today, <code>22 Sep 2026</code>, full text extracted. <code>$6.59bn</code> of quarterly net sales, domestic commercial up <code>8.6%</code>, and artificial intelligence appears <code>zero</code> times. Not once, not even in the risk factors.</li><li><strong>Informa</strong> - H1 2026 results statement, <code>30 Jul 2026</code>, read in full. Group revenue <code>£2,063.8m</code>. On licensing: <em>&quot;we are exploring a range of opportunities both with AI companies and other corporates&quot;</em> - no figure. The <code>$75m</code> AI-revenue number circulating in aggregator coverage is a <strong>2024</strong> non-recurring data-licensing figure, not a 2026 AI disclosure.</li><li><strong>Grant Thornton</strong> - insurance cut of the 2026 AI Impact Survey, <code>21 Apr 2026</code>, retrieved and cross-checked against Insurance Journal. <code>52%</code> of <code>100</code> insurance executives report AI-enabled revenue growth.</li><li><strong>SEC EDGAR full-text</strong>, <code>19</code>-<code>22 Sep 2026</code>. <em>&quot;AI-related revenue&quot;</em>, <em>&quot;revenue from AI&quot;</em>, <em>&quot;AI-enabled revenue&quot;</em>, <em>&quot;AI-driven revenue&quot;</em> and <em>&quot;incremental revenue from AI&quot;</em> all returned <code>0</code>. Of the <code>24</code> 8-K filings mentioning artificial intelligence on <code>21</code>-<code>22 Sep</code>, the entity list is AMC, Algorhythm, Host Digital, D-Wave and a tail of microcaps and blank-cheque vehicles. The only operating names of any size are <strong>Cognex</strong>, <strong>FB Financial</strong> and <strong>National CineMedia</strong>, one mention each.</li></ul>
+<div class="callout">The pattern this run adds, and it is a new one: AI&#x27;s first clearly measurable revenue effect on a non-tech incumbent was <em>negative</em>. TELUS Digital did not miss an AI opportunity - its hyperscaler clients used AI to stop buying content moderation, ad relevancy and search work. The same technology that was supposed to open a line closed the one underneath it, and faster.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, AI performance guarantees</strong> - Munich Re aiSure, Mosaic&#x27;s <code>EUR/USD/CAD 15m</code> capacity line, Armilla, Testudo. A genuine new risk class, and still not one disclosed premium figure from any carrier. Fails the inclusion bar at point 2: no number, no on-the-record materiality statement.</li><li><strong>S3 healthcare, 2026 AI CPT codes</strong> - <code>288</code> new CPT codes effective <code>1 Jan 2026</code> including AI-augmented imaging and diagnostics. The capability gate and newly-economic tests plausibly pass; no named provider or payer has disclosed revenue against them. No subject, so no entry.</li><li><strong>S3 media, AI content licensing</strong> - <strong>Informa</strong> and <strong>Taylor &amp; Francis</strong> checked against the primary H1 statement after aggregator coverage asserted <code>$75m+</code> of AI revenue. The figure is a 2024 non-recurring data-licensing number. Rejected on verification, which is the point of fetching the filing.</li><li><strong>S3 agriculture, per-acre AI subscriptions</strong> - <strong>Bayer</strong>&#x27;s <code>250m</code> subscribed acres and <strong>Deere</strong>&#x27;s <code>300m+</code> engaged acres. Adoption denominators, not revenue; and Deere&#x27;s velocity claim is already logged from the Q3 FY2026 call.</li><li><strong>S3 lending, thin-file borrowers</strong> - approval-rate lifts of <code>18-32%</code> and <code>27%</code> circulating across vendor blogs, with no named lender and no originations volume. Tier D, sole basis, rejected.</li><li><strong>S2 retail, agentic commerce</strong> - <strong>Walmart</strong>, <strong>Target</strong>, <strong>Etsy</strong> and <strong>Instacart</strong> all live on AI shopping surfaces; Target says external AI traffic is growing but <em>&quot;still small&quot;</em>. Nobody has sized it. Costco&#x27;s triple-digit traffic growth is the most concrete number in the category and it is still an input metric.</li><li><strong>S2 grocery, Groceryshop day one</strong> - <strong>Kroger</strong>&#x27;s Yael Cosset on the main stage at <code>11:30</code>, <strong>Morrisons</strong> rolling Gemini-powered Product Finder to <code>200+</code> stores with <code>50,000</code> daily peak searches. Deployment scale, zero revenue attribution.</li><li><strong>S1 retail, AutoZone</strong> - the only large non-tech Tier A print in the trailing 48 hours, and it contains no AI at all. Logged in the assessment as a documentary negative, not as an entry.</li><li><strong>Counter, Meta Project OT</strong> - resurfaced through a TechCrunch AI-graveyard roundup. Already logged <code>31 Aug</code> from the Reuters original. Duplicate, skipped.</li><li><strong>Counter, PwC 2026 AI performance study</strong> - <em>&quot;three-quarters of AI&#x27;s economic gains captured by 20% of companies&quot;</em>. Consultant study, April vintage, dispersion not attribution. Fails the sentiment-versus-results test.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>24 Sep 2026</code> - <strong>Costco</strong> Q4 FY2026. Direct test of today&#x27;s S1 entry: does the AI-search channel survive into a second quarter of prepared remarks, and does anyone size it.</li><li><code>24 Sep 2026</code> - <strong>Darden Restaurants</strong> Q1 FY2027, first restaurant print of the season.</li><li><code>22</code>-<code>24 Sep 2026</code> - <strong>Groceryshop</strong>, Las Vegas. Kroger, Instacart, DoorDash on stage; the one venue this week where a grocer might attach a number to an assistant.</li><li><code>5 Oct 2026</code> - <strong>Deutsche Telekom</strong> capital markets day, which the company has said will detail its AI financials for the first time. The nearest scheduled chance of a European telecom putting an AI revenue line on the record - and the direct comparator to today&#x27;s TELUS entry.</li><li>Early-to-mid <code>Oct 2026</code> - Q3 bank and P&amp;C insurance calls. The falsifier on today&#x27;s Grant Thornton entry resolves here: <code>52%</code> of insurance executives claiming revenue growth should be visible as premium dollars, or it is belief.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">TELUS Corporation</span>
+    <span class="sector">Telecom · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">In its Q1 2026 results release (8 May 2026) TELUS told investors &quot;Our AI-enabling capabilities delivered strong double-digit growth of 22 per cent&quot; and reaffirmed &quot;our target of circa $2 billion in 2028 across TELUS Digital and TELUS Business Solutions&quot;, citing its Rimouski Sovereign AI Factory as &quot;sold out&quot;. Twelve weeks later, in the Q2 2026 results release (31 Jul 2026), TELUS recorded a &quot;pre-tax, non-cash intangible asset and goodwill impairment of $2.1 billion in the second quarter, reflecting a reduction in the recoverable amount of the TELUS Digital cash-generating unit&quot;, cut FY2026 consolidated service revenue guidance from 2-4% growth to &quot;a range of flat to negative 2 per cent&quot;, and reset the quarterly dividend by 55%. On the accompanying call CFO Gopi Chande attributed the write-down to legacy hyperscaler work being automated away faster than modelled and to AI demand arriving slower than modelled: &quot;customer adoption is slower than we previously modeled as sales cycles have extended and deal sizes have compressed.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>TELUS built an &quot;AI-enabling capabilities&quot; revenue line out of TELUS Digital (AI data annotation, complex AI datasets, CXAI) plus TELUS Business Solutions and sovereign AI compute. Two forces ran against it in the same quarter. First, the demand side arrived late: enterprise buyers of complex AI datasets lengthened sales cycles and shrank deal sizes. Second - the more interesting one - AI destroyed the incumbent revenue underneath it. Hyperscale clients automated the content moderation, ad relevancy and search-related work TELUS Digital used to perform for them, so the same technology that was supposed to open a new line closed an old one faster.</dd><dt>Why this shape</dt><dd>Counter-evidence, tagged S2 because the 22% growth and the circa-$2bn 2028 target are attributed incremental revenue on services sold into existing customer relationships, which is the shape being contradicted. Subject is in scope: TELUS Corporation is a telecom incumbent, a sector METHOD lists as In, and the disclosure is at group level. The tension is real and worth stating - TELUS Digital is itself an IT-services business, so part of this is a vendor&#x27;s own sales rather than deployment ROI - but the impairment, the guidance cut and the dividend reset are group-level Tier A facts about a telecom. Note also that the sovereign AI factory line is AI-as-customer, not AI ROI on deployment, and should not be counted as either. This is the cleanest walk-back the log has yet recorded: a specific quantified AI revenue trajectory put on the record in May and impaired by `$2.1bn` in July, by the same management, eighty-four days apart.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.telus.com/en/about/news-and-events/media-releases/telus-reports-second-quarter-2026-financial-and-operational-results-and-resets-quarterly-dividend-to-support-deleveraging-and-fuel-long-term-growth" rel="noopener">TELUS Q1 2026 results news release (8 May 2026) and Q2 2026 results news release (31 Jul 2026), both retrieved from telus.com this run; Q2 2026 MD&amp;A (SEC Form 6-K exhibit) also read; CFO quote from the Q2 2026 earnings call transcript, 2026-07-31</a></dd><dt>Falsifier</dt><dd>TELUS restoring AI-enabling revenue growth to the low-20s percent and reaffirming circa `$2bn` for 2028 at the Q3 2026 call, with the sovereign AI factory roadmap promised for Q3 delivered and quantified. That would make this a timing artifact rather than a broken thesis. Conversely, a second impairment, or the quiet disappearance of the 2028 AI target from prepared remarks, confirms it.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both figures verified verbatim against TELUS&#x27;s own releases retrieved this run; the impairment is an audited-period accounting event, not a narrative claim.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Grant Thornton 2026 AI Impact Survey - insurance cut (n=100 of 950)</span>
+    <span class="sector">Insurance / Cross-sector · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">The insurance cut of the same 950-leader survey already in this log reports that `52%` of insurance executives &quot;report AI-enabled revenue growth&quot;, against `62%` reporting improved decision-making insights and `50%` reporting cost reduction. Insurance Journal&#x27;s rendering (30 Apr 2026): &quot;52% of insurance execs said AI has driven revenue growth.&quot; Survey fielded 23 Feb - 18 Mar 2026; insurance report published 21 Apr 2026; insurance subgroup n=100.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment finding. A base-rate measurement of self-reported revenue attribution in the sector this log samples most heavily, from the same instrument whose manufacturing cut is already logged.</dd><dt>Why this shape</dt><dd>Logged primarily to correct a selection bias in this log. On 2026-07-27 the manufacturing cut of this survey was logged because its zero cut against Grant Thornton&#x27;s commercial interest; keeping the negative cut of an instrument and discarding the positive cut of the same instrument is exactly the bias this log exists to avoid. Three warnings travel with it. First, the two cuts are NOT on the same scale: manufacturing&#x27;s zero was on &quot;significant revenue uplift&quot;, insurance&#x27;s `52%` is unqualified &quot;revenue growth&quot; with no magnitude threshold, so reading this as 0% versus 52% is an error. Second, this figure runs WITH Grant Thornton&#x27;s interest, the opposite of the manufacturing entry&#x27;s justification for admitting Tier D. Third, it is self-reported attribution by executives with no counterfactual, which is the weakest evidence class in this log.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://www.grantthornton.com/insights/survey-reports/insurance/2026/insurance-insights-2026-ai-impact-survey-report" rel="noopener">Grant Thornton, &quot;Insurance insights: 2026 AI Impact Survey Report&quot; (published 21 Apr 2026), retrieved this run; cross-checked against Insurance Journal, 30 Apr 2026, 2026-04-21</a></dd><dt>Falsifier</dt><dd>Named insurers converting this into disclosure. If `52%` of insurance executives really have AI-attributed revenue growth, the Q3 and Q4 2026 P&amp;C and life earnings calls should produce quantified bound-premium or new-business attribution from more than a handful of carriers. The 2026 season so far has produced velocity metrics and almost no premium dollars, which would make the `52%` a measure of belief, not of result.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier D, self-reported, no magnitude threshold, n=100 subgroup, fielded ~6 months ago, and aligned with the publisher&#x27;s commercial interest. Included for the comparison it enables, not for the number itself.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Costco Wholesale Corporation</span>
+    <span class="sector">Retail - warehouse club · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q3 FY2026 earnings call (28 May 2026) CFO Gary Millerchip said: &quot;With consumers increasingly using AI to research products and services, we believe this has the potential to be a significant sales opportunity for Costco. We are now leveraging AI to enhance our product pages online, which in turn is increasing our relevance with the large language models.&quot; On AI-sourced traffic: &quot;We saw triple digit growth in Q3, and this activity had the highest conversion rate of all traffic coming to our site&quot;, while volume remains low. Separately, personalized product recommendation carousels &quot;delivered conversion rates 3x better than our typical conversion rates&quot; and contributed just under `$0.5bn` of e-commerce sales; site and app traffic was up `37%`.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct channels, only one of which management labels AI. (1) Generative-search optimisation: Costco is rewriting product pages so large language models retrieve and cite them, turning LLM answer engines into an acquisition channel. The disclosed metrics are triple-digit traffic growth off a low base and the best conversion rate of any channel. (2) Personalised recommendation carousels on Costco&#x27;s own surfaces, which converted at 3x the site average and carried just under `$0.5bn` of e-commerce sales in the quarter.</dd><dt>Why this shape</dt><dd>S1, not S2, and the distinction is the whole entry. Every number management attached to AI is an input metric - traffic growth, conversion multiple, traffic mix - with no revenue conversion disclosed for the AI-search channel. The one dollar figure in the quarter, the just-under-`$0.5bn` of carousel-attributed e-commerce sales, is attached to &quot;personalized product recommendation carousels&quot;, which Millerchip did not call AI; the AI label on that number is press-applied, and treating it as AI-attributed revenue would be textbook attribution laundering. Recorded here as an input disclosure with the attribution gap stated rather than promoted to S2. Revenue conversion for the AI channel is conspicuously absent.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/05/28/costco-cost-q3-2026-earnings-transcript/" rel="noopener">Q3 FY2026 earnings call transcript (28 May 2026), read via The Motley Fool; carousel figure cross-checked against Retail Dive (3 Jun 2026) and CX Dive (1 Jun 2026), both retrieved this run, 2026-05-28</a></dd><dt>Falsifier</dt><dd>Costco reports Q4 FY2026 on 24 Sep 2026, two days after this entry. If the AI-search channel is absent from prepared remarks, or the triple-digit growth is repeated without ever being sized in dollars or basis points of digital sales, this was a narrative device for an investor audience rather than a channel. A carousel figure that is restated, redefined or dropped is the other tell.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A call, but the carousel figure required cross-checking: the Motley Fool transcript renders it as &quot;just under $5 billion&quot;, which is arithmetically impossible against Costco&#x27;s quarterly e-commerce base; two independent trade renderings give &quot;just under $500 million&quot;, i.e. `$0.5bn` misheard as `$5bn`. Logged at `$0.5bn` with that discrepancy on the record. Disclosure is ~17 weeks old and was unlogged.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
