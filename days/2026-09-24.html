@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-24 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-24</h1>
+  <p class="standfirst">0
+  revenue finding(s) in the main log, 1 in the appendix, 2 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Zero revenue findings in the main log. The day&#x27;s real content is counter-evidence: <strong>Bank of America</strong> marked its own developer-productivity number <em>down</em> for the third time in ten weeks, and the only quantified AI revenue anywhere in the sweep belongs to a consultancy selling AI, not a company buying it. No S3. Confirmed S3 in the main log stays at <code>0</code> after <code>53</code> logged days.</div>
+<p>No gap since the last run on <code>23 Sep</code>. Thursday of a pre-earnings week: the live venues were the BofA Securities 31st Annual Financials CEO Conference in London (<code>22-23 Sep</code>) and a thin fiscal-quarter-end tail of US reporters. <code>22</code> angles run, <code>11</code> of them S3-weighted.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Elixirr International</strong> - H1 2026 results, <code>22 Sep</code>, read on the company&#x27;s own release page and matched against an independent trade report. AI revenue <code>GBP 8.1m</code>, up <code>185%</code> from <code>GBP 2.8m</code>, on group revenue of <code>GBP 89.0m</code>, up <code>25%</code>. Roughly <code>9.1%</code> of the book. Logged S2, appendix - out of scope as a consultancy selling AI services.</li><li><strong>Bank of America</strong> - BofA Securities 31st Annual Financials CEO Conference, <code>23 Sep</code>, Co-President Jim DeMare. Coding productivity &quot;roughly <code>15%</code> to <code>20%</code>&quot; across <code>19,000-20,000</code> coders; AI tools with <code>200,000</code> employees at <code>90-95%</code> adoption. Two independent renderings retrieved; event confirmed against the bank&#x27;s own advisory. Logged C3, counter-evidence.</li><li><strong>Barclays</strong> - same conference, <code>22 Sep</code>, CFO Anna Cross. Contact-centre AI &quot;has cut <code>6,000</code> hours&quot;; fraud-related inbound calls down about <code>20%</code>; a further <code>GBP 300m</code> of technology spend in H2. Logged C4 at low confidence.</li><li><strong>Stitch Fix</strong> - Q4 FY2026 call, <code>23 Sep</code>, CEO Matt Baer. Vision images past <code>22m</code>; &quot;a significant lift in 90-day Freestyle spend from clients who engage with it&quot; - retrieved the transcript specifically to find the magnitude and there is none. Not logged.</li><li><strong>General Mills</strong> - Q1 FY2027 call, <code>23 Sep</code>, COO Dana McNabb. <code>40%</code> of consumers using an AI tool to buy food, agentic commerce at <code>20%</code> of food sales by 2030. Forecasts about the channel, nothing attributed to the company. Not logged.</li><li><strong>Cintas</strong> - Q1 FY2027 call, <code>23 Sep</code>. Revenue over <code>$3bn</code> for the first time, organic growth <code>8.9%</code>, and management describing itself as in the &quot;early stages&quot; of AI with no figure attached. Not logged.</li></ul>
+<div class="callout">The pattern across <code>53</code> days, and it held again today: the only parties putting a clean, separately disclosed AI revenue line in front of investors are the ones selling AI. Elixirr breaks out <code>GBP 8.1m</code>; Bank of America, with vastly more AI deployed, breaks out a productivity percentage that keeps moving and no revenue at all.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new coverage class</strong> - <strong>Mosaic Insurance</strong> launched HALO on <code>21 Sep</code>, an AI underwriting platform bringing complex specialty products to SMEs, starting with a Cyber Tech E&amp;O line new to its catalogue. Exactly the S3 shape on paper; failed the inclusion bar as an announcement with no result - no premium bound, no revenue, no customer count.</li><li><strong>S3 insurance, autonomous-vehicle risk</strong> - <strong>Lemonade</strong> disclosed that new-customer conversion on its autonomous Car product runs about <code>70%</code> higher than the comparable non-autonomous product, with self-driving miles priced near <code>50%</code> of the human per-mile rate. Genuine new-risk-class economics, but the disclosure sits in the Q1 2026 shareholder letter, roughly five months outside this run&#x27;s window, and the subject is AI-native so it would be appendix. Flagged for a dedicated follow-up rather than logged stale.</li><li><strong>S2 retail, personalization lift</strong> - <strong>Stitch Fix</strong> Vision. Failed test 2 of the inclusion bar in the weakest way available: a spend comparison between clients who engaged and clients who did not, with no magnitude and no correction for self-selection. That is a cohort artifact until a number appears.</li><li><strong>C4 retail, support deflection</strong> - <strong>Stitch Fix</strong> again, &quot;more than doubled the share of chats resolved without requiring additional support&quot;. Trap 1, adoption dressed as saving: no denominator, no cost line, no currency.</li><li><strong>Appendix services, new AI SKU</strong> - <strong>Concentrix</strong> put Intelligent Experience ARR at about <code>$120m</code> &quot;up from nearly nothing a little more than a year ago&quot; with AI contract bookings up <code>400%</code>. The interesting half is the admission that AI deployments <em>cut</em> client revenue first, troughing around months six to seven. Not logged: the appearance is a Canaccord conference I could not date precisely beyond &quot;before <code>14 Aug</code>&quot;, and the subject is out of scope.</li><li><strong>Cross-sectional, AI benefit share</strong> - <strong>Morgan Stanley</strong> at <code>25%</code> of S&amp;P 500 companies citing measurable AI benefits in Q2 2026 against <code>14%</code> a year earlier. Dated <code>28 Jul</code>, counts companies that <em>mentioned</em> a measurement rather than published one, and does not split revenue from cost. <strong>PwC</strong>&#x27;s AI performance study (<code>13 Apr</code>, <code>1,217</code> executives, <code>74%</code> of value to <code>20%</code> of firms) is self-reported executive opinion. Both fail the survey-sentiment rule.</li><li><strong>Scope, AI-as-customer</strong> - <strong>TE Connectivity</strong>&#x27;s AI-attributed revenue and the utilities sector&#x27;s data-centre load growth are real money from pre-existing SKUs sold to a new buyer. Not AI ROI on deployment, by construction.</li><li><strong>S1 general, Sep-quarter reporters</strong> - <strong>AutoZone</strong> (<code>22 Sep</code>), <strong>KB Home</strong> (<code>22 Sep</code>), <strong>Lennar</strong>, <strong>FedEx</strong>. Checked for AI attribution in the revenue line; none disclosed any.</li><li><strong>S3 healthcare, reimbursement</strong> - the 2026 CPT Category I codes for AI-assisted diagnostic imaging and OPPS coverage for AI-assisted cardiac analysis create a genuine new payment pathway, which is the precondition for S3. No named provider has yet disclosed revenue earned through it. That is the check to run, not a finding.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Bank of America</strong> Q3 2026 results, mid-October - whether the <code>USD 400m</code> cost / <code>USD 800m</code> benefit roll-up from <code>14 Sep</code> is repeated, defined, or dropped.</li><li><strong>Barclays</strong> FY2026 results - whether the contact-centre hours ever acquire a denominator or a cost-income commitment.</li><li><strong>Elixirr</strong> FY2026 full-year results - the first test of whether the AI revenue line stays broken out once the comparator base is no longer trivial.</li><li><strong>Lemonade</strong> investor day, reported for <code>17 Nov 2026</code> - the venue where autonomous-vehicle premium, not conversion rate, would have to appear.</li><li>Q3 US earnings season opens mid-October, with the money-centre banks first; this log&#x27;s thinnest weeks have consistently been the ones between reporting clusters.</li></ul></div>
+<p class="empty-note">No findings cleared the bar for the main revenue log. 1 out-of-scope finding in the appendix and 2 in the cost ledger below. Angles run: S3 insurance: uninsurable classes newly priced/bound, S3 insurance: new coverage class, AI underwriting, S3 insurance: quote-to-bind, hit rate, new premium, S3 pharma: unscreenable targets, new indications, S3 healthcare: diagnostics at new price points, S3 healthcare: new AI service line with revenue, S3 industrials: autonomy as new subscription SKU, S3 prof services: newly billable delivery, S3 retail/SMB: long-tail served at enterprise quality, S3 incumbents: AI SKU with no catalogue predecessor, S3 energy/utilities: AI commercial offering revenue, S2 retail: personalization and agentic conversion lift, S2 grocery/CPG: AI-attributed sales growth, S2 retail media and dynamic pricing lift, S1 banking: financials CEO conference circuit 22-23 Sep, S1 banking: UK and Canadian bank conference remarks, S1 logistics: freight and parcel AI disclosures, S1 retail/CPG: Sep-quarter reporters, AI attribution, S1 business services: Sep-quarter AI attribution, Counter: walk-backs, null studies, refusals to quantify, Counter: cross-sectional AI-benefit share studies, Scope check: AI-as-customer vs AI-as-capability.</p>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Elixirr International plc</span>
+    <span class="sector">Professional services (management consulting) · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In its H1 2026 interim results for the half-year ended 30 Jun 2026, reported 22 Sep 2026, Elixirr disclosed AI revenue of `GBP 8.1m`, up `185%` from `GBP 2.8m` in H1 2025, against total revenue of `GBP 89.0m`, up `25%` from `GBP 71.4m` - so AI is roughly `9.1%` of group revenue. CEO Stephen Newton: &quot;We have spent the last six years building the consulting, AI, data and technology capabilities to benefit from the AI shift&quot; and &quot;The conversation around AI is moving quickly from understanding what the technology can do to figuring out how to put it to work.&quot; The company frames the opportunity as a `USD 200bn` agentic AI services market over five years. No client-side ROI number is disclosed anywhere in the release: this is Elixirr&#x27;s revenue from selling AI work, not a client&#x27;s return on buying it.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Three revenue streams inside the AI line: paid assessments that identify use cases and produce implementation roadmaps; building what Elixirr calls &quot;AI-native businesses from the ground up&quot; for clients; and AI-enabled delivery embedded inside ordinary consulting engagements. Elixirr OS, a proprietary agentic platform launched in H1 2026, gives consultants and agents shared client and firm context; the firm cites over 20 client implementations and one internal example of a 60-page report and three financial models delivered in four weeks against a seven-to-eight-week estimate.</dd><dt>Why this shape</dt><dd>Appendix, because the subject is out of scope under METHOD: Elixirr is a consultancy selling AI services, so this measures shovel sales, not adoption ROI. Logged S2 rather than S3-CANDIDATE because the default reading of consulting fees is displacement, not new demand. Test (a): absent the AI, these clients were buying transformation consulting from somebody - Elixirr competes directly with the Big Four and the systems integrators for the same budget line. Test (b): the prior alternative was a paid engagement, not nothing. The only part with an S3 reading is the &quot;AI-native businesses from the ground up&quot; work, which Elixirr does not size separately and does not tie to any client that would otherwise have gone unserved. The firm also does not say how much of the `GBP 8.1m` is net-new logos versus AI work sold into existing accounts, which is the split that would decide the shape.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.elixirr.com/en-us/elixirr-delivers-strong-h1-26-as-ai-revenue-increases-by-185-2/" rel="noopener">H1 2026 results announcement, company news release (figures corroborated by Consultancy.uk report dated 22 Sep 2026), 2026-09-22</a></dd><dt>Falsifier</dt><dd>FY2026 full-year results in which AI revenue is no longer broken out as its own line, or grows materially slower than `185%` off this base. Equally falsifying: group revenue growth decelerating toward the consulting-sector average while the AI line keeps compounding, which would show AI fees substituting for the rest of the book rather than adding to it.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures taken from Elixirr&#x27;s own results announcement retrieved this run and matched against an independent trade report; but &quot;AI revenue&quot; is a company-defined category with no stated boundary, and renderings disagree on whether the announcement landed 22 or 23 Sep 2026.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card counter" data-shape="C3"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c3)">
+  <div class="card-top">
+    <span class="company">Bank of America Corporation</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c3);color:var(--shape-c3)"></span>C3 — Non-tech · engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">At the BofA Securities 31st Annual Financials CEO Conference in London on 23 Sep 2026, Co-President Jim DeMare put developer coding productivity at &quot;roughly `15%` to `20%`&quot; across the bank&#x27;s &quot;19,000 to 20,000 coders&quot;, said AI tools are available to &quot;about `200,000` employees&quot; with adoption &quot;running at `90%` to `95%`&quot;, and said Erica-style self-service is being built into CashPro, the commercial and corporate treasury platform. One transcript rendering adds that &quot;earlier expectations of `40%` to `50%` gains have moderated to more typical industry levels&quot;; that sentence appears in only one of the two renderings retrieved and should not be leaned on. The `15-20%` range sits below the &quot;&gt;`20%`&quot; Bank of America published in its own filed Q2 2026 presentation materials on 14 Jul 2026 (slide 20) and straddles Brian Moynihan&#x27;s &quot;save `10`, `15%`&quot; at the Barclays conference on 14 Sep 2026. No revenue was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Coding agents across roughly 19,000-20,000 developers; internal assistants deflecting routine help-desk contacts; Erica on the consumer side; Erica-like self-service being extended into CashPro for commercial and corporate treasury clients, which is the only revenue-adjacent item and carries no number.</dd><dt>Why this shape</dt><dd>C3 - non-tech sector, engineering function. This is the third public figure for the same developer population in ten weeks and the series is drifting: &quot;&gt;20%&quot; in a filed deck on 14 Jul, &quot;10, 15%&quot; from the CEO on 14 Sep, &quot;15% to 20%&quot; from a Co-President on 23 Sep. Tagged counter-evidence because the trend is away from the bank&#x27;s own filed number and, on the one rendering that carries it, explicitly away from internal hopes of 40-50%. METHOD&#x27;s standing C3 caveat bites hard here: a 15-20% coding gain over ~20,000 developers inside a bank with roughly 200,000 employees is not a margin event whatever the percentage. Trap 1 applies to the `90-95%` adoption figure, which is adoption, not saving. Trap 3 hangs over the related `USD 800m` &quot;benefit&quot; against `USD 400m` of cost that Moynihan gave on 14 Sep and that nobody has yet defined.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/transcripts/bank-of-america-at-financials-ceo-conference-growth-ai-and-scale-93CH-4913142" rel="noopener">Jim DeMare, Co-President, BofA Securities 31st Annual Financials CEO Conference, 23 Sep 2026 (two independent renderings retrieved this run: Investing.com transcript and a Yahoo Finance report of the same appearance; event, date and speaker confirmed against Bank of America&#x27;s own media advisory), 2026-09-23</a></dd><dt>Falsifier</dt><dd>A Q4 2026 or FY2026 disclosure in which the developer-productivity range falls again, or disappears from Bank of America&#x27;s materials, while the `USD 400m` cost / `USD 800m` benefit roll-up is restated or quietly withdrawn. Conversely, if that roll-up survives a full audited year with a defined benefit line and a named expense category, this drift was noise rather than signal.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The core numbers appear in two independent renderings retrieved this run and the appearance is confirmed by Bank of America&#x27;s own advisory; the 40-50% moderation line is single-sourced and flagged as such.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Barclays PLC</span>
+    <span class="sector">Banking · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">At the BofA Securities 31st Annual Financials CEO Conference on 22 Sep 2026, CFO Anna Cross said Barclays&#x27; contact-centre AI &quot;has cut `6,000` hours&quot; and that AI tools &quot;have reduced fraud-related inbound calls by about `20%`&quot;. The rendering paraphrases her deployment posture as preferring standard machine learning where suitable and using agentic tools selectively, and records roughly `80%` of data moved onto the enterprise platform against a `100%` target by end-2028. In the same appearance Barclays committed a further `GBP 300m` of technology and simplification spend in H2 2026, running at about `GBP 250m` a quarter. No cost saving in currency, no headcount and no revenue were attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI handling routine servicing contacts in the contact centre, plus AI in fraud detection and customer communication that removes the inbound call altogether rather than handling it faster - the second is the more interesting mechanism because it suppresses demand for the contact rather than automating the response. Data consolidation onto a single enterprise platform is the stated enabling layer.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function, the cell METHOD weights most heavily, but a weak instance of it. &quot;`6,000` hours&quot; carries no denominator, no period and no currency equivalent, so it cannot be sized against any cost base; against a contact-centre workforce of Barclays&#x27; scale it may be immaterial. The `20%` fraud-call reduction is the better number because its denominator is at least implicit. Trap 5 applies squarely: neither figure is stated as a realized reduction in an expense line. Trap 6 is visible in the same breath - `GBP 300m` of *additional* technology spend disclosed alongside the saving is the run-cost offset sitting in plain view.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/transcripts/barclays-at-bank-of-america-31th-annual-financials-ceo-conference-growth-costs-93CH-4910927" rel="noopener">Anna Cross, CFO, BofA Securities 31st Annual Financials CEO Conference, 22 Sep 2026 (Investing.com transcript rendering; the same two figures carried in a separate report of the appearance dated 23 Sep 2026), 2026-09-22</a></dd><dt>Falsifier</dt><dd>FY2026 results in which Barclays&#x27; cost guidance or cost-income ratio target is unchanged or worse while these same figures are repeated, or the contact-centre hours number is never given a denominator or a currency equivalent. A real saving eventually shows up as a committed cost line, not as hours.</dd><dt>Confidence</dt><dd><strong>low</strong> — Two renderings of the same appearance carry identical figures, but both are secondary and Barclays published no primary transcript or deck for this event that I could retrieve; &quot;6,000 hours&quot; is unsized and the posture quote is a paraphrase, not verbatim.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
