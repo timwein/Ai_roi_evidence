@@ -536,12 +536,25 @@ def _tile(k, v, s, shape=None, hollow=False):
 def tiles_html(entries, days):
     c, total, appx = counts(entries)
     _, cost_total = cost_counts(entries)
+    # A tile counts entries TAGGED to a shape, and counter-evidence is tagged to
+    # the shape it contradicts. Without this the S3 tile can read as confirmed
+    # new TAM when the entry behind it argues the opposite.
+    ce = Counter(
+        norm_shape(e.get("shape"))
+        for e in entries
+        if ledger_of(e) == "revenue" and e.get("counter_evidence")
+    )
+
+    def sub(shape, base):
+        n = ce.get(shape, 0)
+        return f"{base} · {n} counter-evidence" if n else base
+
     tiles = [
         _tile("Revenue findings", total, f"{appx} in appendix" if appx else "main log"),
-        _tile("S3 — New TAM", c.get("S3", 0), "GDP-additive", "S3"),
-        _tile("S3 candidates", c.get("S3-CANDIDATE", 0), "counterfactual unproven", "S3-CANDIDATE", True),
-        _tile("S2 — Share", c.get("S2", 0), "zero-sum at industry level", "S2"),
-        _tile("S1 — Velocity", c.get("S1", 0), "leading indicator", "S1"),
+        _tile("S3 — New TAM", c.get("S3", 0), sub("S3", "GDP-additive"), "S3"),
+        _tile("S3 candidates", c.get("S3-CANDIDATE", 0), sub("S3-CANDIDATE", "counterfactual unproven"), "S3-CANDIDATE", True),
+        _tile("S2 — Share", c.get("S2", 0), sub("S2", "zero-sum at industry level"), "S2"),
+        _tile("S1 — Velocity", c.get("S1", 0), sub("S1", "leading indicator"), "S1"),
         _tile("Cost ledger", cost_total, "separate — not in revenue totals", "C4"),
         _tile("Days logged", len(days), f"{sum(1 for d in days if not d.get('entry_count'))} empty"),
     ]

@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "date": "2026-09-25",
+      "company": "FRBSF Economic Letter 2026-25 - 'How AI Adoption Might Affect Bank Lending' (US bank Call Report panel, 2021-2025)",
+      "sector": "Banking (research)",
+      "country": "US",
+      "shape": "S3",
+      "scope": "main",
+      "claim": "Federal Reserve Bank of San Francisco research published 21 Sep 2026 (Avaradi, Halbersleben, Liu, Spiegel) ranks US banks by the AI-related share of their job postings and compares outcomes: \"The average ROA for high-AI banks is about 0.38 percentage point higher than for low-AI banks\", but \"In our full sample, high-AI banks have a much smaller average share of SME loans than low-AI banks (12% versus 21%)\", and \"High-AI banks also have higher average shares of problem loans than low-AI banks, although the disparity is small.\" The authors state the results \"support the hypothesis that increased AI adoption is associated with more risk-taking in bank lending.\"",
+      "status": "DISCLOSED",
+      "source_tier": "A",
+      "source_name": "Federal Reserve Bank of San Francisco, FRBSF Economic Letter 2026-25 (Avaradi, Halbersleben, Liu, Spiegel)",
+      "source_date": "2026-09-21",
+      "source_url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/09/how-ai-adoption-might-affect-bank-lending/",
+      "mechanism": "AI intensity is proxied by the AI-related share of a bank's job postings (banking sector-wide that share went from \"less than 0.94% in 2015\" to \"6.80% by the end of 2025\"; 8.86% at large banks versus 1.15% at small banks). Outcomes come from FFIEC Call Report regulatory filings, 2021-2025, using the Call Report definition of SME loans - commercial loans under $1m and farm loans under $500,000. The economic channel the authors propose is that AI is good at processing hard, codified data and therefore pushes banks toward larger, more complex credits and away from soft-information relationship lending.",
+      "shape_justification": "Counter-evidence tagged to S3, and tagged there deliberately. METHOD names \"long-tail or SMB segments served at quality levels that previously required enterprise pricing\" as one of the most productive hunting grounds for genuine new TAM, and the standard bull case for AI in lending is exactly that: cheaper underwriting opens credit to borrowers the cost curve previously excluded. This is the first identified panel evidence this log has found that runs the other way. The banks that adopted AI hardest did not expand into the small-business long tail - their SME share is roughly nine percentage points, or about 43%, below low-AI banks. Read against the four S3 tests, it attacks test (d) directly: AI moved the cost curve, and the banks spent the gain going up-market rather than down. Two limits stated plainly. First, the authors say \"these results are correlations and do not necessarily reflect causal effects\", and the composition story is at least as plausible as the behavioural one - large banks post more AI jobs and have always done less SME lending. Second, the ROA gain is real and is a revenue-side result at the firm level, so this entry is not one-directional: it is S2-flavoured evidence for the firm and S3-negative evidence for the economy, which is precisely the distinction this log exists to keep apart.",
+      "falsifier": "Falsified if a later vintage with bank fixed effects, or one instrumenting AI adoption rather than ranking on it, shows high-AI banks growing SME lending share; or if the SME gap collapses once size class is controlled for, which would make this a composition artifact rather than an AI effect. Confirmed and strengthened if the 2026-2027 Call Report panel shows the SME share gap widening while the ROA gap persists.",
+      "confidence": "medium",
+      "confidence_why": "Tier A source and a real regulatory-data panel, but the AI measure is job postings - an input proxy for adoption, not deployment - and the authors disclaim causality themselves.",
+      "counter_evidence": true
+    },
+    {
       "date": "2026-08-27",
       "company": "Williams-Sonoma, Inc.",
       "sector": "Retail",
@@ -2482,6 +2502,38 @@
     }
   ],
   "days": [
+    {
+      "date": "2026-09-25",
+      "searched": [
+        "S3 insurance: new-risk-class SKUs priced and bound",
+        "S3 insurance: AI-risk coverage, premium written",
+        "S3 pharma: undruggable target space, revenue",
+        "S3 healthcare: AI screening at new price points",
+        "S3 healthcare: rare-disease segment newly served",
+        "S3 industrials: autonomy sold as new subscription",
+        "S3 mining/ag: autonomous equipment revenue line",
+        "S3 media: AI feeds and licensing as new SKU",
+        "S3 banking: long-tail SMB credit newly economic",
+        "S3 prof services: previously unbillable work",
+        "S3 general: incumbent SKU with no predecessor",
+        "S3 general: first-of-its-kind paid AI product",
+        "S3 telecom/utilities: new AI service line",
+        "S2 retail: agentic commerce attributed sales",
+        "S2 retail: personalization conversion lift",
+        "S2 airlines: AI dynamic pricing, yield per pax",
+        "S2 restaurants: drive-thru upsell check average",
+        "S1 insurance: quote-to-bind and hit rate",
+        "S1 general: 24-25 Sep earnings AI attribution",
+        "S1 general: Sep investor days, AI revenue targets",
+        "S1 Europe: 24 Sep trading updates, AI in sales",
+        "S1 services: Accenture, Paychex, Concentrix prints",
+        "Counter-evidence: walk-backs and abandoned projects",
+        "Counter-evidence: null studies and Fed research",
+        "Scope check: AI-as-customer near-misses"
+      ],
+      "assessment": "> One finding, and it is counter-evidence. The **San Francisco Fed** published the first regulatory-panel evidence this log has seen that AI-intensive banks went *up-market*, not down: their small-business lending share is `12%` against `21%` for low-AI banks. No confirmed S3 - the one S3-tagged entry in the main log is now this one, and it is counter-evidence, so the shape tiles from today carry a counter-evidence count alongside the total. Confirmed S3 in the main log stays at `0` after `54` logged days.\n\nNo gap since the last run on `24 Sep`. Friday of a dead week: US Q3 reporting does not open until mid-October, Accenture moved its Q4 print to `1 Oct` and Nike to `1 Oct`, so the only live venues were a thin tail of off-cycle fiscal reporters and European H1/Q3 statements. `25` angles run, `13` of them S3-weighted.\n\n## Sources read\n\n- **FRBSF Economic Letter 2026-25** - `21 Sep`, Avaradi, Halbersleben, Liu and Spiegel, retrieved in full and the citation cross-checked against Fed in Print. Banks ranked by AI share of job postings against FFIEC Call Report outcomes, `2021-2025`. ROA `0.38` percentage point higher at high-AI banks; SME loan share `12%` versus `21%`; problem-loan share higher but \"the disparity is small\". Logged S3, counter-evidence.\n- **Paychex** - Q1 FY2027 call, `23 Sep`, CEO John Gibson. AI investment `5x` last year, \"more than 2,000 agents and features deployed\", WISE Hire agentic recruiting launched in September, and a Pro bundle \"which has AI embedded into it\". Revenue `$1.63bn`, up `6%`, with none of it attributed to AI. Not logged.\n- **H&M** - Q3 results, `24 Sep`. Operating profit up `23%` to `SEK 6.04bn`, net sales up `1%` in local currency, margin lifted about `1.6` percentage points by one-off tariff effects. AI named as a strategic priority with no figure against it. Not logged.\n- **CFC** and **CRC Specialty** - new specialty wordings reported `24 Sep`: CFC affirmative AI cover inside its IP policy, CRC's Insurisk Cyber. Read for bound premium or policy count; there is none. Not logged.\n- **Axios** - `18 Sep`, CRO Jacquelyn Cameron on Axios Direct, feeds priced for AI models and agents on two-year contracts. Group revenue hit its 2026 goal early at \"between `10%` and `50%`\" growth, but not a dollar of it is attributed to the AI product, which has not launched its second or third feed. Not logged.\n- **BlackBerry**, **H.B. Fuller**, **Jabil** - the `24 Sep` reporters. Checked each for AI attribution in the revenue line. BlackBerry's record `$80.3m` QNX quarter is automotive design wins, not AI deployment; Jabil's `$13.6bn` is AI-as-customer. Not logged.\n\n> The pattern this entry sharpens, on day `54`: every plausible S3 mechanism in this log has been a *story* about the long tail, and the first hard panel test of one of them found the tail shrinking. Cheaper underwriting did not buy more small borrowers. It bought bigger, more complex loans and slightly more of them going bad.\n\n## Near-misses deliberately not logged\n\n- **S3 insurance, new coverage class** - **CFC** affirmative AI cover for IP, **CRC Specialty** Insurisk Cyber, both `24 Sep`. Textbook S3 shape and the second consecutive run to surface one. Failed inclusion bar test 2: product announcements with no premium, no policy count, no revenue.\n- **S3 media, new AI SKU with no predecessor** - **Axios Direct**. The cleanest incumbent new-catalogue-item found this run. Failed test 2 as well: launch, no result, no pricing disclosed, feeds two and three not shipped.\n- **S3 publishing, AI licensing** - **Informa** reported as expecting AI-related revenue above `$75m` for the year, **Taylor & Francis** at about `$10m` from a Microsoft agreement. Traced back to an aggregator that appears to conflate the 2026 expectation with Informa's own FY2025 statement about non-recurring data access revenues above `$75m` in 2024. Could not find either figure in a document retrieved this run, so dropped under the never-reconstruct rule.\n- **S1 professional services, AI-priced SKU** - **Paychex** WISE Pro bundle and WISE Hire. A paid AI tier at a named company is exactly what this log wants; there is no attach rate, no price delta and no bookings figure, and the `90%` payroll-error-prevention number is a pilot quality metric, not revenue. Also borderline on scope as a payroll platform.\n- **S2 retail, agentic commerce** - re-checked **Walmart** Sparky, **Amazon** Alexa for Shopping, **Albertsons** conversational search and **Target** wish lists against a `20 Aug` PYMNTS round-up. Every figure is already in this log; nothing restated or revised. Dedupe, not a finding.\n- **C4 restaurants, drive-thru upsell** - **CKE Restaurants** at a `6%` sales lift and `$0.50-$0.75` per order from Presto voice AI. Tier D vendor-adjacent, undated, never confirmed by CKE itself. Fails the Tier D rule.\n- **Cross-sectional, project failure rates** - Gartner's `60%` of AI projects abandoned by end-2026 and the `80.3%` no-business-value figure circulating this week. Both are analyst projections over unnamed populations. Fails the named-company bar even as counter-evidence.\n- **Scope, AI-as-customer** - **Jabil** at `$13.6bn` of fiscal-2026 AI revenue and a third hyperscale customer, **Broadcom** at `$16.7bn` for the quarter. Pre-existing SKUs sold to a new buyer, not ROI on deployment.\n\n## Nearest dated catalysts\n\n- **Accenture** Q4 and full-year FY2026, `1 Oct` - the first full year since it stopped breaking out advanced AI bookings; watch whether the metric returns or stays retired.\n- **Nike** Q1 FY2027, `1 Oct` - first read on whether consumer-facing personalization gets a number.\n- **Carnival** Q3, `29 Sep`, **CarMax** Q2 FY2027 and **Concentrix** Q3, both `29 Sep`. CarMax has pre-committed to `$150m` of SG&A cuts \"leveraging AI and process automation\" - a cost-ledger checkpoint with a date on it.\n- **Conduent** investor day, `30 Sep`.\n- Q3 US earnings season opens mid-October with the money-centre banks, which is also the first venue where the SF Fed's SME-lending finding could be contradicted by a bank claiming the opposite.",
+      "entry_count": 1
+    },
     {
       "date": "2026-09-24",
       "searched": [

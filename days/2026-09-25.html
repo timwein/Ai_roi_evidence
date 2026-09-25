@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-25 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-25</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">One finding, and it is counter-evidence. The <strong>San Francisco Fed</strong> published the first regulatory-panel evidence this log has seen that AI-intensive banks went <em>up-market</em>, not down: their small-business lending share is <code>12%</code> against <code>21%</code> for low-AI banks. No confirmed S3 - the one S3-tagged entry in the main log is now this one, and it is counter-evidence, so the shape tiles from today carry a counter-evidence count alongside the total. Confirmed S3 in the main log stays at <code>0</code> after <code>54</code> logged days.</div>
+<p>No gap since the last run on <code>24 Sep</code>. Friday of a dead week: US Q3 reporting does not open until mid-October, Accenture moved its Q4 print to <code>1 Oct</code> and Nike to <code>1 Oct</code>, so the only live venues were a thin tail of off-cycle fiscal reporters and European H1/Q3 statements. <code>25</code> angles run, <code>13</code> of them S3-weighted.</p>
+<h4>Sources read</h4>
+<ul><li><strong>FRBSF Economic Letter 2026-25</strong> - <code>21 Sep</code>, Avaradi, Halbersleben, Liu and Spiegel, retrieved in full and the citation cross-checked against Fed in Print. Banks ranked by AI share of job postings against FFIEC Call Report outcomes, <code>2021-2025</code>. ROA <code>0.38</code> percentage point higher at high-AI banks; SME loan share <code>12%</code> versus <code>21%</code>; problem-loan share higher but &quot;the disparity is small&quot;. Logged S3, counter-evidence.</li><li><strong>Paychex</strong> - Q1 FY2027 call, <code>23 Sep</code>, CEO John Gibson. AI investment <code>5x</code> last year, &quot;more than 2,000 agents and features deployed&quot;, WISE Hire agentic recruiting launched in September, and a Pro bundle &quot;which has AI embedded into it&quot;. Revenue <code>$1.63bn</code>, up <code>6%</code>, with none of it attributed to AI. Not logged.</li><li><strong>H&amp;M</strong> - Q3 results, <code>24 Sep</code>. Operating profit up <code>23%</code> to <code>SEK 6.04bn</code>, net sales up <code>1%</code> in local currency, margin lifted about <code>1.6</code> percentage points by one-off tariff effects. AI named as a strategic priority with no figure against it. Not logged.</li><li><strong>CFC</strong> and <strong>CRC Specialty</strong> - new specialty wordings reported <code>24 Sep</code>: CFC affirmative AI cover inside its IP policy, CRC&#x27;s Insurisk Cyber. Read for bound premium or policy count; there is none. Not logged.</li><li><strong>Axios</strong> - <code>18 Sep</code>, CRO Jacquelyn Cameron on Axios Direct, feeds priced for AI models and agents on two-year contracts. Group revenue hit its 2026 goal early at &quot;between <code>10%</code> and <code>50%</code>&quot; growth, but not a dollar of it is attributed to the AI product, which has not launched its second or third feed. Not logged.</li><li><strong>BlackBerry</strong>, <strong>H.B. Fuller</strong>, <strong>Jabil</strong> - the <code>24 Sep</code> reporters. Checked each for AI attribution in the revenue line. BlackBerry&#x27;s record <code>$80.3m</code> QNX quarter is automotive design wins, not AI deployment; Jabil&#x27;s <code>$13.6bn</code> is AI-as-customer. Not logged.</li></ul>
+<div class="callout">The pattern this entry sharpens, on day <code>54</code>: every plausible S3 mechanism in this log has been a <em>story</em> about the long tail, and the first hard panel test of one of them found the tail shrinking. Cheaper underwriting did not buy more small borrowers. It bought bigger, more complex loans and slightly more of them going bad.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new coverage class</strong> - <strong>CFC</strong> affirmative AI cover for IP, <strong>CRC Specialty</strong> Insurisk Cyber, both <code>24 Sep</code>. Textbook S3 shape and the second consecutive run to surface one. Failed inclusion bar test 2: product announcements with no premium, no policy count, no revenue.</li><li><strong>S3 media, new AI SKU with no predecessor</strong> - <strong>Axios Direct</strong>. The cleanest incumbent new-catalogue-item found this run. Failed test 2 as well: launch, no result, no pricing disclosed, feeds two and three not shipped.</li><li><strong>S3 publishing, AI licensing</strong> - <strong>Informa</strong> reported as expecting AI-related revenue above <code>$75m</code> for the year, <strong>Taylor &amp; Francis</strong> at about <code>$10m</code> from a Microsoft agreement. Traced back to an aggregator that appears to conflate the 2026 expectation with Informa&#x27;s own FY2025 statement about non-recurring data access revenues above <code>$75m</code> in 2024. Could not find either figure in a document retrieved this run, so dropped under the never-reconstruct rule.</li><li><strong>S1 professional services, AI-priced SKU</strong> - <strong>Paychex</strong> WISE Pro bundle and WISE Hire. A paid AI tier at a named company is exactly what this log wants; there is no attach rate, no price delta and no bookings figure, and the <code>90%</code> payroll-error-prevention number is a pilot quality metric, not revenue. Also borderline on scope as a payroll platform.</li><li><strong>S2 retail, agentic commerce</strong> - re-checked <strong>Walmart</strong> Sparky, <strong>Amazon</strong> Alexa for Shopping, <strong>Albertsons</strong> conversational search and <strong>Target</strong> wish lists against a <code>20 Aug</code> PYMNTS round-up. Every figure is already in this log; nothing restated or revised. Dedupe, not a finding.</li><li><strong>C4 restaurants, drive-thru upsell</strong> - <strong>CKE Restaurants</strong> at a <code>6%</code> sales lift and <code>$0.50-$0.75</code> per order from Presto voice AI. Tier D vendor-adjacent, undated, never confirmed by CKE itself. Fails the Tier D rule.</li><li><strong>Cross-sectional, project failure rates</strong> - Gartner&#x27;s <code>60%</code> of AI projects abandoned by end-2026 and the <code>80.3%</code> no-business-value figure circulating this week. Both are analyst projections over unnamed populations. Fails the named-company bar even as counter-evidence.</li><li><strong>Scope, AI-as-customer</strong> - <strong>Jabil</strong> at <code>$13.6bn</code> of fiscal-2026 AI revenue and a third hyperscale customer, <strong>Broadcom</strong> at <code>$16.7bn</code> for the quarter. Pre-existing SKUs sold to a new buyer, not ROI on deployment.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Accenture</strong> Q4 and full-year FY2026, <code>1 Oct</code> - the first full year since it stopped breaking out advanced AI bookings; watch whether the metric returns or stays retired.</li><li><strong>Nike</strong> Q1 FY2027, <code>1 Oct</code> - first read on whether consumer-facing personalization gets a number.</li><li><strong>Carnival</strong> Q3, <code>29 Sep</code>, <strong>CarMax</strong> Q2 FY2027 and <strong>Concentrix</strong> Q3, both <code>29 Sep</code>. CarMax has pre-committed to <code>$150m</code> of SG&amp;A cuts &quot;leveraging AI and process automation&quot; - a cost-ledger checkpoint with a date on it.</li><li><strong>Conduent</strong> investor day, <code>30 Sep</code>.</li><li>Q3 US earnings season opens mid-October with the money-centre banks, which is also the first venue where the SF Fed&#x27;s SME-lending finding could be contradicted by a bank claiming the opposite.</li></ul></div>
+<article class="card counter" data-shape="S3"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3)">
+  <div class="card-top">
+    <span class="company">FRBSF Economic Letter 2026-25 - &#x27;How AI Adoption Might Affect Bank Lending&#x27; (US bank Call Report panel, 2021-2025)</span>
+    <span class="sector">Banking (research) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s3);color:var(--shape-s3)"></span>S3 — New TAM</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Federal Reserve Bank of San Francisco research published 21 Sep 2026 (Avaradi, Halbersleben, Liu, Spiegel) ranks US banks by the AI-related share of their job postings and compares outcomes: &quot;The average ROA for high-AI banks is about 0.38 percentage point higher than for low-AI banks&quot;, but &quot;In our full sample, high-AI banks have a much smaller average share of SME loans than low-AI banks (12% versus 21%)&quot;, and &quot;High-AI banks also have higher average shares of problem loans than low-AI banks, although the disparity is small.&quot; The authors state the results &quot;support the hypothesis that increased AI adoption is associated with more risk-taking in bank lending.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI intensity is proxied by the AI-related share of a bank&#x27;s job postings (banking sector-wide that share went from &quot;less than 0.94% in 2015&quot; to &quot;6.80% by the end of 2025&quot;; 8.86% at large banks versus 1.15% at small banks). Outcomes come from FFIEC Call Report regulatory filings, 2021-2025, using the Call Report definition of SME loans - commercial loans under $1m and farm loans under $500,000. The economic channel the authors propose is that AI is good at processing hard, codified data and therefore pushes banks toward larger, more complex credits and away from soft-information relationship lending.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S3, and tagged there deliberately. METHOD names &quot;long-tail or SMB segments served at quality levels that previously required enterprise pricing&quot; as one of the most productive hunting grounds for genuine new TAM, and the standard bull case for AI in lending is exactly that: cheaper underwriting opens credit to borrowers the cost curve previously excluded. This is the first identified panel evidence this log has found that runs the other way. The banks that adopted AI hardest did not expand into the small-business long tail - their SME share is roughly nine percentage points, or about 43%, below low-AI banks. Read against the four S3 tests, it attacks test (d) directly: AI moved the cost curve, and the banks spent the gain going up-market rather than down. Two limits stated plainly. First, the authors say &quot;these results are correlations and do not necessarily reflect causal effects&quot;, and the composition story is at least as plausible as the behavioural one - large banks post more AI jobs and have always done less SME lending. Second, the ROA gain is real and is a revenue-side result at the firm level, so this entry is not one-directional: it is S2-flavoured evidence for the firm and S3-negative evidence for the economy, which is precisely the distinction this log exists to keep apart.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/09/how-ai-adoption-might-affect-bank-lending/" rel="noopener">Federal Reserve Bank of San Francisco, FRBSF Economic Letter 2026-25 (Avaradi, Halbersleben, Liu, Spiegel), 2026-09-21</a></dd><dt>Falsifier</dt><dd>Falsified if a later vintage with bank fixed effects, or one instrumenting AI adoption rather than ranking on it, shows high-AI banks growing SME lending share; or if the SME gap collapses once size class is controlled for, which would make this a composition artifact rather than an AI effect. Confirmed and strengthened if the 2026-2027 Call Report panel shows the SME share gap widening while the ROA gap persists.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A source and a real regulatory-data panel, but the AI measure is job postings - an input proxy for adoption, not deployment - and the authors disclaim causality themselves.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
