@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-27 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-27</h1>
+  <p class="standfirst">1
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings, no S3, and the day&#x27;s real news is uncomfortable: the sharpest measurement yet of AI-attributed top-line revenue at non-tech incumbents was published by the people paying the bill, and it describes a transfer rather than a product.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Blue Cross Blue Shield Association</strong> - claims analysis published <code>24 Sep 2026</code> estimating <code>$942m</code> of extra inpatient spend over 2024-2025 from hospital AI coding and ambient-documentation tools, <code>$653m</code> of it from secondary diagnoses, <code>55,000</code>+ stays reclassified into higher-paying DRGs at just under <code>$11,900</code> a case. Logged as <strong>S2</strong>. The primary PDF on bcbs.com refused every retrieval attempt, so the figures rest on three independent renderings retrieved this run, and that limitation is written into the entry.</li><li><strong>CommonSpirit Health</strong> - CEO Wright Lassiter III on the record with <code>$100m</code> of &quot;annual value&quot; from AI, in a company release dated <code>14 Jan 2026</code> that never says what the figure contains. Logged as <strong>C4</strong> in the cost ledger, at low confidence, with the composite-metric trap named.</li><li><strong>Kroger</strong> - detailed its AI strategy at Groceryshop on <code>22 Sep 2026</code>; chief digital officer Yael Cosset described larger baskets from the AI shopping assistant and attached no number to any of it.</li><li><strong>Darden Restaurants</strong> - full Q1 FY2027 transcript (<code>24 Sep 2026</code>) read end to end. Not one mention of AI, by any speaker, on a call reporting <code>3.1%</code> same-restaurant sales growth.</li><li><strong>Gartner</strong> - research dated <code>24 Sep 2026</code>: <code>55%</code> of CFOs report positive overall returns on 2025 AI initiatives, <code>57%</code> say returns are unclear at the individual use-case level.</li><li><strong>Albertsons, Costco, Deere, BNP Paribas</strong> - checked for new disclosure against entries already in this log. Nothing new; the Albertsons <code>10%</code>/<code>26%</code> order-value figures are the ones logged <code>2026-08-21</code>.</li></ul>
+<div class="callout">The pattern across four runs is sharpening. Non-tech incumbents keep declining to put revenue against AI, and the quantified revenue numbers that do exist are increasingly produced by third parties measuring the incumbents from outside - the SF Fed on bank lending on <code>25 Sep</code>, Societe Generale&#x27;s misreported cost figure on <code>26 Sep</code>, and now a payer association pricing the revenue its providers booked. When the only people counting are the counterparties, the S3 question is not being answered, it is being avoided.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S2 grocery, Groceryshop 2026</strong> - <strong>Kroger</strong> (Cosset, 22 Sep) and the Grocery Dive wrap: failed the inclusion bar&#x27;s second test. &quot;Bigger baskets&quot; and &quot;meaningful results&quot; with no number and no executive statement of material revenue impact is adoption commentary.</li><li><strong>S2 healthcare, provider-side coding revenue</strong> - <strong>McLaren Health Care</strong> at <code>$11.3m</code> realized annual net new revenue from SmarterDx: Tier D vendor case study with no McLaren executive named or quoted, so not independently confirmed by the deploying company. The pairing is the interesting part - the vendor books one system at <code>$11.3m</code> while the payer books the industry at <code>$942m</code> for the same mechanism - but a case study is not a source.</li><li><strong>Counter-evidence, CFO sentiment</strong> - <strong>Gartner</strong> (24 Sep): no primary Gartner document retrievable, no sample size disclosed, and the question asked is how CFOs feel about returns rather than what returns were. The one genuinely load-bearing number in it is that only <code>20-30%</code> named increasing revenue as an AI objective at all.</li><li><strong>S3 insurance, AI-liability SKUs</strong> - <strong>HSB / Munich Re</strong> small-business AI liability cover and <strong>Corgi</strong>: structurally the best S3 shape in the market, an insurance product with no predecessor in the carrier&#x27;s own catalogue. No premium, no policy count, no revenue of any kind disclosed, and the launches are from March to June 2026. Fails the inclusion bar, not the shape tests.</li><li><strong>S3 insurance, capacity-gated demand</strong> - <strong>Mosaic</strong> HALO SME underwriting system (21 Sep) and a trade-press report claiming <code>83%</code> of insurers would hand work to AI to win business they currently turn away: launch announcements and a vendor survey. No bound premium.</li><li><strong>S1 insurance, quote-to-bind</strong> - <strong>Sixfold</strong> customer hit ratios up <code>15%</code>+ and premium per underwriter up <code>30%</code>: vendor-aggregated claims about unnamed carriers. Fails the named-company test.</li><li><strong>S3 industrials, autonomy as a new line</strong> - <strong>Deere</strong>: deputy financial officer Joshua Jepsen&#x27;s subscription-for-autonomy framing is a business-model intention, undated in the retrieved rendering, with no ARR disclosed. Already-logged subject, no new disclosure.</li><li><strong>S1/C-ledger banking</strong> - <strong>BNP Paribas</strong> <code>EUR 635m</code> of AI value in 2025 rising to <code>EUR 750m</code> in 2026, with management saying the value has so far been &quot;focused on revenues for the most part&quot;: a composite metric, and the transcript PDF did not render this run. Worth a dedicated attempt against the Q3 2026 results rather than logging off a search snippet.</li><li><strong>S3 pharma, undruggable targets</strong> - <strong>Novartis/Unnatural Products</strong>, <strong>Sanofi/Exscientia</strong>, <strong>AQEMIA/Servier</strong>: all milestone structures from 2022-2025, none with a September 2026 revenue event, and the milestone payments that are disclosed flow to the AI-native, not the pharma incumbent.</li><li><strong>Near-miss by construction, AI-as-customer</strong> - bitcoin miners converting to AI-cloud capacity and <strong>American Industrial Technologies</strong> at ~<code>$45m</code> Q3 revenue: real money from the AI build-out, earned on pre-existing capability sold to a new buyer. Not AI ROI on deployment.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Nike</strong> Q1 FY2027 and the <code>28 Sep - 2 Oct</code> earnings week - the first read on whether any non-tech consumer name quantifies AI in the new quarter.</li><li>Mid-October earnings season, and specifically the large US banks, where <strong>BNP Paribas</strong>&#x27; <code>EUR 750m</code> 2026 AI target and <strong>Bank of America</strong>&#x27;s July efficiency framing both become testable.</li><li><strong>Evident AI Index for Banks</strong>, global edition, expected October - the only recurring third-party attempt to score bank AI ROI reporting.</li><li>Any hospital system&#x27;s Q3 call putting a number on coding-driven revenue after this BCBSA analysis. The <strong>American Hospital Association</strong> has already rebutted; a provider-side number would turn today&#x27;s entry from one-sided to contested.</li><li><strong>CommonSpirit Health</strong> FY2026 reporting, for whether the <code>$100m</code> is restated, decomposed or quietly dropped.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Blue Cross Blue Shield Association - &#x27;Rising Coding Intensity and Its Impact on Health Care Affordability&#x27; (commercial inpatient claims, BCBSA member plans)</span>
+    <span class="sector">Healthcare - hospitals / payers · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">A BCBSA claims analysis published 24 Sep 2026 estimates that hospitals&#x27; use of AI coding and ambient-documentation tools added `$942m` to BCBSA member plans&#x27; inpatient spend over 2024-2025, of which `$653m` came from secondary diagnoses. More than `55,000` hospital stays were moved into higher-paying diagnosis-related groups at just under `$11,900` a case. The share of admissions billed as medically complex rose from `37%` at the start of 2023 to `40%` at the end of 2025; for bowel procedures the complex share went from `10.2%` to `22.7%`. BCBSA&#x27;s stated finding is a sharp increase in patients documented as having complex conditions with &quot;no evidence of corresponding change in care delivered.&quot; Senior VP of product and data science Luke Chalker: &quot;The disconnect between diagnoses and treatment suggests that AI is identifying more billable conditions, not sicker patients.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Inpatient reimbursement is tiered: the same procedure pays at one of up to three DRG severity levels, and a single qualifying secondary diagnosis - a complication/comorbidity (CC) or major CC - moves a claim up a step worth `42%` to `173%` more. AI documentation and coding tools read the entire chart and surface codeable comorbidities a human coder misses or skips. The admission, the procedure and the treatment are unchanged; the code set and therefore the bill move up. Per BCBSA, about `70%` of the coding-intensity increase comes from those secondary-diagnosis reclassifications.</dd><dt>Why this shape</dt><dd>S2, and the least flattering example of it in this log. The counterfactual is explicit and the source measured it: the payer would have paid for the same admission at a lower tier, so the incremental revenue is real for the provider and zero-sum at industry level. The unusual feature is who loses - not a competitor, but the customer. Not S3 on any of the four tests: no buyer newly entered the market (a), the prior alternative was the same admission billed lower (b), the capability gate is arguable but irrelevant since no new demand exists (c), and nothing previously uneconomic became serveable (d). Not S1: the disclosed number is dollars, not a process metric. Recorded weakness: BCBSA does not observe AI tool use directly - it infers it from coding-intensity drift - and the American Hospital Association counters with a Vizient analysis showing hospital case-mix index up roughly `5%` from 2019 to 2024 on genuine ageing and chronic-disease acuity.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://techcrunch.com/2026/09/26/insurers-claim-ai-is-already-increasing-healthcare-costs/" rel="noopener">BCBSA analysis (24 Sep 2026), read this run through three independent renderings - TechCrunch 26 Sep, Medical Daily, Business Model Analyst 24 Sep. The primary PDF on bcbs.com returned 503 to every retrieval attempt this run and is NOT the basis of these figures, 2026-09-24</a></dd><dt>Falsifier</dt><dd>If coding intensity flattens or reverts in 2026-2027 while hospital adoption of AI documentation tools keeps rising, the AI attribution fails and the drift was acuity or coder training. Second, harder test: a named hospital system putting this mechanism on the record with its own number. None has - HCA, Tenet, UHS and Community Health Systems all discuss AI deployment and attribute no revenue to it - and if that silence persists while payers keep publishing, the honest reading is that this revenue is measured only by the party paying for it.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Large claims dataset, specific and internally consistent figures across three independent renderings, and a mechanism that is structurally obvious. But the AI attribution is inferred rather than observed, the analyst is the party writing the cheque, and the primary document could not be retrieved this run.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">CommonSpirit Health</span>
+    <span class="sector">Healthcare - hospital system (nonprofit) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">In a corporate announcement of its AI-driven strategy dated 14 Jan 2026, president and CEO Wright Lassiter III said: &quot;Our innovative use of AI and related technologies has already generated $100 million in annual value.&quot; The same release cites AI in stroke care across &quot;over 50 facilities&quot; and names CFO Michael Browning, but nowhere says what the `$100m` contains. Logged eight months after the fact because it was never logged and it remains the company&#x27;s standing public number for one of the largest non-profit systems in the US.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A portfolio claim rather than a single mechanism: AI deployed across clinical and administrative operations, with stroke-care triage the one named clinical use. No decomposition into cost avoidance, realized expense reduction, loss avoidance or revenue is offered, and no baseline or denominator is given against a cost base of tens of billions.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function, the cell that matters and the hardest to evidence. Standing cost trap 3 applies squarely: &quot;annual value&quot; is a company-defined composite and the company does not say what is in it. It is filed in the cost ledger rather than the revenue log because no revenue is attributed anywhere in the release; that is a placement decision, not a finding. It may well contain revenue capture of exactly the kind the BCBSA entry logged today describes, which is the reason it is not in the revenue totals rather than a reason to promote it.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.commonspirit.org/news-articles/commonspirit-health-unveils-future-focused-ai-driven-strategy" rel="noopener">CommonSpirit Health corporate announcement, &#x27;CommonSpirit Health Unveils Future-Focused, AI-Driven Strategy&#x27; (retrieved this run), 2026-01-14</a></dd><dt>Falsifier</dt><dd>If FY2026 or FY2027 reporting drops the `$100m` or restates it without ever decomposing it, treat it as a narrative number. The confirming test is the opposite and specific: an operating-expense or labour line that actually falls, or a stated split between cost avoided and cost realized.</dd><dt>Confidence</dt><dd><strong>low</strong> — Primary company source, named CEO, exact quote - but an undecomposed composite metric in a strategy announcement rather than a financial disclosure, and eight months old with no restatement found.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
