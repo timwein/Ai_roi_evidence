@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-29 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-29</h1>
+  <p class="standfirst">2
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Two findings, both counter-evidence, no S3 for the fifty-eighth consecutive logged day - and today&#x27;s better item is the first quantified answer to <em>why</em>: KPMG puts <code>5-10%</code> of insurers&#x27; AI budgets on new products and revenue-generating opportunities, against roughly half on back-office efficiency. New-revenue AI in insurance is not underperforming. It is barely being funded.</div>
+<p>No gap since the last run on <code>28 Sep</code>. Tuesday of a pre-earnings week, so there was no live tape of company disclosure to work - <code>21</code> angles run, <code>10</code> of them S3-weighted, and both entries came from research published this morning rather than from any company saying anything about its own revenue.</p>
+<h4>Sources read</h4>
+<ul><li><strong>KPMG International</strong>, <em>Unlocking AI value in insurance</em> - published <code>29 Sep</code>, fielded <code>20-29 May 2026</code> across <code>20</code> countries at insurers with <code>500+</code> employees. <code>5-10%</code> of AI budgets to new products or revenue-generating opportunities; <code>71%</code> using AI mainly for content generation or routine task automation; <code>25%</code> using it to drive growth through new products; <code>11%</code> describing their view of AI ROI as &quot;very clear&quot;. Logged <strong>S2</strong>, counter-evidence, low confidence. Respondent count is not disclosed anywhere in the two trade renderings retrieved, and the KPMG primary would not render.</li><li><strong>GFT Technologies / Wakefield Research</strong>, <em>The Future of AI, Unfiltered</em> - press release retrieved from GFT direct, <code>29 Sep</code>. <code>945</code> CIOs and CTOs, <code>19</code> countries, companies above <code>$500m</code> revenue, fielded <code>11-31 Aug 2026</code>. <code>84%</code> say legacy-system limits have caused their organisation to cancel an AI pilot or project; <code>89%</code> concerned AI investment is growing faster than the business value it can deliver; <code>91%</code> believe some public companies cite AI to justify workforce changes primarily intended to boost their share price. Logged <strong>S2</strong>, counter-evidence, low confidence.</li><li><strong>Beazley</strong> - <code>24 Sep</code> launch of AI Voluntary Shutdown cover, described as an industry first, plus AI Regulatory Defence and Penalties cover. Retrieved in full. No premium, take-up or policy count anywhere in it.</li><li><strong>ibex Ltd</strong> - Q4 FY2026 call re-read for anything unlogged. The Philippine Airlines and BJ&#x27;s Wholesale AI-agent results are already in this log at <code>2026-09-14</code>; <code>$114m</code> health-tech revenue against a <code>$100m</code> target is not AI-attributed. Nothing new.</li><li><strong>PYMNTS</strong>, <em>Retailers Report AI-Driven Sales and Bigger Baskets</em> - <code>20 Aug</code>. Every figure in it (<strong>Walmart</strong> Sparky <code>40%</code>, <strong>Amazon</strong> Rufus <code>40%</code>, <strong>Albertsons</strong> <code>10%</code>/<code>26%</code>, <strong>Target</strong> wish lists) is already logged. No new retailer disclosure surfaced this run.</li><li><strong>HR Dive</strong> - <code>28 Sep</code> follow-up on the <strong>BCBSA</strong> <code>$942m</code> AI-coding finding logged <code>27 Sep</code>. <strong>Solventum</strong> and <strong>Codametrix</strong> both push back; neither offers a number.</li></ul>
+<div class="callout">The pattern across the last eight days is three consultancies describing the same sector in three incompatible ways. <strong>Grant Thornton</strong> (<code>22 Sep</code>): <code>52%</code> of insurance leaders report AI-attributable revenue growth. <strong>Accenture</strong> (<code>28 Sep</code>): <code>81%</code> of <code>263</code> carriers claim at least <code>5%</code> more gross written premium. <strong>KPMG</strong> (today): <code>25%</code> are even trying to drive growth with AI, and <code>11%</code> can describe their ROI clearly. At most one of these is right, and not one of the three names a single carrier. This is what the evidence base looks like when the deploying companies themselves will not put a number on the record.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new-risk-class SKUs</strong> - <strong>Beazley</strong> AI shutdown and regulatory-penalty covers, <strong>Mount</strong> AI liability policy. Failed the bar on result, not on shape: a launch with no premium, take-up or policy count is an announcement. Beazley would also fail the scope test as written - this is revenue from insuring other people&#x27;s AI, which is AI-as-customer, not return on Beazley&#x27;s own AI spend.</li><li><strong>S3 insurance, newly economic segments</strong> - <strong>Insureon</strong>/<strong>LIO Insurance</strong>, <code>8 Sep</code>, AI-assisted underwriting on specialty small-business lines &quot;traditionally referred out to specialty brokers&quot;. The most S3-shaped mechanism seen this run, and it discloses nothing: no premium, no bound-policy count, no segment size. LIO is also AI-native, so appendix at best.</li><li><strong>S3 industrials, autonomy as a new line</strong> - <strong>Trimble</strong> Arc Agent, <code>28 Sep</code>, sold on a single-tier subscription with <code>10</code> hours of agent time included. A real new SKU with a real price, and zero disclosed revenue or customer count. Trimble is also closer to a software vendor than to an industrial deployer.</li><li><strong>S3 healthcare, diagnostics at new price points</strong> - <code>2026</code> Category I CPT codes for autonomous diabetic-retinopathy screening and for AI coronary plaque analysis (<code>75577</code>, Medicare payment above <code>$950</code>). A genuine capability gate and a genuine new billable service, but no company disclosed volumes or revenue against either code this run, and the credible subjects are AI-native.</li><li><strong>S1/S2 utilities, telecom, energy</strong> - <strong>Xcel</strong>, <strong>TE Connectivity</strong>, <strong>NextNRG</strong>, <strong>iQSTEL</strong>, <strong>Advanced Energy</strong>, <strong>Micron</strong>. All AI-as-customer: real revenue, pre-existing SKUs, sold to a new buyer building AI infrastructure. Not return on AI deployment, per the standing scope rule.</li><li><strong>S2 CPG</strong> - a <code>30%</code> ice-cream sales lift attributed to <strong>Unilever</strong> weather-based AI demand forecasting, circulating on vendor blogs. Traced to no primary document and no Unilever statement. Dropped under the never-reconstruct-a-number rule.</li><li><strong>Counter-evidence, PwC 29th Global CEO Survey</strong> - <code>n=4,454</code> CEOs, <code>95</code> countries, <code>56%</code> reporting no significant financial benefit from AI, only <code>12%</code> reporting both cost and revenue benefit. Strong, large-n, and unlogged. Not logged today because it is from <code>January 2026</code> and eight months outside this sweep&#x27;s window; flagged here so a later run can decide whether to backfill it deliberately rather than stumble on it again.</li><li><strong>Counter-evidence, S&amp;P Global <code>42%</code> abandonment</strong> - <code>2025</code> data, surfaced only through secondary aggregators this run. Not traced to a retrievable primary.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li>Q3 2026 earnings season opens mid-October; the big US banks report first and are the densest source of AI revenue-uplift language in this log.</li><li><strong>TD Bank</strong>&#x27;s <code>$1bn</code> annual AI value target, half of it revenue uplift, logged <code>23 Sep</code> - the first checkpoint that can confirm or break the revenue half.</li><li><strong>Costco</strong> FY2027 Q1, the next test of the falsifier written into the <code>26 Sep</code> entry.</li><li><strong>BCBSA</strong> <code>$942m</code> coding-intensity finding - watch for a named hospital system or payer putting a number against it rather than a vendor pushing back without one.</li><li>Any Q3 disclosure from an insurer that contradicts KPMG&#x27;s <code>5-10%</code>: a named carrier attributing premium to an AI-enabled product with no predecessor in its own catalogue would be this log&#x27;s third confirmed S3.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">KPMG International - &#x27;Unlocking AI value in insurance: A leader&#x27;s guide to AI-enabled transformation&#x27; (insurance leaders, 20 countries and six regions, organisations with 500+ employees; respondent count not disclosed)</span>
+    <span class="sector">Insurance / Cross-sector research · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">KPMG research published 29 Sep 2026, fielded 20-29 May 2026 among insurance leaders in 20 countries and six regions at organisations with 500 or more employees, reports that &quot;only 5% to 10%&quot; of insurers&#x27; AI budgets &quot;is allocated to new products or revenue-generating opportunities&quot;, against &quot;nearly half of insurance budgets&quot; directed to &quot;operational and back-office efficiency&quot;; that &quot;71% use AI mainly for content generation or routine task automation&quot;; that only &quot;one-quarter (25%)&quot; are &quot;using it to drive growth through new products, services and AI-enabled offerings&quot;; and that &quot;only 11% describe their view of AI return on investment as very clear, while 23% report limited clarity or no clear view&quot;. The same research reports &quot;77% of insurance leaders believe failing to respond to AI could undermine competitiveness within five years&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>No mechanism - this is a budget-allocation measurement, and that is the point. It reports where insurers are actually pointing AI money: back-office efficiency roughly half, new products and revenue-generating opportunities 5-10%. The mechanisms this log spends most of its search effort hunting in insurance (new risk classes, newly priceable exposures, AI-enabled SKUs with no catalogue predecessor) are, on this reading, funded out of a single-digit share of the sector&#x27;s AI spend.</dd><dt>Why this shape</dt><dd>Counter-evidence, tagged to S2 by the log&#x27;s established convention for population-level survey nulls (MIT FutureTech 2026-07-26, McKinsey 2026-08-28, BCG 2026-09-02), because S2 is where the bulk of revenue-attribution claims sit. It is tagged S2 rather than S3 deliberately: the finding cuts hardest against S3, but logging a counter-evidence entry under S3 would increment the S3 tile and make an absence look like a finding, which is the failure mode METHOD names as the worst in this log. Read against S3 it is the most direct measurement this log has yet recorded of why confirmed S3 stays at 2 in 58 logged days - at 5-10% of budget, new-revenue AI in insurance is not underperforming, it is barely being funded. It also sits in unresolved tension with two entries logged in the last eight days: Grant Thornton&#x27;s insurance cut (2026-09-22, 52% of insurance leaders reporting AI-attributable revenue growth) and Accenture&#x27;s 263-executive survey (2026-09-28, 81% claiming at least 5% more gross written premium from AI). Three consultancies, three incompatible pictures of the same sector inside one quarter; at most one can be right, and none of the three names a carrier.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://beinsure.com/insurers-struggle-to-turn-ai-investment/" rel="noopener">KPMG International, &#x27;Unlocking AI value in insurance&#x27;, via Beinsure trade coverage (two independent renderings retrieved and cross-checked this run); KPMG primary not retrievable, 2026-09-29</a></dd><dt>Falsifier</dt><dd>If a later KPMG wave, or any comparable insurance-sector budget survey, shows the new-products-and-revenue share of AI budgets moving out of single digits, this entry&#x27;s reading is wrong and the sector is funding S3. Conversely, if a named carrier discloses material premium attributable to an AI-enabled product with no predecessor in its own catalogue, the 5-10% figure will have understated what that slice can produce.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier D consultant survey by a firm that sells AI transformation advisory to exactly this audience, so &#x27;insurers are not getting clear ROI&#x27; is also a sales pitch. Respondent count is not disclosed in either trade rendering retrieved this run, and the KPMG primary would not render; a search result attributing n=1,390 across eight markets belongs to KPMG&#x27;s earlier &#x27;Intelligent insurance&#x27; work, not this May 2026 fieldwork, and is deliberately not used here. The budget-allocation figures are quantitative and orthogonal to the sponsor&#x27;s pitch, which is why this is logged at all; the 77% competitiveness figure is sentiment and carries no weight.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">GFT Technologies / Wakefield Research - &#x27;The Future of AI, Unfiltered&#x27; (945 CIOs and CTOs, 19 countries, companies with $500m+ annual revenue)</span>
+    <span class="sector">Cross-sector research · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Survey of 945 CIOs and CTOs across 19 countries at companies with at least $500m in annual revenue, fielded 11-31 Aug 2026 by Wakefield Research for GFT Technologies and published 29 Sep 2026: &quot;84% say limitations in their legacy systems have caused their organization to cancel an AI pilot or project&quot;; &quot;89% are concerned that global AI investment may be growing faster than the business value it can realistically deliver&quot;; and &quot;91% believe some public companies cite AI to justify workforce changes that are primarily intended to boost their share price&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>None - a negative finding about the pipeline that feeds every shape in this log. The 84% is behavioural: projects that existed and were killed, at large companies, for an infrastructural reason. If it holds anywhere near that level, the gap between announced AI initiatives and deployed ones is wider than the announcement flow suggests, and a large share of what this log searches for was cancelled before it could produce a number.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, the shape that claims attributed financial impact on existing business, following the convention used for prior cross-sector survey nulls. Logged for one thing the log does not otherwise have: the 91% figure is the first quantified reading this log holds on METHOD&#x27;s standing cost-ledger trap 4, headcount with many parents. It is technology leaders at large firms saying, as a near-consensus, that AI-labelled workforce actions are partly share-price positioning. That is belief rather than evidence of the practice, and it cannot promote or demote any C-ledger entry on its own, but it is the first time the trap has been measured rather than asserted. The 89% is the capex-versus-realised-revenue gap restated as sentiment.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://www.gft.com/us/en/about-us/newsroom/press-and-news/2026/press-releases/new-ai-research-from-gft-technologies" rel="noopener">GFT Technologies press release, &#x27;New AI Research from GFT Technologies: 84% of CIOs Have Canceled an AI Project Over Legacy System Limits&#x27; (primary release retrieved; Business Wire rendering cross-checked), 2026-09-29</a></dd><dt>Falsifier</dt><dd>If a later wave of the same survey, or any comparable large-n CIO panel, shows legacy-driven cancellation falling sharply while AI capex holds, the constraint described here was transient rather than structural. And if the 91% belief is ever tested against actual disclosure - a study matching AI-attributed layoff announcements to what the same companies told the SEC - the belief will be either substantiated or exposed as cynicism, and this entry should be revisited either way.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier D, vendor-sponsored, and the sponsor sells the cure it diagnoses: GFT&#x27;s own AI-modernisation offering launched alongside this research, so the 84% legacy-cancellation headline is the finding GFT most needed the survey to produce and the question was almost certainly framed to yield it. Two of the three headline figures (89%, 91%) are belief statements, not results, and are treated as such. Logged at low confidence for the 91% datapoint on a trap METHOD names but nothing in the ledger has yet measured; not load-bearing for any conclusion on its own.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
