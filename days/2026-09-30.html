@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-30 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-09-30</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout"><strong>Three findings, two of them negative, and no S3 - not even a candidate.</strong> The day&#x27;s most useful document is not a company disclosure at all but a UK government survey of <code>3,500</code> businesses finding that <code>77%</code> of AI adopters have seen no change in revenue. The one positive finding, Albert Heijn&#x27;s <code>56%</code>, is a cross-sectional user-versus-non-user gap with an unaddressed selection problem.</div>
+<h4>Sources read</h4>
+<ul><li><strong>Concentrix</strong> - Q3 FY2026, reported 29 Sep. Roughly <code>$5bn</code> of &quot;new, AI-influenced revenue&quot; disclosed alongside consolidated revenue of <code>$2,453.7m</code>, <em>down</em> <code>1.2%</code>, and Q4 guided down <code>3-5%</code> in constant currency. The <code>$120m</code> iX Suite software-licensing ARR expected at FY26 exit is the only genuinely new SKU and is about <code>1.2%</code> of guided revenue.</li><li><strong>Albert Heijn</strong> - at Groceryshop 2026, <code>1.1 million</code> active users of its Steijn assistant spending <code>56%</code> more than non-users. Named company, specific number, three independent trade renderings, no filing and no control group.</li><li><strong>DSIT / IFF Research / Technopolis</strong> - <code>3,500</code> UK businesses. <code>56%</code> report a productivity gain, <code>12%</code> report a revenue increase, <code>77%</code> report no revenue change. Dose-response: <code>19%</code> versus <code>10%</code> by share of staff using AI.</li><li><strong>Paychex</strong> - Q1 FY2027. AI investment at <code>5x</code> last year&#x27;s level, <code>2,000+</code> agents deployed, WISE Hire being commercialised. No AI-attributed revenue figure.</li><li><strong>Carnival</strong> - Q3 2026, record yields up nearly <code>2.5%</code>. Nothing attributed to AI in the results materials read.</li><li><strong>Kroger</strong> - Groceryshop keynote. Baskets described as larger with the shopping assistant; size of the increase and user count both withheld.</li></ul>
+<div class="callout">The pattern across six weeks is now hard to miss: the gap is not between companies that get AI value and companies that do not, it is between <em>input</em> metrics that everyone will quantify and <em>revenue</em> metrics that almost nobody will. DSIT puts a number on that gap at population scale - <code>56%</code> productivity, <code>12%</code> revenue - and it is the same gap this log has been documenting one disclosure at a time.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - Insureon/LIO partnership (8 Sep) putting AI-assisted underwriting on hundreds of hard-to-place specialty classes; CFC affirmative AI for IP and CRC Insurisk Cyber (24 Sep). Failed the inclusion bar: launches with no result, no premium bound, no revenue figure. The CFC and CRC products also insure <em>against</em> AI, which is AI-as-customer, not AI-as-capability.</li><li><strong>S3 banking, new SKU with no predecessor</strong> - Citi Commerce Media, launched 23 Sep, a payments media network over <code>70 million</code> US customers and <code>6.5 billion</code> annual transactions. Failed test (c), the capability gate: card-data ad targeting does not need anything absent 24 months ago. Also no revenue disclosed.</li><li><strong>S3 media, new SKU</strong> - Axios Direct, content feeds built for AI agents, with Axios saying it hit its 2026 revenue goal in September. Failed on subject: the demand comes from AI companies as buyers, so this is selling into the build-out, not ROI on a deployment. No figure attached to Axios Direct itself.</li><li><strong>S1 agriculture</strong> - Lindsay Corporation&#x27;s FieldNET Advisor and its guidance for double-digit technology revenue growth in FY2026, plus an <code>$80m</code> MENA supply agreement. Failed on attribution: technology revenue is not isolated to AI and the MENA contract is irrigation hardware with FieldNET attached. Q4 FY2026 results are not out.</li><li><strong>S2 retail media</strong> - CVS Media Exchange&#x27;s <code>51%</code> new-to-brand lift on a Dove campaign and a <code>14%</code> in-store sales lift for Mondelez measured on Albertsons&#x27; matched-market framework. Failed on mechanism: these are campaign results, not AI-attributed ones. Worth noting the counter-datapoint from the same event, that only <code>31%</code> of retail media leaders say they are confident their revenue is truly incremental.</li><li><strong>S2 grocery, platforms</strong> - DoorDash reported baskets <code>50%</code> larger with Ask DoorDash, checkout <code>5x</code> faster, <code>60%</code> more unique items. Out of scope as a subject and not routed to the appendix: it is a marketplace&#x27;s own take rate on other people&#x27;s groceries, which makes the incrementality question unanswerable from outside.</li><li><strong>Counter-evidence</strong> - C3.ai&#x27;s revenue down <code>27%</code> year over year. Already in the log and a software vendor, so it measures shovel sales, not adoption.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>1 Oct</strong> - Nike Q1 FY2027 call. Watch for anything attributed to demand sensing or personalisation rather than traffic.</li><li><strong>Early Oct</strong> - Lamb Weston, Conagra, McCormick, Constellation Brands. CPG is where personalisation and trade-spend optimisation claims would surface if they are going to.</li><li><strong>Mid-Oct</strong> - Q3 earnings season proper. The banks lead on <code>13-15 Oct</code>; last quarter they gave the log its densest run of S1 disclosures and no S2.</li><li><strong>Undated</strong> - Kroger has now twice described bigger baskets from its shopping assistant without sizing the effect. A number, or a continued refusal to give one, is informative either way.</li><li><strong>Undated</strong> - DSIT&#x27;s successor wave with 2026 fieldwork. This is the single most load-bearing forthcoming document for the thesis.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Concentrix Corporation</span>
+    <span class="sector">Business services / BPO · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On its Q3 FY2026 results (quarter ended 31 Aug 2026, reported 29 Sep 2026) Concentrix told investors that roughly `50%` of revenue now comes from business won and deployed since AI was introduced at the start of fiscal 2023, and broke out about `$5bn` of &quot;new, AI-influenced revenue&quot;: `$3bn` from clients whose programmes have been heavily transformed or are AI-influenced, `$1.3bn` of net revenue tied to traditional services compressed through its proprietary iX Suite AI platform, and `$700m` from newer high-value services such as risk and compliance. Management said this stream is growing at an estimated `30%` year over year in fiscal 2026 with revenue retention &quot;more than four times higher&quot; than traditional business, that new-logo AI wins rose `63%` quarter over quarter, and that the company expects to exit fiscal 2026 with approximately `$120m` of software-licensing ARR from iX Suite. Consolidated Q3 revenue was `$2,453.7m`, down `1.2%` reported and `0.5%` in constant currency year over year, and Q4 constant-currency revenue is guided down `3%` to `5%`.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two mechanisms sit inside one label. Concentrix uses its iX Suite to compress delivered CX work - fewer advisor-hours per programme, `61` opportunities brought live on iX Suite in the quarter across more than `30,000` advisors - and separately licenses that same AI stack back to clients as software. The first shrinks the billable base of the legacy business; the second is a new licence line. &quot;AI-influenced revenue&quot; pools both with any account won since FY2023, so it measures mix, not increment.</dd><dt>Why this shape</dt><dd>S2, not S3. Test (a) fails: buyers of outsourced CX and of CX AI software would have bought from Teleperformance, TTEC, Genpact, NICE or Genesys absent Concentrix, so a competitor loses the sale and nothing here is new demand. The `$120m` software-licensing ARR is the one item with no predecessor in Concentrix&#x27;s own catalogue, but it is roughly `1.2%` of FY2026 guided revenue and is PROJECTED at year-end exit rather than realised, so it does not carry an S3-CANDIDATE on its own. Logged as counter-evidence because this is the cleanest live example in the log of the denominator game METHOD warns about: `$5bn` of revenue relabelled AI-influenced while the consolidated top line falls `1.2%` and the next quarter is guided down `3-5%` in constant currency. Note also the direction of the compression mechanism - iX Suite deflates the revenue of the work it touches, so at a services firm a genuine AI success can show up as a smaller top line.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001803599/000180359926000147/exhibit991q32026.htm" rel="noopener">Q3 FY2026 results, Form 8-K Exhibit 99.1, plus 29 Sep 2026 earnings call and investor slides, 2026-09-29</a></dd><dt>Falsifier</dt><dd>FY2027 consolidated revenue failing to return to growth while the AI-influenced total keeps rising - specifically, FY2027 revenue below the `$9.827-9.877bn` FY2026 guidance range, or Q4 FY2026 constant-currency revenue below the `-5%` end of guidance, with management still reporting a larger AI-influenced figure. If that happens the metric is confirmed as mix relabelling with no incremental content.</dd><dt>Confidence</dt><dd><strong>high</strong> — The revenue decline and guidance are from the Form 8-K exhibit retrieved this run; the AI breakdown is from the same-day call and investor slides, read through three independent renderings (Motley Fool transcript, Investing.com slides coverage, Yahoo/Cerbat call highlights) rather than from the deck itself. High confidence attaches to the counter-evidence reading, which rests on the filed revenue figures, not on the AI numbers.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Albert Heijn (Ahold Delhaize)</span>
+    <span class="sector">Retail / grocery · Netherlands</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">At Groceryshop 2026 in Las Vegas (22-24 Sep 2026) Albert Heijn said its in-app AI assistant &quot;Steijn&quot; has `1.1 million` active users, and that those users spend `56%` more than non-users. The figure was reported independently by three trade outlets covering the same sessions.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Steijn sits inside the My AH app with access to more than `20,000` Albert Heijn recipes plus nutrition and cooking data, and is being extended from meal inspiration into personalised meal planning, pre-filled baskets and coupon activation. The revenue path is conversion of recipe browsing - previously a dead end that ended in inspiration - into a multi-item basket placed in the same session.</dd><dt>Why this shape</dt><dd>S2 at most, and possibly not even that. Test (a) fails for S3 outright: these are existing Albert Heijn customers buying groceries they would have bought from somebody. The deeper problem is that the `56%` is a cross-sectional comparison of users against non-users with no control for shopper type - households that plan meals, cook for families and shop heavily are exactly the ones who adopt a meal-planning assistant, so the gap may be selection rather than effect. Who lost the sale is unidentified, and it is entirely possible that nobody did and this is Albert Heijn&#x27;s own heavy shoppers sorted into a cohort. That is the reason this is logged at low confidence rather than as a clean share finding.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://theshelbyreport.com/2026/09/29/groceryshop-wrapup-grocery-leaning-on-ai-as-shoppers-get-pickier/" rel="noopener">Groceryshop 2026 conference coverage, The Shelby Report (corroborated by RetailNews.ai and Mass Market Retailers, both 25 Sep 2026), 2026-09-29</a></dd><dt>Falsifier</dt><dd>Ahold Delhaize&#x27;s Netherlands comparable-sales growth failing to separate from the Dutch grocery market in FY2026 and FY2027 results, or Albert Heijn never restating the `56%` as a matched-cohort or pre/post incremental figure. Either means this was a user-mix statistic presented as a revenue result.</dd><dt>Confidence</dt><dd><strong>low</strong> — Named company and a specific number from a company executive at a named event, corroborated across three outlets - but Tier C only, nothing in an Ahold Delhaize filing, and a cross-sectional comparison with an obvious and unaddressed selection-bias problem.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">UK Department for Science, Innovation and Technology - &#x27;AI Adoption Research&#x27; (IFF Research / Technopolis Group; 3,500 UK businesses)</span>
+    <span class="sector">Cross-sector (UK business population) · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">UK government-commissioned research published `13 Feb 2026`, surveying `3,500` businesses with `100` qualitative interviews: among businesses using AI, `77%` reported having not yet seen a change in revenue and just `12%` reported an increase. Over the same base `56%` reported an increase in employee productivity (`24%` by less than `10%`, `16%` by `10-19%`, `16%` by `20%` or more), with `35%` reporting no change and `1%` a decrease. The one gradient pointing the other way: `19%` of businesses with more than half of staff using AI reported increased revenue, against `10%` where fewer than half did.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment. A population-level measurement of whether AI adoption reaches the top line, with a dose-response cut - share of staff using AI - that is the closest thing in this log to a causal gradient rather than a self-serving attribution.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, the shape most of this log&#x27;s positive findings sit in. It does not contradict S1: widely reported productivity and time savings are precisely the velocity shape, and `56%` reporting a productivity gain is consistent with everything S1 in this log. What it contradicts is the assumption that velocity converts - at population scale, more than three quarters of adopters say it has not, yet. The `19%` versus `10%` dose-response is the reason not to read this as a flat null: depth of deployment, not adoption as a binary, is where any revenue effect lives. That is the same shape as the FRBSF bank-lending result logged 2026-09-25.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.gov.uk/government/publications/ai-adoption-research/ai-adoption-research" rel="noopener">AI Adoption Research, Department for Science, Innovation and Technology (survey fieldwork 12 Feb - 2 May 2025), 2026-02-13</a></dd><dt>Falsifier</dt><dd>The successor wave, with fieldwork run in 2026 and therefore after the current model generation, showing the &#x27;no change in revenue&#x27; share falling materially below `77%`. If it holds near `77%` on fresher fieldwork, the productivity-profit gap is structural rather than a lag, and the S1-to-S2 conversion this log keeps waiting for does not arrive.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The largest-n government measurement of exactly the question this log asks, and not a consultant sentiment survey - but fieldwork closed in May 2025, roughly `18` months stale and a full model generation ago, which is the main reason to discount it. Self-reported revenue attribution is weak evidence even in official statistics.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
