@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-10-09 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-10-09</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No S3, for the fifth consecutive run. Four findings, two of them counter-evidence, and the sharpest number of the day is a ratio: <code>24%</code> of companies report AI cost savings of at least <code>10%</code>, against <code>4%</code> reporting revenue growth of that size. The sweep was widened to 1-9 Oct because no run fired between 2 and 9 Oct.</div>
+<p>The two positive findings are both retail funnel metrics and neither attributes a dollar. <strong>Levi Strauss</strong> has a <code>3x</code> add-to-bag rate on a self-selected cohort and declined to attribute any part of its double-digit e-commerce growth to the tool. <strong>The Very Group</strong> has a revenue number but scoped to one strategy in its first month.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Levi Strauss &amp; Co.</strong> - Q3 FY2026 call, 7 Oct. CEO Michelle Gass: shoppers engaging the new US AI shopping assistant are &quot;adding to bag at roughly three times our average rate&quot;. Net revenues <code>$1.61bn</code>, up <code>5%</code> organic; e-commerce &quot;double-digit&quot; growth credited jointly to the assistant and &quot;enhanced digital storytelling&quot;. Logged S1.</li><li><strong>The Very Group</strong> - press release, 5 Oct. Digital director Sarah Hanna: &quot;revenue per customer increasing by a fifth in one of our agentic strategies&quot; in month one with vendor Made With Intent. Conversion uplift claimed, not sized. Logged S2.</li><li><strong>BearingPoint study via Reuters</strong> - 1 Oct. <code>24%</code> report AI cost savings of <code>10%</code>+ against <code>4%</code> reporting revenue growth of <code>10%</code>+; <code>13%</code> on track; deep integration <code>11%</code> in 2026 from <code>7%</code> in 2025. Logged S2 counter-evidence.</li><li><strong>Evident Insights banking brief</strong> - 1 Oct. <strong>Bank of America</strong> at &quot;about 0.7% of revenue&quot;, <strong>Lloyds</strong> at <code>$133m</code>, &quot;roughly 0.5% of its 2025 revenue&quot;; <code>13</code> banks now disclose a return, up from <code>8</code>. Composite of revenue and cost, never split. Logged C4 counter-evidence.</li><li><strong>PepsiCo</strong> - Q3 2026 prepared remarks, 8 Oct, retrieved and searched in full. &quot;Automation, network optimization, digitalization and simplification&quot; appear as a cost programme with no AI attribution and no number. Nothing on revenue.</li><li><strong>Delta Air Lines</strong> - Q3 2026 results, 9 Oct. Adjusted unit revenue up <code>15%</code> on near-flat capacity - pricing and yield, not capacity, drove the top line - but nothing retrieved attributes any of it to AI.</li><li><strong>Constellation Brands</strong> - Q2 FY2027 call, 7 Oct, transcript retrieved and searched. Neither &quot;AI&quot; nor &quot;artificial intelligence&quot; is said by any speaker.</li><li><strong>St. Louis Fed / FRBSF</strong> - &#x27;New Survey Findings on AI Adoption&#x27;, 6 Oct. Eighth District business survey; the published post carries no quantitative revenue, sales or productivity finding.</li><li><strong>Aon, WTW, Marsh</strong> - 8 Oct, on insurers&#x27; AI exclusions. Brokers pressing carriers over broad AI exclusions in renewals; <code>60</code>+ P&amp;C groups have filed some form of exclusion. No premium figures.</li></ul>
+<div class="callout">The cross-run pattern is now specific enough to state as a mechanism, not a mood. Non-tech incumbents are disclosing funnel metrics on AI and withholding the revenue line in the same sentence - Levi had the e-commerce number in hand and bracketed the assistant with &quot;digital storytelling&quot; rather than attribute it. BearingPoint&#x27;s six-to-one and Evident&#x27;s <code>0.7%</code>-of-revenue ceiling are the same fact measured two ways: the benefit is landing as cost, and where it is called revenue it is unsplit composite.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, AI-risk cover</strong> - Beazley affirmative AI cyber cover, CFC AI IP cover, Munich Re aiSure, Armilla, Mayflower Specialty; limits of <code>$2m</code>-<code>$50m</code> cited. Fails the inclusion bar: no written premium anywhere. Also fails the capability gate in the deployment sense - demand is created by customers&#x27; AI, not by the insurer&#x27;s own AI - which is the AI-as-customer near-miss in new-SKU clothing.</li><li><strong>S3 insurance, previously uninsurable</strong> - searched carrier launches for declined risk classes; found the opposite. <code>60</code>+ P&amp;C groups have filed AI exclusions and WTW is telling clients not to expect all AI risk to be insurable. Fails test (d): the market is contracting the insurable perimeter, not opening it.</li><li><strong>S3 professional services</strong> - Thomson Reuters Future of Professionals 2026: <code>78%</code> of corporate clients rate AI-enabled quality essential against <code>6%</code> who say providers deliver it, and &quot;$143 billion in US legal and accounting revenue under active reconsideration&quot;. Fails the bar as a sentiment survey with a risk figure, not a result; no firm&#x27;s new service line is named with revenue.</li><li><strong>S3 pharma</strong> - Insilico, Recursion, Isomorphic, Parabilis checked. Only collaboration headline values and contingent milestones, no October disclosure. Fails the bar: milestone-laden contract values are not booked revenue, and nothing retrieved dates to this window.</li><li><strong>S3 healthcare diagnostics</strong> - 2026 CPT set, Cleerly&#x27;s move to Category I, five new AI-pathology Category III codes. Fails test (a) and the bar: no provider or vendor has disclosed billed revenue against the new codes, and Medicare pricing is unresolved.</li><li><strong>S3 industrials</strong> - Caterpillar, Komatsu, Honeywell, Siemens. Honeywell Forge ARR passing <code>$1bn</code> is software broadly, not an autonomy SKU; Caterpillar&#x27;s <code>$100m</code> is workforce training spend. Fails the capability gate and the new-SKU test; Siemens&#x27; NVIDIA event is 19 Oct.</li><li><strong>S3 long-tail SMB</strong> - SAS/IDC small-financial-institution study, 30 Sep; broker-disintermediation analyses. Fails the bar: adoption and readiness percentages, plus a <code>$15bn</code> commissions-at-risk figure, with no bank or insurer quantifying revenue from newly served tail customers.</li><li><strong>S2 grocery and retail media</strong> - Albertsons basket and media-lift figures recirculated via an analyst report; Ahold Delhaize&#x27;s <code>EUR 1.35bn</code> quoted with no source. Fails the bar: secondary renderings of figures already in this log or untraceable to a primary document.</li><li><strong>S2 agentic commerce</strong> - Instant Checkout partner lists and fee estimates. Fails the bar: no retailer has disclosed revenue or order volume through agentic checkout.</li><li><strong>S2 travel and hospitality</strong> - Marriott RevPAR, Finnair price optimisation, Royal Caribbean yield figures, all via vendor and market-research pages. Fails the bar: none traceable to a company filing, and one source concedes upsell gains may be transfers rather than gains.</li><li><strong>S1 non-tech October calls</strong> - PepsiCo, Constellation Brands, RPM International, Helen of Troy, Domino&#x27;s, Conagra. Fails the bar: either no AI mention in the retrieved transcript or AI named as a modernisation programme with no number attached.</li><li><strong>Appendix candidates</strong> - TCS annualised AI revenue of <code>$3.1bn</code>, past <code>10%</code> of revenue, 8 Oct, and the OpenAI run-rate restatement from roughly <code>$70bn</code> to &quot;approaching $50bn&quot;, 8 Oct. Both out of scope as subjects and neither is adoption ROI; the OpenAI revision is a vendor-side denominator story, noted here because it is the week&#x27;s loudest AI revenue number and it moved the wrong way.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>13-15 Oct</strong> - JPMorganChase, Goldman Sachs, Citigroup, Wells Fargo Q3 calls. Bank of America reports <strong>14 Oct</strong>: the live test of whether the <code>$800m</code> benefit and the doubled AI budget get restated, and whether anything is split into revenue.</li><li><strong>19 Oct</strong> - Siemens and NVIDIA joint industrial-AI event at Erlangen. Watch for a priced SKU rather than a capability demo.</li><li><strong>Late Oct</strong> - P&amp;C insurer Q3 calls (Travelers, Chubb, Progressive) and the first large health systems. Underwriting hit rate and quote-to-bind are the S1 metrics to look for; AI exclusions are the S3 counter-story.</li><li><strong>Nov</strong> - Walmart, Target, Home Depot Q3 calls, the densest cluster of retail AI attribution in the calendar, and Levi&#x27;s Q4 FY2026 call, where the <code>3x</code> add-to-bag falsifier comes due.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">The Very Group (Very, Littlewoods)</span>
+    <span class="sector">Retail / E-commerce · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In a company press release dated 5 Oct 2026, The Very Group - annual revenue &quot;over GBP 2bn&quot;, `4.2m` customers - reported the first month of an AI personalisation deployment with vendor Made With Intent. Digital director Sarah Hanna: &quot;we&#x27;ve already seen promising results including revenue per customer increasing by a fifth in one of our agentic strategies.&quot; A conversion uplift was claimed but not quantified. No base, no control group, no comparison period, no absolute revenue and no customer count for the measured cohort were disclosed, and the `20%` applies to one agentic strategy rather than the site.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Made With Intent&#x27;s decision engine reads &quot;over 800 behavioural signals&quot; to predict shopper intent in real time and decides what each visitor sees and when, including discount offers targeted to individual shopping patterns and prompts placed through the journey. An optimisation agent tests experiences across hundreds of intent combinations and applies the winners to later visits.</dd><dt>Why this shape</dt><dd>S2: general-merchandise and apparel sold to existing Very and Littlewoods customers. Counterfactual purchase - yes, these shoppers would have bought comparable goods, from Very or from a competitor, so a rival marketplace loses the sale; zero-sum at industry level and GDP-neutral. Capability gate fails for S3: real-time behavioural scoring and offer targeting is 2019-era ML in newer language, whatever the &quot;agentic&quot; label. Note the mechanism includes targeted discounting, so revenue per customer can rise while gross margin falls - the company disclosed no margin figure.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier B</strong> — Company-issued, unaudited — press release, exec interview<br><a href="https://www.theverygroup.com/media/news/2026/the-very-group-enhances-customer-experience-with-ai-powered-personalisation/" rel="noopener">The Very Group press release, &#x27;The Very Group enhances customer experience with AI powered personalisation&#x27;, 5 Oct 2026 (company site, retrieved this run; trade-press renderings in Retail Gazette, Drapers and Retail Technology Innovation Hub carry the same quote), 2026-10-05</a></dd><dt>Falsifier</dt><dd>H1 FY2027 results that do not carry a company-level revenue, conversion or AOV figure from personalisation, or that show gross margin compression alongside the revenue-per-customer gain. A single-strategy, first-month number that is never restated at group level - or never restated at all - means this was a vendor-launch announcement, not a result.</dd><dt>Confidence</dt><dd><strong>low</strong> — Named company, named executive, Tier B primary release - but a first-month, single-strategy metric with no base, no control and no incrementality method, published jointly with the vendor.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">BearingPoint 2026 AI study (reported by Reuters; sample size, countries and fielding dates not disclosed in the retrieved report)</span>
+    <span class="sector">Cross-sector (research) · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">A BearingPoint study reported by Reuters on 1 Oct 2026 puts a ratio on the cost-versus-revenue asymmetry this log exists to measure: &quot;Around 24% of companies reported AI-driven cost savings of at least 10%&quot; against &quot;just 4% reporting revenue growth of the same scale&quot; - a six-to-one split. Alongside it: only `13%` of companies said they were on track with their AI initiatives, &quot;nearly three-quarters&quot; reported positive financial results from AI of some size, fewer than a third got past pilots, and deep AI integration rose to `11%` in 2026 from `7%` in 2025. Comprehensive implementation was reported by `20%` of companies in China and `18%` in the US against `8%` in Germany. The retrieved Reuters report does not state the sample size, the fielding dates or the full country list.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Self-reported attribution by surveyed companies, split by whether the AI benefit landed as cost saving or as revenue growth, at a 10%-or-more threshold on each side.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2 - the shape it contradicts - because it is a direct measurement of how rarely AI benefit shows up as attributed revenue rather than cost. Six times as many firms clear a `10%` cost-saving bar as clear a `10%` revenue-growth bar, which is the thesis of this log stated as a ratio. Logged in the revenue ledger, not as C1-C4, because the finding is the revenue side&#x27;s absence, not any cost number: the `24%` is the denominator that makes the `4%` legible. Standing traps: self-reported, no named companies, no verification, and &quot;positive financial results&quot; at &quot;nearly three-quarters&quot; is an unsized composite of exactly the kind METHOD warns about.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.investing.com/news/stock-market-news/ai-adoption-stalls-as-companies-struggle-to-scale-projects-despite-strong-returns-study-shows-4926252" rel="noopener">Reuters wire report of a BearingPoint study, 1 Oct 2026 (Investing.com rendering retrieved this run; the underlying study is consultancy-authored self-reported data, Tier D, and was not retrieved), 2026-10-01</a></dd><dt>Falsifier</dt><dd>A 2027 edition of the same study in which the revenue-growth share closes materially on the cost-savings share - or, the other way, a named-company disclosure season in which `10%`-scale AI-attributed revenue growth appears at more than a handful of non-tech incumbents. If the `4%` holds or falls while capex keeps rising, the asymmetry is structural rather than early.</dd><dt>Confidence</dt><dd><strong>low</strong> — Consultancy survey of self-reported attribution, reported second-hand; the underlying study was not retrieved and the Reuters report discloses no sample size or fielding dates. Logged for the ratio, which is unusually explicit, not for the absolute levels.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Levi Strauss &amp; Co.</span>
+    <span class="sector">Retail / Apparel · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q3 FY2026 earnings call (7 Oct 2026) President and CEO Michelle Gass gave the first result from the AI shopping assistant launched on Levi.com in the US: &quot;While still early, we&#x27;re seeing fans who engage with the tool adding to bag at roughly three times our average rate.&quot; The revenue line next to it is unattributed: Gass said only that &quot;Our e-commerce channel delivered another quarter of double-digit growth&quot; (one transcript rendering puts e-commerce at `10%` organic), credited jointly to richer digital storytelling and the assistant launch. Group net revenues were `$1.61bn`, up `4%` reported and `5%` organic; DTC rose `2%` with flat comparable sales. No share of e-commerce growth, and no dollar of revenue, was attributed to the assistant.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A conversational assistant on Levi.com gives styling advice, helps shoppers discover styles and builds outfits, with the intended effect of moving browsers into baskets. The disclosed metric is add-to-bag rate for the cohort that engaged with the tool, measured against the site average.</dd><dt>Why this shape</dt><dd>S1 because the disclosed number is add-to-bag rate - a funnel conversion input - not revenue. Revenue conversion is conspicuously absent rather than merely unstated: the company had a revenue number for the same channel in the same breath (double-digit e-commerce growth) and declined to attribute any part of it to the tool, instead bracketing it with &quot;enhanced digital storytelling&quot;. The `3x` figure is also a self-selected cohort - shoppers who choose to engage a styling assistant are higher-intent before the assistant touches them - so it measures neither lift nor incrementality. Not S2: no revenue is attributed. Not S3: jeans sold on a brand&#x27;s own site to its existing customers, with every prior alternative intact.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-levi-strauss-tops-eps-in-q3-2026-shares-fall-on-revenue-miss-93CH-4937645" rel="noopener">Levi Strauss &amp; Co. Q3 FY2026 earnings call, 7 Oct 2026 (Investing.com transcript rendering retrieved this run; Motley Fool rendering of the same call cross-checked for the e-commerce figure), 2026-10-07</a></dd><dt>Falsifier</dt><dd>A Q4 FY2026 or Q1 FY2027 call that repeats or expands the `3x` add-to-bag claim without ever attributing e-commerce dollars, points of conversion, or AOV to the assistant - or drops the assistant from the script entirely while e-commerce growth continues. Either outcome means the `3x` was a self-selection artefact used as narrative. Conversely, a disclosed basket-size or conversion delta measured against a holdout would promote this toward S2.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A call, verbatim CEO quote verified in a transcript rendering retrieved this run, but the metric is cohort-selected and the revenue conversion is unattributed.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card counter" data-shape="C4"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Evident AI Index for Banks - 2026 edition preview (Bank of America, Lloyds Banking Group, JPMorganChase, Commonwealth Bank of Australia named)</span>
+    <span class="sector">Banking (research) · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Evident Insights&#x27; banking brief of 1 Oct 2026 normalises the bank AI-value disclosures and the result is small. Bank of America&#x27;s figure is &quot;about 0.7% of revenue&quot; and Lloyds &quot;estimated it would generate some $133 million in 2026 - roughly 0.5% of its 2025 revenue&quot;. Evident states that Bank of America is &quot;the 13th bank in the Evident AI Index for Banks to report realized or projected returns from its AI portfolio&quot;, up from eight a year earlier, that it now runs `130` Gen AI use cases in production against `114` in July, and that it is &quot;one of the only banks to publicly say it&#x27;s in the black on AI&quot;. Evident records that the returns &quot;combine revenue gains and cost savings&quot; and gives no split. For context it notes Jamie Dimon said a year ago that JPMorganChase had broken even on AI, and that CommBank said it would reach breakeven if it hit its AI targets next year.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment. Evident tracks which of the banks in its index have put any number on AI returns, and normalises those numbers against group revenue. The mechanism being measured is disclosure behaviour, which is the only cross-sectional denominator currently available for bank AI claims.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function - because the thing being normalised is a company-defined composite &quot;value&quot; metric with cost inside it, which METHOD trap 3 puts in the cost ledger, not the revenue shapes. Counter-evidence: the two best-disclosed bank AI programmes in the world amount to `0.5%` and `0.7%` of revenue, the composite is never split into revenue and cost, and only `13` of the index&#x27;s banks disclose any return at all. Not double-logged: the BofA `$400m`/`$800m` statement (2026-09-15, C4) and the Lloyds `GBP 100m`-plus statement (2026-08-12, C4) are already here; this entry is Evident&#x27;s distinct dated claim - the percentage-of-revenue normalisation and the 13-versus-8 disclosure count - not a restatement of either.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://evidentinsights.com/bankingbrief/2026-ai-index-sneak-peek" rel="noopener">Evident Insights, &#x27;Banking Brief: 2026 AI Index sneak peek&#x27;, 1 Oct 2026 (retrieved this run; the Bank of America dollar figures underlying it were logged here on 2026-09-15 from the Barclays conference transcript, and the Lloyds figure on 2026-08-12 from the H1 2026 call), 2026-10-01</a></dd><dt>Falsifier</dt><dd>A 2027 Evident index in which any bank splits its AI return into revenue and cost, or in which a disclosed figure clears `2%` of revenue. Equally falsifying in the other direction: the count of banks disclosing returns stalls or reverses, or BofA&#x27;s doubled AI budget next year arrives without a restated benefit figure - which would mean the `0.7%` was a one-off marketing number, not a managed metric.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier C research-firm analysis retrieved this run, built on Tier A/B bank statements already verified and logged here; the dollar figure itself sits in an image on Evident&#x27;s page, so only the percentages and the disclosure counts are taken as text.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
