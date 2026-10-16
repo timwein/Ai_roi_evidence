@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-10-16 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-10-16</h1>
+  <p class="standfirst">3
+  revenue finding(s) in the main log, 3 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">No S3, for the sixth consecutive run. Six findings from the Q3 bank-and-payer week, and the two that matter are both retractions: <strong>Bank of America</strong> cut its 2026 AI benefit from <code>$800m</code> to <code>$250-300m</code> in thirty days, and <strong>JPMorgan</strong>&#x27;s CFO said he is abandoning the practice of quantifying AI benefits at all. The sweep was widened to 10-16 Oct because no run fired between 9 and 16 Oct.</div>
+<p>The positive side of the ledger is one velocity metric. <strong>Citigroup</strong>&#x27;s Jane Fraser had a <code>30-40%</code> product-launch speed figure and a <code>30%</code> vendor-spend cut ready, and for revenue only the words &quot;it is helping us earn&quot;.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Bank of America</strong> - Q3 2026 call, 14 Oct. Moynihan: &quot;about 130 different projects implemented&quot;, benefits &quot;2x-3x over time of the expense&quot;, &quot;from the $250, $300 this year to $700 million next year&quot;. Against his own <code>$400m</code> cost / <code>$800m</code> benefit at Barclays on 14 Sep. Logged C4 counter-evidence.</li><li><strong>JPMorganChase</strong> - Q3 2026 call, 13 Oct. Barnum corrected AI spend down to &quot;something like 700 annually&quot;, said &quot;the benefits are not observable in our current quarterly earnings&quot;, and &quot;I am really trying to move away from that&quot; quantification. Conceded the token-cost offset unprompted. Logged C4 counter-evidence.</li><li><strong>Citigroup</strong> - Q3 2026 call, 13 Oct. Fraser: products launching <code>30-40%</code> faster, <code>100</code> manual processes re-engineered, <code>14,000</code> engineers on an agentic coding tool, tech vendor spend down <code>30%</code>, benefits &quot;significantly out[weigh] the investments&quot;. No revenue figure. Logged S1.</li><li><strong>UnitedHealth Group</strong> - Q3 2026 call, 13 Oct. Chart-review time down <code>33%</code> at <code>40%</code>+ of employed clinicians; appeal cycle times down <code>26%</code>; Optum Integrity One from <code>2</code> to <code>15</code> clients. Third quarter running, third non-overlapping metric set. Logged C4.</li><li><strong>Wharton Human-AI Research / GBK Collective</strong> - 13 Oct, n=<code>1,416</code>, fielded 9-29 Jul. <code>80%</code> report positive AI returns, <code>28%</code> &quot;strongly positive&quot;, <code>7%</code> clear all three success markers; growth-measurers report strong ROI at <code>35%</code> against <code>13%</code> for efficiency-measurers. Logged S2 counter-evidence.</li><li><strong>Publicis Groupe</strong> - Q3 2026 revenue release, 13 Oct. <code>EUR 3,808m</code> net revenue, <code>+5.0%</code> organic; Sadoun credits &quot;growing demand from clients for our AI-powered products and services&quot;; Connected Media driven by &quot;market share gains&quot;. No AI-specific number. Logged S2 at low confidence.</li><li><strong>Marsh McLennan</strong> - Q3 2026 call, 15 Oct, transcript retrieved. Placement times &quot;from 2 to 4 weeks to a couple of hours with Workbench&quot;, <code>93%</code> of London wholesale trading digital. Not logged - see near-misses.</li><li><strong>Wells Fargo, Travelers, Progressive</strong> - Q3 results 13-16 Oct. Retrieved coverage carries no AI attribution of revenue, cost or productivity.</li><li><strong>Schneider Electric</strong> - Q3 2026, 16 Oct. <code>+16.9%</code> organic, guidance raised to <code>12-14%</code>, Energy Management <code>+19%</code> organic on AI data-centre demand. AI-as-customer, not AI ROI.</li><li><strong>LVMH</strong> - nine-month 2026 revenue <code>EUR 57.1bn</code>, organic <code>+2%</code>, Q3 softness attributed to China. No AI attribution.</li><li><strong>Gartner</strong> - 14 Oct. Over <code>$3.5tn</code> of AI infrastructure spend &quot;could be exposed to impairment&quot; by end-2030. A forecast about vendors, not a result at a deployer.</li></ul>
+<div class="callout">The pattern has changed shape this run, and not in the direction of the thesis. For five runs the finding was absence - non-tech incumbents disclosing funnel metrics and withholding the revenue line. This run the finding is retreat. The two largest US banks, on consecutive days, moved in the same direction: BofA restated a composite benefit roll-up down by roughly two thirds, and JPMorgan stopped producing one. Both are banks that had been held up - including in this log on 2026-10-09, via Evident - as the few institutions publicly claiming to be in the black on AI. Wharton-GBK supplies the mechanism from the other end: only <code>7%</code> of large US enterprises clear all three markers of AI success, and the ones reporting strong returns are disproportionately the ones that bothered to measure revenue at all.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S1 insurance brokerage, Marsh McLennan</strong> - Broker WorkBench, placement from <code>2-4</code> weeks to &quot;a couple of hours&quot;, <code>93%</code> of London wholesale trading digital. Fails AI attribution: Doyle described Workbench as using &quot;our data and analytics&quot;, and reserved the words &quot;AI enabled&quot; for a different product, Marsh Risk Companion, which carries no number. Management Consulting <code>+14%</code> underlying on &quot;strong demand and delivery across the business especially in AI related work&quot; is AI-attributed revenue, but the subject there is Oliver Wyman selling AI transformation work - out of scope as a consultancy selling AI services - and the quarter also benefited from success fees pulled forward from Q4.</li><li><strong>Near-miss, AI-as-customer: Schneider Electric, TE Connectivity, TSMC</strong> - Schneider raised 2026 guidance twice on data-centre demand; TE reported a <code>$3bn</code> AI revenue run-rate; TSMC posted <code>$46.72bn</code>, <code>+41.2%</code> YoY. Fails the AI-as-capability test: pre-existing SKUs sold to a new buyer. Real money, not deployment ROI.</li><li><strong>S3 insurance, new risk classes</strong> - Munich Re aiSure with Mosaic (roughly <code>$15m</code> starting capacity), ISO generative-AI exclusions adopted by <code>60</code>+ P&amp;C groups, Berkley&#x27;s &quot;absolute&quot; AI exclusion. Fails tests (a) and the inclusion bar: no written premium disclosed, and the market is moving toward excluding AI risk, not pricing it. An arXiv survey retrieved this run states agentic AI &quot;has not yet crystallized into a standalone insurance class&quot;.</li><li><strong>S3 life insurance, declined applicants</strong> - Pacific Life 2026 Underwriting Outlook (100+ executives), Manulife <code>58%</code> auto-approval of eligible individual life applications, BMO SmartDecision. Fails test (b): every disclosed programme accelerates <em>eligible</em> applicants; rated and declined cases still route to human underwriters. No insurer was found writing a previously declined class.</li><li><strong>S3 pharma, unscreenable space</strong> - AstraZeneca/insitro (<code>$40m</code> upfront, up to <code>$1.46bn</code> milestones), Recursion&#x27;s <code>$10m</code> Sanofi immunology milestone, Schrodinger drug-discovery revenue <code>$23.0m</code> against <code>$13.9m</code>. Fails the subject test or the result test: milestone payments on research collaborations, and the platform companies booking them are AI-natives belonging in the appendix at best. The Roche &quot;undruggable&quot; pathway was a 28 Sep investor-day presentation, not a new disclosure.</li><li><strong>S3 healthcare, new service lines</strong> - WellSpan Health (<code>21</code> new AI care pathways across <code>7</code> service lines, all <code>9</code> hospitals), Sutter Health systemwide Aidoc, UCHealth hellocare across <code>15</code> hospitals, a <code>12</code>-system diagnostic-AI collaborative on 1 Oct. Fails the inclusion bar: deployment counts with no revenue, price point or payer attached.</li><li><strong>S3 industrials, new subscription lines</strong> - Honeywell Forge Cognition launched 14 Oct; Siemens repriced its Eigen Engineering Agent to <code>EUR 2,100</code>/user/year. Fails the result test and test (c): a launch announcement with no result, and a repricing of an existing product is not a SKU without a predecessor.</li><li><strong>S3 professional services, newly billable work</strong> - Thomson Reuters puts organisation-wide AI use at <code>40%</code> from <code>22%</code>; industry billable utilisation has fallen three years running to <code>68.9%</code>. Fails the named-company and disclosed-number bar; the direction of the utilisation number argues the efficiency is being handed to clients as a discount.</li><li><strong>S2 retail, agentic commerce</strong> - Walmart Sparky, Albertsons conversational search, Target external-AI traffic, Kohl&#x27;s assistant. All already logged in August and September; no new quarter and no restated figure this week. No new retail disclosure cleared.</li><li><strong>S2 banking, AI-attributed revenue</strong> - Citi Sky in Wealth (pilot), Citi&#x27;s <code>21%</code> client-service response improvement in <code>82</code> countries, BofA&#x27;s September GenAI prospecting tool, BofA Erica. Fails on all counts: pilots, service metrics, or launches with no result. Borthwick&#x27;s &quot;advisor productivity, disciplined pricing, digital engagement, and AI tools continue to expand our capacity&quot; is exactly the bundled formulation this log refuses.</li><li><strong>Counter-evidence, Gartner impairment forecast</strong> - <code>$3.5tn</code> exposed by 2030, and enterprise plus consumer AI revenue &quot;insufficient to support profitable returns on all planned AI capital expenditures through 2030&quot;. Fails the named-company bar: an analyst projection about the supply side, not a result at a deploying corporation. Directionally the same story as this run&#x27;s bank retractions.</li><li><strong>Appendix candidates, software subjects</strong> - LTM Limited reported AI revenue at <code>13.4%</code> of quarterly revenue, <code>+40%</code> YoY, on 16 Oct. Retrieved only as a secondary rendering with no primary filing confirmed this run; not logged rather than logged unverified.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Bank of America&#x27;s <code>$700m</code> 2027 benefit figure</strong> - due to be restated, defined or dropped at Q4 2026 and FY2026 disclosure in January 2027. The third different number in six months would settle this.</li><li><strong>UnitedHealth&#x27;s <code>30%</code> prior-auth-volume-elimination target</strong> - falls due end-2026; check the Q4 call in January.</li><li><strong>Travelers, Progressive, Chubb, AIG Q3 calls</strong> - the P&amp;C block through late October, the single best venue for an S1 on quote-to-bind and the only sector where this log has found genuine S3 candidates.</li><li><strong>Omnicom Q3, reportedly 27 Oct</strong> - the direct test of Publicis&#x27;s share-gain claim. If Omnicom posts comparable organic growth, Publicis&#x27;s AI attribution is a market rate.</li><li><strong>Netflix, Tesla, GM, Coca-Cola, P&amp;G, retail and consumer Q3 calls</strong> - late October into mid-November, the next dense window for non-tech revenue attribution.</li><li><strong>Evident AI Index for Banks, 2026 full edition</strong> - preview logged 2026-10-09; the full edition should either incorporate or contradict BofA&#x27;s restated numbers.</li></ul></div>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Publicis Groupe</span>
+    <span class="sector">Media / Advertising · FR</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">In its Third Quarter 2026 Revenue release (13 Oct 2026) Publicis reported Q3 net revenue of `EUR 3,808m`, up `7.9%` reported and `+5.0%` organic, accelerating from `+4.8%` in H1. Chairman and CEO Arthur Sadoun said: &quot;Our marketing transformation capabilities benefited from the growing demand from clients for our AI-powered products and services&quot;, with Connected Media and Intelligent Creativity growing high-single-digit and single-digit respectively. The Connected Media practice review states the segment&#x27;s performance &quot;was driven by market share gains, rising demand for AI-powered products and services&quot; and growth in new addressable markets. Connected Media is `62%` of group net revenue. No AI-specific revenue figure was given.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Publicis sells media planning, buying and creative services. AI-powered products raise the measurable performance of the campaigns it runs, which wins and retains client budgets in competitive pitches. The revenue is the client&#x27;s media and creative spend, redirected to Publicis from a rival holding company.</dd><dt>Why this shape</dt><dd>S2, and Publicis says so itself: the stated driver is &quot;market share gains&quot;. Who lost the sale - Omnicom/IPG and WPP, the other two holding companies in a consolidating three-horse market. Absent the AI, these clients would have bought media and creative services from somebody; the budget existed. Zero-sum at industry level and GDP-neutral. The release&#x27;s &quot;new addressable markets&quot; phrase is the only S3-adjacent language and it is unsized, undefined and not tested against any of the four S3 criteria, so it is not promoted. Scope tension recorded: Publicis is a media and marketing-services group, in scope under METHOD&#x27;s &quot;media, professional services&quot; - but its Technology arm, Publicis Sapient, is a digital consultancy, and the disclosure is framed as client demand for &quot;our AI-powered products and services&quot;, which edges toward selling the shovels rather than deploying them. Logged main with that noted.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.financialcontent.com/article/gnwcq-2026-10-13-publicis-groupe-third-quarter-2026-revenue" rel="noopener">Third Quarter 2026 Revenue press release, 2026-10-13</a></dd><dt>Falsifier</dt><dd>The peer gap. Publicis&#x27;s claim is relative, so it dies if Omnicom/IPG and WPP post comparable organic growth in Q3 and Q4 2026 while Publicis keeps crediting AI - that would make `5%` a market rate, not a share gain. Also watch whether any AI-attributed revenue line, client count or pricing premium is ever disclosed: four years of crediting AI-powered demand with no sized number means it is positioning.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier A release retrieved and quoted, but the AI attribution is qualitative - no AI revenue figure, no split, and segment growth rates given only as &#x27;high-single-digit&#x27; and &#x27;single-digit&#x27;.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Wharton Human-AI Research / GBK Collective - &#x27;The Adaptive Advantage: Who&#x27;s Winning with AI and How&#x27; (n=1,416 US enterprise respondents)</span>
+    <span class="sector">Cross-sector research · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Study released 13 Oct 2026 by Wharton Human-AI Research with GBK Collective, fielded 9-29 Jul 2026 among `1,416` respondents at US private-sector companies with 1,000+ employees and over `$50m` revenue (`1,007` managers and above, `409` entry- and mid-level): `80%` of enterprise leaders report positive returns from AI investments, but only `28%` say those returns are &quot;strongly positive&quot;. Companies measuring AI against growth outcomes are far more likely to report strong ROI - `35%` versus `13%`. Only `7%` of organisations clear all three of the study&#x27;s markers of success (proving value, transforming workflows, aligning the organisation). `84%` of employees who use AI say it saves them time.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment - a measurement census. Self-reported ROI strength is cross-tabulated against what the organisation chooses to measure AI by, which is why it bears on this log: it describes the denominator of the whole evidence base.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged S2 because it contradicts the firm-level attributed-revenue claims S2 collects. The load-bearing finding is not the `80%` - that is a sentiment-adjacent self-report - but the `35%` versus `13%` split, which says the companies that look at revenue are the ones that find strong returns, while the majority that look at hours saved do not. Read against this log&#x27;s own record, that is the mechanism behind five consecutive S3-empty runs and a revenue ledger that keeps filling with input metrics: most deployers are not instrumented to see revenue, so no revenue number exists to disclose. The `7%` is the sharper ceiling: on the study&#x27;s own three tests, fourteen out of fifteen large US enterprises are not yet getting AI to work end to end.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://www.gbkcollective.com/thoughtleadership/wharton-gbk-ai-study-2026-press-release" rel="noopener">Wharton-GBK 2026 AI Adoption Report press release, 2026-10-13</a></dd><dt>Falsifier</dt><dd>The 2027 wave. If the &#x27;strongly positive&#x27; share stays near `28%` and the all-three-markers share near `7%`, three years of enterprise AI spend will have produced a stable minority of winners rather than a diffusing capability - and the growth-versus-efficiency gap will be a selection effect (good companies measure well) rather than a causal lever. If &#x27;strongly positive&#x27; breaks `45%`, this entry was an early-cycle snapshot.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Primary press release retrieved; named sample, size and field dates; university-affiliated. But Tier D in substance - self-reported ROI by a consultancy co-author, no audited figures, and the widely quoted &#x27;hours saved 40% / net-new revenue 27%&#x27; metric split could not be verified in any document retrieved this run and is deliberately excluded.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Citigroup Inc.</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q3 2026 earnings call (13 Oct 2026) Chair and CEO Jane Fraser said &quot;AI is accelerating our product development life cycle&quot; and that &quot;we are typically seeing about a 30-40% in increase in the speed with which we are launching products&quot;. She added that &quot;around 100 of our most manual processes have or are being re engineered end to end leveraging AI and automation&quot;, that &quot;14 thousand of our engineers use our main agentic coding tool&quot;, that &quot;we have reduced our tech vendor spend by 30% year over year as a consequence&quot;, and that &quot;this year alone, we are seeing the financial benefits from AI and automation significantly out[weigh] the investments&quot; made year to date. On revenue she said only that &quot;we are also using AI to generate revenue and improve the client experience&quot; and that &quot;it is helping us earn, and it is helping us save money&quot; - with no revenue figure attached. Citi&#x27;s Q3 revenue was `$23.8bn`, up `8%`, its best third quarter in a decade; none of it was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Generative and agentic tooling compresses the build cycle for new banking products, so more SKUs reach market per unit of engineering capacity. Launch speed is the metric; the revenue it is supposed to produce arrives later, in products not yet named. The same tooling is credited with a 30% cut in third-party technology vendor spend as work moves in-house.</dd><dt>Why this shape</dt><dd>S1, not S2: the disclosed number is an input metric - the speed at which products are launched - not revenue. Revenue conversion was asserted but conspicuously unquantified. Fraser used the words &quot;using AI to generate revenue&quot; and &quot;it is helping us earn&quot; in the same breath as a precise `30-40%` velocity figure and a precise `30%` vendor-spend figure, which is the clearest single illustration this log has of the asymmetry it exists to measure: management had two cost-side numbers ready and no revenue-side number at all. The cost reading of this disclosure (vendor spend, the benefits-outweigh-investment claim) is noted here rather than double-logged as a C3/C4 entry, per METHOD&#x27;s one-ledger rule; the entry is about launch velocity.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.aol.com/articles/citi-c-q3-2026-earnings-235924000.html" rel="noopener">Q3 2026 earnings call transcript, 2026-10-13</a></dd><dt>Falsifier</dt><dd>A product revenue line. If Citi launches products 30-40% faster for four more quarters without ever naming a product, a fee line or a segment where that velocity shows up as revenue, the velocity was a development-efficiency gain - real, but a cost story wearing a growth label. Equally falsifying: the `30-40%` range narrowing or vanishing from later calls, which is the drift Bank of America&#x27;s developer-productivity figure has already shown.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A transcript retrieved and quoted verbatim, CEO speaking on the record with a specific range; but &#x27;speed of launching products&#x27; is self-defined, undenominated, and has no disclosed baseline.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card counter" data-shape="C4"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Bank of America Corporation</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-09-15 Bank of America entry, and it failed. On the Q3 2026 call (14 Oct 2026) CEO Brian Moynihan said: &quot;We are about 130 different projects implemented&quot;, &quot;All of them have a payback, and they are very detailed projects&quot;, &quot;Overall, the benefits are 2x-3x over time of the expense you are giving out&quot;, and - the number that matters - &quot;We expect that number to go from the $250, $300 this year to $700 million next year&quot;. One month earlier, at the Barclays conference on 14 Sep 2026, the same CEO said of the same roughly `130-140` implemented projects: &quot;for the cost of $400 million, generating a benefit of $800 million&quot;. The 2026 benefit has gone from `$800m` to `$250-300m` in thirty days with no stated restatement. He also said technology development is &quot;$4 billion in change a year&quot; where &quot;we are 10% more efficient&quot;, and gave headcount as &quot;down by 3,000, 1.5% year-over-year&quot; with &quot;managers down by about 5%&quot; while &quot;production teammates that are doing the client-facing work are actually up&quot;. No revenue was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A roll-up: roughly 130 case-level AI projects across the bank, each with its own modelled payback, summed into a single &#x27;benefit&#x27; figure that is never split into cost avoided and revenue gained. Composite &#x27;value&#x27; metric, METHOD trap 3 - and now demonstrably unstable.</dd><dt>Why this shape</dt><dd>C4 (non-tech / non-engineering) for the bank-wide roll-up; the `$4bn` technology-development line with its `10%` efficiency gain is the C3 component and is noted here rather than double-logged. Counter-evidence because the restatement is the finding. The 2026-09-15 entry&#x27;s falsifier read: &#x27;if the benefit-to-cost ratio is never restated with a larger numerator on a later call, the $800m was a modelling exercise rolled up from case-level estimates, not money the bank kept.&#x27; It has now been restated with a numerator roughly a third the size, from the same speaker, one month later, on the higher-exposure venue of a quarterly earnings call rather than a conference fireside. Either the `$800m` was never a 2026 figure, or the definition changed silently. Both readings damage the headline every bank AI roll-up depends on, including the `0.7%`-of-revenue figure Evident normalised on 1 Oct and this log recorded on 2026-10-09. Note also what the `2x-3x` multiple implies: at `$250-300m` of benefit, the 2026 AI expense is roughly `$100m`, not the `$400m` cited in September.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/14/bofa-bac-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-14</a></dd><dt>Falsifier</dt><dd>The `$700m` 2027 number, now dated and public. If Q4 2026 or FY2026 disclosure restates 2026 benefit at a third figure, or if `$700m` is quietly dropped during 2027 while the AI budget doubles as promised, this programme is being narrated rather than managed. Conversely, if BofA publishes a defined benefit line reconciled to a named expense category and the `$700m` survives an audited year, the September number was the anomaly and this entry overweights it.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both figures are Tier A, from the same named CEO, retrieved verbatim this run and on 2026-09-15; the contradiction is on the record and needs no inference.</dd></dl>
+</article>
+<article class="card counter" data-shape="C4"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">JPMorganChase</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (13 Oct 2026) CFO Jeremy Barnum corrected an analyst&#x27;s `$2bn` AI-spend figure downward to &quot;something like 700 annually&quot;, said the firm is retreating from quantifying AI benefits at all - &quot;I am really trying to move away from that&quot; - and stated plainly that &quot;the benefits are not observable in our current quarterly earnings&quot;. He said the older quantification (Barnum&#x27;s own 2025 Investor Day line that &quot;our investments in AI/ML delivered a 35% increase in value last year&quot;, already in this log at 2026-07-30) had mostly covered machine learning and non-generative tools such as consumer fraud prevention, not generative AI. Asked about revenue he said only &quot;maybe you are asking about new exciting revenue opportunities at the margin&quot;, and flagged the run-cost offset directly: &quot;some of those benefits are gonna be offset with token cost, which is a whole other conversation&quot;. No revenue and no dollar benefit was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>None disclosed, which is the point. The CFO of the largest US bank describes generative and agentic AI as producing productivity in expense areas, chiefly software engineering, plus possible revenue &#x27;at the margin&#x27;, and declines to size any of it on the grounds that the measurement itself consumes the staff time that should go into the work.</dd><dt>Why this shape</dt><dd>C4 counter-evidence, and the cleanest instance this log has of two METHOD traps firing together from one speaker. Trap 2 - productivity management explicitly refuses to bank - in its strongest form yet: not &#x27;we reinvested it&#x27; (Squeri) but &#x27;we are no longer going to compute it&#x27;. Trap 6 - the run-cost offset - named unprompted by the CFO, which is the load-bearing objection to the whole cost thesis and is rarely conceded on an earnings call. Logged once in the cost ledger because the only number disclosed is spend (`$700m` annually, itself described as stale) and the revenue remark is explicitly marginal and unsized; the revenue reading is recorded here rather than given an S-shape it cannot support. Note the direction of travel across the two largest US banks on consecutive days: BofA restated its benefit roll-up down by two thirds, JPMorgan abandoned roll-ups entirely.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/13/jpmorgan-chase-jpm-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-13</a></dd><dt>Falsifier</dt><dd>This entry is falsified if JPMorgan reintroduces a quantified AI benefit figure - a dollar saving, a defined value metric, or an AI-attributed revenue line - in FY2026 or 2027 disclosure. Also watch Marianne Lake&#x27;s 2025 guide of headcount down about `10%` over five years while the business grows more than `25%`: that remains the firm&#x27;s one dated, checkable commitment, and Barnum&#x27;s retreat from measurement makes it harder, not easier, to audit.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A transcript retrieved and cross-checked against a second rendering of the same call; the refusal to quantify is the CFO&#x27;s own framing, not an inference from silence.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">UnitedHealth Group</span>
+    <span class="sector">Healthcare / Managed care · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (13 Oct 2026) CEO Steve Hemsley said AI-enabled chart summarisation now reaches more than `40%` of employed clinicians and has cut chart-review time by `33%`, and that AI-enabled information gathering and research has shortened appeal cycle times by `26%`, which he expects to accelerate in 2027. Optum&#x27;s Sandeep Dadlani said Optum Integrity One, which automates claims coding, went from `2` clients at the end of 2025 to `15` implemented with `24` more implementing. Follow-up on this log&#x27;s 2026-07-30 UnitedHealth entry: none of the Q2 metrics were restated. The &quot;about half a million prior auths and saved 69,000 administrative hours&quot; figure, the `96%` first-pass digital approval rate and the ambient-listening provider-coverage percentage do not appear; a new set of percentages was substituted. Secondary coverage attributing Optum Insight&#x27;s `3%` growth to `$5.5bn` to AI-enabled offerings is the summariser&#x27;s attribution, not management&#x27;s - the call does not make it, and it is excluded here.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Ambient and summarisation models compress clinician documentation and claims-appeal handling, freeing provider and administrative hours. Optum Integrity One sells coding automation to payers and providers as a product; its disclosed metric is client count, not revenue.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function, the cell METHOD weights most heavily, since clinical documentation and claims administration are where a payer-provider&#x27;s labour cost actually sits. Both figures are percentage time reductions with no denominator, no dollar and no named expense line, so they are cost-side at best and capacity-side in practice. Not logged as a revenue shape: chart-review and appeals time are not revenue-producing processes, and the Optum Integrity One client count is an adoption metric, not revenue - METHOD trap 1. The metric substitution is the more interesting half of this entry: a company on its third consecutive quarter of AI disclosure has now presented three non-overlapping metric sets, which makes any trend impossible to construct from its own numbers.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/13/unitedhealth-unh-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-13</a></dd><dt>Falsifier</dt><dd>The `30%`-of-prior-auth-volume-eliminated-by-end-2026 target from the Q2 call is dated, specific and falls due this quarter - check Q4 2026 disclosure for it. Also watch whether the `$3bn` AI investment through 2027 ever produces a disclosed dollar return, and whether any of the Q3 percentages reappear in Q4. A fourth non-overlapping metric set would establish that these are presentation artefacts, not managed KPIs.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Tier A transcript retrieved; percentages are specific and executive-attributed, but every one is a self-defined ratio with no baseline, no denominator and no dollar conversion.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
