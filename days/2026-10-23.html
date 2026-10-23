@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-10-23 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-10-23</h1>
+  <p class="standfirst">4
+  revenue finding(s) in the main log, 1 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Six findings, <strong>no S3 for the fifth consecutive run</strong> - and four of the six are counter-evidence. The week&#x27;s most useful disclosure is an absence: <strong>Customers Bancorp</strong>&#x27;s AI revenue claim from August vanished from its Q3 release and was replaced by a cost-avoidance footnote.</div>
+<p>This run covers a seven-day gap - the last logged day was <code>2026-10-16</code> and scheduled runs for 17-22 Oct did not fire - so the sweep was widened to the full week. That window was peak Q3 earnings season, which is why the yield is higher than a normal day and why the pattern below is worth more than usual.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Customers Bancorp</strong> - Q3 release (<code>22 Oct</code>) and call (<code>23 Oct</code>). The Q2 claim of &quot;over 100% improvement in prospecting success rates&quot; and &quot;positive revenue impact&quot; is <strong>gone</strong>. What replaced it: <code>76,000</code> cumulative hours saved and &quot;over <code>$15 million</code> of annualized capacity&quot;, which footnote 3 defines as salary and benefits from positions not backfilled. Footnote 2 concedes the hours are self-reported and &quot;not subsequently re-measured or validated&quot;. Loan underwriting cycle time down <code>95%</code>.</li><li><strong>The Travelers Companies</strong> - Q3 call (<code>16 Oct</code>). CEO Alan Schnitzer put revenue last in the AI sequence: benefits land &quot;in margins, and over time, that&#x27;s going to translate into growth&quot;, with savings available to &quot;redeploy some of those into pricing&quot;. He said it is hard to draw a straight line from underwriting insight to results and that some benefits cannot be quantified. Record NWP of <code>$5.9bn</code> and <code>86%</code> retention, neither attributed to AI.</li><li><strong>SPI Research</strong> - &#x27;2026 Impact of AI on Professional Services&#x27;, <code>245</code> organisations, fielded <code>15 Jul - 16 Sep 2026</code>. <code>84.8%</code> realise value through time savings; only <code>29.9%</code> through revenue generation. <code>36.8%</code> formally track no AI outcomes at all. AI now on <code>43.6%</code> of projects, up from <code>23.1%</code>.</li><li><strong>Neptune Insurance Holdings</strong> - Q3 call (<code>20 Oct</code>). The conversion delta this log demanded in July arrived: Atlas+ quotes bind at <code>3.5x</code> the rate of quotes without it, on <code>7,000</code> agents and <code>75,000</code> messages. No bound-premium attribution, and no caveat from management on the obvious selection effect.</li><li><strong>Wyndham Hotels &amp; Resorts</strong> - Q3 call (<code>22 Oct</code>). Wyndham Connect at <code>5,100</code>+ hotels has produced &quot;tens of millions of dollars in year-to-date upsell <strong>opportunities</strong>&quot;; AI Concierge answered &quot;over <code>3 million</code> calls year-to-date&quot; against <code>25%</code>+ of franchised-hotel calls going unanswered. The <code>15%</code> ADR premium and <code>500bps</code> direct contribution are verbatim repeats of Q2. AI appears nowhere in the written release.</li><li><strong>Quest Diagnostics</strong> - Q3 call (<code>22 Oct</code>). Revenue <code>$3.1bn</code>, up <code>10.0%</code>, attributed to requisition volume up <code>14.5%</code> and the Corewell/Fresenius partnerships, which alone contributed <code>9.5</code> points. AI cited only for productivity and lab quality.</li><li><strong>Marsh McLennan</strong> - Q3 call. Revenue up <code>8%</code> to <code>$6.9bn</code>; new AI products named (Marsh Risk Companion, Broker WorkBench) and AI flagged as possibly creating &quot;entirely new risks&quot;, but no figure attached to any of it.</li></ul>
+<div class="callout">Cross-run pattern, now the strongest signal in this log: <strong>the conversion step is where AI revenue claims die, and companies are migrating their own metrics from revenue to cost rather than the other way round.</strong> Customers Bancorp did it inside one quarter. Travelers states the sequence as policy. SPI measures it across <code>245</code> firms at nearly <code>3:1</code>. Wyndham&#x27;s headline degraded from franchisee dollars to &quot;opportunities&quot;. Four independent sources, one mechanism.</div>
+<div class="callout">Second pattern: <strong>where a conversion number does exist, nobody controls for selection.</strong> Neptune&#x27;s <code>3.5x</code> and Customers Bancorp&#x27;s <code>100%</code> prospecting lift are both comparisons between users and non-users of a tool people opted into. Not one disclosure retrieved in <code>62</code> logged days has offered a holdout.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S2 autos - Tesla FSD</strong> - <code>1.74m</code> active FSD subscriptions up <code>67%</code>, attach rate above <code>75%</code> of new North American deliveries - failed the retrieved-primary test. The Q3 update deck 404s at both known IR paths; three secondary renderings agree on the figures but none quotes the deck, and the metric admittedly pools <code>$99</code>/month subscribers with legacy lifetime purchases. Also fails S3 gate (c) - FSD long predates 24 months. Recheck when the 10-Q lands.</li><li><strong>S3 insurance new risk classes</strong> - Neptune&#x27;s indemnity earthquake product, in California E&amp;S beta with formal launch guided to Q4, first cross-sell policy sold - failed gate (c) and (d). Nothing in the transcript links AI to the product existing or to its pricing; FY27 guidance explicitly excludes major new products. A new SKU is not an AI-gated SKU.</li><li><strong>S3 insurance capacity</strong> - ISG <code>Sep 2026</code> finding that carriers decline or leave unquoted one in nine broker submissions because operations cannot keep up - failed the named-company bar and is appetite-adjacent, not appetite-expanding: these are risks carriers already want to write.</li><li><strong>S1 healthcare diagnostics</strong> - <strong>Quest Diagnostics</strong> - failed the attribution test. Volume and two named partnerships carry the quarter; AI&#x27;s only disclosed application is scanning dialysis water for microbes at the Clifton lab, with no revenue or pricing attached.</li><li><strong>S2 insurance brokerage</strong> - <strong>Marsh McLennan</strong> - failed the number bar. New AI products are named but no revenue, margin or win-rate figure is attributed to them.</li><li><strong>S2 CPG personalization</strong> - <strong>Procter &amp; Gamble</strong> FY27 Q1 (<code>22 Oct</code>, organic <code>+4.0%</code>), <strong>Nestle</strong> Q3 (<code>22 Oct</code>, organic <code>4.0%</code>) - failed attribution. Both decompose growth into price, volume and mix with no AI line. <strong>Coca-Cola</strong> does not report until <code>27 Oct</code>.</li><li><strong>C4 professional services</strong> - SPI&#x27;s <code>20.5%</code> vs <code>13.3%</code> EBITDA spread by AI maturity tier - failed as a cost entry. It is a cross-sectional correlation between self-selected tiers, not an attributed saving; better-run firms adopt more.</li><li><strong>S2 consultancies</strong> - <strong>PwC</strong> FY26 (<code>19 Oct</code>, revenue <code>$60.2bn</code>, up <code>5.7%</code>) - out of scope as subject and no AI revenue break-out regardless; <code>$3bn</code> of AI investment is input, not result.</li><li><strong>Appendix candidates</strong> - <strong>Nokia</strong> AI and Cloud net sales up <code>123%</code>, <strong>RingCentral</strong> AI at ~<code>15%</code> of ARR, <strong>SAP</strong> cloud revenue up <code>25%</code>, <strong>Infosys</strong> AI at <code>10.5%</code> of revenue, <strong>Tesla</strong> - all vendor-side or already logged claims restated. Infosys at <code>10.5%</code> is a genuine move from the <code>8.2%</code> logged on 2026-07-29 and is the one worth revisiting next run against its cut full-year outlook.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>27 Oct 2026</code> - <strong>Coca-Cola</strong> Q3, the first large CPG of this cycle that has previously discussed AI in marketing production.</li><li><code>3 Nov 2026</code> - <strong>Amgen</strong> Q3 call, the nearest large-pharma test of an AI-attributed pipeline or indication claim.</li><li>Early Nov <code>2026</code> - <strong>Neptune</strong> formal launch decision on the indemnity earthquake product, guided to &quot;by the end of the year&quot;; watch whether any AI gate is claimed at launch.</li><li>Q4 <code>2026</code> reporting - <strong>Customers Bancorp</strong> FY26, the live falsifier: does a dollar of AI revenue appear, or does absolute salaries-and-benefits expense rise alongside the compounding &quot;capacity&quot; figure.</li><li>Q4 <code>2026</code> reporting - <strong>Wyndham</strong> FY26, the live falsifier: corporate fee-revenue attribution, a RevPAR index gain, or a direct-versus-OTA mix shift - or a third quarter of hotel counts.</li><li><code>2027</code> - <strong>SPI Research</strong> next edition, the cleanest scheduled test of whether the <code>29.9%</code> revenue-realisation share is a lag or a ceiling.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">The Travelers Companies, Inc.</span>
+    <span class="sector">Insurance · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q3 2026 earnings call (16 Oct 2026) Chairman and CEO Alan Schnitzer set out the AI payoff sequence for the largest US commercial P&amp;C writer and put revenue last: early benefits show up in expenses and the loss ratio, so &quot;we&#x27;ll see it in margins, and over time, that&#x27;s going to translate into growth&quot;. Asked by Josh Shanker (Bank of America) whether AI and technology savings would be passed to customers, he cited lower software development, first-notice-of-loss labour and policy-servicing costs as operating leverage that Travelers could &quot;redeploy some of those into pricing without compromising our return objectives&quot;. He also said it is hard to draw a straight line from better underwriting insights to specific results and that some benefits cannot be quantified. On AI in claim handling: &quot;AI gives our claim professionals a faster, deeper command of claim files&quot; and &quot;we are using AI to sharpen our responses to their demands&quot;. Net written premium was a Q3 record at $5.9bn and retention &quot;remained very strong at 86%&quot;; neither figure is attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI in claim-file comprehension and litigated-demand response, plus lower software-development and policy-servicing unit costs. The stated route to revenue is indirect: bank the cost saving, then optionally spend it on price to win share from carriers that cannot.</dd><dt>Why this shape</dt><dd>Tagged S2 because the only revenue mechanism management describes is price-funded share capture - cheaper operations let Travelers underprice rivals on the same risks in the same segments, which is a competitor&#x27;s lost premium, zero-sum at industry level and GDP-neutral. It is counter-evidence because the CEO declines to claim any of it yet: margins first, growth &quot;over time&quot;, and an explicit admission that the underwriting-insight benefit cannot be drawn in a straight line or quantified. Note Schnitzer&#x27;s separate &quot;Travelers will be a consolidator of premium&quot; remark was about scale generally and he did not tie it to AI. No AI-attributed premium, revenue or hit-rate figure was given anywhere on the call.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-travelers-tops-q3-2026-estimates-on-strong-underwriting-93CH-4954404" rel="noopener">Q3 2026 earnings call transcript, 2026-10-16</a></dd><dt>Falsifier</dt><dd>A Q4 2026 or FY2026 disclosure attaching AI to a specific premium, retention or hit-rate delta - or, on the cost side, an expense-ratio improvement management explicitly credits to AI. If the 2027 calls repeat &quot;margins now, growth over time&quot; with no quantification in either direction, the sequence is a deferral device, and the &quot;redeploy into pricing&quot; story should be read as a plan rather than a result.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Quotes and speaker attribution read this run from a full transcript rendering; Travelers&#x27; own IR transcript was not retrieved, and transcript renderings can clip wording, so the quotes are exact as rendered rather than as filed.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">SPI Research - &#x27;2026 Impact of AI on Professional Services&#x27; (245 organisations: 175 independent professional-services firms, 70 embedded services organisations; fielded 15 Jul - 16 Sep 2026)</span>
+    <span class="sector">Professional services · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Benchmark study released 20 Oct 2026 that measures the cost-versus-revenue asymmetry this log exists to test. AI is now used on &quot;43.6% of professional services projects&quot;, up from 23.1% in 2025, and 86.6% of firms say AI has &quot;increased productivity and efficiency&quot;, up from 71.5%. But while 84.8% of organisations report &quot;realizing value through time savings&quot;, only 29.9% report value through &quot;revenue generation&quot; - and 36.8% of firms &quot;do not formally track any AI outcomes&quot; at all. Research director R. David Hofferberth: &quot;Saving time isn&#x27;t the same as increasing revenue.&quot; Operational spread: firms using AI on more than 80% of projects report &quot;90.7% on-time delivery&quot; versus 76.3% for firms under 20%; firms running complex agents or AI-first models report &quot;professional services EBITDA margins of 20.5%&quot; versus 13.3% for chat-assisted or no formal AI use.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment - a cross-sectional measurement of where deploying firms say the value lands. The release names the trap directly: hourly-billing firms risk passing time savings to clients as lower billed hours rather than capturing additional revenue, which is the structural reason a productivity gain in a billable-hours business can be revenue-negative.</dd><dt>Why this shape</dt><dd>Tagged to S2 as the shape it contradicts: the near-3:1 gap between firms realising time savings (84.8%) and firms realising revenue (29.9%) is direct evidence against the claim that AI productivity converts into top-line, in the one sector where the conversion should be most mechanical because the input saved is the thing being sold. Deliberately not logged in the cost ledger: the 20.5%-vs-13.3% EBITDA spread is a cross-sectional correlation between self-selected maturity tiers, not an attributed saving, and more mature firms are plausibly better-run for reasons unrelated to AI - so the loggable content here is the revenue-side absence, not a cost result. The 36.8% who track nothing is the figure to keep: a third of this market cannot answer the ROI question either way.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.einpresswire.com/article/950935250/ai-use-nearly-doubles-in-professional-services-but-revenue-gains-lag-spi-research-finds" rel="noopener">SPI Research press release, &#x27;2026 Impact of AI on Professional Services&#x27;, 2026-10-20</a></dd><dt>Falsifier</dt><dd>SPI&#x27;s 2027 edition. If the share reporting revenue-generation value climbs materially off 29.9% while AI project penetration keeps rising, the gap was a lag and the thesis weakens. If it stays near 30% with penetration above 60%, time savings in professional services do not convert to revenue and the conversion failure is structural, not early.</dd><dt>Confidence</dt><dd><strong>medium</strong> — All figures read this run from the publisher&#x27;s own release; the underlying report is paywalled at $1,495 and was not read, so sampling and self-selection cannot be checked, and vendor-sponsored benchmark samples skew toward the more instrumented firms.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Wyndham Hotels &amp; Resorts</span>
+    <span class="sector">Hospitality · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Third quarter at the most AI-vocal hotel franchisor, and the falsifier written here on 2026-08-02 held. On the Q3 2026 call (22 Oct 2026) CEO Geoff Ballotti said Wyndham Connect, now at more than 5,100 hotels, &quot;has generated tens of millions of dollars in year-to-date upsell opportunities for participating franchisees&quot; - opportunities, not booked revenue. Wyndham AI Concierge is live at more than 1,700 hotels, up 17% sequentially, &quot;answering tens of thousands of previously missed calls&quot;; the AI agents &quot;answered over 3 million calls year-to-date&quot; against an average of &quot;over 25%&quot; of inbound calls going unanswered at franchised hotels. The Q2 figures are repeated unchanged - reservation requests converting at an ADR 15% above hotel-booked rates, &quot;over 500 basis points of increased direct contribution for franchisees&quot;, and per-franchisee uplift of $100,000-$300,000 a year at upscale properties or roughly $500-$2,000 a month at small ones. Corporate Q3 net revenue was $410m, up 7%, with US RevPAR up 6%; none of it is attributed to AI, and the words AI, Wyndham Connect and AI Concierge do not appear anywhere in the Q3 earnings release. On autonomous AI booking traffic Ballotti said &quot;it is extremely early&quot; and &quot;the actual volume of observable activity is pretty minor&quot;; on distribution costs he said GEO &quot;may well prove&quot; cheaper than SEO, &quot;that to be determined&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI voice and messaging agents answer inbound calls franchised front desks were dropping, convert them into direct bookings at a higher ADR than the hotel&#x27;s own booked rate, and upsell at check-in - shifting share from OTAs and from competitor hotels that capture the abandoned call.</dd><dt>Why this shape</dt><dd>S2, and firmly so: a guest who could not get through to a Wyndham property booked somewhere, almost certainly an OTA or a competing hotel, so the counterfactual purchase existed and someone else lost it. Recapture of abandoned demand is share, not new TAM. Counter-evidence because the falsifier logged on 2026-08-02 specified that repeating the per-franchisee dollars and the 15% ADR premium into Q3/Q4 without converting them into disclosed corporate fee revenue, a RevPAR index gain or a direct-channel mix shift would mark the claim as narrative - and that is precisely what the quarter delivered, with the new headline number deteriorating from dollars to &quot;upsell opportunities&quot;. The written release&#x27;s complete silence on AI, while the call narrates it at length, is the tell: these numbers live where management is not on the hook for them.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.tradingkey.com/news/transcripts/262233527-tradingkey" rel="noopener">Q3 2026 earnings call transcript; Q3 2026 results release (Form 8-K, Ex-99.1), 2026-10-22</a></dd><dt>Falsifier</dt><dd>Q4 2026 or FY26 disclosure converting AI into corporate economics: a royalty or fee-revenue contribution, an ancillary-fee line, a RevPAR index gain versus the competitive set, or a disclosed direct-versus-OTA channel mix shift. If the FY26 results again carry only hotel counts, call counts and franchisee-level &quot;opportunities&quot; - and AI again appears nowhere in the written release - treat the whole programme as a franchise-sales story rather than a revenue result.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Call quotes and the absence of AI language in the written release were both read this run; the transcript is a third-party rendering with quotes clipped to short excerpts, and the press-release date (21 Oct) differs from the call date (22 Oct), so the latter is inferred from the transcript&#x27;s timestamp and an in-call reference to Meta&#x27;s prior-evening call.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Customers Bancorp</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-18 Customers Bancorp entry, and it failed. The Q2 2026 release had disclosed &quot;positive revenue impact, with select verticals delivering over 100% improvement in prospecting success rates&quot;. In the Q3 2026 release (22 Oct 2026) and on the call (23 Oct 2026) the prospecting hit-rate metric does not appear at all, and no dollar of revenue is attributed to AI. What replaces it is explicitly a capacity and cost figure: CEO Sam Sidhu says &quot;we continued to scale our AI-powered loan process, adding additional functionality and increasing utilization&quot;, that &quot;cumulative estimated hours saved reached 76,000&quot;, and that &quot;we estimate we have unlocked over $15 million of annualized capacity&quot; - footnote 3 defines that as &quot;salary and benefits savings from positions not backfilled and open positions reduced YTD&quot;. On the call CFO Mark Operko described &quot;redeploying the capacity that AI creates into revenue production&quot; - a forward intention, not a result. Call cycle-time claim: &quot;The cycle time for this process is down 95%.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI-assisted commercial loan underwriting and a new commercial deposit-onboarding process (now tied to an announced Palantir partnership), plus deployed internal agents. The 95% cycle-time cut is an input metric on a revenue-producing process, so the shape is S1 - but one quarter on, the bank has converted it into a headcount-avoidance number rather than a bound-loan or deposit-growth number.</dd><dt>Why this shape</dt><dd>S1 because the only live numbers are input metrics (95% cycle-time reduction, 76,000 hours, agent counts). It is tagged counter-evidence because the revenue-side claim this log recorded in August has silently disappeared from the next quarter&#x27;s disclosure - exactly the decay METHOD&#x27;s follow-up discipline is built to catch. Note the bank&#x27;s own footnotes do the skeptic&#x27;s work: footnote 2 says the 76,000 hours are &quot;self-reported estimates from survey of employees using AI tools&quot; and were &quot;not subsequently re-measured or validated&quot;. Revenue conversion was not disclosed and is now conspicuously absent on a metric the company itself introduced.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001488813/000148881326000100/q326pressrelease.htm" rel="noopener">Q3 2026 results release (Form 8-K, Ex-99.1) and Q3 2026 earnings call, 2026-10-22</a></dd><dt>Falsifier</dt><dd>Already fired once. The remaining test: if the Q4 2026 / FY26 release or the FY27 outlook attaches a dollar figure or a loan-growth attribution to AI, the August claim was merely early. If Q4 again carries only hours, agents and &quot;capacity&quot; - or if revenue and pre-tax profit per employee keep rising while total revenue growth tracks the regional-bank average - the revenue story was narrative and the real result is cost avoidance.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both the current and the prior quarter&#x27;s disclosures retrieved this run from the company&#x27;s own SEC-filed releases; the absence is verifiable in the primary document, not inferred from coverage.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Neptune Insurance Holdings</span>
+    <span class="sector">Insurance · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">The conversion delta this log asked for on 2026-07-28 arrived. On the Q3 2026 call (20 Oct 2026) President and Chief Risk Officer Matt Duffy said quotes involving Atlas+ are binding &quot;at three and a half times the rate of quotes without an Atlas Plus interaction&quot;, calling it &quot;a powerful indication of the value we&#x27;re delivering&quot;. Engagement scaled from the Q2 figures: &quot;During the third quarter, 7,000 agents used Atlas+, exchanging more than 75,000 messages with the platform&quot; (Q2: ~3,700 agents, 33,000 messages). Company-level results, none of them attributed to Atlas+: revenue $59.6m, up 34%; premium in force $450m, up 32%; policies in force 336,000, up 29%; new business premium up 51%; LTM revenue retention 89%. FY2026 revenue guidance raised a fourth time, to about $204m; FY2027 guided to about $238m on assumptions that explicitly exclude major new products.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Atlas+ is an AI assistant for the independent agents who distribute Neptune&#x27;s flood and E&amp;S policies; it answers coverage and eligibility questions inside the quoting workflow, with the claimed effect on quote-to-bind conversion.</dd><dt>Why this shape</dt><dd>S1: the disclosed number is a conversion ratio, not revenue. Revenue conversion remains absent - no bound-premium dollar figure, no share of the 51% new-business-premium growth, is attributed to Atlas+, and the 34% revenue growth is not claimed for it. The 3.5x is also an uncontrolled comparison between agents who chose to use the tool and agents who did not, and management offered no caveat on that: Duffy presented it as value delivered, not as a tested effect, and selection is the obvious rival explanation since engaged agents are plausibly the ones who close more anyway. Appendix because the subject is an AI-native insurance MGA - 59 employees against $450m of premium in force and roughly $3.2m of revenue per employee - and therefore out of scope for the main revenue log, kept as the entrant comparator for the incumbent carriers above.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.earningswhispers.com/transcript/NP/Q32026" rel="noopener">Q3 2026 earnings call transcript, 2026-10-20</a></dd><dt>Falsifier</dt><dd>A Q4 2026 or FY26 disclosure of bound premium or new-business premium attributable to Atlas+, or the 3.5x restated on a controlled basis (cohort or holdout). If the multiple keeps being quoted while agent counts rise and no premium attribution ever appears - or if the multiple falls as the tool reaches the less engaged 60-70% of the 43,000 active agents, which is what selection would predict - the figure was a correlation presented as a result.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The 3.5x, agent count and message count were corroborated across two independently retrieved transcript renderings this run; the earningswhispers rendering carries garbled passages and the exact phrasing is as rendered, so treat the wording, not the figures, as approximate.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Customers Bancorp</span>
+    <span class="sector">Banking · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">In the Q3 2026 results release (22 Oct 2026) CEO Sam Sidhu disclosed: &quot;Through our efforts, we estimate we have unlocked over $15 million of annualized capacity.&quot; Footnote 3 defines the figure as &quot;salary and benefits savings from positions not backfilled and open positions reduced YTD&quot;. Supporting metrics: &quot;Our team doubled the number of agents deployed in the quarter and cumulative estimated hours saved reached 76,000&quot;, a nearly 65% increase, and &quot;revenue per employee and pre-tax profit per employee are up 13% and 34%, respectively, annualized as of September 30, 2026.&quot; Footnote 2 states the 76,000 hours are &quot;self-reported estimates from survey of employees using AI tools&quot; and were &quot;not subsequently re-measured or validated&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Deployed internal AI agents plus AI-assisted loan underwriting and deposit onboarding across a 60-person AI transformation team; the saving is realised as vacancies left unfilled rather than as roles removed.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function (lending operations, deposit onboarding, back office). Two of METHOD&#x27;s standing cost traps apply and the company flags both itself: trap 5, cost avoidance vs realized reduction, because footnote 3 scopes the $15m to positions not backfilled and open positions cut, which is hiring not done rather than an expense line that fell; and the self-reported, unvalidated basis of the 76,000 hours, which is the input the capacity figure rests on. Logged separately from the S1 entry because this is a distinct statement with its own number and its own footnote, not the same claim counted twice - the S1 entry is about the revenue claim that vanished. No run-cost offset is disclosed against the $15m.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001488813/000148881326000100/q326pressrelease.htm" rel="noopener">Q3 2026 results release (Form 8-K, Ex-99.1), 2026-10-22</a></dd><dt>Falsifier</dt><dd>FY2026 and FY2027 reported salaries-and-benefits expense. If absolute comp expense keeps rising while the &quot;annualized capacity&quot; number compounds, the $15m is avoidance that never reached the P&amp;L. Equally falsifying: the metric being redefined or dropped in the FY26 10-K, or the footnote&#x27;s &quot;not backfilled&quot; scope widening without disclosure.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figure and its defining footnote both read this run in the SEC-filed release; marked ESTIMATED and only medium because the underlying hours are self-reported by the employees using the tools and explicitly unvalidated.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
