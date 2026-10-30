@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-10-30 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-10-30</h1>
+  <p class="standfirst">5
+  revenue finding(s) in the main log, 2 in the appendix, 1 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Eight findings, <strong>no S3 for the sixth consecutive run</strong>. The day&#x27;s real result is that two falsifiers this log wrote months ago came due this week and both fired: <strong>Infosys</strong> nearly doubled its AI revenue share while cutting its growth guidance, and <strong>Ryan Specialty</strong> replaced last quarter&#x27;s AI throughput metric with a different one rather than converting it.</div>
+<p>This run covers a seven-day gap - the last logged day was <code>2026-10-23</code> - so the sweep was widened to the full week, which was the back half of Q3 earnings season. Every figure below was read this run in a document retrieved this run; two were pulled from Alphabet&#x27;s own transcript PDF rather than a secondary rendering.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Infosys</strong> - Q2 FY27 call, SEC Form 6-K Exhibit 99.5 (<code>23 Oct</code>). AI revenue <code>10.5%</code> of <code>$5,145m</code> revenue, up <code>29%</code> sequentially, from <code>8.2%</code> last quarter and <code>5.5%</code> three quarters ago. Full-year constant-currency growth guidance <strong>cut</strong> to <code>1%</code> to <code>2%</code>, &quot;reflecting softer-than-expected H1 performance&quot;. Parekh: &quot;We know this is new revenue.&quot; Also Parekh: &quot;We are not sharing externally the year-on-year.&quot; No published definition of what the numerator contains.</li><li><strong>Ryan Specialty</strong> - Q3 2026 call (<code>29 Oct</code>). Commercial auto liability submission processing cut &quot;from as much as 2 hours to under 3 minutes&quot;; Benefits teams reviewing &quot;roughly <code>30%</code> more submissions each week&quot;. The Q2 metric this log recorded - <code>11%</code> more quotes per head - was not repeated. Revenue <code>$790m</code>, up <code>4.7%</code>, organic <code>4%</code>, attributed by the CFO to professional lines, M&amp;A, contingent commissions, casualty and underwriting management. AI appears in none of it.</li><li><strong>Bristol Myers Squibb</strong> - Q3 2026 call (<code>29 Oct</code>), revenue up <code>7%</code> to <code>$13.1bn</code>. AI absent from prepared remarks entirely; raised only by a Goldman Sachs analyst. CEO Boerner restated a <code>20</code> to <code>30%</code> drug-testing timeline reduction and halving target-to-lead time as things &quot;we put forward&quot;, not things achieved. CMO Massacesi: &quot;This is now a concrete fact. That we can start to measure&quot; - then &quot;Happy to share offline.&quot;</li><li><strong>Alphabet</strong> - Q3 2026 transcript from its own IR site (<code>28 Oct</code>). Its own ads AI payoff reported as &quot;<code>18%</code> incremental advertiser value&quot; and an &quot;<code>8%</code> increase in user sentiment&quot;, with no definition of either. Named non-tech customers with numbers: <strong>Ulta Beauty</strong> at &quot;a <code>3x</code> higher conversion rate than traditional browsing&quot;, <strong>Telstra</strong> at &quot;a <code>52%</code> increase in conversions and a <code>36%</code> reduction in cost per order&quot;, <strong>Tata Steel</strong> at &quot;more than <code>300</code> specialized AI agents&quot; and customer service times &quot;by <code>50%</code>&quot;.</li><li><strong>Federal Reserve Bank of New York</strong> - Liberty Street Economics (<code>8 Oct</code>), 2025 Small Business Credit Survey, <code>5,248</code> employer firms. &quot;Only <code>31</code> percent of survey respondents reported increased sales from their firm&#x27;s use of AI.&quot; <code>77%</code> reported no change in labour costs. The <code>14</code> percentage point AI-user advantage is in <em>expected</em> revenue growth, and the authors say whether it converts &quot;is a subject for future research&quot;.</li><li><strong>Coca-Cola</strong> - Q3 2026 call (<code>27 Oct</code>), the catalyst this log flagged last week. Organic revenue <code>+7%</code>, volume <code>+5%</code>. AI mentioned only as campaign tooling carried over from the World Cup activation. No number attached.</li><li><strong>Caterpillar</strong> - Q3 2026 (<code>29 Oct</code>). Revenue <code>+17%</code> to <code>$20.7bn</code> on power generation into the AI build-out; autonomy extended to a Cat 775 truck with Luck Stone. No autonomy revenue or ARR.</li></ul>
+<div class="callout">Cross-run pattern, extended by a third mechanism this week: <strong>the conversion step is where AI revenue claims die, and firms rotate their metrics rather than retire them.</strong> <strong>Ryan Specialty</strong> has now given three different AI throughput statistics in three quarters and never the same one twice. <strong>BMS</strong> restated a target under questioning and declined to quantify delivery. <strong>Customers Bancorp</strong>, last week, migrated from revenue to cost inside one quarter. A metric that is never repeated cannot be falsified, which is the function it serves.</div>
+<div class="callout">Second pattern, and the sharpest datapoint of the day: <strong>Infosys proves the substitution case arithmetically.</strong> AI revenue share went <code>5.5%</code> to <code>8.2%</code> to <code>10.5%</code> across three quarters while total growth guidance was cut to <code>1%</code> to <code>2%</code>. Those two facts can only coexist if AI-labelled work is displacing non-AI-labelled work in the same accounts. The CEO calls it &quot;new revenue&quot; in the same call in which he cuts the number that would evidence it, and withholds the year-on-year.</div>
+<div class="callout">Third: <strong>the firms with the best instrumentation report the softest units.</strong> Alphabet quantifies its ads AI as &quot;incremental advertiser value&quot; - value delivered to its customers, not revenue in its own accounts - and does not define it. If the largest AI capex programme in the world reports in value units, expecting hard revenue attribution from a steelmaker or a grocer is not a reasonable baseline.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - <strong>Ryan Specialty</strong>&#x27;s Tera Underwriters, launched August 2026, &quot;up to <code>$625 million</code> of capacity for computing hardware like GPUs deployed in data centers and crypto mining facilities&quot;, plus in-transit GPU limits raised from <code>$10m</code> to <code>$100m</code> per shipment with Trident - failed two tests, and is the most instructive rejection of the week. It fails the AI-as-capability test: this is new TAM created by AI existing in the economy as a <em>risk</em>, not by Ryan deploying AI, so it is the insurance analogue of selling gensets into a data centre. It also fails the inclusion bar outright - capacity is not revenue, and no premium or fee figure was disclosed. <strong>Chubb</strong>&#x27;s Greenberg on AI liability as an uncontemplated casualty exposure and <strong>W.R. Berkley</strong>&#x27;s exclusionary-language remarks fail the same way.</li><li><strong>S3 insurance, product launches</strong> - <strong>PolicyMe</strong> AI underwriting copilot (<code>29 Oct</code>, <code>59%</code> underwriter processing time cut, internal data), <strong>Guidewire</strong> agentic platform, <strong>Opterrix</strong> portfolio management, <strong>Verisk</strong> underwriting intelligence on Claude and Copilot, <strong>Arbol</strong> parametric cover for data-centre construction moratorium risk - all failed as vendor launches with no deploying-company result, and most are out of scope as subjects regardless.</li><li><strong>S2 retail/grocery personalization</strong> - <strong>Albertsons</strong>&#x27; &quot;Ask AI&quot; basket-size figure traces to its January <code>2026</code> call, ten months old and superseded by two subsequent quarters, so it fails the recency test rather than the evidence bar. <strong>Wayfair</strong>&#x27;s &quot;<code>2.3x</code> higher return on Ad Spend&quot; on the Alphabet call failed the capability gate: the sentence attributes the lift to a campaign type, not to AI.</li><li><strong>S2 CPG</strong> - <strong>Coca-Cola</strong> failed the number bar. AI is described as production tooling reused from the World Cup campaign; the <code>7%</code> organic growth is decomposed without an AI line.</li><li><strong>S1/S3 industrials</strong> - <strong>Caterpillar</strong> failed the AI-as-capability test in the other direction: <code>17%</code> revenue growth driven by power generation sold into the AI build-out is pre-existing SKUs sold to a new buyer, and the Cat 775 autonomy extension carries no revenue figure.</li><li><strong>S3 healthcare</strong> - the <code>2026</code> CPT code set&#x27;s five new short-interval remote-monitoring codes and Category I codes for AI plaque analysis and FFR-CT are a genuine newly-economic mechanism, but failed the named-company bar: no provider or payer has yet attached a revenue figure to billing them.</li><li><strong>S3 professional services</strong> - flat-fee AI delivery at law and accounting firms failed on both subject and evidence: the named firms are AI-native entrants and every figure retrieved was vendor or consultancy pricing guidance, not a disclosed result.</li><li><strong>Appendix candidates not logged</strong> - <strong>Teradyne</strong> AI at ~<code>60%</code> of revenue on <code>70%</code> growth, <strong>Intel</strong> DCAI <code>$7.3bn</code> up <code>78%</code>, <strong>EXL</strong> data-and-AI-led revenue up <code>36%</code>, <strong>BigBear.ai</strong> revenue up <code>31%</code> - all vendor-side AI supply, which measures the build-out rather than deployment ROI, and <strong>Infosys</strong> was logged as the one that actually tests a prior claim.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>3 Nov 2026</code> - <strong>Amgen</strong> Q3 call, still the nearest large-pharma test of an AI-attributed pipeline or indication claim, and now a direct comparator for the <strong>BMS</strong> disclosure shape.</li><li>Early Nov <code>2026</code> - <strong>Neptune Insurance</strong> formal launch decision on the indemnity earthquake product, guided to &quot;by the end of the year&quot;; the open question from <code>2026-10-23</code> is whether any AI gate is claimed at launch.</li><li>Mid-Nov <code>2026</code> - <strong>Walmart</strong>, <strong>Target</strong> and <strong>Kroger</strong> Q3 reports, the first retail-media quarter where an AI-attributed ad or attach figure would be disclosable.</li><li>Early Dec <code>2026</code> - <strong>Ulta Beauty</strong> Q3 FY2026 call, the live test of whether the <code>3x</code> assistant conversion figure survives contact with the deploying company&#x27;s own disclosure.</li><li>Q4 <code>2026</code> reporting - <strong>Customers Bancorp</strong> FY26 and <strong>Ryan Specialty</strong> Q4, both carrying falsifiers written here: whether the revenue claim returns, and whether the <code>30%</code>-more-submissions figure is repeated or rotated out like its two predecessors.</li><li>Jan-Feb <code>2027</code> - <strong>Infosys</strong> Q3 FY27 and <strong>Telstra</strong> 1H FY27, the two cleanest substitution-versus-addition tests now live in this log.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Federal Reserve Bank of New York - &#x27;AI Adoption and Employment Expectations: Evidence from a Survey of Small Business Owners&#x27; (2025 Small Business Credit Survey, 5,248 US employer firms in the AI module, fielded Sep-Nov 2025)</span>
+    <span class="sector">Cross-sector (US small business) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Liberty Street Economics post by Will Aarons and Asani Sarkar, published 8 Oct 2026 - three weeks old and unlogged until now - reporting the only large realised revenue number retrieved this run: &quot;Only 31 percent of survey respondents reported increased sales from their firm&#x27;s use of AI.&quot; On the cost side, &quot;77 percent of respondents reported no change in their firm&#x27;s current labor costs from the use of AI.&quot; Everything else in the post is expectations: AI users show a net expectation of higher revenue exceeding non-users by 48 against 21 percentage points raw, falling to &quot;a 14 percentage point advantage over non-users in net expected revenue growth&quot; after controlling for firm and owner characteristics and past-twelve-month revenue changes. The authors state the outcome is unmeasured: &quot;Whether AI-adopting firms actually experience the stronger revenue and employment outcomes they anticipate is a subject for future research.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Self-reported AI use across a nationally weighted sample of US employer firms, cross-tabulated against self-reported sales change and against twelve-month-forward revenue and employment expectations, with regression controls for firm and owner characteristics and prior-period outcomes.</dd><dt>Why this shape</dt><dd>S2 because the realised finding concerns increased sales of existing products by existing firms into existing markets, with no counterfactual establishing that any of it is new demand. Counter-evidence because the headline cuts against the adoption narrative in two directions at once: among firms that actually use AI, fewer than one in three saw sales rise, and more than three in four saw no change in labour costs - so on the Fed&#x27;s own numbers the modal small-business AI deployment moves neither the top line nor the cost line. The 14-point expectations gap is the figure that will be quoted; it measures optimism, and the authors say plainly that whether it converts is unknown.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://libertystreeteconomics.newyorkfed.org/2026/10/ai-adoption-and-employment-expectations-evidence-from-a-survey-of-small-business-owners/" rel="noopener">Federal Reserve Bank of New York, Liberty Street Economics, 2026-10-08</a></dd><dt>Falsifier</dt><dd>If a later SBCS wave, or the follow-up research the authors flag, shows realised revenue growth for AI adopters tracking the 14-point expectation gap, the optimism was informed and this entry weakens. If realised outcomes converge with non-adopters while the expectation gap persists, the gap is sentiment and the 31% is the real number.</dd><dt>Confidence</dt><dd><strong>high</strong> — Federal Reserve Bank publication with named authors, stated sample sizes and stated limitations, read verbatim this run; the only caveat is that both the AI-use and the sales-change variables are self-reported and the survey was fielded a year before publication.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Ryan Specialty Holdings</span>
+    <span class="sector">Insurance brokerage · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-02 Ryan Specialty entry, and the second tell fired. On the Q3 2026 call (29 Oct 2026) CEO Tim Turner gave two new internal-AI numbers: &quot;For commercial auto liability submissions, we have cut processing time per submission from as much as 2 hours to under 3 minutes&quot;, and &quot;In Ryan Specialty Benefits, AI-enabled RFP intake has allowed certain teams to review roughly 30% more submissions each week.&quot; He framed the purpose as revenue: &quot;For our processes, we&#x27;re putting AI to work to generate capacity so our teams can spend more of their time transacting deals and winning new business.&quot; The Q2 metric this log recorded - 11% more quotes per head in RSUM property - was not repeated. Total revenue grew 4.7% to $790 million on organic revenue growth of 4%, which CFO Janice Hamilton attributed to &quot;professional lines&quot;, &quot;M&amp;A and contingent commissions&quot;, casualty and underwriting management. No AI link to any revenue line.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>LLM-driven submission intake, data extraction, loss-run analysis and rating pre-population, delivered through purpose-built underwriting workbenches in Ryan Re and an internal AI enablement centre. The revenue path is throughput: more submissions reviewed per broker-week should mean more quotes, more quotes more bound placements, more placements more commission.</dd><dt>Why this shape</dt><dd>S1 because every disclosed number is an input metric - minutes per submission, submissions reviewed per week - and no revenue, organic growth or win-rate figure is attributed to AI anywhere on the call. Revenue conversion is not merely absent, it is affirmatively assigned elsewhere: the CFO&#x27;s organic-growth decomposition names professional lines, M&amp;A, contingent commissions, casualty and underwriting management, and omits AI. This is the third consecutive Ryan Specialty quarter with a fresh AI throughput statistic and no AI revenue statistic, and the metric changes each time.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/30/ryan-specialty-ryan-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-29</a></dd><dt>Falsifier</dt><dd>The quotes-per-head metric disclosed in Q2 2026 already failed to reappear in Q3; if the 30%-more-RFP-submissions figure likewise does not reappear in Q4 2026 or Q1 2027, and is instead replaced by a fourth new throughput statistic, the pattern is metric-rotation rather than compounding capacity. Confirmation would require Benefits segment organic growth to outpace its headcount growth with management naming AI as the reason.</dd><dt>Confidence</dt><dd><strong>high</strong> — Verbatim prepared-remarks quotes from the Q3 2026 transcript retrieved this run; the absence of revenue attribution is established by the CFO&#x27;s own growth decomposition rather than inferred.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Bristol Myers Squibb</span>
+    <span class="sector">Pharma · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (29 Oct 2026, total revenue up 7% to $13.1 billion) AI appeared nowhere in prepared remarks and surfaced only when Goldman Sachs asked about it. CEO Christopher Boerner then restated two targets: &quot;We talked previously about the fact that you know, we put forward a 20 to 30% reduction in drug testing timelines. Cutting in half the time from drug target selection to lead molecule identification. Those are just 2 examples.&quot; Neither is claimed as achieved. Chief Medical Officer Cristian Massacesi said &quot;through AI, we are accelerating actually our research and development projects. This is now a concrete fact. That we can start to measure&quot; and then declined to measure it on the record: &quot;This is very tangible. We have multiple examples. Happy to share offline.&quot; Boerner also conceded the ROI case is not yet made: &quot;while we are making AI tools broadly available at the enterprise level, we are also working towards targeted investments where we can articulate an ROI.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI applied across discovery and development - target selection, lead-molecule identification, trial design and outcome prediction - with the claimed revenue path running through both speed (earlier launch, longer effective exclusivity) and probability of technical success. A data partnership with Tempus in neuroscience was named as the worked example, and BMS was named by an analyst as one of six partners in an Anthropic drug-development effort.</dd><dt>Why this shape</dt><dd>S1 because both figures are input metrics on timelines, not revenue, and because neither is a result: the framing verb is &quot;we put forward&quot;, i.e. a target set, which is why status is PROJECTED rather than DISCLOSED. Counter-evidence because of the shape of the disclosure, not its content. A $13bn-a-quarter pharma company kept AI out of prepared remarks entirely, restated year-old targets only under analyst questioning, had its Chief Medical Officer assert measurability and then refuse to produce a measurement offering to &quot;share offline&quot;, and had its CEO describe articulable ROI as something still being worked towards.</dd><dt>Status</dt><dd><strong>PROJECTED</strong> — forward target, not a result</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/29/bristol-myers-squibb-bmy-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-29</a></dd><dt>Falsifier</dt><dd>If the Q4 2026 or FY2026 disclosure does not report actual progress against the 20-30% timeline reduction or the halved target-to-lead interval - a realised percentage, not a restated ambition - then these are durable talking points rather than operating metrics. A harder test: whether any BMS asset ever reaching registration is attributed to AI-shortened development in a filing.</dd><dt>Confidence</dt><dd><strong>high</strong> — Verbatim quotes from a transcript retrieved this run, with the target-versus-result framing established by the speaker&#x27;s own verb choice; the only uncertainty is the transcript&#x27;s own rendering of &quot;Tempus Patmos&quot;, which is not load-bearing.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Ulta Beauty</span>
+    <span class="sector">Specialty retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On Alphabet&#x27;s Q3 2026 earnings call (28 Oct 2026) Google Cloud CEO Thomas Kurian said in prepared remarks: &quot;Ulta Beauty, who built the Ulta AI shopping assistant, resulting in a 3x higher conversion rate than traditional browsing on their site.&quot; Ulta launched Ulta AI, built on Gemini Enterprise, on 22 Apr 2026, and that launch release cites 46 million loyalty members as the personalisation input but carries no conversion figure. The 3x is asserted by the vendor, not by Ulta: no Ulta filing, release or call retrieved this run contains it, and secondary renderings disagree, with at least one reporting a 2x figure that refers to a different thing - shoppers arriving from Gemini and ChatGPT rather than users of Ulta&#x27;s own assistant.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>A Gemini-based conversational shopping assistant on Ulta.com and the Ulta app that takes a stated beauty need and returns product guidance, personalised against the loyalty file, in place of category browsing and search.</dd><dt>Why this shape</dt><dd>S1 because conversion rate is an input metric: no incremental revenue, basket size or sales figure is attached to it by either Ulta or Google. Not S2 or S3 for the same reason - nothing is attributed. Logged under METHOD&#x27;s rule that a vendor call naming a customer&#x27;s disclosed result is an admissible source while the subject remains the deploying corporation, but the standing weakness applies at full force: a 3x gap between assistant users and site browsers is a comparison between a self-selected high-intent cohort and everyone else, and neither party offered a holdout. Sixty-two logged days have produced no such holdout from anyone.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://s206.q4cdn.com/479360582/files/doc_events/2026/Oct/28/2026_Q3_Earnings_Transcript.pdf" rel="noopener">Alphabet Q3 2026 earnings call transcript (Alphabet IR), p. prepared remarks - Thomas Kurian, 2026-10-28</a></dd><dt>Falsifier</dt><dd>If Ulta&#x27;s own Q3 FY2026 call (early Dec 2026) does not repeat or quantify the assistant&#x27;s conversion effect, or reports digital comparable sales that do not move, the 3x is a vendor artefact of cohort selection. The specific thing to watch: whether Ulta attaches any dollar or comparable-sales figure to Ulta AI in its own voice, having so far attached none.</dd><dt>Confidence</dt><dd><strong>low</strong> — The quote is verbatim from Alphabet&#x27;s own transcript, but the claim is the vendor&#x27;s about its customer, the deploying company has never stated it, secondary sources give a conflicting 2x for a different population, and the comparison has an uncontrolled selection effect.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Telstra Group</span>
+    <span class="sector">Telecom · Australia</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On Alphabet&#x27;s Q3 2026 call (28 Oct 2026) Chief Business Officer Philipp Schindler said in prepared remarks: &quot;by using AI Max to capture long-form and multilingual queries, Telstra saw a 52% increase in conversions and a 36% reduction in cost per order, showing up in key moments however their customers search.&quot; This is the same Telstra whose CEO Vicki Brady, recorded in this log on 2026-07-30, &quot;could not point to a specific role that AI has directly replaced so far&quot; while reporting labour costs down 9%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Google&#x27;s AI Max for Search campaigns, which uses Gemini models to match long-form and multilingual queries to ads and to generate creative, replacing keyword-bounded targeting. The revenue path is paid-acquisition efficiency on Telstra&#x27;s existing consumer products.</dd><dt>Why this shape</dt><dd>S1 because conversions and cost per order are funnel metrics, not revenue, and no incremental service revenue is attributed. Explicitly not S3: every one of those conversions is an existing Telstra product sold to an Australian telecom customer who was already searching for it, and the mechanism is better matching inside Google&#x27;s auction - at industry level this reallocates share between Telstra and Optus or TPG, and between advertisers bidding the same queries. Worth logging for the contrast it creates with the same company&#x27;s cost-side disclosure: Telstra&#x27;s own management would not attribute a single role to AI, while its ad vendor attributes a 52% conversion lift to it.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://s206.q4cdn.com/479360582/files/doc_events/2026/Oct/28/2026_Q3_Earnings_Transcript.pdf" rel="noopener">Alphabet Q3 2026 earnings call transcript (Alphabet IR), prepared remarks - Philipp Schindler, 2026-10-28</a></dd><dt>Falsifier</dt><dd>If Telstra&#x27;s own 1H FY27 results (February 2027) report no improvement in subscriber acquisition cost or consumer service revenue, a 52% conversion lift on paid search was too small a channel to matter, or was offset by higher auction prices. The sharper test: whether Telstra ever states this figure itself, having so far left its AI benefits unquantified in its own disclosures.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Verbatim from Alphabet&#x27;s own transcript retrieved this run, but vendor-asserted about its customer, with no baseline, no time period and no indication whether it is a campaign test or a company-wide result.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Infosys</span>
+    <span class="sector">IT services · India</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">The falsifier written into this log&#x27;s 2026-07-29 Infosys entry fired, and it fired in the direction of substitution. On the Q2 FY27 call (23 Oct 2026, SEC-filed transcript) CEO Salil Parekh said: &quot;Our AI revenue was standout at 10.5% of our total revenue, growing 29% sequentially. Last quarter, it was at 8.2%.&quot; CFO Jayesh Sanghrajka: &quot;AI first revenue now accounts for 10.5% of our revenues.&quot; The series Infosys itself gave on the call runs 5.5% (Q3 FY26) to 8.2% (Q1 FY27) to 10.5% (Q2 FY27) - nearly a doubling of AI revenue share in three quarters on Q2 revenue of $5,145m. In the same call Infosys CUT full-year guidance: &quot;We are revising our full year revenue growth guidance to 1% to 2%, reflecting softer-than-expected H1 performance and our updated assessment for the rest of the year&quot;, down from the 1.5%-3.0% recorded here in July. Parekh insists on the additive reading - &quot;We know this is new revenue&quot; and &quot;the revenue of 10.5% AI, we are sharing is new revenue&quot; - while declining to support it: &quot;We are not sharing externally the year-on-year.&quot; No definition or footnote for what counts as AI revenue appears in the filing.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI-labelled services delivery - described by Infosys as six areas spanning AI strategy and engineering, data, process, legacy modernisation, physical AI and trust - sold into the same enterprise client base that buys its traditional application and infrastructure services.</dd><dt>Why this shape</dt><dd>Appendix because an IT services vendor is out of scope as a revenue-log subject - it sells the shovels. S2 rather than S3 because the counterfactual fails on the company&#x27;s own arithmetic: AI revenue share nearly doubled across three quarters while total constant-currency growth guidance was cut to 1%-2%, which is only arithmetically possible if AI-labelled work is displacing non-AI-labelled work inside the same accounts. That is reclassification and share defence, not new demand. This is the cleanest available demonstration of METHOD&#x27;s denominator-game rule: a CEO can call a rising mix metric &quot;new revenue&quot; in the same breath as cutting the growth number that would evidence it, and with no published definition of the numerator nobody can check.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001067491/000106749126000044/exv99w05.htm" rel="noopener">Q2 FY27 earnings call transcript, SEC Form 6-K Exhibit 99.5, 2026-10-23</a></dd><dt>Falsifier</dt><dd>If Q3 FY27 AI revenue share rises again while full-year constant-currency growth guidance is raised above 2%, the additive reading gains real support and this entry weakens. If share keeps climbing while growth stays at or below 2%, substitution is settled. A third tell to watch: whether Infosys ever publishes a definition of AI revenue or the year-on-year figure it is currently withholding.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both the AI share series and the guidance cut are verbatim from an SEC-filed transcript retrieved this run; the substitution inference rests on the company&#x27;s own two numbers rather than on interpretation.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Alphabet / Google</span>
+    <span class="sector">Technology · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (28 Oct 2026) Chief Business Officer Philipp Schindler quantified Alphabet&#x27;s own AI ads benefit as a construct rather than as revenue: &quot;through several innovations in personalization modeling, we delivered 18% incremental advertiser value and an 8% increase in user sentiment on Discover Ads in 2026.&quot; He separately reported that &quot;we made the biggest update to product listing ads in a decade&quot; and &quot;we&#x27;ve seen satisfaction increase by 19% and dissatisfaction drop more than half&quot;, and that &quot;Gemini models helped advertisers generate over 1.5 billion campaign assets, up over 7x year-over-year.&quot; Not one of these is a revenue figure, and &quot;incremental advertiser value&quot; is undefined in the transcript. The same quarter produced Alphabet&#x27;s first top- and bottom-line miss in close to four years.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Gemini models embedded across the ads stack - intent decoding, click and conversion prediction, personalisation, creative generation and AI Max campaign matching - monetised through improved auction performance rather than through a separately priced AI product.</dd><dt>Why this shape</dt><dd>Appendix because Alphabet is out of scope as a revenue-log subject. S2 because better ad matching reallocates advertiser budget and consumer purchases between competing sellers; nothing here creates demand that did not exist. Logged for the construct, which is the point: the company with the largest AI capex programme on earth, asked implicitly to show the revenue return, produced a percentage of &quot;advertiser value&quot; - a benefit accruing to its customers, not a line in its own accounts - alongside satisfaction scores and an asset count. If the best-instrumented AI deployer in the world reports its ads AI payoff in undefined value units, the non-tech incumbents in the main log are not going to do better.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://s206.q4cdn.com/479360582/files/doc_events/2026/Oct/28/2026_Q3_Earnings_Transcript.pdf" rel="noopener">Alphabet Q3 2026 earnings call transcript (Alphabet IR), prepared remarks - Philipp Schindler, 2026-10-28</a></dd><dt>Falsifier</dt><dd>If Alphabet ever defines &quot;incremental advertiser value&quot; or converts it into disclosed ads revenue attributable to personalisation modelling, the metric graduates from construct to result. If the phrase recurs across further quarters with no definition and no revenue line beneath it, it is a denominator metric and should be read as one.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Verbatim from Alphabet&#x27;s own transcript, but every figure is a company-defined construct with no stated methodology, baseline or denominator, which is precisely what the entry records.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Tata Steel</span>
+    <span class="sector">Steel / metals · India</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">On Alphabet&#x27;s Q3 2026 call (28 Oct 2026) Google Cloud CEO Thomas Kurian said in prepared remarks: &quot;Tata Steel, who deployed more than 300 specialized AI agents in just nine months to enhance manufacturing safety, optimize supply chains, and cut service times for customers by 50%.&quot; No cost figure, no headcount figure and no revenue figure accompanies it, and Tata Steel itself is not the speaker.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Gemini-based agents deployed across manufacturing safety monitoring, supply-chain optimisation and customer service workflows at a heavy-industry incumbent, with the only quantified output being customer service turnaround time.</dd><dt>Why this shape</dt><dd>C4 - non-tech sector, non-engineering function - which is the cell that matters, and the reason this is logged despite its weakness. It belongs in the cost ledger and not in S1 because a 50% cut in customer service time has no disclosed revenue path: nothing links it to retained volume, win rate or price. Two of METHOD&#x27;s standing cost traps apply directly. &quot;More than 300 specialized AI agents&quot; is adoption dressed as saving - agent count is an input, not a cost reduction. And there is no realised-versus-avoided distinction available because there is no cost number at all, in either direction.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://s206.q4cdn.com/479360582/files/doc_events/2026/Oct/28/2026_Q3_Earnings_Transcript.pdf" rel="noopener">Alphabet Q3 2026 earnings call transcript (Alphabet IR), prepared remarks - Thomas Kurian, 2026-10-28</a></dd><dt>Falsifier</dt><dd>If Tata Steel&#x27;s own FY27 results or annual report contain no AI-attributed cost, margin or service-level figure, this is a vendor reference slide and nothing more. The specific thing to look for: whether the 50% service-time figure, or any successor to it, appears in a Tata Steel document in Tata Steel&#x27;s voice.</dd><dt>Confidence</dt><dd><strong>low</strong> — Verbatim from Alphabet&#x27;s own transcript, but vendor-asserted about its customer, with no cost figure, no baseline, no scope and no confirmation from the deploying company.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
