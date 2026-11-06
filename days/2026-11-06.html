@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-06 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-11-06</h1>
+  <p class="standfirst">4
+  revenue finding(s) in the main log, 2 in the appendix, 4 in the cost ledger.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Ten findings, <strong>no main-log S3 for the seventh consecutive run</strong>, and the sharpest number of the week is negative: <strong>AirSculpt</strong> cut full-year guidance and told investors Google&#x27;s AI Overviews took <code>16%</code> of its leads and added <code>26%</code> to its cost per lead. The one genuinely new-TAM-shaped revenue figure - <strong>Axon</strong>&#x27;s <code>$100m</code> AI ARR - is out of scope, because Axon is selling the AI rather than deploying it.</div>
+<p>This run covers the seven days since <code>2026-10-30</code>, the tail of Q3 earnings season. Every figure below was read in a document retrieved this run; four came from SEC exhibits or a company&#x27;s own transcript PDF rather than a secondary rendering.</p>
+<h4>Sources read</h4>
+<ul><li><strong>AirSculpt Technologies</strong> - Q3 2026 call and 8-K (<code>6 Nov</code>). CEO Jashnani: AI overviews now on &quot;nearly <code>90%</code> of healthcare-related queries&quot;, causing &quot;<code>16%</code> lower leads versus prior year and <code>26%</code> higher cost per lead&quot;, &quot;impacting both revenue and profitability&quot;. Revenue <code>-8.7%</code> to <code>$31.9m</code>, FY26 guidance cut to <code>$144m</code>-<code>$146m</code> from <code>$151m</code>-<code>$157m</code>. The filed 8-K mentions AI nowhere.</li><li><strong>Axon Enterprise</strong> - Q3 2026 shareholder letter, 8-K Exhibit 99.1 (<code>5 Nov</code>). &quot;AI annual recurring revenue surpassed <code>$100 million</code>&quot;, AI bookings up over <code>50%</code> year to date, against total ARR of <code>$1.75bn</code> up <code>40%</code>. AI ARR is not defined. CEO Smith on the one SKU with no predecessor: prosecutor sign-off &quot;maybe slowed down Draft One a bit&quot;.</li><li><strong>Intact Financial</strong> - Q3 2026 call and slides (<code>4 Nov</code>). CEO Brindamour: &quot;We earn today close to CAD <code>250 million</code> in recurring pre-tax earnings&quot; from AI, to &quot;double that in the next <code>24</code> months&quot;. COO Barbeau splits it <code>60%</code> loss ratio, <code>40%</code> expense ratio. <code>600</code>-plus models in production, machine learning pricing <code>94%</code> of Canadian personal lines. Zero dollars of revenue attributed.</li><li><strong>Standard Chartered</strong> - Q3 2026 transcript, company PDF (<code>28 Oct</code>). Group CEO Winters on Wealth: &quot;this is sort of all before we get the full effect of AI. And in this case, the AI is customer satisfaction and revenue productivity as opposed to cost savings.&quot; Income <code>+14%</code>, PBT <code>+29%</code>, no AI figure in <code>15</code> pages. CFO Costello to CNBC three days later: &quot;I think you can see it in the top line growth that we&#x27;re delivering.&quot;</li><li><strong>Banco Santander</strong> - 9M 2026 results (<code>28 Oct</code>). AI business value of <code>EUR 194m</code> for nine months, from <code>EUR 35m</code> in Q1, on a <code>EUR 1bn</code>-plus 2026-28 target. CFO Garcia Cantera: &quot;it&#x27;s really difficult to just say how much comes from AI.&quot; The construct pools revenue, cost and loan-loss provisions and is an unaudited alternative performance measure.</li><li><strong>Novartis</strong> - Q3 2026 results (<code>27 Oct</code>) and CEO interview. Narasimhan: &quot;I think this is the first quarter I&#x27;ve really seen AI start to improve actually our P&amp;L on a tangible basis.&quot; Core operating income <code>+10%</code> cc, margin <code>41.6%</code>. The filed release mentions AI only in the risk factors and a board nominee&#x27;s biography.</li><li><strong>Carlsberg</strong> - Q3 2026 trading statement (<code>29 Oct</code>) and CEO interview. Aarup-Andersen: not seeing AI benefits at scale, while naming pricing, marketing, supply chain and back office as touched. Revenue <code>+4.9%</code> reported, <code>+3.0%</code> organic, no AI attribution.</li><li><strong>CarGurus</strong> - Q3 2026 call and 8-K (<code>5 Nov</code>). All four Q2 AI statistics dropped, four new ones in their place. US QARSD <code>+7%</code> to <code>$8,308</code> against revenue <code>+12%</code>. Guru, VINMAX and PriceVantage are named nowhere in the filed release.</li><li><strong>Shopify</strong> - Q3 2026 call (<code>3 Nov</code>). AI-referred sales from outside the top <code>100</code> categories held at <code>74%</code> against <code>75%</code> in Q2. AI traffic <code>+2.6x</code>, decelerating from <code>3x</code>, while GMV growth held at <code>29.5%</code>. Second quarter with no dollar figure.</li><li><strong>HBR Analytic Services / Seismic</strong> - sponsor-paid release (<code>4 Nov</code>), n=<code>208</code>, fielded June 2026. <code>75%</code> increased AI use for revenue-generating activities; <code>11%</code> report increased revenue or new revenue streams from it.</li></ul>
+<div class="callout">The pattern of the week, and it is new: <strong>four large non-tech companies were asked the same question by the same programme in the same news cycle, and the answers sort cleanly by how exposed the speaker was.</strong> <strong>Santander</strong> gave a composite euro figure and refused to decompose it. <strong>Standard Chartered</strong>&#x27;s CFO pointed at the top line on television while its CEO had said on the transcript that the effect has not yet arrived. <strong>Novartis</strong>&#x27;s CEO said &quot;tangible&quot; with no number, in a week when his own filed release mentioned AI twice in a director&#x27;s CV. <strong>Carlsberg</strong>&#x27;s CEO said not at scale. Only the last of those is falsifiable in the direction of modesty, and it is the only one that costs the speaker nothing to be wrong about.</div>
+<div class="callout">Second, and it extends a pattern now three runs old: <strong>metric rotation is the house style.</strong> <strong>CarGurus</strong> became the third company in this log to replace an entire set of AI statistics rather than update them - all four Q2 figures gone, four new ones in, engagement still framed sequentially while revenue is framed year-over-year. <strong>Ryan Specialty</strong> has now done this three quarters running and <strong>Customers Bancorp</strong> migrated from revenue to cost inside one quarter. A statistic that is never repeated cannot be falsified, which is what it is for.</div>
+<div class="callout">Third, the one the capex debate should sit with: <strong>the best-instrumented deployer in this log quantified its AI benefit to the nearest CAD <code>25m</code> and attributed none of it to revenue.</strong> <strong>Intact</strong> has <code>600</code>-plus models in production, prices <code>94%</code> of Canadian personal lines with machine learning, measures the benefit on controlled samples, and reports the whole of it as loss ratio and expense ratio. If an insurer that far down the curve sees no top line, the burden of proof on firms claiming AI revenue with less apparatus should go up, not down. Note also the two caveats inside Intact&#x27;s own number: Barbeau said continued AI investment &quot;will fund some of it&quot;, and the margin claim is outperformance against industry, not improvement on its own book - the Q3 combined ratio was <code>94.0%</code> against <code>89.8%</code> a year earlier.</div>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - <strong>Mosaic</strong> HALO SME specialty platform (Sept), <strong>Insurity</strong> Dorado rating engine (<code>4 Nov</code>), <strong>Kalepa</strong>&#x27;s <code>$75m</code> raise, <strong>MS Amlin</strong> wordings tool, <strong>Manulife</strong> advisor assistant - failed as vendor launches with no deploying-company result, and none disclosed premium bound on a risk class previously declined. The S3 insurance thesis has now been searched eight runs running without a single carrier attaching premium to a newly insurable class.</li><li><strong>S3 pharma, unscreenable target space</strong> - <strong>Insilico</strong>&#x27;s rentosertib Phase 3, <strong>Takeda</strong>/Schrodinger zasocitinib pending an early-2027 FDA decision, <strong>Soley</strong> STX-6398 against CKAP2 - all failed the inclusion bar on revenue: no approved AI-discovered drug exists and none has a sales line. <strong>Revolution Medicines</strong>&#x27; Rasonque has revenue but is not described as AI-discovered, and the only figure found for it came from a single low-tier outlet.</li><li><strong>S3 industrials, autonomy as a new line</strong> - <strong>Trimble</strong> Machine Control as a Service, ACV bookings and ARR up over <code>50%</code> with more than a third new logos, is the right shape and fails twice: the subject is a technology company, and the product is not established as AI rather than GNSS positioning. <strong>Amgen</strong> (<code>3 Nov</code>), flagged as a catalyst last week, described AI as discovery and manufacturing efficiency with no figure.</li><li><strong>AI-as-customer rather than AI-as-capability</strong> - <strong>BCE</strong> AI-powered solutions revenue <code>+41%</code> driven by Ateko and Bell Cyber, <strong>Deutsche Telekom</strong> guiding to about <code>EUR 250m</code> of AI-related business-customer revenue in 2026, <strong>LG U+</strong> AI data-centre revenue <code>+27.7%</code>, <strong>SK Telecom</strong>&#x27;s Token Gateway. Real money, pre-existing SKUs sold to a new buyer, and the telco equivalent of selling gensets into a data centre. Logged nowhere.</li><li><strong>S2 retail, agentic commerce</strong> - <strong>Bob&#x27;s Furniture</strong> was asked directly about attach rate and said it is &quot;not necessarily disclosing many details on agentic commerce&quot;. <strong>Commerce.com</strong> named higher attach rates as a priority without quantifying agentic demand. <strong>VTEX</strong>&#x27;s <code>30%</code> abandoned-cart recovery is a vendor product metric.</li><li><strong>Macro counter-evidence not logged</strong> - the <strong>Morgan Stanley</strong> <code>16%</code>-to-<code>30%</code> series on quantifiable AI impact in earnings disclosures and the <strong>Axios</strong> one-in-four S&amp;P 500 figure both trace to an April 2026 secondary article, failing recency and primacy. <strong>PwC</strong>&#x27;s claim that <code>20%</code> of companies capture three-quarters of AI&#x27;s economic gains is Tier D consultancy with no retrievable method.</li><li><strong>Appendix candidates not logged</strong> - <strong>Klaviyo</strong> personalization ARR up over <code>100%</code>, <strong>AvePoint</strong> record <code>$30m</code> net new ARR on AI governance, <strong>ISG</strong> AI revenue <code>+56%</code> to nearly <code>$34m</code>, <strong>Arlo</strong> ARR <code>+14.5%</code>. All vendor-side AI supply. <strong>Axon</strong> and <strong>Shopify</strong> were taken as the two appendix entries because each tests a question the main log cannot: an incumbent manufacturer&#x27;s AI SKU economics, and whether assistant-mediated demand is additive or reallocated.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>12 Nov 2026</code> - <strong>Heartflow</strong> Q3, the live test of the 2026-09-03 S3-CANDIDATE falsifier: whether AI Plaque Analysis revenue is ever broken out or the &quot;second growth engine&quot; framing was narrative.</li><li>Mid-Nov <code>2026</code> - <strong>Walmart</strong>, <strong>Target</strong> and <strong>Kroger</strong> Q3, the first retail-media quarter in which an AI-attributed ad or attach figure would be disclosable, and still the largest unanswered S2 question in the log.</li><li>Late Nov / early Dec <code>2026</code> - <strong>Ulta Beauty</strong> Q3 FY2026, the test of whether the <code>3x</code> assistant conversion figure Google quoted on Alphabet&#x27;s call survives contact with the deploying company&#x27;s own disclosure.</li><li>Q4 <code>2026</code> reporting - <strong>AirSculpt</strong> Q4, whether leads recover against rising AI Overview penetration; <strong>CarGurus</strong> Q4, whether a fifth distinct AI statistic set appears; <strong>Customers Bancorp</strong> and <strong>Ryan Specialty</strong> Q4, both carrying falsifiers written here.</li><li>Feb <code>2027</code> - <strong>Standard Chartered</strong> FY26 and <strong>Carlsberg</strong> FY26, the two cleanest tests in this run: whether an AI income number appears behind the CFO&#x27;s top-line framing, and whether &quot;not at scale&quot; survives two quarters.</li><li>Jan-Feb <code>2027</code> - <strong>Novartis</strong> FY26 and the 2029 margin bridge, where a <code>40%</code>-plus core margin target with SG&amp;A as the stated lever either names AI or does not.</li><li>Through <code>2028</code> - <strong>Intact</strong>&#x27;s CAD <code>500m</code> and <strong>Santander</strong>&#x27;s <code>EUR 1bn</code>, now the two largest quantified AI benefit targets in this log and both entirely cost-side.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">AirSculpt Technologies, Inc.</span>
+    <span class="sector">Healthcare / elective procedures · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">The only quantified AI top-line attribution from a non-tech incumbent this week carries a minus sign. On the Q3 2026 call (6 Nov 2026) CEO Yogesh Jashnani said queries featuring AI overviews &quot;have now risen to nearly 90% of healthcare-related queries&quot;, producing &quot;fewer Google clicks because Google increasingly keeps consumers on its own platform&quot; and &quot;16% lower leads versus prior year and 26% higher cost per lead in the quarter&quot;, &quot;impacting both revenue and profitability&quot;. CFO Michael Autor said of the marketing cost increase that &quot;that increase is primarily driven by AI overviews, which impacted traffic and leads reaching our website in the period&quot;. Revenue fell 8.7% to $31.9m, same-centre case volume fell 9.6%, and FY26 revenue guidance was cut to $144m-$146m from $151m-$157m with adjusted EBITDA cut to $9m-$10m from $12m-$14m.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AirSculpt buys essentially all of its demand through paid and organic search: a consumer searches a body-contouring term, clicks through, becomes a lead, and converts to a cash-pay procedure averaging roughly $13k. Google&#x27;s AI Overviews answer the query on Google&#x27;s own page, so the click never happens. The funnel loses volume at the top and the remaining clicks are bid up, which is why leads fell 16% while cost per lead rose 26% in the same quarter.</dd><dt>Why this shape</dt><dd>S2 by the share test, read from the losing side. Absent AI Overviews these consumers were still in-market for body contouring and most will buy from somebody - a competitor, a local plastic surgeon, or AirSculpt later through a different channel. Demand was reallocated, not destroyed, so this is zero-sum at industry level and GDP-neutral, exactly like the S2 wins logged here from the winning side. Not S3 and not an inverse-S3: nothing about total category demand is disclosed. The important asymmetry is evidentiary rather than economic - this company put a hard, dated, guidance-moving number on AI&#x27;s effect on its own revenue line, which almost none of the 50 S2 entries in this log have done for the positive case. Note also what is absent: the filed 8-K results release mentions AI nowhere. The entire attribution lives on the call.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://gloom.sh/stocks/airs/transcripts/q3-2026" rel="noopener">Q3 2026 earnings call (financials cross-checked against 8-K Exhibit 99.1, 6 Nov 2026), 2026-11-06</a></dd><dt>Falsifier</dt><dd>Q4 2026 and FY2027. If leads and same-centre case volume recover while AI Overview penetration of healthcare queries keeps rising, the 16% and 26% were a marketing-execution failure wearing an AI explanation - the CEO already pre-loaded that reading by saying &quot;We are beginning to see early signs of improvement in our presence in AI-generated search results.&quot; Equally falsifying: the AI attribution never appearing in a filed 8-K or 10-Q, which would mark it as call-only colour management is not willing to put in a document.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Quotes and figures read verbatim in a transcript fetched this run and the financials and guidance cut independently verified in the fetched 8-K exhibit; marked down because the transcript is an aggregator rendering and the AI attribution appears in no filed document.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Standard Chartered PLC</span>
+    <span class="sector">Banking · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">A CEO and a CFO at the same bank gave opposite accounts of whether AI is in the top line, three days apart. On the Q3 2026 results call (28 Oct 2026, income +14% to $5.8bn, profit before tax +29% to $2.3bn, expenses +9%, FY guidance upgraded to above the 5%-7% income range and RoTE to around 14%) Group CEO Bill Winters said of the Wealth franchise: &quot;this is sort of all before we get the full effect of AI. And in this case, the AI is customer satisfaction and revenue productivity as opposed to cost savings.&quot; No income figure is attributed to AI anywhere in the 15-page transcript. On 29 Oct CFO Manus Costello told CNBC&#x27;s Squawk Box Europe: &quot;I think you can see it in the top line growth that we&#x27;re delivering.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>The claimed path is relationship-manager productivity in the affluent and Wealth Solutions business: AI tools raise the quality and consistency of RM advice, which raises income per client. Winters called it &quot;the number one use-case for us in terms of our AI build-out&quot;. Costello separately described &quot;investments that we&#x27;re putting in to make our RMs more productive&quot; as &quot;obviously paying off&quot; but attributed that to physical wealth centres and infrastructure capex, not to AI.</dd><dt>Why this shape</dt><dd>S2 by shape if the claim were real - affluent banking income taken from other private banks in the same Asian and Middle Eastern markets, a competitor losing the mandate. It is logged as counter-evidence because the two statements cannot both be true. The CEO&#x27;s formulation is the more exposed of the two: he is on a transcript his own investor-relations team published, and he says the revenue effect is still ahead of the company. The CFO&#x27;s is on television. Where a bank&#x27;s own Tier A document says the AI revenue effect has not yet arrived and its CFO tells a broadcaster you can already see it, the log records the transcript and flags the gap. This is the cleanest instance yet of a pattern this log has been circling: AI revenue attribution appears in media appearances at a resolution management will not commit to in a filing.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sc.com/en/uploads/sites/66/content/docs/standard-chartered-plc-q3-2026-results-transcript.pdf" rel="noopener">Q3 2026 results transcript (company PDF); CFO remarks via CNBC, 1 Nov 2026, 2026-10-28</a></dd><dt>Falsifier</dt><dd>The FY26 results (Feb 2027) or the 2028 investor targets attaching an actual income number to AI, which would vindicate Costello. If instead the 5%-7% income CAGR and 57% cost-income targets are restated with no AI line, and Winters&#x27;s &quot;before we get the full effect&quot; is repeated a second and third time, the CFO&#x27;s top-line framing was narrative. Watch specifically for Wealth Solutions income growth decelerating while AI tooling is described as more deeply deployed.</dd><dt>Confidence</dt><dd><strong>high</strong> — Both quotes read verbatim in documents fetched this run - the first in Standard Chartered&#x27;s own published transcript PDF, the second in CNBC&#x27;s own interview write-up. High confidence in the contradiction; the underlying revenue claim remains unquantified and unverifiable.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Harvard Business Review Analytic Services / Seismic - &#x27;AI and the Future of Revenue Generation&#x27; (208 respondents from the HBR audience at B2B-selling organisations, fielded June 2026)</span>
+    <span class="sector">Cross-sector survey · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Published 4 Nov 2026 as a sponsor-paid release, and it quantifies the gap this log exists to measure in a single pair of numbers: &quot;75% of respondents say their organization has increased its use of AI for revenue-generating activities over the past year&quot; while &quot;only 11% report increased revenue or new revenue streams from AI&quot;. Also: 39% use AI for revenue-enablement processes against 54% for marketing and 44% each for sales and customer support; 71% of those using AI for revenue enablement report &quot;significant or moderate value&quot;; and only 12% say their revenue-generating teams are highly confident in AI output, with 55% reporting low confidence.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a mechanism study. It measures the ratio between deployment into revenue-producing functions and reported revenue outcomes from that deployment, at the same respondents, in the same instrument - which is why the 75/11 pair is more useful than either figure alone.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, because S2 is the shape the 75% of respondents are reaching for and the 11% is the share that got there. Read against this log&#x27;s own ledger the number is plausible rather than surprising: 158 prior entries, two confirmed S3, and a revenue side that has produced no main-log S3 in seven consecutive runs. The 71% reporting &quot;significant or moderate value&quot; against the 11% reporting revenue is trap 3 in survey form - a composite value construct sitting next to the hard question, with the gap between them doing the work the sponsor needs.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier D</strong> — Vendor case study or consultant survey — lowest tier<br><a href="https://finance.yahoo.com/technology/ai/articles/study-finds-ai-adoption-surging-140100177.html" rel="noopener">HBR Analytic Services report sponsored by Seismic, Business Wire release, 2026-11-04</a></dd><dt>Falsifier</dt><dd>A second wave of the same instrument with the same question wording. If the 11% does not rise materially while the 75% keeps climbing, the adoption-to-revenue gap is structural rather than a lag. If it does rise, this entry dates quickly - which is the point of logging it now.</dd><dt>Confidence</dt><dd><strong>low</strong> — Tier D and marked down hard: the report is funded by a go-to-market software vendor whose product the 39% figure flatters, n is only 208, respondents are a self-selected HBR audience rather than a sampled frame, and the survey was fielded in June 2026 but released in November.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">CarGurus</span>
+    <span class="sector">Media / Marketplaces (autos) · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-16 CarGurus entry, and the metric-rotation tell fired - the third company in this log to do it. On the Q3 2026 call (5 Nov 2026) every one of the four Q2 AI statistics logged here was dropped and four different ones took their place. Gone: Guru-driven leads +60% sequentially, VINMax listings selling 23% faster with 34% more leads per day, PriceVantage bookings +50% sequentially, and the median 15% VDP / 9% lead lift. New: CEO Jason Trevisan said &quot;Guru unique usage reached new highs. It was up 24% sequentially&quot;, dealership mode usage rose 105% versus Q2, VINMAX boosted listings are &quot;85% more likely to sell without any price reduction compared to similar non boosted vehicles&quot; and &quot;received roughly 57% more leads per day&quot;, and PriceVantage dealers &quot;reduced overall discounting by nearly 10% per unit while maintaining turn times&quot;. Revenue rose 12% to $258.4m while US QARSD rose 7% to $8,308 and US paying dealers rose 3% to 26,402.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Unchanged from the Q2 entry. Guru is a natural-language shopping layer converting browsing into dealer leads; PriceVantage and VINMAX tell dealers what to price and what to promote. Dealers pay a subscription, so the revenue path runs lead volume to perceived value to higher revenue per subscribing dealer. QARSD is therefore the only line where this AI can actually show up, and it grew 7% against 12% total revenue growth.</dd><dt>Why this shape</dt><dd>S1 - every disclosed figure is an input metric (usage, days-to-sale, leads per day, discount per unit). Revenue conversion was conspicuously absent for a second consecutive quarter and the absence is now structural, not incidental: neither Guru, VINMAX nor PriceVantage is named anywhere in the filed 8-K, where the CEO instead describes &quot;a broader set of AI enabled solutions across the dealer workflow&quot; and launches a fifth product, StockVantage. The Q2 entry predicted the sequential framing would quietly disappear once year-over-year comparisons became available. It did not disappear - the two headline engagement figures this quarter are again sequential (+24% versus Q2, +105% versus Q2) while the two revenue figures are the year-over-year ones.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001494259/000119312526449825/carg-ex99_1.htm" rel="noopener">Q3 2026 earnings call and 8-K Exhibit 99.1, 2026-11-05</a></dd><dt>Falsifier</dt><dd>Q4 2026 and FY26. If a fifth distinct set of AI statistics appears and none of this quarter&#x27;s four is repeated, the rotation itself is the finding and no CarGurus AI claim in this log should be treated as falsifiable. The confirming case is narrow and specific: US QARSD growth accelerating above 7% with management naming new-product adoption as the driver, which is the only path by which this engagement converts to money.</dd><dt>Confidence</dt><dd><strong>high</strong> — Transcript quotes and all financial figures read verbatim in two documents fetched this run, one of them the filed 8-K exhibit; the falsifier test was written in advance and is answered unambiguously.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="appendix">Appendix — revenue findings of <em>any</em> shape whose subject is out of scope (software / AI-native). Kept visible so the S3 picture is not artificially empty and the incumbent-vs-entrant split stays measurable. <strong>Not counted in the revenue totals above.</strong></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">Axon Enterprise, Inc.</span>
+    <span class="sector">Public-safety equipment and software (out of scope as a subject - sells AI as product) · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">The strongest new-TAM-shaped revenue number retrieved this run, and it is out of scope. The Q3 2026 shareholder letter filed as 8-K Exhibit 99.1 (5 Nov 2026) states &quot;AI bookings up over 50% year to date; AI ARR surpasses $100 million&quot; and &quot;AI annual recurring revenue surpassed $100 million.&quot; On the call CEO Patrick Smith said &quot;Our AI products have already passed $100 million in annual recurring revenue&quot; and &quot;AI became a meaningful part of it in less than 2 years&quot;; CFO Brittany Bagley added &quot;that $100 million of ARR still has a ton of opportunity ahead of it.&quot; Against total ARR of $1.75bn (+40%), revenue of $909m (+28%), Software &amp; Services of $437m (+43%) and net revenue retention of 126%. The letter does not define what counts in AI ARR.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Axon sells police agencies a bundled software plan, the AI Era Plan, layered on an installed base of body cameras, fleet cameras and the Axon Evidence records system. The AI SKUs inside it have no predecessor in Axon&#x27;s own catalogue: Draft One drafts incident narratives from body-camera audio, Axon Assistant does real-time translation at the point of contact, and Axon Guardian - newly generally available - &quot;introduces a new category of field intelligence&quot;, detecting escalation signals from a recording Body 4 or Body 5 camera and vehicle-door opening on Fleet 3.</dd><dt>Why this shape</dt><dd>Appendix, because the subject is out of scope in the only way that matters: this $100m is Axon selling AI, not Axon earning revenue from AI it deployed in its own revenue process. It is shovel revenue, and the precedent is the Heartflow entry of 2026-09-03. The four tests, run anyway because the shape is the most S3-like thing retrieved this week. (c) Capability gate: passes cleanly - narrative generation from unstructured body-camera audio and real-time escalation inference did not exist as products 24 months ago, and the company itself dates the business at under two years. (b) Prior alternative: passes for Draft One and Assistant - the prior alternative was an officer typing a report at shift end, an unpaid manual workaround, with no competing product to lose the sale. (d) Newly economic: passes - these were technically impossible rather than merely expensive. (a) Counterfactual purchase: FAILS, which is why this is S3-CANDIDATE and not S3. The missing evidence is specific and the letter supplies the reason to doubt: AI ARR is reported as part of &quot;continued adoption of premium software offerings, including the AI Era Plan&quot;, i.e. bundle upsell priced into accounts that already buy Axon Evidence - which is S2, upsell into the installed base, not new demand. With no definition of AI ARR and no SKU-level split, the share that is genuinely incremental cannot be established. The tell is Draft One itself, the clearest no-predecessor product in the bundle: Smith said the prosecutor sign-off requirement &quot;maybe slowed down Draft One a bit&quot; because it &quot;creates documents that then have to go over to prosecutors and the courts&quot;. The flagship new-TAM SKU is the one that is not scaling.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.sec.gov/Archives/edgar/data/0001069183/000162828026071086/axon-20261105xex991.htm" rel="noopener">Q3 2026 shareholder letter, Form 8-K Exhibit 99.1, and Q3 2026 earnings call, 2026-11-05</a></dd><dt>Falsifier</dt><dd>A definition of AI ARR, or a SKU-level split. Absent that, the falsifier is the growth path: if AI ARR decelerates while total ARR keeps compounding at 40%, the $100m was AI Era Plan bundle pricing on seats Axon already had, and the new-TAM reading fails. Specifically for Draft One - if it never receives its own disclosed number across the next four quarters while Guardian and Assistant carry the AI narrative, the no-predecessor products are not what is selling.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Every figure read verbatim in the filed 8-K exhibit and the call transcript, both fetched this run - the evidence quality is high. Confidence is capped at medium by the undefined numerator, which is the one thing that would settle the S3-versus-S2 question.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="appendix"
+  data-ledger="appendix"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Shopify</span>
+    <span class="sector">E-commerce platform (out of scope - software) · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">Follow-up test on this log&#x27;s 2026-08-13 Shopify entry, and the long-tail falsifier did not fire. On the Q3 2026 call (3 Nov 2026) CFO Jeff Hoffmeister said &quot;three-quarters of AI-referred sales yet again came from product categories outside our top 100&quot; and President Harley Finkelstein put it at &quot;74% of AI-attributed purchases in Q3 were from outside our top 100 categories&quot; - against 75% in Q2, so essentially flat. Finkelstein: &quot;AI traffic is up 2.6x year-over-year. Orders are growing even faster at 3.3x&quot;, shoppers &quot;converting 64% more often&quot;, and &quot;Catalog-powered searches are converting at 2x the rate of general AI search.&quot; GMV was $119bn, up 29.5%; revenue $3.74bn, up 32%. Still no AI-attributed GMV dollar figure, and Finkelstein caveated the base four separate times, including &quot;While the volume is still small here, adoption is growing.&quot;</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Unchanged: assistants resolve a shopper&#x27;s stated need directly to a product page in a merchant&#x27;s catalogue, bypassing keyword search and the paid placement layered on it. Shopify&#x27;s Catalog feed is the indexing substrate, which is why catalog-powered searches convert at twice the rate of general AI search.</dd><dt>Why this shape</dt><dd>Still S2, still appendix, and the Q2 reasoning holds with one branch now tested. The prior falsifier had three branches and all three resolved against the S3 reading or stayed unmet. The long-tail share did not fall as head brands optimised for assistants - 74% against 75% - so that was not an indexing artifact, which is the one genuinely S3-shaped fact here and the reason this is worth a second entry. But AI traffic growth decelerated from 3x to 2.6x while total GMV growth held at 29.5%, which is the substitution branch confirmed: the AI channel is multiplying inside a total that is not accelerating, so it is taking share from keyword search rather than adding demand. And for a second quarter there is no dollar figure, with four management caveats that the base is small. Test (a), counterfactual purchase, remains unestablished by the source.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-shopify-tops-profit-view-in-q3-2026-but-shares-fall-93CH-4995839" rel="noopener">Q3 2026 earnings call, 2026-11-03</a></dd><dt>Falsifier</dt><dd>An AI-attributed GMV dollar figure, which would make this measurable either way. Failing that: if AI orders keep growing at 3x-plus for two more quarters while total GMV growth stays at or below 30%, substitution is established and the S3 reading is dead. The long-tail share falling below roughly 65% would reopen the indexing-artifact explanation this quarter&#x27;s result ruled out.</dd><dt>Confidence</dt><dd><strong>medium</strong> — All quotes and figures read verbatim in a transcript fetched this run; marked at medium rather than high because it is a third-party rendering of the call rather than Shopify&#x27;s own shareholder letter.</dd></dl>
+</article>
+<div class="appendix-rule" data-ledger="cost">Cost ledger — AI-attributed <em>cost</em> savings and productivity gains, on a 2×2 of sector (tech / non-tech) × function (software engineering / everything else). Tech subjects are in scope here, unlike the revenue log. <strong>A separate ledger: never counted in the S1–S3 revenue totals</strong>, because cost evidence is far more abundant than revenue evidence and pooling the two would bury the question this log exists to answer.</div>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Intact Financial Corporation</span>
+    <span class="sector">Insurance · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">The largest quantified AI benefit figure any insurer has put in this log, and every dollar of it is margin. On the Q3 2026 call (4 Nov 2026) CEO Charles Brindamour said &quot;We earn today close to CAD 250 million in recurring pre-tax earnings&quot; from AI and that Intact expects to &quot;double that in the next 24 months from our AI deployment&quot;, with &quot;a substantial runway beyond that&quot;. COO Patrick Barbeau split the benefit: &quot;around 60% of that&quot; improves the loss ratio and &quot;the other part will help the expense ratio&quot;. Brindamour: &quot;There&#x27;s no doubt that AI has already expanded our margins, and that&#x27;ll continue and accelerate.&quot; Deployment depth disclosed alongside it: &quot;more than 600 of our own models in productions&quot;, &quot;Machine learning prices 94% of our Canadian personal lines business and 75% of our commercial lines&quot;, advanced pricing models covering 50% of global specialty premium. Not one dollar of revenue or premium is attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two cost paths, both in the combined ratio. Loss ratio: machine-learning pricing and risk selection put the right price on the right risk, plus fraud detection and reduced indemnity leakage in claims - Brindamour said it &quot;sharpens our fraud detection, reduces indemnity leakage, and helps our adjusters and lawyers close files faster&quot;. Expense ratio: automated commercial-lines quote submission cut broker turnaround by 70% in Canada, and legal-claims document summarization prep time by roughly 50%.</dd><dt>Why this shape</dt><dd>C4 - non-tech, non-engineering, and the cleanest example in the ledger of why the cost and revenue ledgers are kept apart. This is a sophisticated deployer that has instrumented its AI benefit to the nearest CAD 25m, quantified it in a controlled-sample methodology, broken it into loss ratio and expense ratio, and attributed exactly zero of it to the top line. Better pricing on risks Intact was already writing is not new demand and not share taken on product merit; it is the cost of claims falling. Two cautions recorded as required. Trap 6, the run-cost offset, fired verbatim: Barbeau said &quot;We want to continue to invest in AI going forward, so that will fund some of it&quot;, so part of the CAD 250m gross is consumed by the AI spend producing it. And the margin claim is relative, not absolute - the Q3 combined ratio was 94.0%, worse than 89.8% a year earlier, while Barbeau argued &quot;it will expand our combined ratio outperformance over the next two years&quot; and &quot;the expansion of the outperformance is bigger than what we measure&quot;. Outperformance against the Canadian industry, not margin improvement on its own book.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://uk.investing.com/news/stock-market-news/earnings-call-transcript-intact-financial-tops-q3-2026-estimates-as-shares-jump-93CH-4957907" rel="noopener">Q3 2026 earnings call and investor slides, 2026-11-04</a></dd><dt>Falsifier</dt><dd>The combined-ratio gap to the Canadian P&amp;C industry over the next eight quarters. If Intact reports the CAD 500 million as achieved while its outperformance versus industry does not widen by roughly the implied amount, the figure is internal attribution that cannot be checked from outside - which is what a controlled-sample methodology nobody else can see amounts to. Second falsifier, the one this log keeps collecting: whether the CAD 250 million is repeated as the same metric next quarter or rotated into a differently defined one.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Figures and quotes read verbatim in two documents fetched this run - a transcript rendering and a separate account of the investor slides - and cross-confirmed by a third retrieval; marked down because Intact&#x27;s own transcript PDF was not retrieved and the attribution methodology is unpublished.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Banco Santander</span>
+    <span class="sector">Banking · Spain</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">Follow-up on this log&#x27;s 2026-07-30 Santander entry: the running figure arrived on schedule and the CFO then refused to split it. In the 9M 2026 results (28 Oct 2026) Santander put AI-attributed business value at EUR 194 million for the nine months, against EUR 35 million disclosed for Q1 and a June guide to &quot;exceed EUR 200 million by year-end&quot;, on an Investor Day target of more than EUR 1 billion between 2026 and 2028. CFO Jose Garcia Cantera told CNBC the benefit &quot;affects both revenue and costs&quot; and then: &quot;AI is being embedded in all the processes that we are conducting at the bank, so it&#x27;s really difficult to just say how much comes from AI.&quot; The EUR 194m combines incremental revenue, cost savings and lower loan-loss provisions, in undisclosed proportions, and Santander classifies it as an alternative performance measure not defined by the applicable financial-reporting framework and not audited or reviewed.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Bank-wide Data &amp; AI programme across pricing, collections, credit decisioning and customer service, now extended to all 185,000 employees. Because the metric pools a revenue uplift, a cost reduction and a provisioning benefit into one euro figure, no mechanism can be isolated from the disclosure - which is the finding.</dd><dt>Why this shape</dt><dd>C4 and logged once, where the number sits, per the single-ledger rule. Trap 3 - the composite value metric - fired completely and on the record: the construct mixes revenue, cost and provisions, the company will not say in what proportion, and the CFO&#x27;s stated reason is that embedding makes attribution impossible. That reason is worth taking seriously rather than dismissing, and it cuts against the whole project of AI revenue attribution: if a bank with a dedicated measurement programme and a EUR 1bn published target cannot separate the revenue component from the cost component, a figure from a firm without that apparatus deserves less credit, not more. Not logged as a revenue shape: no revenue number exists to log.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.cnbc.com/2026/11/01/ai-investments-company-earnings.html" rel="noopener">9M 2026 results (28 Oct 2026); CFO remarks via CNBC, 1 Nov 2026, 2026-10-28</a></dd><dt>Falsifier</dt><dd>Whether the revenue/cost/provision split is ever published. The prior entry&#x27;s falsifier - roughly 1pp of cost-to-income improvement attributed to data and AI by 2028 - stands and is the auditable one. Add this: if the EUR 1bn target is restated, redefined, or quietly reported as a cumulative rather than annual figure, the construct was elastic. If the split is published and the revenue share is small, this log&#x27;s central thesis is confirmed by the single best-instrumented bank in Europe.</dd><dt>Confidence</dt><dd><strong>medium</strong> — The EUR 194m figure, the CFO quotes and the composite&#x27;s composition and non-audited status were all read in documents fetched this run; Santander&#x27;s own 9M report was not retrieved, so the figure rests on CNBC&#x27;s reporting of it plus a second fetched account.</dd></dl>
+</article>
+<article class="card" data-shape="C4"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Novartis AG</span>
+    <span class="sector">Pharmaceuticals · Switzerland</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span>
+  </div>
+  <p class="claim">A large-pharma CEO made a first-time, explicit, on-the-record P&amp;L attribution to AI and attached no number to it. After Q3 2026 results (27 Oct 2026) CEO Vas Narasimhan told CNBC&#x27;s Squawk Box Europe: &quot;I think this is the first quarter I&#x27;ve really seen AI start to improve actually our P&amp;L on a tangible basis&quot;, and &quot;We&#x27;re already seeing some of the productivity you saw in the bottom-line performance.&quot; The quarter: net sales $14,522m, +4% in constant currency; core operating income $6,036m, +10% cc; core operating income margin 41.6%, up 2.3 percentage points. Novartis&#x27;s own Q3 press release mentions artificial intelligence in exactly three places - the forward-looking-statements risk list, and twice in the biography of a board nominee.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Third-party spend, not R&amp;D. On the Q3 call, asked by an HSBC analyst whether AI-driven productivity was a structural cost reduction, management pointed to upwards of $11 billion a year of third-party spend - agency, travel, consulting and professional services - as the area where technology and AI are changing the cost structure, with SG&amp;A the main lever toward a 40%-plus margin by 2029. The claimed path is substituting internal AI capability for bought-in professional services.</dd><dt>Why this shape</dt><dd>C4 - non-tech, non-engineering, and explicitly bottom-line. Logged on the inclusion bar&#x27;s second limb: an explicit on-the-record executive statement of material impact from a named CEO, with no number. It belongs in the cost ledger, not S1-S3, because every word of the attribution is P&amp;L, productivity and bottom line; the 4% sales growth is attributed to priority brands, not AI. The disclosure asymmetry is the substance of the entry and is worth stating plainly: the CEO will say on television that AI improved the P&amp;L tangibly for the first time, and the document his company filed the same week mentions AI only in a risk factor and a director&#x27;s CV. Compare the BMS entry of 2026-10-30, where AI was absent from prepared remarks and the CMO said &quot;Happy to share offline.&quot; Two of the largest pharma companies in the world now have an AI claim that exists only in speech.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.cnbc.com/2026/11/01/ai-investments-company-earnings.html" rel="noopener">CEO interview, CNBC Squawk Box Europe (financials from Q3 2026 results release, Form 6-K), 2026-11-01</a></dd><dt>Falsifier</dt><dd>The FY26 results and the 2029 margin bridge. Novartis has published a 40%-plus core margin target with SG&amp;A as the stated lever; if AI is material to it, a quantified contribution should appear in that bridge. If &quot;tangible&quot; is never converted into a figure across two more reporting cycles while the margin target is reaffirmed on other grounds, this was a CEO on a broadcast. Watch also whether the $11bn third-party spend line falls measurably.</dd><dt>Confidence</dt><dd><strong>low</strong> — Quotes read verbatim in a fetched CNBC article and the financials verified in the fetched Form 6-K exhibit, but the AI claim carries no number, appears in no company document, and the mechanism detail comes from a search summary of the call rather than a transcript retrieved this run.</dd></dl>
+</article>
+<article class="card counter" data-shape="C4"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="cost"
+  style="--accent: var(--shape-c4)">
+  <div class="card-top">
+    <span class="company">Carlsberg A/S</span>
+    <span class="sector">CPG / Beverages · Denmark</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-c4);color:var(--shape-c4)"></span>C4 — Non-tech · non-engineering</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">The useful null result of the week, from a CEO who was asked the same question as Santander&#x27;s and Novartis&#x27;s and gave the opposite answer. Following the Q3 2026 trading statement (29 Oct 2026, reported revenue +4.9% to DKK 25,281m, organic revenue +3.0%, full-year earnings guidance confirmed), CEO Jacob Aarup-Andersen told CNBC&#x27;s Squawk Box Europe that Carlsberg is not seeing AI benefits at scale, while saying the technology has affected internal processes, cost efficiency, commercial and pricing processes, marketing and the supply chain. No financial impact was quantified and no part of the 4.9% revenue growth was attributed to AI.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Breadth without depth: pricing, marketing, supply chain and back office all touched, none at a scale the CEO is willing to call material. That combination - deployed everywhere, material nowhere - is the modal state of AI at a large consumer-goods company and is rarely said out loud by someone with a name attached.</dd><dt>Why this shape</dt><dd>C4 and counter-evidence, tagged to the cost ledger rather than a revenue shape because the functions named are overwhelmingly cost and pricing process. Trap 2 in its most honest form: an executive declining to claim a benefit, which this log treats as high-value evidence. The reason it earns an entry at all is comparative. Four large non-tech companies were asked about AI payoff in the same news cycle by the same programme: Santander produced a composite euro figure it would not decompose, Standard Chartered&#x27;s CFO pointed at the top line while its CEO said the effect had not yet arrived, Novartis&#x27;s CEO said tangible without a number, and Carlsberg&#x27;s CEO said not at scale. Only the fourth answer is falsifiable in the direction of modesty.</dd><dt>Status</dt><dd><strong>ESTIMATED</strong> — company's own internal attribution</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://www.cnbc.com/2026/11/01/ai-investments-company-earnings.html" rel="noopener">CEO interview, CNBC Squawk Box Europe, 2026-11-01</a></dd><dt>Falsifier</dt><dd>Carlsberg&#x27;s FY26 results (Feb 2027) and the 2027 guidance. If an AI-attributed cost or revenue figure appears within two quarters of the CEO saying benefits are not at scale, the remark was positioning. If &quot;not at scale&quot; is repeated into 2027 at a company spending through a stated AI programme, that is a durable datapoint about the real adoption curve in consumer goods.</dd><dt>Confidence</dt><dd><strong>low</strong> — CNBC paraphrases the &quot;not at scale&quot; remark rather than quoting it, and the underlying Carlsberg transcript could not be retrieved this run (403); the surrounding detail and the Q3 figures were read in fetched documents. Logged at low confidence with the paraphrase status explicit.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
