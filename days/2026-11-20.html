@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-20 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-11-20</h1>
+  <p class="standfirst">9
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Nine findings and no S3. The week&#x27;s signal is not a success story - it is that the four largest US retailers to report in the same seven days have converged on publishing an AI conversion multiple and refusing to publish a dollar.</div>
+<p>Mid-November retail earnings delivered the densest cluster of AI conversion metrics this log has recorded. <strong>Walmart</strong>, <strong>Lowe&#x27;s</strong> and <strong>Target</strong> each gave a multiple; none gave a number. <strong>Loblaw</strong>&#x27;s CEO gave the same engagement story and then said out loud what the other three implied.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Walmart</strong> - Q3 FY2027 call, 19 Nov. Furner: Sparky US usage <code>+129%</code> y/y, baskets <code>+40%</code>. Penetration nearly doubled from <code>+70%</code> in Q2 and the differential did not compress - the August falsifier resolved against the selection reading. Still no dollars, no share of e-commerce, no user count.</li><li><strong>Lowe&#x27;s</strong> - Q3 call, 18 Nov. Ellison repeated Mylow&#x27;s <code>3x</code> conversion unchanged and &quot;&gt;1m questions a month&quot;, and credited <code>17.4%</code> online growth to Pro, DIY, traffic and fulfilment rather than to Mylow. Two quarters of an unsized multiple.</li><li><strong>Target</strong> - Q3 call, 18 Nov. Fiddelke on Ask Target: guests &quot;move to purchase at about twice the rate through that technology than we see elsewhere&quot;, product still in beta. First conversion figure for this SKU; comps <code>+5.6%</code> on <code>5%</code> traffic.</li><li><strong>Loblaw</strong> - Q3 call, 19 Nov. Per Bank: <code>4 million</code> PC Chat questions in two months, third-party agentic commerce live through ChatGPT, Gemini and Meta&#x27;s Muse - and &quot;how much it&#x27;s going to contribute to our overall same-store sales, it&#x27;s really too early to tell&quot;.</li><li><strong>iQIYI</strong> - Q3 call, 16 Nov. AI-generated creatives: ad revenue <code>+30%</code> sequentially and <code>2x</code> conversion versus traditional creatives, inside a total online ad line up <code>2%</code> sequentially. AIGC now <code>~90%</code> of micro-drama content volume and <code>~80%</code> of views, production cost down <code>50-80%</code>, total revenue <code>-10%</code> y/y.</li><li><strong>RadNet</strong> - Q3 call 9 Nov, release 8 Nov. EBCD &quot;grew <code>16.9%</code>&quot; - a third quarter of growth rate with no dollars, and absent from the written release. Digital Health: AI revenue <code>$16.2m</code> <code>+51%</code> but <code>31%</code> of it GLEAMER; ARR <code>$112.6m</code> <code>+67%</code> headline versus <code>+21%</code> ex-GLEAMER; external ARR <code>$73m</code>, <code>65%</code> of base, up from <code>63%</code>.</li><li><strong>Ategrity Specialty</strong> - Q3 call, 21 Oct, thirty days old and unlogged. Four lines developed in four weeks against a twelve-week budget, <code>400+</code> forms AI-drafted, &quot;zero upfront investment&quot; - and &quot;these offerings were already on our product roadmap&quot;.</li><li><strong>Home Depot</strong> - Q3 call, 17 Nov. AI-enabled search named as one of four online drivers; <code>~13%</code> online comp not attributed to it.</li><li><strong>TJX</strong> - Q3 call, 18 Nov. No AI content in any coverage retrieved.</li></ul>
+<div class="callout">Cross-run pattern, now hard to dismiss: the conversion multiple has become the standard non-tech AI disclosure, and it is never followed by a denominator. Lowe&#x27;s <code>3x</code> (two quarters), Walmart <code>40%</code> (two quarters), Target <code>2x</code>, Booking <code>2x</code>, Kohl&#x27;s, Costco, iQIYI <code>2x</code>. Twelve weeks of these and not one company has converted a multiple into basis points of comp or a dollar of attributed sales.</div>
+<p>The useful variation inside that pattern is which falsifier limb fires. <strong>Walmart</strong>&#x27;s differential survived a near-doubling of penetration, which is the strongest causal evidence in the log and still not a revenue number. <strong>Lowe&#x27;s</strong> repeated its multiple without converting it, which is the weaker outcome.</p>
+<p><strong>Ategrity</strong> is the week&#x27;s most informative entry and it is negative. The July entry allowed an S3 reading - a carrier launching classes it previously could not staff - and management has now closed it themselves: the products were already on the roadmap, so AI moved the schedule, not the opportunity set.</p>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - <strong>Arbol</strong> parametric GPU residual-value cover (19 Nov), <strong>Cowbell</strong> standalone AI liability for US SMEs (18 Nov), Berkley AI exclusions, mea Platform agentic underwriting GA. Failed the AI-as-capability test: these insure AI as a hazard, which is AI-as-customer revenue, not ROI on the carrier&#x27;s own AI deployment. Arbol and Cowbell are also AI-native subjects.</li><li><strong>S3 pharma</strong> - Genentech/<strong>Recursion</strong> neuroscience option (Aug, <code>$3m</code> milestone), <strong>Insilico</strong> profitability claim. Failed on age, on target identity being undisclosed, and on the Insilico figures not tracing to a retrieved primary filing.</li><li><strong>S3 industrials</strong> - <strong>TCS</strong> Industrial Intelligence Foundry, <strong>Dassault Systèmes</strong> usage-based Virtual Companion pricing, <strong>Altimetrik</strong> service line. All vendors selling the shovel; no deploying-company result, and Dassault and TCS are out-of-scope subjects.</li><li><strong>S3 healthcare reimbursement</strong> - CPT 2026 Category I codes for AI plaque analysis and AI-assisted detection. Failed the named-company test: a code is a mechanism, not a disclosed result, and the sources were billing-vendor blogs.</li><li><strong>S3 banking, thin-file lending</strong> - <strong>Upstart</strong> <code>+27%</code> approvals, <strong>Plaid</strong> LendScore <code>73%</code> vs <code>65%</code>, <strong>Affirm</strong>. Failed on date (the Upstart figure is a 2023 CFPB number), and all three are lenders or fintechs, not bank disclosures.</li><li><strong>S3 professional services</strong> - three South Korean law and accounting firms launching AI compliance certification (17 Nov), <strong>Founders Law</strong>/Tilder packaging routine work at lower price points, <strong>Xero</strong> Xforce. No revenue figure on any; the Korean launch is the closest real candidate and has none.</li><li><strong>S2 retail, Home Depot</strong> - <code>~13%</code> online comp with AI-enabled search named alongside site speed, assortment and marketing. Failed the attribution-laundering test: four drivers, one number, no split. McPhail&#x27;s &quot;meaningful difference&quot; to conversion is bundled with express delivery.</li><li><strong>S2 hospitality yield management</strong> - claimed Marriott and Hilton <code>5-10%</code> RevPAR lifts from AI. Failed verification: the claim appears only in vendor blogs and traces to no company filing.</li><li><strong>S2 investor days</strong> - <strong>McGraw Hill</strong> (18 Nov) frames <code>100m+</code> curriculum licences as monetisable through AI-enabled add-ons; <strong>Tata Technologies</strong> FY30 target of <code>$1.1-1.3bn</code> with <code>1,600+</code> AI agents; <strong>VEON</strong> 2030 plan. No AI-specific revenue figure in any, and the McGraw Hill release returned 403 so nothing was verified this run.</li><li><strong>S2 tech comparators</strong> - <strong>EPAM</strong> AI-native revenue <code>&gt;$185m</code>, <code>~13%</code> of Q3 revenue, FY target raised to <code>&gt;$650m</code>; <strong>Globant</strong> AI pods run rate <code>$106m</code>; <strong>Lenovo</strong> AI revenue <code>&gt;$10bn</code>. Appendix-eligible as entrant comparators but not verified against a retrieved primary source this run, so held.</li><li><strong>C4 cost ledger</strong> - <strong>RadNet</strong> Sokka: <code>&gt;90%</code> of automated draft reports accepted unchanged, <code>&gt;75%</code> of studies through clinical AI by Q3 2027 from <code>&gt;50%</code>. Failed METHOD.md cost trap 1 - adoption dressed as saving, with no cost per study attached.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><strong>Deere</strong> Q4 FY2026, expected late Nov 2026 - tests the 2026-09-02 See &amp; Spray attach-rate entry and whether autonomy is ever priced as a separate line.</li><li><strong>RSNA</strong>, Chicago, end Nov 2026 - DeepHealth showcases its full portfolio; watch for an EBCD dollar figure or an adoption rate.</li><li><strong>Costco</strong> Q1 FY2027, expected Dec 2026 - fourth quarter of the AI-search channel described only as triple-digit growth off a low base.</li><li><strong>Williams-Sonoma</strong> Q3 FY2026, Dec 2026 - the Olive &quot;revenue up 620%&quot; claim from 2026-08-27 needs a base.</li><li><strong>Lemonade</strong> investor day, flagged on its Q3 letter - an AI-native comparator for the incumbent insurance disclosures.</li><li><strong>Walmart</strong> Q4 FY2027, Feb 2027 - third reading on the Sparky <code>40%</code> differential and the first chance for a holiday-quarter dollar figure.</li><li>Q4 2026 earnings season from mid-Jan 2027 - the point at which a full year of conversion multiples either becomes attributed revenue or is confirmed as a disclosure convention.</li></ul></div>
+<article class="card candidate" data-shape="S3-CANDIDATE"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">iQIYI, Inc.</span>
+    <span class="sector">Media / Streaming video · HK/CN</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (16 Nov 2026) founder and CEO Yu Gong said AI-generated content &quot;is now the main source of supply for micro dramas and micro animations&quot; and that &quot;in September, they accounted for nearly 90% of the content volume and nearly 80% of total video views&quot;; two AIGC animation titles &quot;cut production cost by 50% to 80%&quot;, 21 revenue-sharing AIGC titles launched in Q3, and for the series Ferry Man &quot;each chapter recouped its full production cost within the first week of release&quot;. Total revenue was down 10% year over year at RMB 6.01bn.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Generative video drops the marginal cost of a micro-drama or micro-animation episode by 50-80%, which lets iQIYI commission a long tail of short-form titles whose expected revenue never covered live-action production cost. Supply is then monetised through a revenue-sharing model per title rather than through the licensed long-form content budget.</dd><dt>Why this shape</dt><dd>(a) Counterfactual purchase: NOT established - viewers pay a platform subscription either way, and the company does not say any incremental subscriber or advertiser bought because of AIGC titles. (b) Prior alternative: partly established - this content volume did not exist at this cost, but live-action micro dramas do exist and Gong himself said their per-title views and revenue were &quot;several times higher than those of AIGC titles&quot;, which points to substitution inside an existing category. (c) Capability gate: PASSED cleanly - generative video of multi-season drama quality did not exist 24 months ago. (d) Newly economic: PASSED on the company&#x27;s own numbers - a 50-80% production cost cut with first-week cost recoupment is exactly the cost collapse METHOD.md treats as new-TAM-creating. Held at S3-CANDIDATE because (a) is missing and because total revenue FELL 10% year over year, so whatever AIGC is adding is not yet visible at company level.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/16/iqiyi-iq-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-11-16</a></dd><dt>Falsifier</dt><dd>Q4 2026 / FY2026 disclosure in which the AIGC short-form business is described only in content-volume and cost terms with no revenue line, subscriber count or advertiser number attached, or in which the promised 2027 doubling of AIGC short-form supply arrives while membership and advertising revenue keep falling. Either outcome means AIGC substituted for cheaper supply of the same demand rather than opening new demand, and this should be reclassified S2 or dropped.</dd><dt>Confidence</dt><dd><strong>low</strong> — Capability gate and cost collapse are strong and quantified, but the purchase counterfactual is entirely absent and the company&#x27;s total revenue is shrinking.</dd></dl>
+</article>
+<article class="card candidate counter" data-shape="S3-CANDIDATE"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s3-candidate)">
+  <div class="card-top">
+    <span class="company">RadNet</span>
+    <span class="sector">Healthcare / medical imaging · US</span>
+    <span class="tag shape"><span class="swatch hollow" style="background:var(--shape-s3-candidate);color:var(--shape-s3-candidate)"></span>S3 candidate (unproven)</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Third consecutive quarter in which RadNet&#x27;s only genuinely new-TAM AI product is disclosed as a bare growth rate. On the Q3 2026 call (9 Nov 2026) CFO Mark Stolper said revenue from the Enhanced Breast Cancer Detection programme &quot;grew 16.9%&quot;, excluding the GLEAMER and Cimar acquisitions. EBCD appears nowhere in the 8 Nov 2026 results release, which gives no AI revenue figure, no ARR and no EBCD mention at all, against total company revenue of $638.3m.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>EBCD is an AI second read on a screening mammogram that the patient buys out of pocket because payers do not reimburse it - a service with no predecessor in RadNet&#x27;s catalogue and no insured equivalent.</dd><dt>Why this shape</dt><dd>Still S3-CANDIDATE, not promoted. (a) Counterfactual purchase: plausible - there is no reimbursed or competing product to buy instead. (b) Prior alternative: patients previously went without. (c) Capability gate: weakest test - AI mammography second reads predate the 24-month frontier window. (d) Newly economic: unestablished, because RadNet still will not say what the programme earns. The 2026-08-16 falsifier asked whether RadNet would stop breaking out EBCD growth or disclose a figure immaterial to the quarter. It did neither: the growth rate survived at `16.9%` versus `16%` in Q2, but it has now been given three times with no absolute dollars, no adoption rate and no attach rate on a `$638.3m` quarter - and it was dropped from the written release entirely.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/09/radnet-rdnt-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript; Q3 2026 results release, 2026-11-09</a></dd><dt>Falsifier</dt><dd>Q4 2026 or the FY2026 10-K. An absolute EBCD revenue figure materially under roughly 1% of company revenue, or a fourth growth-rate-only mention, settles this as immaterial and it should be dropped from S3-CANDIDATE. The inverse falsifier also still stands: if payers begin reimbursing EBCD, the self-pay counterfactual collapses and the revenue becomes ordinary reimbursed imaging.</dd><dt>Confidence</dt><dd><strong>low</strong> — The product shape is right for S3 but three quarters of growth rates without a denominator is the pattern of a number management does not want sized.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">iQIYI, Inc.</span>
+    <span class="sector">Media / Advertising · HK/CN</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">On the same Q3 2026 call (16 Nov 2026) CEO Yu Gong disclosed &quot;ad revenue from AI-generated creatives up nearly 30% quarter-over-quarter&quot; and said &quot;AI-generated ads built from drama and film footage convert at roughly twice the rate of traditional creatives&quot; - while CFO Ying Tian reported total &quot;online advertising revenue was RMB 1.3 billion, up 2% sequentially&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>iQIYI generates ad creatives from its own drama and film footage, so an advertiser gets an IP-native creative at near-zero marginal production cost. Higher click-to-purchase conversion raises the effective CPM iQIYI can charge for the same inventory.</dd><dt>Why this shape</dt><dd>S2, not S3. Absent the AI these advertisers would have bought video inventory from somebody - iQIYI, a rival long-video platform, or a short-video app - so the sale is contested, not created. The loser is whoever else was selling that performance budget, most plausibly Douyin/Kuaishou-type short-video inventory and iQIYI&#x27;s own traditional creative inventory. The `30%` is the tell on how much of this is genuinely incremental: an AI-creative sub-line growing `30%` sequentially inside a total ad line growing `2%` sequentially is mostly mix shift within a flat envelope, not new money.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/16/iqiyi-iq-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-11-16</a></dd><dt>Falsifier</dt><dd>Q4 2026 or FY2026 showing the AI-creative sub-line still compounding at double digits sequentially while total online advertising revenue stays flat or falls. That pattern proves cannibalisation of iQIYI&#x27;s own traditional creatives and makes the 30% figure a denominator trick. The confirming outcome is total online advertising revenue inflecting to double-digit sequential growth as AI creatives scale.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Both numbers are on the record and specific, but neither is sized in RMB and the flat total ad line undercuts the incrementality reading.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Loblaw Companies Limited</span>
+    <span class="sector">Grocery / Retail · Canada</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (19 Nov 2026) President and CEO Per Bank described rising engagement with Loblaw&#x27;s AI products - &quot;In just two months, Canadians have asked more than 4 million questions&quot; of PC Chat - and then declined to attribute any sales to them: &quot;How much it&#x27;s going to contribute to our overall same-store sales, it&#x27;s really too early to tell&quot; and &quot;it&#x27;s hard to put a number on right now&quot;. Retail sales were CAD 19.9bn, up 3.6%; online sales up 16.9%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Three stacked channels: PC Chat (an AI health assistant in PC Health and Shoppers Drug Mart), conversational AI plus personalised offers in the rebuilt PC Optimum app, and third-party agentic commerce through ChatGPT, Gemini and Meta&#x27;s Muse. All are live and all are unquantified.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2. This is the cleanest refusal-to-quantify retrieved this run, and it comes from a CAD 19.9bn-a-quarter retailer that is further into third-party agentic commerce than almost any grocer. Bank volunteered a usage number (`4 million` questions) and an engagement story, then explicitly withheld the sales attribution - &quot;I&#x27;m sure we&#x27;ll be able to later&quot;. Under METHOD.md&#x27;s attribution-laundering rule that is the honest version of a disclosure most retailers dress up; it also means Loblaw is the control case against Walmart, Lowe&#x27;s and Target, who all published conversion multiples this same week.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-loblaw-posts-solid-q3-2026-growth-as-sales-climb-93CH-5039527" rel="noopener">Q3 2026 earnings call transcript, 2026-11-19</a></dd><dt>Falsifier</dt><dd>Q4 2026 or FY2026 in which Loblaw attaches a same-store-sales, conversion or basket figure to PC Chat, PC Optimum personalisation or the Muse/ChatGPT channels. That converts this to an ordinary S2 and shows the silence was timing, not absence. If instead a third and fourth quarter pass with growing usage numbers and still no sales attribution, the engagement metrics are a narrative substitute for a result.</dd><dt>Confidence</dt><dd><strong>high</strong> — Direct verbatim refusal to quantify from the CEO on a Tier A call, with the usage metrics he did give for contrast.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">RadNet (DeepHealth / Digital Health segment)</span>
+    <span class="sector">Healthcare / medical imaging · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-16 RadNet Digital Health entry, and it held - but the organic decomposition is the news. On the Q3 2026 call (9 Nov 2026) Digital Health CEO Cornelis Wesdorp disclosed &quot;$16.2 million of AI revenue, up 51% from last year&#x27;s third quarter&quot;, of which &quot;31% is GLEAMER&quot;; ARR of &quot;$112.6 million, up 67%&quot; but &quot;ARR excluding GLEAMER grew 21%&quot;; and external ARR &quot;more than doubled... to $73 million&quot;, or 65% of the ARR base, up from 63% in Q2.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>RadNet sells its own radiology AI and informatics stack to third-party imaging providers and health systems, so AI built for internal use becomes external software revenue. The GLEAMER acquisition adds both AI revenue and ARR inorganically.</dd><dt>Why this shape</dt><dd>S2: buyers of radiology AI would otherwise have bought from Aidoc, Lunit, Annalise or an incumbent PACS vendor, so these are contested sales. The 2026-08-16 falsifier - external ARR share stalling below `63%` or the full-year ARR guide missing - did not fire: external share rose to `65%`, external ARR hit `$73m` and the &quot;&gt;$140 million&quot; year-end ARR guide was reaffirmed. What did emerge is the organic/inorganic split management volunteered: headline ARR `+67%` versus `+21%` excluding GLEAMER, and AI revenue flat sequentially at `$16.1m` (Q2) to `$16.2m` (Q3) with `31%` of it acquired. Headline growth is now substantially M&amp;A.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/09/radnet-rdnt-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-11-09</a></dd><dt>Falsifier</dt><dd>Q4 2026 / FY2026 in which AI revenue is flat or down again sequentially ex-GLEAMER, or ex-acquisition ARR growth decelerates below the `21%` printed here, while the headline rate is carried by further deals. Also falsifying: year-end ARR landing materially short of &quot;&gt;$140 million&quot;, or RadNet ceasing to give the ex-GLEAMER figure now that it is the less flattering one.</dd><dt>Confidence</dt><dd><strong>high</strong> — All figures verbatim from the call, and management supplied the ex-acquisition comparison itself rather than being forced to it.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Walmart</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-21 Walmart entry, and it resolved against the selection-effect reading. On the Q3 FY2027 call (19 Nov 2026) CEO John Furner said of Sparky: &quot;In the U.S., usage grew 129% over last year, and we&#x27;re seeing these baskets expand 40%&quot; - penetration nearly doubled from the `+70%` reported in Q2 while the spend differential stayed at `40%`. US e-commerce grew 23%, an eleventh straight quarter above 20%. No dollar or percentage contribution to sales was given.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Sparky is Walmart&#x27;s own shopping agent in the app, now in Spanish and French, in Mexico and Canada, and at Sam&#x27;s Club. It handles product discovery and voice shopping, and Walmart is separately opening a Walmart Agent Gateway for approved third-party agents under published &quot;agentic terms&quot;.</dd><dt>Why this shape</dt><dd>S1: the disclosed number is a basket-size differential, an input metric, not attributed revenue. Revenue conversion was CONSPICUOUSLY ABSENT for a second consecutive quarter - Walmart has now twice given a 40% differential and never once a dollar figure, a share of e-commerce sales, or an absolute user count. The August falsifier asked whether a causal effect would persist as Sparky moved past early adopters: usage went from `+70%` to `+129%` y/y and the differential did not compress, which is the harder test to pass. Note the wording moved from &quot;spend 40% more per order&quot; (Q2) to &quot;baskets expand 40%&quot; (Q3); treat as the same metric unless Walmart says otherwise.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/19/walmart-wmt-q3-2027-earnings-call-transcript/" rel="noopener">Q3 FY2027 earnings call transcript, 2026-11-19</a></dd><dt>Falsifier</dt><dd>Q4 FY2027 (Feb 2027) on three tests: (1) the `40%` differential compressing as penetration keeps rising, which would re-open the selection reading; (2) a third quarter of differentials with still no dollars, share of e-commerce or user base, which makes the metric a narrative device; (3) Sparky disappearing from prepared remarks in favour of the Agent Gateway and third-party agentic framing, which would signal Walmart has decided its own agent is not the lever.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Verbatim from a Tier A call and a genuine falsifier pass, but a basket differential among self-selecting users is still not attributed revenue.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Lowe&#x27;s Companies</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-08-21 Lowe&#x27;s entry, and it split. On the Q3 2026 call (18 Nov 2026) Chairman, President and CEO Marvin Ellison repeated the multiple unchanged for Mylow - &quot;we&#x27;re seeing triple the conversion rate versus customers that don&#x27;t&quot; - and said &quot;this thing&#x27;s answering over million questions a month&quot;. Online sales grew 17.4%, a fifth straight double-digit quarter, and Ellison attributed it to Pro and DIY strength, traffic, conversion and fulfilment, not to Mylow.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Mylow is Lowe&#x27;s online virtual assistant, built on an OpenAI platform, answering project and product questions for DIY and Pro shoppers mid-session.</dd><dt>Why this shape</dt><dd>S1: a conversion multiple is an input metric. Revenue conversion CONSPICUOUSLY ABSENT - no ticket, basket, digital-sales or dollar figure was attached to Mylow, and the 17.4% online number was explicitly credited to other drivers. On the August falsifier: Lowe&#x27;s did NOT stop repeating the multiple, so that limb did not fire; but the second limb - never converting the multiple into a ticket, basket or digital-sales figure - is now two quarters unresolved. The 3x also did not compress, which argues against pure self-selection, though volume (&gt;1m questions/month) is the only penetration proxy given.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/18/lowes-low-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-11-18</a></dd><dt>Falsifier</dt><dd>Q4 2026 (Feb 2027) or the FY2026 10-K. If a third quarter of `3x` arrives with still no ticket, basket or digital-sales attribution, the multiple is a talking point rather than a result and this should be marked narrative. If the `3x` compresses toward `1x` as Mylow reaches the median shopper, it was selection. Confirming outcome: Lowe&#x27;s sizing Mylow&#x27;s contribution in basis points of comp or digital sales.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Verbatim and unchanged quarter over quarter, which is informative either way, but still an unsized multiple two quarters on.</dd></dl>
+</article>
+<article class="card" data-shape="S1"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Target Corporation</span>
+    <span class="sector">Retail · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span>
+  </div>
+  <p class="claim">On the Q3 2026 call (18 Nov 2026) CEO Michael Fiddelke gave a first conversion figure for Ask Target, Target&#x27;s AI shopping assistant: &quot;We&#x27;re seeing guests move to purchase at about twice the rate through that technology than we see elsewhere,&quot; adding &quot;Ask Target is still in beta, but we&#x27;re encouraged by early results&quot;. Comparable sales rose 5.6% on 5% traffic growth; digital comps rose about 10%. No share of sales or dollar contribution was attributed to Ask Target.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Ask Target is an AI-powered search and discovery experience on Target&#x27;s app and website. Separately Fiddelke named ChatGPT, Gemini and Copilot as agentic-commerce partners, and COO Lisa Roath said AI and advanced data science now drive buying, allocation and replenishment decisions.</dd><dt>Why this shape</dt><dd>S1: a purchase-rate multiple on a beta product is an input metric. Revenue conversion CONSPICUOUSLY ABSENT - no basis points of comp, no share of digital sales, and the product is explicitly still in beta so penetration is unstated. This partly resolves the falsifier on this log&#x27;s 2026-08-19 Target entry, which asked whether Q3/Q4 would describe personalisation qualitatively with no repeat conversion figure: Target did give a new conversion figure, just for a different product than the back-to-school wish lists.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/11/18/target-tgt-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-11-18</a></dd><dt>Falsifier</dt><dd>Q4 2026 (Mar 2027). Ask Target exiting beta with no sized contribution, or the `2x` not repeated, means this was a beta anecdote. The strongest falsifier is comparative: Target, Lowe&#x27;s and Walmart have now all published an AI conversion or basket multiple and none has published a dollar figure - if that is still true after holiday, the multiples are the industry&#x27;s agreed substitute for attribution.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Verbatim CEO quote on a Tier A call, but a beta product with an unstated denominator and no revenue attached.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Ategrity Specialty Insurance Company Holdings</span>
+    <span class="sector">Insurance / specialty P&amp;C · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-07-30 Ategrity entry, and it fired in full. On the Q3 2026 call (21 Oct 2026 - thirty days old and unlogged until now) President and CUO Chris Schenk said of four new lines that &quot;total development was four weeks, down from our originally budgeted 12 weeks&quot; and that AI drafted &quot;over 400 forms&quot; - but also, unprompted, that &quot;these offerings were already on our product roadmap&quot;, that they &quot;carry zero upfront investment&quot;, and that &quot;we have not modeled too much into our plans for these&quot;. No premium or revenue figure was attached to any of the four lines.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>AI drafts policy forms, product design and pricing for new specialty lines - Life Sciences, Energy, Environmental Liability, Sports &amp; Entertainment - compressing the launch cycle so a small carrier can stand up classes it could not previously staff. Separately the Next-Gen underwriting platform went live in Brokerage during the quarter.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S1, and specifically to the S3 reading that was available in July. The 2026-07-30 falsifier said: if later disclosure never breaks out premium from the classes launched under the low-cost regime and the launch-cost claim is repeated without a revenue figure, &quot;this was a cost anecdote dressed as new TAM&quot;. That is exactly what happened - the velocity claim came back sharper (four weeks versus twelve) and the revenue line is still blank. Schenk&#x27;s own &quot;already on our product roadmap&quot; kills test (c) and (d) of METHOD.md&#x27;s S3 screen: AI changed the launch schedule, not the opportunity set. Management declining to model upside is the honest version and is worth more than the four-week number.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.fool.com/earnings/call-transcripts/2026/10/21/ategrity-asic-q3-2026-earnings-call-transcript/" rel="noopener">Q3 2026 earnings call transcript, 2026-10-21</a></dd><dt>Falsifier</dt><dd>Q4 2026 or FY2026 disclosure that finally sizes premium from Life Sciences, Energy, Environmental Liability or Sports &amp; Entertainment. A material number would show the roadmap caveat was conservatism and reopen a velocity-to-revenue link. Three consecutive quarters of launch-speed claims with no premium attached, or those four lines dropping out of the disclosure, confirms this entry.</dd><dt>Confidence</dt><dd><strong>high</strong> — Verbatim and self-incriminating - the roadmap and zero-upfront-investment caveats came from management, not from an analyst pressing them.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
