@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-27 — AI ROI Evidence</title>
+<meta name="description" content="A running log of verified evidence that non-software corporations are getting top-line revenue impact from AI.">
+<style>
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --border: #dedcd6;
+  --border-strong: #c3c1b9;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+  --good: #0ca30c;
+  --critical: #d03b3b;
+  --shape-s3: #2a78d6;
+  --shape-s3-candidate: #2a78d6;
+  --shape-s2: #eb6834;
+  --shape-s1: #1baf7a;
+  --shape-c1: #5c6672;
+  --shape-c2: #5c6672;
+  --shape-c3: #5c6672;
+  --shape-c4: #5c6672;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #383835;
+    --border-strong: #4d4c48;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #383835;
+  --border-strong: #4d4c48;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #99978d;
+    --shape-s3: #3987e5;
+    --shape-s3-candidate: #3987e5;
+    --shape-s2: #d95926;
+    --shape-s1: #199e70;
+    --shape-c1: #8b95a3;
+    --shape-c2: #8b95a3;
+    --shape-c3: #8b95a3;
+    --shape-c4: #8b95a3;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+a { color: inherit; }
+
+header.masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+.standfirst { color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.btn {
+  font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-1);
+  color: var(--text-secondary); cursor: pointer;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ---- stat tiles: a hero number needs no plot, so no hover layer here ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 14px; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.swatch.hollow { background: transparent !important; border: 2px dashed currentColor; width: 10px; height: 10px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; align-items: center; }
+.filters .lab { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: var(--surface-1); color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+.chip[aria-pressed="true"] .swatch.hollow { border-color: var(--surface-1); }
+
+.daygroup { margin-top: 34px; }
+.dayhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 7px; margin-bottom: 16px; }
+.dayhead h2 { font-size: 15px; margin: 0; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dayhead .perma { font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.dayhead .perma:hover { color: var(--text-primary); text-decoration: underline; }
+
+.card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px;
+  padding: 16px 18px; margin-bottom: 12px;
+}
+.card.candidate { border-left-style: dashed; }
+.card.counter { border-left-color: var(--critical); }
+.card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.company { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
+.sector { font-size: 13px; color: var(--text-muted); }
+.tag {
+  font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); background: var(--surface-1); display: inline-flex; align-items: center; gap: 6px;
+}
+.tag.shape { border-color: var(--accent); }
+.tag.counter { border-color: var(--critical); color: var(--critical); }
+.claim { font-size: 16px; margin: 0 0 12px; }
+dl.fields { display: grid; grid-template-columns: 132px 1fr; gap: 5px 16px; margin: 0; font-size: 14px; }
+dl.fields dt { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding-top: 3px; }
+dl.fields dd { margin: 0; color: var(--text-secondary); }
+dl.fields dd strong { color: var(--text-primary); font-weight: 600; }
+@media (max-width: 620px) { dl.fields { grid-template-columns: 1fr; gap: 1px 0; } dl.fields dt { padding-top: 9px; } }
+
+.assessment { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px 18px; margin-bottom: 12px; }
+.assessment h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 10px; }
+.assessment p { margin: 0 0 11px; color: var(--text-secondary); font-size: 15px; line-height: 1.62; }
+.assessment > *:last-child { margin-bottom: 0; }
+.assessment h4 {
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+  color: var(--text-muted); margin: 20px 0 8px; padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.assessment h4:first-of-type { margin-top: 14px; }
+.assessment ul { margin: 0 0 11px; padding-left: 0; list-style: none; }
+.assessment li {
+  position: relative; margin: 0 0 8px; padding-left: 17px;
+  color: var(--text-secondary); font-size: 15px; line-height: 1.58;
+}
+.assessment li:last-child { margin-bottom: 0; }
+.assessment li::before {
+  content: ""; position: absolute; left: 3px; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); opacity: .55;
+}
+.assessment strong { color: var(--text-primary); font-weight: 650; }
+.assessment code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .89em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.assessment .callout {
+  border-left: 3px solid var(--text-muted);
+  background: var(--surface-1); border-radius: 0 7px 7px 0;
+  padding: 11px 15px; margin: 0 0 13px;
+  color: var(--text-primary); font-size: 15.5px; line-height: 1.55;
+}
+.empty-note { color: var(--text-muted); font-style: italic; font-size: 15px; }
+.appendix-rule { margin: 26px 0 14px; padding: 9px 14px; border: 1px dashed var(--border-strong); border-radius: 8px; font-size: 13px; color: var(--text-muted); }
+.appendix-rule[data-ledger="cost"] { border-color: var(--shape-c4); border-left-width: 3px; border-left-style: solid; }
+.costmatrix { margin: 0 0 16px; }
+.costmatrix table { border-collapse: collapse; font-size: 13px; }
+.costmatrix caption { caption-side: top; text-align: left; color: var(--text-muted); font-size: 12px; padding-bottom: 7px; }
+.costmatrix th, .costmatrix td { border: 1px solid var(--border); padding: 8px 14px; text-align: left; }
+.costmatrix thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+.costmatrix tbody th { font-weight: 550; color: var(--text-secondary); background: var(--surface-2); }
+.costmatrix .mv { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.costmatrix .mk { font-size: 11px; color: var(--shape-c4); font-weight: 650; letter-spacing: .04em; }
+
+table.tv { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 10px; }
+table.tv th, table.tv td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tv th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+#tableview[hidden] { display: none; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+.dayindex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.dayindex a { font-size: 12px; font-variant-numeric: tabular-nums; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-secondary); }
+.dayindex a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow"><a href="../index.html">← All days</a></div>
+  <h1>2026-11-27</h1>
+  <p class="standfirst">4
+  revenue finding(s) in the main log.</p>
+</header>
+<div class="assessment"><h3>Assessment</h3><div class="callout">Four findings, <strong>no S3 for the tenth consecutive run</strong>, and three of the four are negative. The week&#x27;s signal is that two retailers which have built AI directly into the buying path were each asked what drove their online growth and named something else.</div>
+<p>This run covers the seven days since <code>2026-11-20</code>. Late-November reporting is thin and non-tech: <strong>Deere</strong>&#x27;s FY2026 close, <strong>Best Buy</strong>, <strong>Kingfisher</strong> and <strong>Compass Group</strong>. Every figure below was read in a document retrieved this run - the Deere quotes in two independent renderings of the same call, the Best Buy quotes in the LSEG transcript on Best Buy&#x27;s own IR domain, the Kingfisher quotes in both the H1 RNS and the Q3 update PDF.</p>
+<h4>Sources read</h4>
+<ul><li><strong>Deere</strong> - Q4 FY2026 call, <code>25 Nov</code>. Launched <code>JD</code>, its first AI assistant, and sized it as <code>6,000</code> users and <code>10,000</code> conversations in week one across <code>76</code> countries. See &amp; Spray at <code>12m</code> acres globally, one-third of sprayer orders, Brazil take rates <code>2x</code> North America&#x27;s first year. Asked by Wells Fargo how AI gets monetised, IR said there &quot;is opportunity for us as we get smarter&quot; and that they would &quot;talk a little bit more about that in the future&quot;. Production &amp; Precision Ag Q4 sales <code>-15%</code>.</li><li><strong>Best Buy</strong> - Q3 FY2027 call and release, <code>24 Nov</code>. Catalogue and checkout live inside <code>ChatGPT</code> and <code>Gemini</code>, plus Muse; own assistant <code>Ask Blue</code> live on site and app. Asked what drove domestic online comp of <code>+10.8%</code>, CEO Bonfig answered Marketplace and 1P, and named neither. Enterprise comp <code>+6.1%</code>, the highest in five years; Marketplace GMV <code>~$350m</code>.</li><li><strong>Kingfisher</strong> - Q3 26/27 trading update, <code>24 Nov</code>. Zero mentions of AI or personalisation in the whole document, eight weeks after the H1 RNS volunteered &quot;AI-driven personalisation generated c.£100m of sales, up +16%&quot;. E-commerce <code>+15%</code> ex-Screwfix credited to trade, e-commerce and marketplace; guidance upgraded to <code>£610m-£640m</code>.</li><li><strong>Compass Group</strong> - FY26 results, <code>24 Nov</code>. Revenue <code>$50.8bn</code>, organic <code>+7.5%</code>. CEO Blakemore: &quot;more than 200 AI initiatives underway, each tied directly to our MAP drivers&quot; - and not one number against any of them. The quantified AI-linked revenue is catering <em>for</em> the build-out: &quot;We already generate a few hundred million dollars of revenue in this sub-sector&quot;, now branded <code>Data Center Life</code>.</li><li><strong>Subran</strong> - Substack essay, <code>27 Nov</code>. US retail firms using AI <code>13%</code> to <code>22%</code> in a year, shoppers using an assistant <code>14%</code> to <code>35%</code>, and agents still &quot;only around 1% of web traffic and final purchases&quot;. Double 11 GMV <code>+4.8%</code> after two years of double digits.</li></ul>
+<div class="callout">The pattern, now in its third form: last week non-tech retailers published a conversion multiple with no denominator. This week two of them published neither. Best Buy and Kingfisher both sell through AI surfaces, both grew online double-digit, and both attributed that growth to supply-side causes - marketplace sellers and trade - with AI absent from the answer rather than merely unsized.</div>
+<p>That is a more useful week than another multiple would have been, because the two cases rule out different things. <strong>Best Buy</strong> is the strongest available test of third-party agentic distribution: checkout embedded in two frontier assistants, an own-brand assistant live, a direct analyst question, and no number of any kind - not even a usage metric of the sort Walmart and Target volunteer.</p>
+<p><strong>Kingfisher</strong> is the first case in this log of a company retiring a revenue-attributed AI figure it had previously promoted. The <code>c.£100m</code> was framed at the half year as demonstrating &quot;the growing value of our data and digital capabilities&quot;; its growth rate had already decelerated from <code>+40%</code> in FY 25/26 to <code>+16%</code> in H1 26/27. March&#x27;s full-year RNS has an established slot for the number, which makes this a clean falsifier to check rather than an inference.</p>
+<p><strong>Deere</strong> is the cost-side mirror. The only quantified benefit anywhere in its AI story - herbicide savings &quot;of more than 50%&quot; - accrues to the farmer, and the two-quarter-old falsifier written here on <code>2026-09-02</code> asked whether Deere would ever break out precision-ag revenue. It still has not, and an analyst had to raise monetisation for management to address it at all.</p>
+<h4>Near-misses deliberately not logged</h4>
+<ul><li><strong>S3 insurance, new risk classes</strong> - <strong>Cowbell</strong> standalone AI liability for US SMEs (effective <code>1 Jan 2027</code>), <strong>Coalition</strong>&#x27;s AI output endorsement, <strong>Chaucer</strong>/<strong>Armilla</strong> Vanguard AI, <strong>Munich Re</strong> aiSure, <strong>Corgi</strong>&#x27;s <code>$108m</code> raise and carrier authority. Failed the inclusion bar on the number: no carrier has disclosed bound premium for the class, and the launches remain announcements. Several are also AI-as-hazard cover, which is AI-as-customer revenue, not ROI on the carrier&#x27;s own deployment.</li><li><strong>S3 pharma, unscreenable space</strong> - <strong>Insilico</strong>/<strong>Servier</strong> first discovery milestone (<code>20 Oct</code>, payment undisclosed), <strong>Schrödinger</strong>&#x27;s <code>$10m</code> Sanofi milestone, <strong>Isomorphic Labs</strong>&#x27; <code>$5bn</code> raise (<code>17 Nov</code>). Failed on named-target identity, on undisclosed amounts, and on financing not being revenue. No figure traced to a retrieved primary filing.</li><li><strong>S3 industrials, autonomy as a new line</strong> - <strong>Deere</strong>&#x27;s JD and See &amp; Spray, <strong>Dassault</strong> usage-based pricing, <strong>Advanced Energy</strong>&#x27;s <code>$27.5m</code> telecom line &quot;attributed to AI-related applications&quot;. Deere fails the capability gate on See &amp; Spray (commercial since 2021) and has no price on JD; Advanced Energy is selling components into the build-out.</li><li><strong>S3 healthcare, new price points</strong> - <strong>Quest Diagnostics</strong> AD-Detect menu, <strong>Tempus</strong>&#x27; note that CMS &quot;recently proposed&quot; a Software as a Medical Service category, hospital radiology ROI modelling claiming <code>451%</code> over five years. Failed on dates (Q3 material, already past), on a proposed rule not being a payment category, and on the ROI study being a model rather than a disclosure.</li><li><strong>S3 professional services</strong> - <strong>EY</strong>&#x27;s <code>4.7%</code> FY2026 global revenue growth tied partly to AI demand (October, and AI&#x27;s share unquantified), <strong>Three Points Law</strong>&#x27;s AI-priced service line, the <strong>Rightworks</strong> survey&#x27;s <code>39%</code> higher revenue per employee for AI-active firms. Failed on attribution laundering, on absent revenue figures, and on the Rightworks number being a cross-sectional association in a vendor survey.</li><li><strong>S3 banking, thin-file lending</strong> - <strong>Centris Federal Credit Union</strong> auto loans <code>+43%</code> to <code>+63%</code>, <strong>Underwrite.ai</strong>&#x27;s <code>$2bn</code> &quot;additional safe loan volume&quot;, <strong>Scienaptic</strong>&#x27;s <code>$9.5m</code>. All Tier D vendor case studies with no confirmation from the lender, and the Centris deployment dates to 2024.</li><li><strong>S3 agriculture and SMB long tail</strong> - <strong>Gates Foundation</strong>/<strong>Google</strong> <code>$100m</code> for 200 million smallholders, Kerala&#x27;s <strong>KATHIR</strong>, <strong>FarmAll</strong>&#x27;s FarAI, <strong>Aqura Systems</strong>&#x27; <code>£2.1m</code> raise. Grant-funded or government programmes and seed rounds; none is priced, and none disclosed revenue.</li><li><strong>S2 holiday, agentic commerce</strong> - <strong>Adobe Analytics</strong> put AI-referred visits to US retail sites <code>+127%</code> y/y for <code>1-22 Nov</code> on <code>$82.5bn</code> of online spend, with Thanksgiving at <code>$7.1bn</code> <code>+10.4%</code>. Failed the named-company test - there is no deploying corporation in it - and the revenue-per-visit advantage Adobe cites is a forecast-stage figure. Worth noting against this week&#x27;s two retailer silences: traffic more than doubled and neither company credited it.</li><li><strong>S2 retail, AI-influenced forecasts</strong> - <strong>Salesforce</strong>&#x27;s <code>$75.8bn</code>/<code>21%</code> of global Cyber Week sales &quot;influenced&quot; by AI and agents. Failed the denominator-games rule outright: &quot;AI-influenced&quot; is the exact construct METHOD.md names as marketing, and it is a forecast.</li><li><strong>Cost ledger, enterprise surveys</strong> - the <strong>TCS</strong> Enterprise AI Study (<code>4 Nov</code>, <code>1,333</code> leaders in <code>25</code> countries) found <code>84%</code> rank productivity as AI&#x27;s leading source of realised value against <code>10%</code> reporting a revenue uplift. On-thesis and tempting, but it is a self-reported sentiment survey, <code>23</code> days old, with no definition of &quot;uplift&quot; - and METHOD.md rejects consultant surveys reporting perception rather than results.</li><li><strong>AI-as-customer, not AI ROI</strong> - <strong>Compass Group</strong>&#x27;s data-centre catering (a &quot;few hundred million dollars&quot;, <code>Data Center Life</code> brand, first two wins), <strong>Best Buy</strong>&#x27;s AI glasses and health rings, <strong>Advanced Energy</strong>&#x27;s AI-driven telecom demand. Real money, pre-existing SKUs, new buyer. Compass is the sharpest version: a <code>$50.8bn</code> caterer whose only quantified AI-adjacent revenue is feeding the people building the data centres.</li><li><strong>Out-of-scope subjects not routed to appendix</strong> - <strong>Shopify</strong> AI-channel orders <code>+3.3x</code>, <strong>trivago</strong> <code>50%</code> conversion gain, <strong>monday.com</strong> <code>$36m</code> AI ARR, <strong>ISG</strong> AI revenue above <code>$30m</code>. All software or AI-services subjects, and none was verified against a primary filing this run, so none clears the appendix bar either.</li></ul>
+<h4>Nearest dated catalysts</h4>
+<ul><li><code>2 Dec 2026</code> - <strong>Scotiabank</strong> Q4 FY2026, opening the Canadian bank Q4 season. <strong>National Bank of Canada</strong> has said it plans an extended Q4 call that will discuss AI; that is the one scheduled event in the next fortnight where a non-tech incumbent has pre-announced an AI discussion.</li><li>Early Dec 2026 - <strong>Adobe Analytics</strong> Cyber Monday and full-season actuals, the only published series that will put a share-of-traffic denominator next to the retail conversion multiples.</li><li>Jan 2027 - <strong>Cowbell</strong>&#x27;s standalone AI liability policy becomes effective <code>1 Jan</code>, starting the clock on the first disclosable bound premium for a genuinely new risk class.</li><li>Feb 2027 - <strong>Deere</strong> Q1 FY2027: whether JD acquires a price or precision ag acquires a disclosed line. <strong>Walmart</strong>, <strong>Target</strong>, <strong>Lowe&#x27;s</strong> Q4: whether twelve weeks of conversion multiples finally become basis points of comp.</li><li>Mar 2027 - <strong>Kingfisher</strong> FY 26/27 results, the clean test of whether the <code>c.£100m</code> personalisation figure returns. <strong>Best Buy</strong> Q4 FY2027, the test of whether <code>Ask Blue</code> or the ChatGPT/Gemini channels ever get a number.</li><li>May 2027 - <strong>Compass Group</strong> H1 FY2027: whether any of the &quot;200 AI initiatives&quot; is quantified, and whether data-centre revenue is broken out.</li></ul></div>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Best Buy Co., Inc.</span>
+    <span class="sector">Retail / Consumer electronics · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">The most agentic-commerce-integrated retailer in this log attributed none of its growth to it. On the Q3 FY2027 call (24 Nov 2026) CEO Jason Bonfig said &quot;Ask Blue, our conversational AI shopping and support assistant is live on our site and app&quot; and that &quot;The Best Buy catalog and expertise are accessible inside of ChatGPT, Gemini and Muse, and we&#x27;ve integrated checkout directly into ChatGPT and Gemini so customers can go from questions to purchase without ever leaving the platform that they&#x27;re in&quot;. Piper Sandler&#x27;s Peter Keith then asked what was behind domestic online comparable sales of +10.8% - &quot;you did mention some partnership with various AI platforms. What might be driving that online acceleration?&quot; - and Bonfig&#x27;s answer named only Marketplace and first-party: &quot;Marketplace is a big part of that… for the first time, we actually were able to have international sellers on our Marketplace… That combination of Marketplace… with a really strong 1P business is really what&#x27;s driving our digital sales&quot;. Enterprise comparable sales were +6.1%, &quot;our highest in five years&quot;, on revenue of $10,236m, with Marketplace GMV of approximately $350m in the quarter.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two routes, both live and neither sized. Ask Blue is Best Buy&#x27;s own conversational assistant on its site and app, the standard personalisation/conversion mechanism. The second is third-party agentic distribution: Best Buy&#x27;s catalogue is exposed inside ChatGPT, Gemini and Meta&#x27;s Muse, with checkout embedded in the first two, so a sale can complete without the customer reaching bestbuy.com. The quarter&#x27;s actual disclosed revenue drivers are a marketplace supply expansion (international sellers added for the first time) and product cycles in computing above the $1,500 price point.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, the shape it contradicts: if an assistant plus embedded checkout in two frontier chat platforms produced incremental share, this is the quarter and the question in which a CEO would have said so. He did not, and the company&#x27;s own written release mentions AI only as &quot;with the strategic use of artificial intelligence&quot; and as a product category - &quot;such as AI glasses and trading cards&quot;. Not logged as a positive S1 because no AI input metric was disclosed either: no Ask Blue usage, no agentic order count, no conversion differential - a notable contrast with Walmart, Target, Lowe&#x27;s and Booking, all of which published a conversion multiple. The emerging-category strength Bonfig did quantify - &quot;AI glasses, health rings and trading cards are kind of the three biggest categories there&quot; - is AI-as-product-sold, not ROI on Best Buy&#x27;s own AI deployment, and is excluded on that basis.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://s204.q4cdn.com/864376893/files/doc_earnings/2027/q3/transcript/BBY-Q3-Transcript.pdf" rel="noopener">Best Buy Q3 FY2027 earnings call (LSEG edited transcript) and Q3 FY2027 results release, both 24 Nov 2026, 2026-11-24</a></dd><dt>Falsifier</dt><dd>Best Buy disclosing, by the Q4 FY2027 call in early March 2027, any number for Ask Blue or for the ChatGPT/Gemini channels - order count, GMV, conversion differential, share of digital sales - would show the silence was sequencing rather than absence. The confirming outcome is a second and third quarter in which the agentic integrations are described in prepared remarks and quantified nowhere, while online comp growth is credited to Marketplace supply.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A, read in the LSEG edited transcript hosted on Best Buy&#x27;s own IR domain and cross-checked against the Q3 FY2027 8-K exhibit for the comparable-sales and revenue figures.</dd></dl>
+</article>
+<article class="card" data-shape="S2"
+  data-counter="0"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Kingfisher plc</span>
+    <span class="sector">Retail / Home improvement · UK</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span>
+  </div>
+  <p class="claim">A hard revenue-attributed AI figure from a non-tech incumbent, and then its disappearance eight weeks later. Kingfisher&#x27;s H1 26/27 results RNS (22 Sep 2026) states: &quot;AI-driven personalisation generated c.£100m of sales, up +16%, demonstrating the growing value of our data and digital capabilities&quot;, alongside e-commerce sales of £1,555m at 21.9% penetration. The Q3 26/27 trading update to 31 October 2026, published 24 Nov 2026, contains no mention of AI, personalisation or recommendation anywhere in the document: group sales £3,257m (+0.2% reported, underlying LFL +0.8%), e-commerce sales growth +15% ex-Screwfix with penetration at 22%, marketplace GMV +36% to £170m, and adjusted PBT guidance upgraded to c.£610m-£640m from £595m-£635m. CEO Thierry Garnier credited &quot;continued market share gains and strong momentum across our strategic growth drivers of trade, e-commerce and marketplace&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Recommendation and personalisation engines on Kingfisher&#x27;s digital channels (over 1bn annual visits across B&amp;Q, Screwfix, Castorama and Brico Depot), measured as sales flowing through personalised surfaces. Kingfisher separately runs AI on the productivity side - &quot;AI-enabled tools such as Fabric, accelerating content creation, enhancing search engine optimisation and improving conversion&quot; - and in H1 flagged that it is &quot;preparing for the next phase of digital commerce, including natural language search and agent-enabled shopping experiences&quot;.</dd><dt>Why this shape</dt><dd>S2, and the company does not pretend otherwise: a customer buying paint or building materials through a personalised recommendation would have bought paint or building materials, from Kingfisher or from a competitor. Absent the AI this is a share question, not a demand question, so the gain is zero-sum at industry level and GDP-neutral. Fails every S3 test: no counterfactual non-purchase, the prior alternative is an unpersonalised Kingfisher page or a rival&#x27;s, recommendation engines long predate the ~24-month capability gate, and no uneconomic segment is opened. The number is also a company self-attribution with no disclosed methodology, and c.£100m is about 1.4% of H1 group sales of £6.9bn - which is roughly the order of magnitude of every other precisely-quantified AI revenue claim in this log (Etsy at 2 points of GMS growth, NIQ at 0.1 of a point). The load-bearing observation is the sequence: a figure that was volunteered and framed as proof of &quot;the growing value of our data and digital capabilities&quot; at the half year is entirely absent from the next scheduled disclosure, in which e-commerce growth of +15% is credited to trade, e-commerce and marketplace instead.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.kingfisher.com/~/media/Files/K/Kingfisher-Plc/Universal/investors/result-reports-presentation/2026/2026-27-q3-trading-update.pdf" rel="noopener">Kingfisher plc H1 26/27 results RNS, 22 Sep 2026 (six months ended 31 July 2026); Q3 26/27 trading update to 31 October 2026, published 24 Nov 2026, 2026-11-24</a></dd><dt>Falsifier</dt><dd>The FY 26/27 results in March 2027 restating AI-driven personalisation sales at or above c.£200m for the full year would show the Q3 silence was simply the convention of a short trading update. If the figure does not reappear in the March full-year RNS - which carried &quot;c.£165m of Group sales, +40%&quot; for FY 25/26 and so has an established slot for it - then the H1 number was a presentation choice, and the honest read is that Kingfisher stopped publishing it once the growth rate decelerated from +40% to +16%.</dd><dt>Confidence</dt><dd><strong>medium</strong> — Both documents are Tier A and were retrieved and read in full this run; the weakness is that the £100m is Kingfisher&#x27;s own attribution with no methodology, and an absence in a trading update is weaker evidence than an absence in a full results statement.</dd></dl>
+</article>
+<article class="card counter" data-shape="S2"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s2)">
+  <div class="card-top">
+    <span class="company">Ludovic Subran - &#x27;Black Friday before Black Friday or stocks at a discount? And margins up, sales down &amp; AI still waiting&#x27; (Substack essay, linking to Allianz Research reports)</span>
+    <span class="sector">Research / Retail economics · Global</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s2);color:var(--shape-s2)"></span>S2 — Share</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Published this morning (27 Nov 2026), the clearest aggregate statement retrieved this run that AI shopping has not yet moved retail revenue: &quot;Which underlines that despite adoption of AI shopping agent rising, we see no measurable effect yet on retailers&#x27; sales.&quot; The supporting figures: &quot;Double 11 shopping festival gross merchandise value (GMV) grew by just 4.8% in 2026&quot; after &quot;double-digit gains in 2024 and 2025&quot;; &quot;The share of US retail firms using AI rose from around 13% a year ago to almost 22% in November 2026&quot;; &quot;the share of shoppers using AI as an assistant more than doubled in a year, from 14% to 35%&quot; while &quot;55% of them would not trust it to complete a purchase&quot;; and &quot;AI agents still account for only around 1% of web traffic and final purchases&quot;.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Not a deployment - an aggregate read across three layers that this log normally only sees one at a time: firm-level AI adoption in US retail, consumer-level assistant usage, and the resulting share of traffic and completed purchases. The argument is that the first two have roughly doubled in a year while the third has not moved off ~1%, so the funnel is widening at the top and not converting at the bottom.</dd><dt>Why this shape</dt><dd>Counter-evidence tagged to S2, because S2 is the shape nearly every retail AI claim in this log takes and this is a direct negative on it at industry level. The ~1% of final purchases figure is the useful one: it independently corroborates the only two first-party denominators any company in this log has published - Etsy&#x27;s &quot;agentic traffic is still less than 1% of our overall traffic&quot; (Q2 2026) and Booking&#x27;s LLM referrals &quot;still account for significantly less than 1%&quot; (Q3 2026) - and it is the denominator that Walmart, Lowe&#x27;s, Target, Loblaw and iQIYI have all declined to attach to their conversion multiples. Logged at low confidence and Tier C deliberately: this is one economist&#x27;s essay, the post does not state his institutional role (it links to reports on allianz.com), and none of the four figures carries a stated underlying source in the text, so each is his assertion rather than a retrieved series. The Double 11 GMV figure is a market statistic, not an AI attribution, and is offered as circumstantial.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier C</strong> — Third-party reporting — journalism, trade press, sell-side<br><a href="https://ludovicsubran.substack.com/p/black-friday-before-black-friday" rel="noopener">Ludovic Subran, Substack essay, 27 Nov 2026, 2026-11-27</a></dd><dt>Falsifier</dt><dd>Adobe&#x27;s full-season 2026 actuals, or any retailer&#x27;s Q4 disclosure, showing AI-referred or agent-completed orders above a few percent of online orders would break the ~1% claim. Conversely, if Q4 FY2026/27 retail reporting season passes with AI-sourced order share still around 1% and still unpublished by any named retailer, the &quot;no measurable effect&quot; reading survives a second quarter and stops being contrarian.</dd><dt>Confidence</dt><dd><strong>low</strong> — Single-author essay with no stated provenance for its four headline figures; retained because the ~1%-of-purchases number cross-checks against two Tier A first-party disclosures already in this log rather than standing alone.</dd></dl>
+</article>
+<article class="card counter" data-shape="S1"
+  data-counter="1"
+  data-scope="main"
+  data-ledger="revenue"
+  style="--accent: var(--shape-s1)">
+  <div class="card-top">
+    <span class="company">Deere &amp; Company</span>
+    <span class="sector">Industrials / Agricultural equipment · US</span>
+    <span class="tag shape"><span class="swatch" style="background:var(--shape-s1);color:var(--shape-s1)"></span>S1 — Velocity</span><span class="tag counter">⚠ Counter-evidence</span>
+  </div>
+  <p class="claim">Direct test of the falsifier written into this log&#x27;s 2026-09-02 Deere entry, and both limbs fired. On the Q4 FY2026 call (25 Nov 2026) Chairman and CEO John May launched Deere&#x27;s first general-purpose AI product - &quot;Introducing JD, the first AI assistant, is now in use around the world&quot; - and sized it purely in usage: &quot;In the first week of full availability, more than 6,000 users in 76 countries held more than 10,000 conversations with JD&quot;. IR director Chris Seibert said See &amp; Spray &quot;covered approximately 12 million acres in 2026&quot; globally against &quot;5 million acres of utilization in the U.S. and Canada&quot; last year, and held &quot;roughly one-third of orders in our recently concluded sprayer Early Order Program&quot;; May said Brazil take rates are &quot;running at roughly twice, two times the level we saw during the first year in North America&quot;. No revenue, price premium or margin figure was attached to any of it, Deere still does not break out precision-ag revenue, and Production &amp; Precision Ag Q4 net sales fell 15% to $4bn with full-year segment sales down about 9%.</p>
+  <dl class="fields"><dt>Mechanism</dt><dd>Two distinct mechanisms, neither priced. JD is a natural-language assistant inside Operations Center that lets growers query field and machine history; Deere charges nothing identified for it and Seibert framed it as &quot;an evolution of our digital infrastructure in Operations Center&quot;. See &amp; Spray is machine-vision weed detection sold as a factory-installed sprayer option, so its revenue path is option attach rate and price mix on equipment Deere already sells; the disclosed benefit - herbicide savings &quot;of more than 50%&quot; - accrues to the farmer, not to Deere.</dd><dt>Why this shape</dt><dd>S1: every disclosed number is an input metric - users, conversations, acres, order attach rate, take-rate ratio - and no revenue is attributed. Revenue conversion is not merely absent, it was raised by an analyst and deferred. Wells Fargo&#x27;s Jerry Revich put it directly: &quot;AI wasn&#x27;t a big part of the framework at the last Analyst Day in terms of the incremental revenue opportunity set&quot; and asked &quot;how we could potentially monetize the additional capability set that has evolved since&quot;. Seibert&#x27;s answer was &quot;we want to give the customer the opportunity to get more out of their dataset&quot; and that management would &quot;talk a little bit more about that in the future&quot;. On precision ag he allowed only that &quot;There will be a recurring revenue component of that&quot; - future tense, unsized. Not S3 on the four tests: (a) a farmer buying a sprayer buys a sprayer regardless and JD is bundled into a platform growers already have; (b) the prior alternative for JD is reading the same Operations Center data manually, an unpaid workaround that was never a market anyone sold into, which is why there is also no price; (c) a conversational assistant over proprietary agronomic data does clear the ~24-month capability gate, but with no SKU and no price there is no revenue to classify; (d) no previously uneconomic segment is opened - the same farms are served. CFO Brent Norwood called the Orchard AI acquisition &quot;a significant inorganic growth lever for us&quot;, which is M&amp;A framing, not deployment ROI.</dd><dt>Status</dt><dd><strong>DISCLOSED</strong> — realized and reported</dd><dt>Source</dt><dd><strong>Tier A</strong> — Primary and accountable — filing, transcript, formal guidance<br><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-deere-q4-2026-revenue-beats-as-eps-misses-forecast-93CH-5051213" rel="noopener">Deere &amp; Company Q4 FY2026 earnings call, 25 Nov 2026 (fiscal year ended 1 Nov 2026), 2026-11-25</a></dd><dt>Falsifier</dt><dd>Deere putting a price, a subscription tier or a disclosed attach rate on JD by the FY2027 Q2 call, or breaking out precision-ag/recurring revenue as a line, would falsify the reading that this is capability without monetisation. The confirming outcome - which is now two consecutive quarters - is JD usage growing while the only numbers Deere publishes about it remain users and conversations, and See &amp; Spray attach holding near one-third of sprayer orders with no price realisation disclosed.</dd><dt>Confidence</dt><dd><strong>high</strong> — Tier A, and every quote above was read in two independently retrieved renderings of the same call (Investing.com and Motley Fool), which carry identical wording.</dd></dl>
+</article>
+
+<footer>
+  <p>Built from <code>data/log.json</code> by <code>build.py</code>. Method and inclusion bar:
+  <a href="../METHOD.md">METHOD.md</a>. Every figure traces to a dated source; nothing is
+  reconstructed from memory.</p>
+</footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var tbtn = document.getElementById('themebtn');
+  if (tbtn) tbtn.addEventListener('click', function () {
+    var dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var vbtn = document.getElementById('viewbtn');
+  var tv = document.getElementById('tableview');
+  var cardsWrap = document.getElementById('cards');
+  if (vbtn && tv && cardsWrap) vbtn.addEventListener('click', function () {
+    var showTable = tv.hasAttribute('hidden');
+    if (showTable) { tv.removeAttribute('hidden'); cardsWrap.setAttribute('hidden', ''); vbtn.textContent = 'Card view'; }
+    else { tv.setAttribute('hidden', ''); cardsWrap.removeAttribute('hidden'); vbtn.textContent = 'Table view'; }
+  });
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[data-filter]'));
+  function apply(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+    document.querySelectorAll('article.card').forEach(function (el) {
+      var ok = f === 'all'
+        || (f === 'counter' && el.dataset.counter === '1')
+        || el.dataset.shape === f;
+      el.style.display = ok ? '' : 'none';
+    });
+    document.querySelectorAll('.appendix-rule').forEach(function (r) {
+      var sel = 'article.card[data-ledger="' + r.dataset.ledger + '"]';
+      var any = false;
+      var n = r.nextElementSibling;
+      while (n && n.matches(sel)) {
+        if (n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      r.style.display = any ? '' : 'none';
+    });
+    document.querySelectorAll('.daygroup').forEach(function (g) {
+      var any = Array.prototype.slice.call(g.querySelectorAll('article.card'))
+        .some(function (el) { return el.style.display !== 'none'; });
+      g.style.display = (f === 'all' || any) ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.dataset.filter); }); });
+})();
+</script>
+</body>
+</html>
